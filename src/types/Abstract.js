@@ -32,12 +32,12 @@ module.exports = class extends Shell {
     else if (arr.constructor !== Array) {
       arr = [arr];
     }
-    this.dataArray = arr.map(d => new DataPoint(d, this.attrLookup));
+    this.dataArray = arr.map(d => new DataPoint(d, this.settings));
     return this;
 
   }
 
-  draw (timing) {
+  main (timing) {
 
     if (timing !== undefined) {
       this.timing = timing;
@@ -60,11 +60,6 @@ module.exports = class extends Shell {
     exit.transition().delay(this.timing).remove();
     this.update(this.groups);
     this.enter(enter);
-
-    var self = this;
-    setTimeout(function(){
-      self.reset();
-    }, this.timing);
 
     return this;
 
