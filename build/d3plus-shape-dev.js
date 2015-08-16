@@ -14612,7 +14612,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Abstract = require("./Abstract.js"),
-    Color = require("../../../d3plus-color/src/color.js");
+    Color = require("../../../d3plus-color/src/Color.js");
 
 function position(rect) {
 
@@ -14688,7 +14688,7 @@ var Rectangle = (function (_Abstract) {
 
 module.exports = Rectangle;
 
-},{"../../../d3plus-color/src/color.js":4,"./Abstract.js":9}],11:[function(require,module,exports){
+},{"../../../d3plus-color/src/Color.js":4,"./Abstract.js":9}],11:[function(require,module,exports){
 "use strict";
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
