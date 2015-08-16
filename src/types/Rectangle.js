@@ -1,4 +1,4 @@
-var Shape = require("./Abstract.js"),
+var Abstract = require("./Abstract.js"),
     Color = require("../../../d3plus-color/src/color.js");
 
 function position(rect) {
@@ -11,7 +11,7 @@ function position(rect) {
 
 }
 
-module.exports = class extends Shape {
+class Rectangle extends Abstract {
 
   get name () {
     return "Rectangle";
@@ -57,4 +57,6 @@ module.exports = class extends Shape {
 
   }
 
-};
+}
+
+module.exports = Rectangle;

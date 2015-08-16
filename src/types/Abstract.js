@@ -1,9 +1,9 @@
 var d3 = require("d3");
 
 var DataPoint = require("../../../d3plus-datapoint/src/datapoint.js"),
-    Shell = require("../../../d3plus-shell/src/shell.js");
+    Shell = require("../../../d3plus-shell/src/Shell.js");
 
-module.exports = class extends Shell {
+class Abstract extends Shell {
 
   constructor (container) {
 
@@ -71,4 +71,6 @@ module.exports = class extends Shell {
     }
   }
 
-};
+}
+
+module.exports = Abstract;
