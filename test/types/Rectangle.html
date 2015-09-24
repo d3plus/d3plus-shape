@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+<script src="../../build/d3plus-shape-dev.js"></script>
+<body>
+  <svg width=500 height=500></svg>
+</body>
+<script>
+
+  var shape = require("d3plus-shape");
+
+  var rect = new shape.Rectangle("svg")
+    .data([{"name": "test"}])
+    .attrs({
+      "x": 100,
+      "y": 50,
+      "width": 100,
+      "height": 200
+    })
+    .draw(100);
+
+</script>

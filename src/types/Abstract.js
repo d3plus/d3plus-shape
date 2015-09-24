@@ -1,6 +1,6 @@
 var d3 = require("d3");
 
-var DataPoint = require("../../../d3plus-datapoint/src/datapoint.js"),
+var DataPoint = require("../../../d3plus-datapoint/src/DataPoint.js"),
     Shell = require("../../../d3plus-shell/src/Shell.js");
 
 /**
@@ -42,8 +42,9 @@ class Abstract extends Shell {
     else if (arr.constructor !== Array) {
       arr = [arr];
     }
+    var settings = this.settings;
     this.dataArray = arr.map(function(d) {
-      return new DataPoint(d, this.settings);
+      return new DataPoint(d, settings);
     });
     return this;
 
@@ -60,24 +61,26 @@ class Abstract extends Shell {
       this.timing = timing;
     }
 
-    this.groups = this.container.selectAll("g.d3plus-shape-" + this.name)
+    var type = this.name;
+    this.groups = this.container.selectAll("g.d3plus-shape-" + type)
       .data(this.dataArray, function(d, i) {
         d.clear();
         d.id = d.fetch("id") || i;
         return d.id;
       });
+    this.update = this.groups;
 
-    this.groups.enter().append("g")
-      .attr("class", "d3plus-shape-" + this.name)
+    this.enter = this.groups.enter().append("g")
+      .attr("class", "d3plus-shape-" + type)
       .attr("id", function(d) {
-        return "d3plus-shape-" + this.name + "-" + d.id;
+        return "d3plus-shape-" + type + "-" + d.id;
       });
 
-    this.groups.exit()
-      .transition().delay(this.timing)
-      .remove();
+    this.exit = this.groups.exit();
 
     this.animation();
+
+    this.exit.transition().delay(this.timing).remove();
 
     var self = this;
     setTimeout(function(){

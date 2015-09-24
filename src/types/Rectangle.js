@@ -1,24 +1,6 @@
 var Abstract = require("./Abstract.js"),
     Color = require("../../../d3plus-color/src/Color.js");
 
-function position(rect) {
-
-  rect
-    .attr("width", function(d) {
-      return d.fetch("width");
-    })
-    .attr("height", function(d) {
-      return d.fetch("height");
-    })
-    .attr("x", function(d) {
-      return d.fetch("x") - d.fetch("width") / 2;
-    })
-    .attr("y", function(d) {
-      return d.fetch("y") - d.fetch("height") / 2;
-    });
-
-}
-
 /** @class Rectangle */
 class Rectangle extends Abstract {
 
@@ -30,8 +12,8 @@ class Rectangle extends Abstract {
   /* The custom enter/update/exit animation for this shape. */
   animation () {
 
-    /* Exit */
-    this.groups.select("rect").transition().duration(this.timing)
+    /* Enter */
+    this.enter.append("rect")
       .attr("width", 0)
       .attr("height", 0)
       .attr("x", function(d) {
@@ -39,30 +21,41 @@ class Rectangle extends Abstract {
       })
       .attr("y", function(d) {
         return d.fetch("y");
+      })
+      .attr("fill", function(d) {
+        return new Color(d.fetch("fill")).hex();
       });
 
     /* Update */
-    this.groups.select("rect").transition().duration(this.timing)
-      .call(position)
-      .attr("fill", function(d) {
-        return new Color(d.fetch("fill")).hex();
-      });
-
-    /* Enter */
-    this.groups.append("rect")
-      .attr("width", 0)
-      .attr("height", 0)
-      .attr("x", function(d) {
-        return d.fetch("x");
-      })
-      .attr("y", function(d) {
-        return d.fetch("y");
-      })
-      .attr("fill", function(d) {
-        return new Color(d.fetch("fill")).hex();
-      })
+    this.update.select("rect")
       .transition().duration(this.timing)
-        .call(position);
+        .attr("width", function(d) {
+          return d.fetch("width");
+        })
+        .attr("height", function(d) {
+          return d.fetch("height");
+        })
+        .attr("x", function(d) {
+          return d.fetch("x") - d.fetch("width") / 2;
+        })
+        .attr("y", function(d) {
+          return d.fetch("y") - d.fetch("height") / 2;
+        })
+        .attr("fill", function(d) {
+          return new Color(d.fetch("fill")).hex();
+        });
+
+    /* Exit */
+    this.exit.select("rect")
+      .transition().duration(this.timing)
+        .attr("width", 0)
+        .attr("height", 0)
+        .attr("x", function(d) {
+          return d.fetch("x");
+        })
+        .attr("y", function(d) {
+          return d.fetch("y");
+        });
 
   }
 
