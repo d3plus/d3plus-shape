@@ -53,7 +53,7 @@
     "docs": "jsdoc2md 'src/**/*.js' -t README.hbs > README.md",
     "lint": "eslint src/* test/**/*.js",
     "serve": "static -p 4000",
-    "test": "npm run lint && casperjs test ./test/**/*.js",
+    "test": "npm run serve & npm run lint && casperjs test ./test/**/*.js",
     "watch": "watchify -d -r ./src/shape.js:d3plus-shape -o build/d3plus-shape-dev.js -v"
   }
 }
