@@ -3,5 +3,5 @@ language: node_js
 node_js:
   - "node"
 
-before_install:
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :4000 -ac -screen 0 1280x1024x16"
+before_script:
+  - npm run serve
