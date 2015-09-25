@@ -3,9 +3,5 @@ language: node_js
 node_js:
   - "node"
 
-before_script:
-  - "export DISPLAY=:4000.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
-  - rackup  # start a Web server
-  - sleep 3 # give Web server some time to bind to sockets, etc
+before_install:
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :4000 -ac -screen 0 1280x1024x16"
