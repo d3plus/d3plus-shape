@@ -32,12 +32,10 @@
     "browserify": "^11.0.0",
     "casperjs": "^1.1.0-beta3",
     "eslint": "^0.24.1",
-    "faucet": "0.0.1",
     "jsdoc-to-markdown": "^1.1.1",
     "livereloadify": "^2.0.0",
     "node-static": "^0.7.7",
     "phantomjs": "^1.9.18",
-    "tape": "^4.0.1",
     "uglifyify": "^3.0.1",
     "watchify": "^3.3.0"
   },
