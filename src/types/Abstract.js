@@ -1,7 +1,7 @@
 var d3 = require("d3");
 
-var DataPoint = require("../../../d3plus-datapoint/src/DataPoint.js"),
-    Shell = require("../../../d3plus-shell/src/Shell.js");
+var DataPoint = require("d3plus-datapoint"),
+    Shell = require("d3plus-shell");
 
 /**
   @class Abstract class that all shapes extend. Contains method available to all shapes.

@@ -1,5 +1,5 @@
 var Abstract = require("./Abstract.js"),
-    Color = require("../../../d3plus-color/src/Color.js");
+    Color = require("d3plus-color");
 
 /** @class Rectangle */
 class Rectangle extends Abstract {
