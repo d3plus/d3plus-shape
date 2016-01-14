@@ -8,5 +8,5 @@ export default {
   globals: function(id) { return id.replace(/-/g, "_"); },
   moduleId: "d3plus-shape",
   moduleName: "d3plus_shape",
-  plugins: [json(), babel()]
+  plugins: [json(), babel({"presets": ["es2015-rollup"]})]
 };

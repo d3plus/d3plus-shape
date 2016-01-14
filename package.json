@@ -46,6 +46,6 @@
     "docs": "jsdoc2md 'src/**/*.js' -t README.hbs > README.md",
     "prepublish": "npm test && npm run docs && uglifyjs build/d3plus-shape.js -c -m -o build/d3plus-shape.min.js && rm -f build/d3plus-shape.zip && zip -j build/d3plus-shape.zip -- LICENSE README.md build/d3plus-shape.js build/d3plus-shape.min.js",
     "serve": "static -p 4000",
-    "test": "npm run serve & eslint src/* test/browser/*.js && casperjs test ./test/browser/*.js && killall node"
+    "test": "npm run serve & eslint index.js src/* test/browser/*.js && casperjs test ./test/browser/*.js && killall node"
   }
 }

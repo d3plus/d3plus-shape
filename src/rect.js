@@ -3,26 +3,50 @@ import {default as constant} from "./constant";
 import {box} from "d3plus-text";
 import {contrast} from "d3plus-color";
 
+/**
+    The default height accessor function.
+    @private
+*/
 function rectHeight(d) {
   return d.height;
 }
 
+/**
+    The default id accessor function.
+    @private
+*/
 function rectId(d) {
   return d.id;
 }
 
+/**
+    The default inner bounds function.
+    @private
+*/
 function rectInnerBounds(w, h) {
   return {"width": w, "height": h, "x": -w / 2, "y": -h / 2};
 }
 
+/**
+    The default width accessor function.
+    @private
+*/
 function rectWidth(d) {
   return d.width;
 }
 
+/**
+    The default x accessor function.
+    @private
+*/
 function rectX(d) {
   return d.x;
 }
 
+/**
+    The default y accessor function.
+    @private
+*/
 function rectY(d) {
   return d.y;
 }
@@ -32,11 +56,11 @@ function rectY(d) {
 */
 export default function() {
 
-  var fill = constant("black"),
-      data = [],
+  let data = [],
+      fill = constant("black"),
+      height = rectHeight,
       id = rectId,
       innerBounds = rectInnerBounds,
-      height = rectHeight,
       label,
       select,
       timing = 600,
@@ -44,16 +68,20 @@ export default function() {
       x = rectX,
       y = rectY;
 
+  /**
+      The inner return object and draw function that gets assigned the public methods.
+      @private
+  */
   function rect() {
 
     /* Bind data array to elements using provided id matching. */
-    var groups = select.selectAll(".d3plus-shape-rect")
+    const groups = select.selectAll(".d3plus-shape-rect")
       .data(data, id);
 
     /* Enter */
-    var enter = groups.enter().append("g")
+    const enter = groups.enter().append("g")
       .attr("class", "d3plus-shape-rect")
-      .attr("id", (d) => "d3plus-shape-rect-" + id(d))
+      .attr("id", (d) => `d3plus-shape-rect-${id(d)}`)
       .attr("transform", (d) => `translate(${x(d)},${y(d)})`);
 
     enter.append("rect")
@@ -84,18 +112,17 @@ export default function() {
       .attr("y", (d) => y(d));
 
     /* Draw labels based on inner bounds */
-    groups.each(function(d){
+    groups.each(function(d) {
+
       if (label !== void 0) {
-        var b = innerBounds(width(d), height(d));
+        const b = innerBounds(width(d), height(d));
         if (b) {
 
-          var elem = d3.select(this).selectAll("text").data([0]);
+          const elem = d3.select(this).selectAll("text").data([0]);
           elem.enter().append("text").html(label(d));
 
           box()
-            .fontColor(function(){
-              return contrast(fill(d));
-            })
+            .fontColor(() => contrast(fill(d)))
             .height(b.height)
             .select(elem.node())
             .width(b.width)
@@ -103,13 +130,10 @@ export default function() {
             .y(b.y)();
 
         }
-        else {
-          d3.select(this).select("text").remove();
-        }
+        else d3.select(this).select("text").remove();
       }
-      else {
-        d3.select(this).select("text").remove();
-      }
+      else d3.select(this).select("text").remove();
+
     });
 
     return rect;
