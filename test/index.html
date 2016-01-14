@@ -1,42 +1,66 @@
 <!doctype html>
 <meta charset="utf-8">
 
-<script src="../build/d3plus-shape-dev.js"></script>
+<script src="libs/d3-selection.v0.5.min.js"></script>
+<script src="libs/d3-3.5.5.js"></script>
+<script src="libs/d3-color.v0.3.min.js"></script>
+<script src="../build/d3plus-shape.js"></script>
 
 <body>
-  <svg width=500 height=500></svg>
+  <svg id="svgThing" width=400 height=500></svg>
+  <canvas id="canvasThing" width=400 height=500></canvas>
 </body>
 
 <script>
 
-  // Javascript code should go here
-  var shape = require("d3plus-shape");
+  var data = [
+    {"x": 100, "y": 100, "width": 100, "height": 50, "name": "alex", "id": 1},
+    {"x": 200, "y": 200, "width": 100, "height": 100, "name": "dave", "id": 2}
+  ];
 
-  var test = new shape.Rectangle("svg")
-    .attr("y", function(d){return d.y;})
-    .attr("x", function(d){return d.x;})
-    .attrs({
-      "width": 50,
-      "height": 40,
-      "id": "color",
-      "fill": "color"
-    })
-    .data([
-      {"x": 100, "y": 100, "r": 50, "color": "alex"},
-      {"x": 200, "y": 100, "r": 50, "color": "dave"}
-    ])
-    .draw(600);
+  var width = 400, height = 500;
+
+  var data = [];
+  for (var i = 0; i < 200; i++) {
+    data.push({
+      "id": i,
+      "fill": "black",
+      "x": Math.floor(Math.random() * width),
+      "y": Math.floor(Math.random() * height),
+      "width": 10,
+      "height": 10
+    });
+  }
+
+  console.time("timer");
+  var test = d3plus_shape.rect()
+    .select("#svgThing")
+    // .label(function(d){ return d.name; })
+    .label("Here is a long/heavy filler sentence.")
+    .data(data)();
+  console.timeEnd("timer");
+
+  // var test = new d3plusShape.Rectangle("canvas")
+  //   .attrs(attrs)
+  //   .data(data)
+  //   .draw(500);
+
+  // setInterval(function(){
+  //   var s = test.attr("x") === "x2" ? "" : "2";
+  //   test.attrs({"x": "x" + s, "y": "y" + s}).draw();
+  //   // test_canvas.attrs({"x": "x" + s, "y": "y" + s}).draw();
+  // }, 2000)
 
   // console.log(test);
 
   // setTimeout(function(){
   //   test
   //     .data([
-  //       {"x": 100, "y": 100, "r": 50, "color": "alex"},
-  //       {"x": 150, "y": 100, "r": 50, "color": "jonathan"}
+  //       {"x": 100, "y": 100, "r": 50, "color": "alex", "id": 1},
+  //       {"x": 150, "y": 200, "r": 75, "color": "jonathan", "id": 3}
   //     ])
   //     // .attr("x", 0)
   //     .draw();
-  // }, 1000)
+  // }, 2000)
 
 </script>

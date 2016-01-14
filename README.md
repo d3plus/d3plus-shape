@@ -5,76 +5,189 @@
 [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-shape.svg?style=flat-square)](https://david-dm.org/d3plus/d3plus-shape)
 [![Dependency Status](http://img.shields.io/david/dev/d3plus/d3plus-shape.svg?style=flat-square)](https://david-dm.org/d3plus/d3plus-shape#info=devDependencies)
 
-<a name="Abstract"></a>
-## Abstract
-Abstract class that all shapes extend. Contains method available to all shapes.
+A javascript library that draws data-driven shapes to DOM using the popular [d3](https://d3js.org) library.
 
-**Kind**: global class  
+## Installing
 
-* [Abstract](#Abstract)
-  * [new Abstract(container)](#new_Abstract_new)
-  * [.name](#Abstract+name) ⇒ <code>String</code>
-  * [.data([arr])](#Abstract+data) ⇒ <code>[Abstract](#Abstract)</code>
-  * [.draw([timing])](#Abstract+draw) ⇒ <code>[Abstract](#Abstract)</code>
-  * [.remove()](#Abstract+remove)
+If you use NPM, `npm install d3plus-shape`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-shape/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. Create a custom build using [Rollup](https://github.com/rollup/rollup) or your preferred bundler. You can also load directly from [d3js.org](https://d3js.org) and [d3plus.org](https://d3plus.org):
 
-<a name="new_Abstract_new"></a>
-### new Abstract(container)
+```html
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-color.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.min.js"></script>
+```
+
+In a vanilla environment, a `d3plus_shape` global is exported.
+
+---
+
+# API Reference
+<a name="rect"></a>
+## rect()
+**Kind**: global function  
+
+* [rect()](#rect)
+    * [.data([*data*])](#rect.data)
+    * [.fill([*value*])](#rect.fill)
+    * [.height([*value*])](#rect.height)
+    * [.id([*value*])](#rect.id)
+    * [.innerBounds([*bounds*])](#rect.innerBounds)
+    * [.label([*value*])](#rect.label)
+    * [.select([*selector*])](#rect.select)
+    * [.timing([*ms*])](#rect.timing)
+    * [.width([*value*])](#rect.width)
+    * [.x([*value*])](#rect.x)
+    * [.y([*value*])](#rect.y)
+
+<a name="rect.data"></a>
+### rect.data([*data*])
+If *data* is specified, sets the data array to the specified array and returns this rectangle generator. If *data* is not specified, returns the current data array. A rectangle will be drawn for each object in the array.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*data*] | <code>Array</code> | <code>[]</code> | 
+
+<a name="rect.fill"></a>
+### rect.fill([*value*])
+If *value* is specified, sets the fill accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current fill accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;black&quot;</code> | 
+
+<a name="rect.height"></a>
+### rect.height([*value*])
+If *value* is specified, sets the height accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current height accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.height;
+}
+```
+<a name="rect.id"></a>
+### rect.id([*value*])
+If *value* is specified, sets the id accessor to the specified function and returns this rectangle generator. If *value* is not specified, returns the current id accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.id;
+}
+```
+<a name="rect.innerBounds"></a>
+### rect.innerBounds([*bounds*])
+If *bounds* is specified, sets the inner bounds to the specified function and returns this rectangle generator. If *bounds* is not specified, returns the current inner bounds accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| container | <code>selector</code> &#124; <code>node</code> | Either a selector string or an SVG node that will act as a container for any contents being drawn. |
+| [*bounds*] | <code>function</code> | Given a rectangle's width and height, the function should return an object containing the following values: `width`, `height`, `x`, `y`. |
 
-<a name="Abstract+name"></a>
-### abstract.name ⇒ <code>String</code>
-A unique name for this class. Any shape that extends this class should overwrite this function with it's own unique string.
-
-**Kind**: instance property of <code>[Abstract](#Abstract)</code>  
-<a name="Abstract+data"></a>
-### abstract.data([arr]) ⇒ <code>[Abstract](#Abstract)</code>
-**Kind**: instance method of <code>[Abstract](#Abstract)</code>  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [arr] | <code>Array</code> | <code>[]</code> | The data array used to display the shapes. |
-
-<a name="Abstract+draw"></a>
-### abstract.draw([timing]) ⇒ <code>[Abstract](#Abstract)</code>
-Draws/redraws the current group of shapes.
-
-**Kind**: instance method of <code>[Abstract](#Abstract)</code>  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [timing] | <code>Number</code> | <code>600</code> | A number in milliseconds used for the timing of transitions. |
-
-<a name="Abstract+remove"></a>
-### abstract.remove()
-Removes all shapes created with this instance.
-
-**Kind**: instance method of <code>[Abstract](#Abstract)</code>  
-<a name="Rectangle"></a>
-## Rectangle
-**Kind**: global class  
-
-* [Rectangle](#Rectangle)
-  * [.name](#Rectangle+name) ⇒ <code>&quot;Rectangle&quot;</code>
-  * [.innerBounds()](#Rectangle+innerBounds) ⇒ <code>Object</code>
-
-<a name="Rectangle+name"></a>
-### rectangle.name ⇒ <code>&quot;Rectangle&quot;</code>
-**Kind**: instance property of <code>[Rectangle](#Rectangle)</code>  
-<a name="Rectangle+innerBounds"></a>
-### rectangle.innerBounds() ⇒ <code>Object</code>
-The inner bounding box for the rectangle.
-
-**Kind**: instance method of <code>[Rectangle](#Rectangle)</code>  
 **Example**  
 ```js
-{
-  width: 300,
-  height: 200,
-  x: 0,
-  y: 0
+function(w, h) {
+  return {
+    "width": w,
+    "height": h,
+    "x": -w / 2,
+    "y": -h / 2
+  };
+}
+      
+```
+<a name="rect.label"></a>
+### rect.label([*value*])
+If *value* is specified, sets the label accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> | 
+
+<a name="rect.select"></a>
+### rect.select([*selector*])
+If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this rectangle generator. If *selector* is not specified, returns the current SVG container element, which is `undefined` by default.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*selector*] | <code>String</code> &#124; <code>HTMLElement</code> | 
+
+<a name="rect.timing"></a>
+### rect.timing([*ms*])
+If *ms* is specified, sets the animation timing to the specified number and returns this rectangle generator. If *ms* is not specified, returns the current animation timing.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*ms*] | <code>Number</code> | <code>600</code> | 
+
+<a name="rect.width"></a>
+### rect.width([*value*])
+If *value* is specified, sets the width accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current width accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.width;
+}
+```
+<a name="rect.x"></a>
+### rect.x([*value*])
+If *value* is specified, sets the x accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current x accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.x;
+}
+```
+<a name="rect.y"></a>
+### rect.y([*value*])
+If *value* is specified, sets the y accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current y accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.y;
 }
 ```
