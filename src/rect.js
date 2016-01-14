@@ -1,6 +1,6 @@
 import {default as d3} from "d3";
 import {default as constant} from "./constant";
-import {box} from "../../d3plus-text/index.js";
+import {box} from "d3plus-text";
 import {contrast} from "d3plus-color";
 
 function rectHeight(d) {
