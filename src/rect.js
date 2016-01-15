@@ -92,26 +92,26 @@ export default function(data = []) {
     /* Enter */
     const enter = groups.enter().append("g")
       .attr("class", "d3plus-shape-rect")
-      .attr("id", (d) => `d3plus-shape-rect-${id(d)}`)
-      .attr("transform", (d) => `translate(${x(d)},${y(d)})`);
+      .attr("id", (d, i) => `d3plus-shape-rect-${id(d, i)}`)
+      .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
     enter.append("rect")
       .attr("width", 0)
       .attr("height", 0)
       .attr("x", 0)
       .attr("y", 0)
-      .attr("fill", (d) => fill(d));
+      .attr("fill", (d, i) => fill(d, i));
 
     /* Update */
     groups.transition().duration(timing)
-      .attr("transform", (d) => `translate(${x(d)},${y(d)})`);
+      .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
     groups.selectAll("rect").transition().duration(timing)
-      .attr("width", (d) => width(d))
-      .attr("height", (d) => height(d))
-      .attr("x", (d) => -width(d) / 2)
-      .attr("y", (d) => -height(d) / 2)
-      .attr("fill", (d) => fill(d));
+      .attr("width", (d, i) => width(d, i))
+      .attr("height", (d, i) => height(d, i))
+      .attr("x", (d, i) => -width(d, i) / 2)
+      .attr("y", (d, i) => -height(d, i) / 2)
+      .attr("fill", (d, i) => fill(d, i));
 
     /* Exit */
     groups.exit().transition().delay(timing).remove();
@@ -119,21 +119,21 @@ export default function(data = []) {
     groups.exit().selectAll("rect").transition().duration(timing)
       .attr("width", 0)
       .attr("height", 0)
-      .attr("x", (d) => x(d))
-      .attr("y", (d) => y(d));
+      .attr("x", (d, i) => x(d, i))
+      .attr("y", (d, i) => y(d, i));
 
     /* Draw labels based on inner bounds */
-    groups.each(function(d) {
+    groups.each(function(d, i) {
 
       if (label !== void 0) {
-        const b = innerBounds(width(d), height(d));
+        const b = innerBounds(width(d, i), height(d, i));
         if (b) {
 
           const elem = d3.select(this).selectAll("text").data([0]);
-          elem.enter().append("text").html(label(d));
+          elem.enter().append("text").html(label(d, i));
 
           box()
-            .fontColor(() => contrast(fill(d)))
+            .fontColor(() => contrast(fill(d, i)))
             .height(b.height)
             .select(elem.node())
             .width(b.width)

@@ -45,6 +45,10 @@
   console.log("here")
   var test = d3plus_shape.rect()
     .select("#svgThing")
+    .x(function(d, i){
+      console.log(d, i)
+      return 200;
+    })
     // .label(function(d){ return d.name; })
     // .label("Here is a long/heavy filler sentence.")
     .data(data)();
