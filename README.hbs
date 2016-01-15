@@ -13,8 +13,8 @@ If you use NPM, `npm install d3plus-shape`. Otherwise, download the [latest rele
 
 ```html
 <script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="https://d3plus.org/js/d3plus-color.min.js"></script>
-<script src="https://d3plus.org/js/d3plus-shape.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-color.v0.2.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.v0.3.min.js"></script>
 ```
 
 In a vanilla environment, a `d3plus_shape` global is exported.
