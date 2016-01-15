@@ -1,22 +1,22 @@
 /* global casper */
 
 casper.on("page.error", function(msg, trace) {
-  this.echo(`Error: ${msg}`, "ERROR");
+  this.echo("Error: " + msg, "ERROR");
   if (trace.length) {
-    this.echo(`file: ${trace[0].file}`, "WARNING");
-    this.echo(`line: ${trace[0].line}`, "WARNING");
-    this.echo(`function: ${trace[0].function}`, "WARNING");
+    this.echo("file: " + trace[0].file, "WARNING");
+    this.echo("line: " + trace[0].line, "WARNING");
+    this.echo("function: " + trace[0].function, "WARNING");
   }
 });
 
-casper.test.begin("Rectangle Tests", (test) => {
+casper.test.begin("Rectangle Tests", function(test) {
 
   casper
-    .start("http://localhost:4000/test/browser/rect.html", () => {
+    .start("http://localhost:4000/test/browser/rect.html", function() {
 
       test.assertElementCount("svg", 1);
 
-      this.wait(1000, () => {
+      this.wait(1000, function() {
         // this.capture("image.png", {
         //   top: 0,
         //   left: 0,
@@ -28,5 +28,7 @@ casper.test.begin("Rectangle Tests", (test) => {
       });
 
     })
-    .run(() => test.done());
+    .run(function() {
+      test.done();
+    });
 });
