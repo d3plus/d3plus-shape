@@ -146,7 +146,7 @@ If *value* is specified, sets the label accessor to the specified function or st
 
 <a name="rect.select"></a>
 ### rect.select([*selector*])
-If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this rectangle generator. If *selector* is not specified, returns the current SVG container element, which is `undefined` by default.
+If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this rectangle generator. If *selector* is not specified, returns the current SVG container element.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
