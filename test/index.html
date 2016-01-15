@@ -18,7 +18,6 @@
 
 <body>
   <svg id="svgThing" width=400 height=500></svg>
-  <canvas id="canvasThing" width=400 height=500></canvas>
 </body>
 
 <script>
@@ -27,6 +26,8 @@
     {"x": 100, "y": 100, "width": 100, "height": 50, "name": "alex", "id": 1},
     {"x": 200, "y": 200, "width": 100, "height": 100, "name": "dave", "id": 2}
   ];
+
+  data = [{"id": 0, "name": "Alpha", "x": 100, "y": 50, "width": 200, "height": 100}];
 
   var width = 400, height = 500;
 
@@ -41,14 +42,12 @@
   //     "height": 10
   //   });
   // }
-
-  console.time("timer");
+  console.log("here")
   var test = d3plus_shape.rect()
     .select("#svgThing")
     // .label(function(d){ return d.name; })
-    .label("Here is a long/heavy filler sentence.")
+    // .label("Here is a long/heavy filler sentence.")
     .data(data)();
-  console.timeEnd("timer");
 
   // var test = new d3plusShape.Rectangle("canvas")
   //   .attrs(attrs)

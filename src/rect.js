@@ -53,11 +53,20 @@ function rectY(d) {
 
 /**
     @function rect
+    @desc Creates SVG rectangles based on an array of data. If *data* is specified, immediately draws squares based on the specified array and returns this rectangle generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#rect.data) method.
+    @param {Array} [data = []]
+    @example <caption>a sample row of data</caption>
+var data = {"id": 0, "x": 100, "y": 50, "width": 200, "height": 100};
+@example <caption>passed to the generator</caption>
+rect([data]);
+@example <caption>creates the following</caption>
+<g class="d3plus-shape-rect" id="d3plus-shape-rect-0" transform="translate(100,50)">
+  <rect width="200" height="100" x="-100" y="-50" fill="black"></rect>
+</g>
 */
-export default function() {
+export default function(data = []) {
 
-  let data = [],
-      fill = constant("black"),
+  let fill = constant("black"),
       height = rectHeight,
       id = rectId,
       innerBounds = rectInnerBounds,
@@ -73,6 +82,8 @@ export default function() {
       @private
   */
   function rect() {
+
+    if (select === void 0) select = d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`);
 
     /* Bind data array to elements using provided id matching. */
     const groups = select.selectAll(".d3plus-shape-rect")
@@ -214,7 +225,7 @@ function(w, h) {
   /**
       @memberof rect
       @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this rectangle generator. If *selector* is not specified, returns the current SVG container element, which is `undefined` by default.
-      @param {String|HTMLElement} [*selector*]
+      @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
   rect.select = function(_) {
     return arguments.length ? (select = d3.select(_), rect) : select;
@@ -244,7 +255,7 @@ function(d) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the x accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current x accessor.
+      @desc If *value* is specified, sets the x accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -257,7 +268,7 @@ function(d) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the y accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current y accessor.
+      @desc If *value* is specified, sets the y accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -268,6 +279,6 @@ function(d) {
     return arguments.length ? (y = typeof _ === "function" ? _ : constant(_), rect) : y;
   };
 
-  return rect;
+  return data.length ? rect() : rect;
 
 }

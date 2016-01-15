@@ -23,10 +23,31 @@ In a vanilla environment, a `d3plus_shape` global is exported.
 
 # API Reference
 <a name="rect"></a>
-## rect()
+## rect([data])
+Creates SVG rectangles based on an array of data. If *data* is specified, immediately draws squares based on the specified array and returns this rectangle generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#rect.data) method.
+
 **Kind**: global function  
 
-* [rect()](#rect)
+| Param | Type | Default |
+| --- | --- | --- |
+| [data] | <code>Array</code> | <code>[]</code> | 
+
+**Example** *(a sample row of data)*  
+```js
+var data = {"id": 0, "x": 100, "y": 50, "width": 200, "height": 100};
+```
+**Example** *(passed to the generator)*  
+```js
+rect([data]);
+```
+**Example** *(creates the following)*  
+```js
+<g class="d3plus-shape-rect" id="d3plus-shape-rect-0" transform="translate(100,50)">
+  <rect width="200" height="100" x="-100" y="-50" fill="black"></rect>
+</g>
+```
+
+* [rect([data])](#rect)
     * [.data([*data*])](#rect.data)
     * [.fill([*value*])](#rect.fill)
     * [.height([*value*])](#rect.height)
@@ -129,9 +150,9 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
-| Param | Type |
-| --- | --- |
-| [*selector*] | <code>String</code> &#124; <code>HTMLElement</code> | 
+| Param | Type | Default |
+| --- | --- | --- |
+| [*selector*] | <code>String</code> &#124; <code>HTMLElement</code> | <code>d3.select(&quot;body&quot;).append(&quot;svg&quot;)</code> | 
 
 <a name="rect.timing"></a>
 ### rect.timing([*ms*])
@@ -161,7 +182,7 @@ function(d) {
 ```
 <a name="rect.x"></a>
 ### rect.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current x accessor.
+If *value* is specified, sets the x accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -177,7 +198,7 @@ function(d) {
 ```
 <a name="rect.y"></a>
 ### rect.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current y accessor.
+If *value* is specified, sets the y accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
