@@ -74,7 +74,8 @@ export default function(data = []) {
     return contrast(fill(d, i));
   }
 
-  let fill = constant("black"),
+  let duration = 600,
+      fill = constant("black"),
       fontColor = rectFontColor,
       fontFamily,
       fontSize,
@@ -83,7 +84,6 @@ export default function(data = []) {
       innerBounds = rectInnerBounds,
       label,
       select,
-      timing = 600,
       width = rectWidth,
       x = rectX,
       y = rectY;
@@ -114,10 +114,10 @@ export default function(data = []) {
       .attr("fill", (d, i) => fill(d, i));
 
     /* Update */
-    groups.transition().duration(timing)
+    groups.transition().duration(duration)
       .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
-    groups.selectAll("rect").transition().duration(timing)
+    groups.selectAll("rect").transition().duration(duration)
       .attr("width", (d, i) => width(d, i))
       .attr("height", (d, i) => height(d, i))
       .attr("x", (d, i) => -width(d, i) / 2)
@@ -125,9 +125,9 @@ export default function(data = []) {
       .attr("fill", (d, i) => fill(d, i));
 
     /* Exit */
-    groups.exit().transition().delay(timing).remove();
+    groups.exit().transition().delay(duration).remove();
 
-    groups.exit().selectAll("rect").transition().duration(timing)
+    groups.exit().selectAll("rect").transition().duration(duration)
       .attr("width", 0)
       .attr("height", 0)
       .attr("x", (d, i) => x(d, i))
@@ -143,6 +143,8 @@ export default function(data = []) {
 
         box()
           .data([bounds])
+          .delay(duration/2)
+          .duration(duration)
           .fontColor(fontColor)
           .fontFamily(fontFamily)
           .fontSize(fontSize)
@@ -163,6 +165,15 @@ export default function(data = []) {
   */
   rect.data = function(_) {
     return arguments.length ? (data = _, rect) : data;
+  };
+
+  /**
+      @memberof rect
+      @desc If *ms* is specified, sets the animation duration to the specified number and returns this rectangle generator. If *ms* is not specified, returns the current animation duration.
+      @param {Number} [*ms* = 600]
+  */
+  rect.duration = function(_) {
+    return arguments.length ? (duration = _, rect) : duration;
   };
 
   /**
@@ -267,15 +278,6 @@ function(w, h) {
       return rect;
     }
     return select;
-  };
-
-  /**
-      @memberof rect
-      @desc If *ms* is specified, sets the animation timing to the specified number and returns this rectangle generator. If *ms* is not specified, returns the current animation timing.
-      @param {Number} [*ms* = 600]
-  */
-  rect.timing = function(_) {
-    return arguments.length ? (timing = _, rect) : timing;
   };
 
   /**

@@ -117,7 +117,9 @@
 	function box () {
 	  var data = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 
-	  var ellipsis = boxEllipsis,
+	  var delay = 0,
+	      duration = 0,
+	      ellipsis = boxEllipsis,
 	      fontColor = undefined,
 	      fontFamily = undefined,
 	      fontSize = undefined,
@@ -215,16 +217,32 @@
 	        }
 	      }
 
+	      function tspanStyle(tspan) {
+	        tspan.text(function (d) {
+	          return d.trimRight();
+	        }).attr("x", x(d, i) + "px").attr("dx", "0px").attr("dy", lH + "px");
+	      }
+
 	      var tspans = d3.select(this).selectAll("tspan").data(lineData);
-	      tspans.enter().append("tspan");
-	      tspans.text(function (d) {
-	        return d.trimRight();
-	      }).attr("x", x(d, i) + "px").attr("dx", "0px").attr("dy", lH + "px").attr("dominant-baseline", "alphabetic").style("baseline-shift", "0%");
+
+	      tspans.transition().duration(duration).call(tspanStyle);
+
+	      tspans.enter().append("tspan").attr("dominant-baseline", "alphabetic").style("baseline-shift", "0%").attr("opacity", 0).call(tspanStyle).transition().duration(duration).delay(delay).attr("opacity", 1);
 	    });
+
+	    return box;
 	  }
 
 	  box.data = function (_) {
 	    return arguments.length ? (data = _, box) : data;
+	  };
+
+	  box.delay = function (_) {
+	    return arguments.length ? (delay = _, box) : delay;
+	  };
+
+	  box.duration = function (_) {
+	    return arguments.length ? (duration = _, box) : duration;
 	  };
 
 	  box.ellipsis = function (_) {
