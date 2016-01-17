@@ -83,6 +83,7 @@ export default function(data = []) {
       id = rectId,
       innerBounds = rectInnerBounds,
       label,
+      labelPadding = 5,
       select,
       width = rectWidth,
       x = rectX,
@@ -139,6 +140,10 @@ export default function(data = []) {
       if (label !== void 0) {
 
         const bounds = innerBounds(width(d, i), height(d, i));
+        bounds.height -= labelPadding * 2;
+        bounds.width -= labelPadding * 2;
+        bounds.x += labelPadding;
+        bounds.y += labelPadding;
 
         box()
           .data([bounds])
@@ -262,6 +267,15 @@ function(w, h) {
   */
   rect.label = function(_) {
     return arguments.length ? (label = typeof _ === "function" ? _ : constant(_), rect) : label;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the label padding to the specified number and returns this rectangle generator. If *value* is not specified, returns the current label padding.
+      @param {Number} [*value* = 10]
+  */
+  rect.labelPadding = function(_) {
+    return arguments.length ? (labelPadding = _, rect) : labelPadding;
   };
 
   /**
