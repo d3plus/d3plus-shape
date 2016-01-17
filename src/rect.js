@@ -95,7 +95,7 @@ export default function(data = []) {
   */
   function rect() {
 
-    if (select === void 0) rect.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).node());
+    if (select === void 0) rect.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
 
     /* Bind data array to elements using provided id matching. */
     const groups = select.selectAll(".d3plus-shape-rect")
