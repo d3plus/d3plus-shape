@@ -42,27 +42,18 @@
   //     "height": 10
   //   });
   // }
-  console.log("here")
+
   var test = d3plus_shape.rect()
     .select("#svgThing")
-    .x(function(d, i){
-      console.log(d, i)
-      return 200;
-    })
+    .fontFamily("Times")
+    .fill("yellow")
     // .label(function(d){ return d.name; })
-    // .label("Here is a long/heavy filler sentence.")
+    .label("Here is a long/heavy filler sentence.")
     .data(data)();
 
-  // var test = new d3plusShape.Rectangle("canvas")
-  //   .attrs(attrs)
-  //   .data(data)
-  //   .draw(500);
-
-  // setInterval(function(){
-  //   var s = test.attr("x") === "x2" ? "" : "2";
-  //   test.attrs({"x": "x" + s, "y": "y" + s}).draw();
-  //   // test_canvas.attrs({"x": "x" + s, "y": "y" + s}).draw();
-  // }, 2000)
+  setInterval(function(){
+    test.x(200).y(100).width(100)();
+  }, 2000)
 
   // console.log(test);
 

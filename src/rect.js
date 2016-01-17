@@ -66,7 +66,18 @@ rect([data]);
 */
 export default function(data = []) {
 
+  /**
+      The default font-color accessor function.
+      @private
+  */
+  function rectFontColor(d, i) {
+    return contrast(fill(d, i));
+  }
+
   let fill = constant("black"),
+      fontColor = rectFontColor,
+      fontFamily,
+      fontSize,
       height = rectHeight,
       id = rectId,
       innerBounds = rectInnerBounds,
@@ -83,7 +94,7 @@ export default function(data = []) {
   */
   function rect() {
 
-    if (select === void 0) select = d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`);
+    if (select === void 0) rect.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).node());
 
     /* Bind data array to elements using provided id matching. */
     const groups = select.selectAll(".d3plus-shape-rect")
@@ -126,24 +137,18 @@ export default function(data = []) {
     groups.each(function(d, i) {
 
       if (label !== void 0) {
-        const b = innerBounds(width(d, i), height(d, i));
-        if (b) {
 
-          const elem = d3.select(this).selectAll("text").data([0]);
-          elem.enter().append("text").html(label(d, i));
+        const bounds = innerBounds(width(d, i), height(d, i));
+        bounds.text = label(d, i);
 
-          box()
-            .fontColor(() => contrast(fill(d, i)))
-            .height(b.height)
-            .select(elem.node())
-            .width(b.width)
-            .x(b.x)
-            .y(b.y)();
+        box()
+          .data([bounds])
+          .fontColor(fontColor)
+          .fontFamily(fontFamily)
+          .fontSize(fontSize)
+          .select(this)();
 
-        }
-        else d3.select(this).select("text").remove();
       }
-      else d3.select(this).select("text").remove();
 
     });
 
@@ -167,6 +172,33 @@ export default function(data = []) {
   */
   rect.fill = function(_) {
     return arguments.length ? (fill = typeof _ === "function" ? _ : constant(_), rect) : fill;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the font-color accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color.
+      @param {Function|String} [*value*]
+  */
+  rect.fontColor = function(_) {
+    return arguments.length ? (fontColor = typeof _ === "function" ? _ : constant(_), rect) : fontColor;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the font-family accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current font-family accessor.
+      @param {Function|String} [*value*]
+  */
+  rect.fontFamily = function(_) {
+    return arguments.length ? (fontFamily = typeof _ === "function" ? _ : constant(_), rect) : fontFamily;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the font-size accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current font-size accessor.
+      @param {Function|String} [*value*]
+  */
+  rect.fontSize = function(_) {
+    return arguments.length ? (fontSize = typeof _ === "function" ? _ : constant(_), rect) : fontSize;
   };
 
   /**
@@ -228,7 +260,13 @@ function(w, h) {
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
   rect.select = function(_) {
-    return arguments.length ? (select = d3.select(_), rect) : select;
+    if (arguments.length) {
+      select = d3.select(_);
+      if (fontFamily === void 0) fontFamily = constant(select.style("font-family"));
+      if (fontSize === void 0) fontSize = constant(parseFloat(select.style("font-size"), 10));
+      return rect;
+    }
+    return select;
   };
 
   /**
