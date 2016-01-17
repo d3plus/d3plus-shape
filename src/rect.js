@@ -139,16 +139,15 @@ export default function(data = []) {
       if (label !== void 0) {
 
         const bounds = innerBounds(width(d, i), height(d, i));
-        bounds.text = label(d, i);
 
         box()
           .data([bounds])
-          .delay(duration/2)
+          .delay(duration / 2)
           .duration(duration)
-          .fontColor(fontColor)
-          .fontFamily(fontFamily)
-          .fontSize(fontSize)
-          .select(this)();
+          .fontColor(fontColor(d, i))
+          .fontFamily(fontFamily(d, i))
+          .fontSize(fontSize(d, i))
+          .select(this).text(label(d, i))();
 
       }
 
