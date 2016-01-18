@@ -78,6 +78,7 @@ export default function(data = []) {
       fill = constant("black"),
       fontColor = rectFontColor,
       fontFamily,
+      fontResize = constant(false),
       fontSize,
       height = rectHeight,
       id = rectId,
@@ -85,6 +86,8 @@ export default function(data = []) {
       label,
       labelPadding = 5,
       select,
+      textAnchor = constant("start"),
+      verticalAlign = constant("top"),
       width = rectWidth,
       x = rectX,
       y = rectY;
@@ -151,7 +154,10 @@ export default function(data = []) {
           .duration(duration)
           .fontColor(fontColor(d, i))
           .fontFamily(fontFamily(d, i))
+          .fontResize(fontResize(d, i))
           .fontSize(fontSize(d, i))
+          .textAnchor(textAnchor(d, i))
+          .verticalAlign(verticalAlign(d, i))
           .select(this).text(label(d, i))();
 
       }
@@ -205,6 +211,15 @@ export default function(data = []) {
   */
   rect.fontFamily = function(_) {
     return arguments.length ? (fontFamily = typeof _ === "function" ? _ : constant(_), rect) : fontFamily;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this rectangle generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#rect.label) will be resized the best fit the rectangle.
+      @param {Function|Boolean} [*value*]
+  */
+  rect.fontResize = function(_) {
+    return arguments.length ? (fontResize = typeof _ === "function" ? _ : constant(_), rect) : fontResize;
   };
 
   /**
@@ -291,6 +306,24 @@ function(w, h) {
       return rect;
     }
     return select;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`.
+      @param {Function|String} [*value* = "start"]
+  */
+  rect.textAnchor = function(_) {
+    return arguments.length ? (textAnchor = typeof _ === "function" ? _ : constant(_), rect) : textAnchor;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`.
+      @param {Function|String} [*value* = "start"]
+  */
+  rect.verticalAlign = function(_) {
+    return arguments.length ? (verticalAlign = typeof _ === "function" ? _ : constant(_), rect) : verticalAlign;
   };
 
   /**
