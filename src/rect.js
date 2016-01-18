@@ -84,7 +84,7 @@ export default function(data = []) {
       id = rectId,
       innerBounds = rectInnerBounds,
       label,
-      labelPadding = 5,
+      labelPadding = constant(5),
       select,
       textAnchor = constant("start"),
       verticalAlign = constant("top"),
@@ -142,11 +142,12 @@ export default function(data = []) {
 
       if (label !== void 0) {
 
-        const bounds = innerBounds(width(d, i), height(d, i));
-        bounds.height -= labelPadding * 2;
-        bounds.width -= labelPadding * 2;
-        bounds.x += labelPadding;
-        bounds.y += labelPadding;
+        const bounds = innerBounds(width(d, i), height(d, i)),
+              padding = labelPadding(d, i);
+        bounds.height -= padding * 2;
+        bounds.width -= padding * 2;
+        bounds.x += padding;
+        bounds.y += padding;
 
         box()
           .data([bounds])
@@ -290,7 +291,7 @@ function(w, h) {
       @param {Number} [*value* = 10]
   */
   rect.labelPadding = function(_) {
-    return arguments.length ? (labelPadding = _, rect) : labelPadding;
+    return arguments.length ? (labelPadding = typeof _ === "function" ? _ : constant(_), rect) : labelPadding;
   };
 
   /**
