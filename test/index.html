@@ -27,7 +27,7 @@
     {"x": 200, "y": 200, "width": 100, "height": 100, "name": "dave", "id": 2}
   ];
 
-  data = [{"id": 0, "name": "Alpha", "x": 100, "y": 50, "width": 200, "height": 100}];
+  data = [{"id": 0, "name": "Here is a Long Title", "x": 100, "y": 50, "width": 200, "height": 100}];
 
   var width = 400, height = 500;
 
@@ -46,6 +46,7 @@
   var test = d3plus_shape.rect()
     .select("#svgThing")
     .fontFamily("Times")
+    .fontResize(true)
     .fill("yellow")
     .label(function(d){ return d.name; })
     // .label("Here is a long/heavy filler sentence.")

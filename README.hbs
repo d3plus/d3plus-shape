@@ -7,9 +7,22 @@
 
 A javascript library that draws data-driven shapes to DOM using the popular [d3](https://d3js.org) library.
 
-## Installing
+## Installation Options
 
-If you use NPM, `npm install d3plus-shape`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-shape/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. Create a custom build using [Rollup](https://github.com/rollup/rollup) or your preferred bundler. You can also load directly from [d3js.org](https://d3js.org) and [d3plus.org](https://d3plus.org):
+* [NPM](#install.npm)
+* [Browser](#install.browser)
+* [AMD and CommonJS](#install.amd)
+* [Custom Builds](#install.custom)
+
+<a name="install.npm"></a>
+### NPM
+```sh
+npm install d3plus-shape
+```
+
+<a name="install.browser"></a>
+### Browser
+In a vanilla environment, a `d3plus_shape` global is exported. To use a compiled version hosted on [d3js.org](https://d3js.org) and [d3plus.org](https://d3plus.org):
 
 ```html
 <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -25,7 +38,20 @@ If you use NPM, `npm install d3plus-shape`. Otherwise, download the [latest rele
 <script src="https://d3plus.org/js/d3plus-shape.v0.3.min.js"></script>
 ```
 
-In a vanilla environment, a `d3plus_shape` global is exported.
+This library was written in ES6 and compiled using Babel for use in modern browsers. If you'd like to use it in older browsers that may not support some features, you will need to include the Babel polyfill. We're hosting the latest version on [d3plus.org](https://d3plus.org), so just include this line before loading the library:
+```html
+<script src="http://d3plus.org/js/polyfill.min.js"></script>
+```
+
+Otherwise, [click here](https://github.com/d3plus/d3plus-shape/releases/latest) to download the latest release.
+
+<a name="install.amd"></a>
+### AMD and CommonJS
+The released bundle natively supports both AMD and CommonJS, and vanilla environments.
+
+<a name="install.custom"></a>
+### Custom Builds
+The source code is written using standard `import` and `export` statements. Create a custom build using [Rollup](https://github.com/rollup/rollup) or your preferred bundler. Take a look at the  [index.js](https://github.com/d3plus/d3plus-shape/blob/master/index.js) file to see the modules exported.
 
 ---
 
