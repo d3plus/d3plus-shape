@@ -1,7 +1,14 @@
-import {default as d3} from "d3";
-import {default as constant} from "./constant";
+import {select as d3Select} from "d3-selection";
+import {transition as d3Transition} from "d3-transition";
+const d3 = {
+  "select": d3Select,
+  "transition": d3Transition
+};
+
 import {box} from "d3plus-text";
 import {contrast} from "d3plus-color";
+
+import {default as constant} from "./constant";
 
 /**
     The default height accessor function.
@@ -63,6 +70,10 @@ rect([data]);
 <g class="d3plus-shape-rect" id="d3plus-shape-rect-0" transform="translate(100,50)">
   <rect width="200" height="100" x="-100" y="-50" fill="black"></rect>
 </g>
+@example <caption>this is shorthand for the following</caption>
+rect().data([data])();
+@example <caption>which also allows a post-draw callback function</caption>
+rect().data([data])(function() { alert("draw complete!"); })
 */
 export default function(data = []) {
 
@@ -96,39 +107,12 @@ export default function(data = []) {
       The inner return object and draw function that gets assigned the public methods.
       @private
   */
-  function rect() {
+  function rect(callback) {
 
     if (select === void 0) rect.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
 
-    /* Bind data array to elements using provided id matching. */
-    const groups = select.selectAll(".d3plus-shape-rect")
-      .data(data, id);
+    const groups = select.selectAll(".d3plus-shape-rect").data(data, id);
 
-    /* Enter */
-    const enter = groups.enter().append("g")
-      .attr("class", "d3plus-shape-rect")
-      .attr("id", (d, i) => `d3plus-shape-rect-${id(d, i)}`)
-      .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
-
-    enter.append("rect")
-      .attr("width", 0)
-      .attr("height", 0)
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("fill", (d, i) => fill(d, i));
-
-    /* Update */
-    groups.transition().duration(duration)
-      .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
-
-    groups.selectAll("rect").transition().duration(duration)
-      .attr("width", (d, i) => width(d, i))
-      .attr("height", (d, i) => height(d, i))
-      .attr("x", (d, i) => -width(d, i) / 2)
-      .attr("y", (d, i) => -height(d, i) / 2)
-      .attr("fill", (d, i) => fill(d, i));
-
-    /* Exit */
     groups.exit().transition().delay(duration).remove();
 
     groups.exit().selectAll("rect").transition().duration(duration)
@@ -137,8 +121,32 @@ export default function(data = []) {
       .attr("x", (d, i) => x(d, i))
       .attr("y", (d, i) => y(d, i));
 
+    const enter = groups.enter().append("g")
+        .attr("class", "d3plus-shape-rect")
+        .attr("id", (d, i) => `d3plus-shape-rect-${id(d, i)}`)
+        .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
+
+    enter.append("rect")
+        .attr("width", 0)
+        .attr("height", 0)
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("fill", (d, i) => fill(d, i));
+
+    const update = enter.merge(groups);
+
+    update.transition().duration(duration)
+      .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
+
+    update.merge(enter).selectAll("rect").transition().duration(duration)
+      .attr("width", (d, i) => width(d, i))
+      .attr("height", (d, i) => height(d, i))
+      .attr("x", (d, i) => -width(d, i) / 2)
+      .attr("y", (d, i) => -height(d, i) / 2)
+      .attr("fill", (d, i) => fill(d, i));
+
     /* Draw labels based on inner bounds */
-    groups.each(function(d, i) {
+    update.each(function(d, i) {
 
       if (label !== void 0) {
 
@@ -164,6 +172,8 @@ export default function(data = []) {
       }
 
     });
+
+    if (callback) setTimeout(callback, duration + 100);
 
     return rect;
 

@@ -1,17 +1,13 @@
-import babel from "rollup-plugin-babel";
+import buble from "rollup-plugin-buble";
 import json from "rollup-plugin-json";
-import npm from "rollup-plugin-npm";
+import deps from "rollup-plugin-node-resolve";
 
 export default {
-  dest: "build/d3plus-layout.full.js",
+  dest: "build/d3plus-shape.full.js",
   entry: "index.js",
   format: "umd",
   globals: function(id) { return id.replace(/-/g, "_"); },
-  moduleId: "d3plus-layout",
-  moduleName: "d3plus_layout",
-  plugins: [
-    json(),
-    npm({"jsnext": true, "main": true, "skip": ["d3"]}),
-    babel({"presets": ["es2015-rollup"]})
-  ]
+  moduleId: "d3plus-shape",
+  moduleName: "d3plus_shape",
+  plugins: [json(), deps({"jsnext": true}), buble()]
 };
