@@ -61,7 +61,7 @@ The source code is written using standard `import` and `export` statements. Crea
 <a name="rect"></a>
 
 ## rect([data])
-Creates SVG rectangles based on an array of data. If *data* is specified, immediately draws squares based on the specified array and returns this rectangle generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#rect.data) method.
+Creates SVG rectangles based on an array of data. If *data* is specified, immediately draws squares based on the specified array and returns this generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#rect.data) method.
 
 **Kind**: global function  
 
@@ -105,6 +105,7 @@ rect().data([data])(function() { alert("draw complete!"); })
     * [.innerBounds([*bounds*])](#rect.innerBounds)
     * [.label([*value*])](#rect.label)
     * [.labelPadding([*value*])](#rect.labelPadding)
+    * [.lineHeight([*value*])](#rect.lineHeight)
     * [.select([*selector*])](#rect.select)
     * [.textAnchor([*value*])](#rect.textAnchor)
     * [.verticalAlign([*value*])](#rect.verticalAlign)
@@ -115,7 +116,7 @@ rect().data([data])(function() { alert("draw complete!"); })
 <a name="rect.data"></a>
 
 ### rect.data([*data*])
-If *data* is specified, sets the data array to the specified array and returns this rectangle generator. If *data* is not specified, returns the current data array. A rectangle will be drawn for each object in the array.
+If *data* is specified, sets the data array to the specified array and returns this generator. If *data* is not specified, returns the current data array. A rectangle will be drawn for each object in the array.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -126,7 +127,7 @@ If *data* is specified, sets the data array to the specified array and returns t
 <a name="rect.duration"></a>
 
 ### rect.duration([*ms*])
-If *ms* is specified, sets the animation duration to the specified number and returns this rectangle generator. If *ms* is not specified, returns the current animation duration.
+If *ms* is specified, sets the animation duration to the specified number and returns this generator. If *ms* is not specified, returns the current animation duration.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -137,7 +138,7 @@ If *ms* is specified, sets the animation duration to the specified number and re
 <a name="rect.fill"></a>
 
 ### rect.fill([*value*])
-If *value* is specified, sets the fill accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current fill accessor.
+If *value* is specified, sets the fill accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current fill accessor.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -148,7 +149,7 @@ If *value* is specified, sets the fill accessor to the specified function or str
 <a name="rect.fontColor"></a>
 
 ### rect.fontColor([*value*])
-If *value* is specified, sets the font-color accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color.
+If *value* is specified, sets the font-color accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -159,7 +160,7 @@ If *value* is specified, sets the font-color accessor to the specified function 
 <a name="rect.fontFamily"></a>
 
 ### rect.fontFamily([*value*])
-If *value* is specified, sets the font-family accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current font-family accessor.
+If *value* is specified, sets the font-family accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-family accessor.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -170,7 +171,7 @@ If *value* is specified, sets the font-family accessor to the specified function
 <a name="rect.fontResize"></a>
 
 ### rect.fontResize([*value*])
-If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this rectangle generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#rect.label) will be resized the best fit the rectangle.
+If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#rect.label) will be resized the best fit the rectangle.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -181,7 +182,7 @@ If *value* is specified, sets the font resizing accessor to the specified functi
 <a name="rect.fontSize"></a>
 
 ### rect.fontSize([*value*])
-If *value* is specified, sets the font-size accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current font-size accessor.
+If *value* is specified, sets the font-size accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-size accessor.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -192,7 +193,7 @@ If *value* is specified, sets the font-size accessor to the specified function o
 <a name="rect.height"></a>
 
 ### rect.height([*value*])
-If *value* is specified, sets the height accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current height accessor.
+If *value* is specified, sets the height accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current height accessor.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -209,7 +210,7 @@ function(d) {
 <a name="rect.id"></a>
 
 ### rect.id([*value*])
-If *value* is specified, sets the id accessor to the specified function and returns this rectangle generator. If *value* is not specified, returns the current id accessor.
+If *value* is specified, sets the id accessor to the specified function and returns this generator. If *value* is not specified, returns the current id accessor.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -226,7 +227,7 @@ function(d) {
 <a name="rect.innerBounds"></a>
 
 ### rect.innerBounds([*bounds*])
-If *bounds* is specified, sets the inner bounds to the specified function and returns this rectangle generator. If *bounds* is not specified, returns the current inner bounds accessor.
+If *bounds* is specified, sets the inner bounds to the specified function and returns this generator. If *bounds* is not specified, returns the current inner bounds accessor.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -236,12 +237,12 @@ If *bounds* is specified, sets the inner bounds to the specified function and re
 
 **Example**  
 ```js
-function(w, h) {
+function(shape) {
   return {
-    "width": w,
-    "height": h,
-    "x": -w / 2,
-    "y": -h / 2
+    "width": shape.width,
+    "height": shape.height,
+    "x": -shape.width / 2,
+    "y": -shape.height / 2
   };
 }
       
@@ -249,7 +250,7 @@ function(w, h) {
 <a name="rect.label"></a>
 
 ### rect.label([*value*])
-If *value* is specified, sets the label accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default.
+If *value* is specified, sets the label accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -260,7 +261,7 @@ If *value* is specified, sets the label accessor to the specified function or st
 <a name="rect.labelPadding"></a>
 
 ### rect.labelPadding([*value*])
-If *value* is specified, sets the label padding to the specified number and returns this rectangle generator. If *value* is not specified, returns the current label padding.
+If *value* is specified, sets the label padding to the specified number and returns this generator. If *value* is not specified, returns the current label padding.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -268,10 +269,21 @@ If *value* is specified, sets the label padding to the specified number and retu
 | --- | --- | --- |
 | [*value*] | <code>Number</code> | <code>10</code> | 
 
+<a name="rect.lineHeight"></a>
+
+### rect.lineHeight([*value*])
+If *value* is specified, sets the line-height accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current line-height accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> | 
+
 <a name="rect.select"></a>
 
 ### rect.select([*selector*])
-If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this rectangle generator. If *selector* is not specified, returns the current SVG container element.
+If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this generator. If *selector* is not specified, returns the current SVG container element.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -282,7 +294,7 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 <a name="rect.textAnchor"></a>
 
 ### rect.textAnchor([*value*])
-If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`.
+If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -293,7 +305,7 @@ If *value* is specified, sets the text-anchor accessor to the specified function
 <a name="rect.verticalAlign"></a>
 
 ### rect.verticalAlign([*value*])
-If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`.
+If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -304,7 +316,7 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 <a name="rect.width"></a>
 
 ### rect.width([*value*])
-If *value* is specified, sets the width accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current width accessor.
+If *value* is specified, sets the width accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current width accessor.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -321,7 +333,7 @@ function(d) {
 <a name="rect.x"></a>
 
 ### rect.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
+If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
@@ -338,7 +350,7 @@ function(d) {
 <a name="rect.y"></a>
 
 ### rect.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
+If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
