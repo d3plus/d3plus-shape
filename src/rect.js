@@ -30,8 +30,8 @@ function rectId(d) {
     The default inner bounds function.
     @private
 */
-function rectInnerBounds(w, h) {
-  return {"width": w, "height": h, "x": -w / 2, "y": -h / 2};
+function rectInnerBounds(s) {
+  return {"width": s.width, "height": s.height, "x": -s.width / 2, "y": -s.height / 2};
 }
 
 /**
@@ -150,7 +150,7 @@ export default function(data = []) {
 
       if (label !== void 0) {
 
-        const bounds = innerBounds(width(d, i), height(d, i)),
+        const bounds = innerBounds({"width": width(d, i), "height": height(d, i)}, i),
               padding = labelPadding(d, i);
         bounds.height -= padding * 2;
         bounds.width -= padding * 2;
@@ -272,12 +272,12 @@ function(d) {
       @memberof rect
       @desc If *bounds* is specified, sets the inner bounds to the specified function and returns this rectangle generator. If *bounds* is not specified, returns the current inner bounds accessor.
       @example
-function(w, h) {
+function(shape) {
   return {
-    "width": w,
-    "height": h,
-    "x": -w / 2,
-    "y": -h / 2
+    "width": shape.width,
+    "height": shape.height,
+    "x": -shape.width / 2,
+    "y": -shape.height / 2
   };
 }
       @param {Function} [*bounds*] Given a rectangle's width and height, the function should return an object containing the following values: `width`, `height`, `x`, `y`.
