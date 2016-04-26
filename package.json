@@ -1,6 +1,6 @@
 {
   "name": "d3plus-shape",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Shape drawing for javascript visualizations.",
   "main": "build/d3plus-shape.js",
   "jsnext:main": "index",
