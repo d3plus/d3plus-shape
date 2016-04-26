@@ -96,6 +96,7 @@ export default function(data = []) {
       innerBounds = rectInnerBounds,
       label,
       labelPadding = constant(5),
+      lineHeight,
       select,
       textAnchor = constant("start"),
       verticalAlign = constant("top"),
@@ -110,6 +111,7 @@ export default function(data = []) {
   function rect(callback) {
 
     if (select === void 0) rect.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
+    if (lineHeight === void 0) lineHeight = (d, i) => fontSize(d, i) * 1.1;
 
     const groups = select.selectAll(".d3plus-shape-rect").data(data, id);
 
@@ -165,6 +167,7 @@ export default function(data = []) {
           .fontFamily(fontFamily(d, i))
           .fontResize(fontResize(d, i))
           .fontSize(fontSize(d, i))
+          .lineHeight(lineHeight(d, i))
           .textAnchor(textAnchor(d, i))
           .verticalAlign(verticalAlign(d, i))
           .select(this).text(label(d, i))();
@@ -302,6 +305,15 @@ function(shape) {
   */
   rect.labelPadding = function(_) {
     return arguments.length ? (labelPadding = typeof _ === "function" ? _ : constant(_), rect) : labelPadding;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the line-height accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current line-height accessor.
+      @param {Function|String} [*value*]
+  */
+  rect.lineHeight = function(_) {
+    return arguments.length ? (lineHeight = typeof _ === "function" ? _ : constant(_), rect) : lineHeight;
   };
 
   /**
