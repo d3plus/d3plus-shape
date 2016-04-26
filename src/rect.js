@@ -60,7 +60,7 @@ function rectY(d) {
 
 /**
     @function rect
-    @desc Creates SVG rectangles based on an array of data. If *data* is specified, immediately draws squares based on the specified array and returns this rectangle generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#rect.data) method.
+    @desc Creates SVG rectangles based on an array of data. If *data* is specified, immediately draws squares based on the specified array and returns this generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#rect.data) method.
     @param {Array} [data = []]
     @example <caption>a sample row of data</caption>
 var data = {"id": 0, "x": 100, "y": 50, "width": 200, "height": 100};
@@ -181,7 +181,7 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *data* is specified, sets the data array to the specified array and returns this rectangle generator. If *data* is not specified, returns the current data array. A rectangle will be drawn for each object in the array.
+      @desc If *data* is specified, sets the data array to the specified array and returns this generator. If *data* is not specified, returns the current data array. A rectangle will be drawn for each object in the array.
       @param {Array} [*data* = []]
   */
   rect.data = function(_) {
@@ -190,7 +190,7 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *ms* is specified, sets the animation duration to the specified number and returns this rectangle generator. If *ms* is not specified, returns the current animation duration.
+      @desc If *ms* is specified, sets the animation duration to the specified number and returns this generator. If *ms* is not specified, returns the current animation duration.
       @param {Number} [*ms* = 600]
   */
   rect.duration = function(_) {
@@ -199,7 +199,7 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the fill accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current fill accessor.
+      @desc If *value* is specified, sets the fill accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current fill accessor.
       @param {Function|String} [*value* = "black"]
   */
   rect.fill = function(_) {
@@ -208,7 +208,7 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the font-color accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color.
+      @desc If *value* is specified, sets the font-color accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color.
       @param {Function|String} [*value*]
   */
   rect.fontColor = function(_) {
@@ -217,7 +217,7 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the font-family accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current font-family accessor.
+      @desc If *value* is specified, sets the font-family accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-family accessor.
       @param {Function|String} [*value*]
   */
   rect.fontFamily = function(_) {
@@ -226,7 +226,7 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this rectangle generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#rect.label) will be resized the best fit the rectangle.
+      @desc If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#rect.label) will be resized the best fit the rectangle.
       @param {Function|Boolean} [*value*]
   */
   rect.fontResize = function(_) {
@@ -235,7 +235,7 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the font-size accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current font-size accessor.
+      @desc If *value* is specified, sets the font-size accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-size accessor.
       @param {Function|String} [*value*]
   */
   rect.fontSize = function(_) {
@@ -244,7 +244,7 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the height accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current height accessor.
+      @desc If *value* is specified, sets the height accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current height accessor.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -257,7 +257,7 @@ function(d) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the id accessor to the specified function and returns this rectangle generator. If *value* is not specified, returns the current id accessor.
+      @desc If *value* is specified, sets the id accessor to the specified function and returns this generator. If *value* is not specified, returns the current id accessor.
       @param {Function} [*value*]
       @example
 function(d) {
@@ -270,7 +270,7 @@ function(d) {
 
   /**
       @memberof rect
-      @desc If *bounds* is specified, sets the inner bounds to the specified function and returns this rectangle generator. If *bounds* is not specified, returns the current inner bounds accessor.
+      @desc If *bounds* is specified, sets the inner bounds to the specified function and returns this generator. If *bounds* is not specified, returns the current inner bounds accessor.
       @example
 function(shape) {
   return {
@@ -288,7 +288,7 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the label accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default.
+      @desc If *value* is specified, sets the label accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default.
       @param {Function|String} [*value*]
   */
   rect.label = function(_) {
@@ -297,7 +297,7 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the label padding to the specified number and returns this rectangle generator. If *value* is not specified, returns the current label padding.
+      @desc If *value* is specified, sets the label padding to the specified number and returns this generator. If *value* is not specified, returns the current label padding.
       @param {Number} [*value* = 10]
   */
   rect.labelPadding = function(_) {
@@ -306,7 +306,7 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this rectangle generator. If *selector* is not specified, returns the current SVG container element.
+      @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this generator. If *selector* is not specified, returns the current SVG container element.
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
   rect.select = function(_) {
@@ -321,7 +321,7 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`.
+      @desc If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`.
       @param {Function|String} [*value* = "start"]
   */
   rect.textAnchor = function(_) {
@@ -330,7 +330,7 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this rectangle generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`.
+      @desc If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`.
       @param {Function|String} [*value* = "start"]
   */
   rect.verticalAlign = function(_) {
@@ -339,7 +339,7 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the width accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current width accessor.
+      @desc If *value* is specified, sets the width accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current width accessor.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -352,7 +352,7 @@ function(d) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the x accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
+      @desc If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -365,7 +365,7 @@ function(d) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the y accessor to the specified function or number and returns this rectangle generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
+      @desc If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
       @param {Function|Number} [*value*]
       @example
 function(d) {
