@@ -9,6 +9,7 @@ import {box} from "d3plus-text";
 import {contrast} from "d3plus-color";
 
 import {default as constant} from "./constant";
+import {default as image} from "./image";
 
 /**
     The default height accessor function.
@@ -85,7 +86,8 @@ export default function(data = []) {
     return contrast(fill(d, i));
   }
 
-  let duration = 600,
+  let backgroundImage = constant(false),
+      duration = 600,
       fill = constant("black"),
       fontColor = rectFontColor,
       fontFamily,
@@ -161,9 +163,21 @@ export default function(data = []) {
       .attr("x", (d, i) => -width(d, i) / 2)
       .attr("y", (d, i) => -height(d, i) / 2);
 
-    /* Draw labels based on inner bounds */
     update.each(function(d, i) {
 
+      /* Draws background image */
+      const imageUrl = backgroundImage(d, i);
+      image()
+        .data(imageUrl ? [{"url": imageUrl}] : [])
+        .duration(duration)
+        .height(height(d, i))
+        .select(this)
+        .width(width(d, i))
+        .x(-width(d, i) / 2)
+        .y(-height(d, i) / 2)
+        ();
+
+      /* Draws label based on inner bounds */
       if (label !== void 0) {
 
         const bounds = innerBounds({"width": width(d, i), "height": height(d, i)}, i),
@@ -184,7 +198,9 @@ export default function(data = []) {
           .lineHeight(lineHeight(d, i))
           .textAnchor(textAnchor(d, i))
           .verticalAlign(verticalAlign(d, i))
-          .select(this).text(label(d, i))();
+          .select(this)
+          .text(label(d, i))
+          ();
 
       }
 
@@ -195,6 +211,15 @@ export default function(data = []) {
     return rect;
 
   }
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the background-image accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current background-image accessor.
+      @param {Function|String} [*value* = false]
+  */
+  rect.backgroundImage = function(_) {
+    return arguments.length ? (backgroundImage = typeof _ === "function" ? _ : constant(_), rect) : backgroundImage;
+  };
 
   /**
       @memberof rect
