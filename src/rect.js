@@ -98,6 +98,8 @@ export default function(data = []) {
       labelPadding = constant(5),
       lineHeight,
       select,
+      stroke = constant("black"),
+      strokeWidth = constant(0),
       textAnchor = constant("start"),
       verticalAlign = constant("top"),
       width = rectWidth,
@@ -123,6 +125,17 @@ export default function(data = []) {
       .attr("x", (d, i) => x(d, i))
       .attr("y", (d, i) => y(d, i));
 
+    /**
+        Sets styles for both entering and updating rectangles.
+        @private
+    */
+    function rectStyle(r) {
+      r
+        .attr("fill", (d, i) => fill(d, i))
+        .attr("stroke", (d, i) => stroke(d, i))
+        .attr("stroke-width", (d, i) => strokeWidth(d, i));
+    }
+
     const enter = groups.enter().append("g")
         .attr("class", "d3plus-shape-rect")
         .attr("id", (d, i) => `d3plus-shape-rect-${id(d, i)}`)
@@ -133,19 +146,20 @@ export default function(data = []) {
         .attr("height", 0)
         .attr("x", 0)
         .attr("y", 0)
-        .attr("fill", (d, i) => fill(d, i));
+        .attr("stroke-width", 2)
+        .call(rectStyle);
 
     const update = enter.merge(groups);
 
     update.transition().duration(duration)
       .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
-    update.merge(enter).selectAll("rect").transition().duration(duration)
+    update.selectAll("rect").transition().duration(duration)
+      .call(rectStyle)
       .attr("width", (d, i) => width(d, i))
       .attr("height", (d, i) => height(d, i))
       .attr("x", (d, i) => -width(d, i) / 2)
-      .attr("y", (d, i) => -height(d, i) / 2)
-      .attr("fill", (d, i) => fill(d, i));
+      .attr("y", (d, i) => -height(d, i) / 2);
 
     /* Draw labels based on inner bounds */
     update.each(function(d, i) {
@@ -329,6 +343,24 @@ function(shape) {
       return rect;
     }
     return select;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the stroke accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current stroke accessor.
+      @param {Function|String} [*value* = "black"]
+  */
+  rect.stroke = function(_) {
+    return arguments.length ? (stroke = typeof _ === "function" ? _ : constant(_), rect) : stroke;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the stroke-width accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current stroke-width accessor.
+      @param {Function|Number} [*value* = 0]
+  */
+  rect.strokeWidth = function(_) {
+    return arguments.length ? (strokeWidth = typeof _ === "function" ? _ : constant(_), rect) : strokeWidth;
   };
 
   /**
