@@ -94,7 +94,24 @@ export default function(data = []) {
         .attr("width", (d, i) => width(d, i))
         .attr("height", (d, i) => height(d, i))
         .attr("x", (d, i) => x(d, i))
-        .attr("y", (d, i) => y(d, i));
+        .attr("y", (d, i) => y(d, i))
+        .each(function(d, i) {
+          const image = d3.select(this), link = url(d, i);
+          const fullAddress = link.indexOf("http://") === 0 || link.indexOf("https://") === 0;
+          if (!fullAddress || link.indexOf(window.location.hostname) === 0) {
+            const img = new Image();
+            img.src = link;
+            img.crossOrigin = "Anonymous";
+            img.onload = function() {
+              const canvas = document.createElement("canvas");
+              canvas.width = this.width;
+              canvas.height = this.height;
+              const context = canvas.getContext("2d");
+              context.drawImage(this, 0, 0);
+              image.attr("xlink:href", canvas.toDataURL("image/png"));
+            };
+          }
+        });
 
     images.exit().transition().duration(duration)
       .attr("opacity", 0).remove();
