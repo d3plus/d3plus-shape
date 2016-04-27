@@ -96,7 +96,7 @@ export default function(data = []) {
       height = rectHeight,
       id = rectId,
       innerBounds = rectInnerBounds,
-      label,
+      label = constant(false),
       labelPadding = constant(5),
       lineHeight,
       select,
@@ -178,31 +178,29 @@ export default function(data = []) {
         ();
 
       /* Draws label based on inner bounds */
-      if (label !== void 0) {
+      const bounds = innerBounds({"width": width(d, i), "height": height(d, i)}, i),
+            labelText = label(d, i),
+            padding = labelPadding(d, i);
 
-        const bounds = innerBounds({"width": width(d, i), "height": height(d, i)}, i),
-              padding = labelPadding(d, i);
-        bounds.height -= padding * 2;
-        bounds.width -= padding * 2;
-        bounds.x += padding;
-        bounds.y += padding;
+      bounds.height -= padding * 2;
+      bounds.width -= padding * 2;
+      bounds.x += padding;
+      bounds.y += padding;
 
-        box()
-          .data([bounds])
-          .delay(duration / 2)
-          .duration(duration)
-          .fontColor(fontColor(d, i))
-          .fontFamily(fontFamily(d, i))
-          .fontResize(fontResize(d, i))
-          .fontSize(fontSize(d, i))
-          .lineHeight(lineHeight(d, i))
-          .textAnchor(textAnchor(d, i))
-          .verticalAlign(verticalAlign(d, i))
-          .select(this)
-          .text(label(d, i))
-          ();
-
-      }
+      box()
+        .data(labelText ? [bounds] : [])
+        .delay(duration / 2)
+        .duration(duration)
+        .fontColor(fontColor(d, i))
+        .fontFamily(fontFamily(d, i))
+        .fontResize(fontResize(d, i))
+        .fontSize(fontSize(d, i))
+        .lineHeight(lineHeight(d, i))
+        .textAnchor(textAnchor(d, i))
+        .verticalAlign(verticalAlign(d, i))
+        .select(this)
+        .text(label(d, i))
+        ();
 
     });
 
