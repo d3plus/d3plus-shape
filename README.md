@@ -58,6 +58,195 @@ The source code is written using standard `import` and `export` statements. Crea
 ---
 
 # API Reference
+## Functions
+
+<dl>
+<dt><a href="#image">image([data])</a></dt>
+<dd><p>Creates SVG images based on an array of data. If <em>data</em> is specified, immediately draws the images based on the specified array and returns this generator. If <em>data</em> is not specified on instantiation, it can be passed/updated after instantiation using the <a href="#image.data">data</a> method.</p>
+</dd>
+<dt><a href="#rect">rect([data])</a></dt>
+<dd><p>Creates SVG rectangles based on an array of data. If <em>data</em> is specified, immediately draws squares based on the specified array and returns this generator. If <em>data</em> is not specified on instantiation, it can be passed/updated after instantiation using the <a href="#rect.data">data</a> method.</p>
+</dd>
+</dl>
+
+<a name="image"></a>
+
+## image([data])
+Creates SVG images based on an array of data. If *data* is specified, immediately draws the images based on the specified array and returns this generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#image.data) method.
+
+**Kind**: global function  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [data] | <code>Array</code> | <code>[]</code> | 
+
+**Example** *(a sample row of data)*  
+```js
+var data = {"url": "file.png", "width": "100", "height": "50"};
+```
+**Example** *(passed to the generator)*  
+```js
+image([data]);
+```
+**Example** *(creates the following)*  
+```js
+<image class="d3plus-shape-image" opacity="1" href="file.png" width="100" height="50" x="0" y="0"></image>
+```
+**Example** *(this is shorthand for the following)*  
+```js
+image().data([data])();
+```
+**Example** *(which also allows a post-draw callback function)*  
+```js
+image().data([data])(function() { alert("draw complete!"); })
+```
+
+* [image([data])](#image)
+    * [.data([*data*])](#image.data)
+    * [.duration([*ms*])](#image.duration)
+    * [.height([*value*])](#image.height)
+    * [.id([*value*])](#image.id)
+    * [.select([*selector*])](#image.select)
+    * [.url([*value*])](#image.url)
+    * [.width([*value*])](#image.width)
+    * [.x([*value*])](#image.x)
+    * [.y([*value*])](#image.y)
+
+<a name="image.data"></a>
+
+### image.data([*data*])
+If *data* is specified, sets the data array to the specified array and returns this generator. If *data* is not specified, returns the current data array. An <image> tag will be drawn for each object in the array.
+
+**Kind**: static method of <code>[image](#image)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*data*] | <code>Array</code> | <code>[]</code> | 
+
+<a name="image.duration"></a>
+
+### image.duration([*ms*])
+If *ms* is specified, sets the animation duration to the specified number and returns this generator. If *ms* is not specified, returns the current animation duration.
+
+**Kind**: static method of <code>[image](#image)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*ms*] | <code>Number</code> | <code>600</code> | 
+
+<a name="image.height"></a>
+
+### image.height([*value*])
+If *value* is specified, sets the height accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current height accessor.
+
+**Kind**: static method of <code>[image](#image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.height;
+}
+```
+<a name="image.id"></a>
+
+### image.id([*value*])
+If *value* is specified, sets the id accessor to the specified function and returns this generator. If *value* is not specified, returns the current id accessor. This is useful if you want to duplicate the same image.
+
+**Kind**: static method of <code>[image](#image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.url;
+}
+```
+<a name="image.select"></a>
+
+### image.select([*selector*])
+If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this generator. If *selector* is not specified, returns the current SVG container element.
+
+**Kind**: static method of <code>[image](#image)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*selector*] | <code>String</code> &#124; <code>HTMLElement</code> | <code>d3.select(&quot;body&quot;).append(&quot;svg&quot;)</code> | 
+
+<a name="image.url"></a>
+
+### image.url([*value*])
+If *value* is specified, sets the URL accessor to the specified function and returns this generator. If *value* is not specified, returns the current URL accessor.
+
+**Kind**: static method of <code>[image](#image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.url;
+}
+```
+<a name="image.width"></a>
+
+### image.width([*value*])
+If *value* is specified, sets the width accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current width accessor.
+
+**Kind**: static method of <code>[image](#image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.width;
+}
+```
+<a name="image.x"></a>
+
+### image.x([*value*])
+If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor.
+
+**Kind**: static method of <code>[image](#image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.x || 0;
+}
+```
+<a name="image.y"></a>
+
+### image.y([*value*])
+If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor.
+
+**Kind**: static method of <code>[image](#image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.y || 0;
+}
+```
 <a name="rect"></a>
 
 ## rect([data])
@@ -93,6 +282,7 @@ rect().data([data])(function() { alert("draw complete!"); })
 ```
 
 * [rect([data])](#rect)
+    * [.backgroundImage([*value*])](#rect.backgroundImage)
     * [.data([*data*])](#rect.data)
     * [.duration([*ms*])](#rect.duration)
     * [.fill([*value*])](#rect.fill)
@@ -107,11 +297,24 @@ rect().data([data])(function() { alert("draw complete!"); })
     * [.labelPadding([*value*])](#rect.labelPadding)
     * [.lineHeight([*value*])](#rect.lineHeight)
     * [.select([*selector*])](#rect.select)
+    * [.stroke([*value*])](#rect.stroke)
+    * [.strokeWidth([*value*])](#rect.strokeWidth)
     * [.textAnchor([*value*])](#rect.textAnchor)
     * [.verticalAlign([*value*])](#rect.verticalAlign)
     * [.width([*value*])](#rect.width)
     * [.x([*value*])](#rect.x)
     * [.y([*value*])](#rect.y)
+
+<a name="rect.backgroundImage"></a>
+
+### rect.backgroundImage([*value*])
+If *value* is specified, sets the background-image accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current background-image accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> | <code>false</code> | 
 
 <a name="rect.data"></a>
 
@@ -290,6 +493,28 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 | Param | Type | Default |
 | --- | --- | --- |
 | [*selector*] | <code>String</code> &#124; <code>HTMLElement</code> | <code>d3.select(&quot;body&quot;).append(&quot;svg&quot;)</code> | 
+
+<a name="rect.stroke"></a>
+
+### rect.stroke([*value*])
+If *value* is specified, sets the stroke accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current stroke accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;black&quot;</code> | 
+
+<a name="rect.strokeWidth"></a>
+
+### rect.strokeWidth([*value*])
+If *value* is specified, sets the stroke-width accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current stroke-width accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | <code>0</code> | 
 
 <a name="rect.textAnchor"></a>
 
