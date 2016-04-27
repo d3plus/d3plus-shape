@@ -51,13 +51,11 @@ function imageY(d) {
     @desc Creates SVG images based on an array of data. If *data* is specified, immediately draws the images based on the specified array and returns this generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#image.data) method.
     @param {Array} [data = []]
     @example <caption>a sample row of data</caption>
-var data = {"url": "file.png"};
+var data = {"url": "file.png", "width": "100", "height": "50"};
 @example <caption>passed to the generator</caption>
 image([data]);
 @example <caption>creates the following</caption>
-<g class="d3plus-shape-image" id="d3plus-shape-image-0" transform="translate(100,50)">
-  <image width="200" height="100" x="-100" y="-50" fill="black"></image>
-</g>
+<image class="d3plus-shape-image" opacity="1" href="file.png" width="100" height="50" x="0" y="0"></image>
 @example <caption>this is shorthand for the following</caption>
 image().data([data])();
 @example <caption>which also allows a post-draw callback function</caption>
