@@ -296,6 +296,7 @@ rect().data([data])(function() { alert("draw complete!"); })
     * [.label([*value*])](#rect.label)
     * [.labelPadding([*value*])](#rect.labelPadding)
     * [.lineHeight([*value*])](#rect.lineHeight)
+    * [.on([*typenames*], [*listener*])](#rect.on)
     * [.select([*selector*])](#rect.select)
     * [.stroke([*value*])](#rect.stroke)
     * [.strokeWidth([*value*])](#rect.strokeWidth)
@@ -482,6 +483,18 @@ If *value* is specified, sets the line-height accessor to the specified function
 | Param | Type |
 | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> | 
+
+<a name="rect.on"></a>
+
+### rect.on([*typenames*], [*listener*])
+Adds or removes a *listener* to each rectangle for the specified event *typenames*. If a *listener* is not specified, returns the currently-assigned listener for the specified event *typename*. Mirrors the core [d3-selection](https://github.com/d3/d3-selection#selection_on) behavior.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*typenames*] | <code>String</code> | 
+| [*listener*] | <code>function</code> | 
 
 <a name="rect.select"></a>
 
