@@ -86,6 +86,8 @@ export default function(data = []) {
     return contrast(fill(d, i));
   }
 
+  const on = {};
+
   let backgroundImage = constant(false),
       duration = 600,
       fill = constant("black"),
@@ -203,6 +205,9 @@ export default function(data = []) {
         ();
 
     });
+
+    const events = Object.keys(on);
+    for (let e = 0; e < events.length; e++) update.on(events[e], on[events[e]]);
 
     if (callback) setTimeout(callback, duration + 100);
 
@@ -351,6 +356,16 @@ function(shape) {
   */
   rect.lineHeight = function(_) {
     return arguments.length ? (lineHeight = typeof _ === "function" ? _ : constant(_), rect) : lineHeight;
+  };
+
+  /**
+      @memberof rect
+      @desc Adds or removes a *listener* to each rectangle for the specified event *typenames*. If a *listener* is not specified, returns the currently-assigned listener for the specified event *typename*. Mirrors the core [d3-selection](https://github.com/d3/d3-selection#selection_on) behavior.
+      @param {String} [*typenames*]
+      @param {Function} [*listener*]
+  */
+  rect.on = function(typenames, listener) {
+    return arguments.length === 2 ? (on[typenames] = listener, rect) : arguments.length ? on[typenames] : on;
   };
 
   /**
