@@ -123,8 +123,14 @@ export default function(data = []) {
         Sets styles for both entering and updating rectangles.
         @private
     */
-    function rectStyle(r) {
+    function rectStyle(r, show) {
+      if (show === void 0) show = true;
+
       r
+        .attr("width", show ? (d, i) => width(d, i) : 0)
+        .attr("height", show ? (d, i) => height(d, i) : 0)
+        .attr("x", show ? (d, i) => -width(d, i) / 2 : 0)
+        .attr("y", show ? (d, i) => -height(d, i) / 2 : 0)
         .attr("fill", (d, i) => fill(d, i))
         .attr("stroke", (d, i) => stroke(d, i))
         .attr("stroke-width", (d, i) => strokeWidth(d, i));
@@ -134,29 +140,32 @@ export default function(data = []) {
         Updates inner contents of all rectangles.
         @private
     */
-    function contents(g, data) {
-      if (data === void 0) data = true;
+    function contents(g, show) {
+      if (show === void 0) show = true;
 
       g.each(function(d, i) {
 
+        const h = height(d, i),
+              w = width(d, i);
+
         /* Draws background image */
-        const imageUrl = data ? backgroundImage(d, i) : false;
+        const imageUrl = show ? backgroundImage(d, i) : false;
         image()
           .data(imageUrl ? [{"url": imageUrl}] : [])
           .duration(duration)
-          .height(data ? height(d, i) : 0)
+          .height(show ? h : 0)
           .select(this)
-          .width(data ? width(d, i) : 0)
-          .x(data ? -width(d, i) / 2 : 0)
-          .y(data ? -height(d, i) / 2 : 0)
+          .width(show ? w : 0)
+          .x(show ? -w / 2 : 0)
+          .y(show ? -h / 2 : 0)
           ();
 
         /* Draws label based on inner bounds */
         const labelData = [],
-              labelText = data ? label(d, i) : false;
+              labelText = show ? label(d, i) : false;
 
         if (labelText) {
-          const bounds = innerBounds({"width": width(d, i), "height": height(d, i)}, i),
+          const bounds = innerBounds({"width": w, "height": h}, i),
                 padding = labelPadding(d, i);
 
           bounds.height -= padding * 2;
@@ -165,8 +174,6 @@ export default function(data = []) {
           bounds.y += padding;
           labelData.push(bounds);
         }
-
-        console.log(labelData);
 
         box()
           .data(labelData)
@@ -189,6 +196,9 @@ export default function(data = []) {
 
     const groups = select.selectAll(".d3plus-shape-rect").data(data, id);
 
+    groups.transition().duration(duration)
+      .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
+
     groups.exit().transition().delay(duration).remove();
 
     groups.exit().selectAll("rect").transition().duration(duration)
@@ -205,24 +215,12 @@ export default function(data = []) {
         .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
     enter.append("rect")
-        .attr("width", 0)
-        .attr("height", 0)
-        .attr("x", 0)
-        .attr("y", 0)
-        .attr("stroke-width", 2)
-        .call(rectStyle);
+      .call(rectStyle, false);
 
     const update = enter.merge(groups);
 
-    update.transition().duration(duration)
-      .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
-
     update.selectAll("rect").transition().duration(duration)
-      .call(rectStyle)
-      .attr("width", (d, i) => width(d, i))
-      .attr("height", (d, i) => height(d, i))
-      .attr("x", (d, i) => -width(d, i) / 2)
-      .attr("y", (d, i) => -height(d, i) / 2);
+      .call(rectStyle);
 
     update.call(contents);
 
