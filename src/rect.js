@@ -119,16 +119,6 @@ export default function(data = []) {
     if (select === void 0) rect.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
     if (lineHeight === void 0) lineHeight = (d, i) => fontSize(d, i) * 1.1;
 
-    const groups = select.selectAll(".d3plus-shape-rect").data(data, id);
-
-    groups.exit().transition().delay(duration).remove();
-
-    groups.exit().selectAll("rect").transition().duration(duration)
-      .attr("width", 0)
-      .attr("height", 0)
-      .attr("x", 0)
-      .attr("y", 0);
-
     /**
         Sets styles for both entering and updating rectangles.
         @private
@@ -139,6 +129,75 @@ export default function(data = []) {
         .attr("stroke", (d, i) => stroke(d, i))
         .attr("stroke-width", (d, i) => strokeWidth(d, i));
     }
+
+    /**
+        Updates inner contents of all rectangles.
+        @private
+    */
+    function contents(g, data) {
+      if (data === void 0) data = true;
+
+      g.each(function(d, i) {
+
+        /* Draws background image */
+        const imageUrl = data ? backgroundImage(d, i) : false;
+        image()
+          .data(imageUrl ? [{"url": imageUrl}] : [])
+          .duration(duration)
+          .height(data ? height(d, i) : 0)
+          .select(this)
+          .width(data ? width(d, i) : 0)
+          .x(data ? -width(d, i) / 2 : 0)
+          .y(data ? -height(d, i) / 2 : 0)
+          ();
+
+        /* Draws label based on inner bounds */
+        const labelData = [],
+              labelText = data ? label(d, i) : false;
+
+        if (labelText) {
+          const bounds = innerBounds({"width": width(d, i), "height": height(d, i)}, i),
+                padding = labelPadding(d, i);
+
+          bounds.height -= padding * 2;
+          bounds.width -= padding * 2;
+          bounds.x += padding;
+          bounds.y += padding;
+          labelData.push(bounds);
+        }
+
+        console.log(labelData);
+
+        box()
+          .data(labelData)
+          .delay(duration / 2)
+          .duration(duration)
+          .fontColor(fontColor(d, i))
+          .fontFamily(fontFamily(d, i))
+          .fontResize(fontResize(d, i))
+          .fontSize(fontSize(d, i))
+          .lineHeight(lineHeight(d, i))
+          .textAnchor(textAnchor(d, i))
+          .verticalAlign(verticalAlign(d, i))
+          .select(this)
+          .text(label(d, i))
+          ();
+
+      });
+
+    }
+
+    const groups = select.selectAll(".d3plus-shape-rect").data(data, id);
+
+    groups.exit().transition().delay(duration).remove();
+
+    groups.exit().selectAll("rect").transition().duration(duration)
+      .attr("width", 0)
+      .attr("height", 0)
+      .attr("x", 0)
+      .attr("y", 0);
+
+    groups.exit().call(contents, false);
 
     const enter = groups.enter().append("g")
         .attr("class", "d3plus-shape-rect")
@@ -165,46 +224,7 @@ export default function(data = []) {
       .attr("x", (d, i) => -width(d, i) / 2)
       .attr("y", (d, i) => -height(d, i) / 2);
 
-    update.each(function(d, i) {
-
-      /* Draws background image */
-      const imageUrl = backgroundImage(d, i);
-      image()
-        .data(imageUrl ? [{"url": imageUrl}] : [])
-        .duration(duration)
-        .height(height(d, i))
-        .select(this)
-        .width(width(d, i))
-        .x(-width(d, i) / 2)
-        .y(-height(d, i) / 2)
-        ();
-
-      /* Draws label based on inner bounds */
-      const bounds = innerBounds({"width": width(d, i), "height": height(d, i)}, i),
-            labelText = label(d, i),
-            padding = labelPadding(d, i);
-
-      bounds.height -= padding * 2;
-      bounds.width -= padding * 2;
-      bounds.x += padding;
-      bounds.y += padding;
-
-      box()
-        .data(labelText ? [bounds] : [])
-        .delay(duration / 2)
-        .duration(duration)
-        .fontColor(fontColor(d, i))
-        .fontFamily(fontFamily(d, i))
-        .fontResize(fontResize(d, i))
-        .fontSize(fontSize(d, i))
-        .lineHeight(lineHeight(d, i))
-        .textAnchor(textAnchor(d, i))
-        .verticalAlign(verticalAlign(d, i))
-        .select(this)
-        .text(label(d, i))
-        ();
-
-    });
+    update.call(contents);
 
     const events = Object.keys(on);
     for (let e = 0; e < events.length; e++) update.on(events[e], on[events[e]]);
