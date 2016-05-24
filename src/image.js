@@ -114,6 +114,10 @@ export default function(data = []) {
         });
 
     images.exit().transition().duration(duration)
+      .attr("width", (d, i) => width(d, i))
+      .attr("height", (d, i) => height(d, i))
+      .attr("x", (d, i) => x(d, i))
+      .attr("y", (d, i) => y(d, i))
       .attr("opacity", 0).remove();
 
     if (callback) setTimeout(callback, duration + 100);
