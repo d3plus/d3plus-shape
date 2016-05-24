@@ -126,8 +126,8 @@ export default function(data = []) {
     groups.exit().selectAll("rect").transition().duration(duration)
       .attr("width", 0)
       .attr("height", 0)
-      .attr("x", (d, i) => x(d, i))
-      .attr("y", (d, i) => y(d, i));
+      .attr("x", 0)
+      .attr("y", 0);
 
     /**
         Sets styles for both entering and updating rectangles.
