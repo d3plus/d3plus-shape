@@ -132,6 +132,7 @@ export default function(data = []) {
           bounds.width -= padding * 2;
           bounds.x += padding;
           bounds.y += padding;
+          bounds.id = id(d, i);
           labelData.push(bounds);
         }
 
@@ -161,7 +162,7 @@ export default function(data = []) {
 
     groups.exit().transition().delay(duration).remove();
 
-    groups.exit().selectAll("rect").transition().duration(duration)
+    groups.exit().select("rect").transition().duration(duration)
       .attr("width", 0)
       .attr("height", 0)
       .attr("x", 0)
