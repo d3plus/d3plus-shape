@@ -3,9 +3,8 @@
 [![NPM Release](http://img.shields.io/npm/v/d3plus-shape.svg?style=flat-square)](https://www.npmjs.org/package/d3plus-shape)
 [![Build Status](https://travis-ci.org/d3plus/d3plus-shape.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-shape)
 [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-shape.svg?style=flat-square)](https://david-dm.org/d3plus/d3plus-shape)
-[![Dependency Status](http://img.shields.io/david/dev/d3plus/d3plus-shape.svg?style=flat-square)](https://david-dm.org/d3plus/d3plus-shape#info=devDependencies)
 
-A javascript library that draws data-driven shapes to DOM using the popular [d3](https://d3js.org) library.
+Fancy SVG shapes for visualizations
 
 ## Installation Options
 
@@ -25,31 +24,14 @@ npm install d3plus-shape
 In a vanilla environment, a `d3plus_shape` global is exported. To use a compiled version hosted on [d3plus.org](https://d3plus.org) that includes all dependencies:
 
 ```html
-<script src="https://d3plus.org/js/d3plus-shape.v0.4.full.min.js"></script>
-```
-
-For development purposes, you can also load all dependencies separately:
-
-```html
-<script src="https://d3js.org/d3-color.v0.4.min.js"></script>
-<script src="https://d3js.org/d3-dispatch.v0.4.min.js"></script>
-<script src="https://d3js.org/d3-ease.v0.7.min.js"></script>
-<script src="https://d3js.org/d3-interpolate.v0.7.min.js"></script>
-<script src="https://d3js.org/d3-selection.v0.7.min.js"></script>
-<script src="https://d3js.org/d3-timer.v0.4.min.js"></script>
-<script src="https://d3js.org/d3-transition.v0.2.min.js"></script>
-
-<script src="https://d3plus.org/js/d3plus-color.v0.2.min.js"></script>
-<script src="https://d3plus.org/js/d3plus-text.v0.4.min.js"></script>
-
-<script src="https://d3plus.org/js/d3plus-shape.v0.4.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.v0.5.full.min.js"></script>
 ```
 
 Otherwise, [click here](https://github.com/d3plus/d3plus-shape/releases/latest) to download the latest release.
 
 <a name="install.amd"></a>
 ### AMD and CommonJS
-The released bundle natively supports both AMD and CommonJS, and vanilla environments.
+The released bundle natively supports both AMD and CommonJS, in addition to vanilla environments.
 
 <a name="install.custom"></a>
 ### Custom Builds
