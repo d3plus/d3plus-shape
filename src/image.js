@@ -4,31 +4,7 @@ const d3 = {
   "select": d3Select,
   "transition": d3Transition
 };
-import {default as constant} from "./constant";
-
-/**
-    The default height accessor function.
-    @private
-*/
-function imageHeight(d) {
-  return d.height;
-}
-
-/**
-    The default URL accessor function.
-    @private
-*/
-function imageUrl(d) {
-  return d.url;
-}
-
-/**
-    The default width accessor function.
-    @private
-*/
-function imageWidth(d) {
-  return d.width;
-}
+import {accessor, constant} from "d3plus-common";
 
 /**
     The default x accessor function.
@@ -64,11 +40,11 @@ image().data([data])(function() { alert("draw complete!"); })
 export default function(data = []) {
 
   let duration = 600,
-      height = imageHeight,
-      id = imageUrl,
+      height = accessor("height"),
+      id = accessor("url"),
       select,
-      url = imageUrl,
-      width = imageWidth,
+      url = accessor("url"),
+      width = accessor("width"),
       x = imageX,
       y = imageY;
 

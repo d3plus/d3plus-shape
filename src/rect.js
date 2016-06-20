@@ -8,24 +8,8 @@ const d3 = {
 import {box} from "d3plus-text";
 import {contrast} from "d3plus-color";
 
-import {default as constant} from "./constant";
+import {accessor, constant} from "d3plus-common";
 import {default as image} from "./image";
-
-/**
-    The default height accessor function.
-    @private
-*/
-function rectHeight(d) {
-  return d.height;
-}
-
-/**
-    The default id accessor function.
-    @private
-*/
-function rectId(d) {
-  return d.id;
-}
 
 /**
     The default inner bounds function.
@@ -33,30 +17,6 @@ function rectId(d) {
 */
 function rectInnerBounds(s) {
   return {"width": s.width, "height": s.height, "x": -s.width / 2, "y": -s.height / 2};
-}
-
-/**
-    The default width accessor function.
-    @private
-*/
-function rectWidth(d) {
-  return d.width;
-}
-
-/**
-    The default x accessor function.
-    @private
-*/
-function rectX(d) {
-  return d.x;
-}
-
-/**
-    The default y accessor function.
-    @private
-*/
-function rectY(d) {
-  return d.y;
 }
 
 /**
@@ -95,8 +55,8 @@ export default function(data = []) {
       fontFamily,
       fontResize = constant(false),
       fontSize,
-      height = rectHeight,
-      id = rectId,
+      height = accessor("height"),
+      id = accessor("id"),
       innerBounds = rectInnerBounds,
       label = constant(false),
       labelPadding = constant(5),
@@ -106,9 +66,9 @@ export default function(data = []) {
       strokeWidth = constant(0),
       textAnchor = constant("start"),
       verticalAlign = constant("top"),
-      width = rectWidth,
-      x = rectX,
-      y = rectY;
+      width = accessor("width"),
+      x = accessor("x"),
+      y = accessor("y");
 
   /**
       The inner return object and draw function that gets assigned the public methods.
