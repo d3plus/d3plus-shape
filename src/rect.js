@@ -179,7 +179,7 @@ export default function(data = []) {
 
     const update = enter.merge(groups);
 
-    update.selectAll("rect").transition().duration(duration)
+    update.select("rect").transition().duration(duration)
       .call(rectStyle);
 
     update.call(contents);
