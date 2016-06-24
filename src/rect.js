@@ -80,6 +80,8 @@ export default function(data = []) {
     if (select === void 0) rect.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
     if (lineHeight === void 0) lineHeight = (d, i) => fontSize(d, i) * 1.1;
 
+    const t = d3.transition().duration(duration);
+
     /**
         Sets styles for both entering and updating rectangles.
         @private
@@ -122,34 +124,59 @@ export default function(data = []) {
           ();
 
         /* Draws label based on inner bounds */
-        const labelData = [],
-              labelText = show ? label(d, i) : false;
+        const labelData = [];
 
-        if (labelText) {
+        if (show) {
           const bounds = innerBounds({width: w, height: h}, i),
                 padding = labelPadding(d, i);
 
-          bounds.height -= padding * 2;
-          bounds.width -= padding * 2;
-          bounds.x += padding;
-          bounds.y += padding;
-          bounds.id = id(d, i);
-          labelData.push(bounds);
+          const fC = fontColor(d, i),
+                fF = fontFamily(d, i),
+                fR = fontResize(d, i),
+                fS = fontSize(d, i),
+                lH = lineHeight(d, i),
+                tA = textAnchor(d, i),
+                vA = verticalAlign(d, i);
+
+          console.log(vA);
+
+          let labels = label(d, i);
+          if (labels.constructor !== Array) labels = [labels];
+
+          for (let l = 0; l < labels.length; l++) {
+            const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
+                  p = padding.constructor === Array ? padding[l] : padding;
+            b.height -= p * 2;
+            b.width -= p * 2;
+            b.x += p;
+            b.y += p;
+            b.id = `${id(d, i)}_${l}`;
+            b.text = labels[l];
+
+            b.fC = fC.constructor === Array ? fC[l] : fC;
+            b.fF = fF.constructor === Array ? fF[l] : fF;
+            b.fR = fR.constructor === Array ? fR[l] : fR;
+            b.fS = fS.constructor === Array ? fS[l] : fS;
+            b.lH = lH.constructor === Array ? lH[l] : lH;
+            b.tA = tA.constructor === Array ? tA[l] : tA;
+            b.vA = vA.constructor === Array ? vA[l] : vA;
+
+            labelData.push(b);
+          }
         }
 
         box()
           .data(labelData)
           .delay(duration / 2)
           .duration(duration)
-          .fontColor(fontColor(d, i))
-          .fontFamily(fontFamily(d, i))
-          .fontResize(fontResize(d, i))
-          .fontSize(fontSize(d, i))
-          .lineHeight(lineHeight(d, i))
-          .textAnchor(textAnchor(d, i))
-          .verticalAlign(verticalAlign(d, i))
+          .fontColor((d) => d.fC)
+          .fontFamily((d) => d.fF)
+          .fontResize((d) => d.fR)
+          .fontSize((d) => d.fS)
+          .lineHeight((d) => d.lH)
+          .textAnchor((d) => d.tA)
+          .verticalAlign((d) => d.vA)
           .select(this)
-          .text(label(d, i))
           ();
 
       });
@@ -158,12 +185,12 @@ export default function(data = []) {
 
     const groups = select.selectAll(".d3plus-shape-rect").data(data, id);
 
-    groups.transition().duration(duration)
+    groups.transition(t)
       .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
     groups.exit().transition().delay(duration).remove();
 
-    groups.exit().select("rect").transition().duration(duration)
+    groups.exit().select("rect").transition(t)
       .attr("width", 0)
       .attr("height", 0)
       .attr("x", 0)
@@ -181,10 +208,10 @@ export default function(data = []) {
 
     const update = enter.merge(groups);
 
-    update.select("rect").transition().duration(duration)
+    update.select("rect").transition(t)
       .call(rectStyle);
 
-    update.call(contents).transition().duration(duration)
+    update.call(contents).transition(t)
       .attr("opacity", opacity);
 
     const events = Object.keys(on);
@@ -234,8 +261,8 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the font-color accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color.
-      @param {Function|String} [*value*]
+      @desc If *value* is specified, sets the font-color accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @param {Function|String|Array} [*value*]
   */
   rect.fontColor = function(_) {
     return arguments.length ? (fontColor = typeof _ === "function" ? _ : constant(_), rect) : fontColor;
@@ -243,8 +270,8 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the font-family accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-family accessor.
-      @param {Function|String} [*value*]
+      @desc If *value* is specified, sets the font-family accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-family accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @param {Function|String|Array} [*value*]
   */
   rect.fontFamily = function(_) {
     return arguments.length ? (fontFamily = typeof _ === "function" ? _ : constant(_), rect) : fontFamily;
@@ -252,8 +279,8 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#rect.label) will be resized the best fit the rectangle.
-      @param {Function|Boolean} [*value*]
+      @desc If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#rect.label) will be resized the best fit the rectangle. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @param {Function|Boolean|Array} [*value*]
   */
   rect.fontResize = function(_) {
     return arguments.length ? (fontResize = typeof _ === "function" ? _ : constant(_), rect) : fontResize;
@@ -261,8 +288,8 @@ export default function(data = []) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the font-size accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-size accessor.
-      @param {Function|String} [*value*]
+      @desc If *value* is specified, sets the font-size accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-size accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @param {Function|String|Array} [*value*]
   */
   rect.fontSize = function(_) {
     return arguments.length ? (fontSize = typeof _ === "function" ? _ : constant(_), rect) : fontSize;
@@ -306,7 +333,7 @@ function(shape) {
     "y": -shape.height / 2
   };
 }
-      @param {Function} [*bounds*] Given a rectangle's width and height, the function should return an object containing the following values: `width`, `height`, `x`, `y`.
+      @param {Function} [*bounds*] Given a rectangle's width and height, the function should return an object containing the following values: `width`, `height`, `x`, `y`. If an array is returned from the function, each value will be used in conjunction with each label.
   */
   rect.innerBounds = function(_) {
     return arguments.length ? (innerBounds = _, rect) : innerBounds;
@@ -314,8 +341,8 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the label accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default.
-      @param {Function|String} [*value*]
+      @desc If *value* is specified, sets the label accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default. If an array is passed or returned from the function, each value will be rendered as an individual label.
+      @param {Function|String|Array} [*value*]
   */
   rect.label = function(_) {
     return arguments.length ? (label = typeof _ === "function" ? _ : constant(_), rect) : label;
@@ -323,8 +350,8 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the label padding to the specified number and returns this generator. If *value* is not specified, returns the current label padding.
-      @param {Number} [*value* = 10]
+      @desc If *value* is specified, sets the label padding to the specified number and returns this generator. If *value* is not specified, returns the current label padding. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @param {Function|Number|Array} [*value* = 10]
   */
   rect.labelPadding = function(_) {
     return arguments.length ? (labelPadding = typeof _ === "function" ? _ : constant(_), rect) : labelPadding;
@@ -332,8 +359,8 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the line-height accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current line-height accessor.
-      @param {Function|String} [*value*]
+      @desc If *value* is specified, sets the line-height accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current line-height accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @param {Function|String|Array} [*value*]
   */
   rect.lineHeight = function(_) {
     return arguments.length ? (lineHeight = typeof _ === "function" ? _ : constant(_), rect) : lineHeight;
@@ -393,8 +420,8 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`.
-      @param {Function|String} [*value* = "start"]
+      @desc If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @param {Function|String|Array} [*value* = "start"]
   */
   rect.textAnchor = function(_) {
     return arguments.length ? (textAnchor = typeof _ === "function" ? _ : constant(_), rect) : textAnchor;
@@ -402,8 +429,8 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`.
-      @param {Function|String} [*value* = "start"]
+      @desc If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @param {Function|String|Array} [*value* = "start"]
   */
   rect.verticalAlign = function(_) {
     return arguments.length ? (verticalAlign = typeof _ === "function" ? _ : constant(_), rect) : verticalAlign;
