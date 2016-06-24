@@ -61,6 +61,7 @@ export default function(data = []) {
       label = constant(false),
       labelPadding = constant(5),
       lineHeight,
+      opacity = constant(1),
       select,
       stroke = constant("black"),
       strokeWidth = constant(0),
@@ -183,7 +184,8 @@ export default function(data = []) {
     update.select("rect").transition().duration(duration)
       .call(rectStyle);
 
-    update.call(contents);
+    update.call(contents).transition().duration(duration)
+      .attr("opacity", opacity);
 
     const events = Object.keys(on);
     for (let e = 0; e < events.length; e++) update.on(events[e], on[events[e]]);
@@ -345,6 +347,15 @@ function(shape) {
   */
   rect.on = function(typenames, listener) {
     return arguments.length === 2 ? (on[typenames] = listener, rect) : arguments.length ? on[typenames] : on;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the opacity accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current opacity accessor.
+      @param {Number} [*value* = 1]
+  */
+  rect.opacity = function(_) {
+    return arguments.length ? (opacity = typeof _ === "function" ? _ : constant(_), rect) : opacity;
   };
 
   /**
