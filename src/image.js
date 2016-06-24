@@ -7,22 +7,6 @@ const d3 = {
 import {accessor, constant} from "d3plus-common";
 
 /**
-    The default x accessor function.
-    @private
-*/
-function imageX(d) {
-  return d.x || 0;
-}
-
-/**
-    The default y accessor function.
-    @private
-*/
-function imageY(d) {
-  return d.y || 0;
-}
-
-/**
     @function image
     @desc Creates SVG images based on an array of data. If *data* is specified, immediately draws the images based on the specified array and returns this generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#image.data) method.
     @param {Array} [data = []]
@@ -45,8 +29,8 @@ export default function(data = []) {
       select,
       url = accessor("url"),
       width = accessor("width"),
-      x = imageX,
-      y = imageY;
+      x = accessor("x", 0),
+      y = accessor("y", 0);
 
   /**
       The inner return object and draw function that gets assigned the public methods.
