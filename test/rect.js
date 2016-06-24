@@ -4,7 +4,7 @@ import {default as rect} from "../src/rect.js";
 test("rect", (assert) => {
 
   rect()
-    .data([{"id": "test"}])
+    .data([{id: "test"}])
     .duration(100)
     .height(200)
     .label((d) => d.id)

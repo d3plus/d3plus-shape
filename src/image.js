@@ -1,8 +1,8 @@
 import {select as d3Select} from "d3-selection";
 import {transition as d3Transition} from "d3-transition";
 const d3 = {
-  "select": d3Select,
-  "transition": d3Transition
+  select: d3Select,
+  transition: d3Transition
 };
 import {accessor, constant} from "d3plus-common";
 

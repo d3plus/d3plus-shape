@@ -1,8 +1,8 @@
 import {select as d3Select} from "d3-selection";
 import {transition as d3Transition} from "d3-transition";
 const d3 = {
-  "select": d3Select,
-  "transition": d3Transition
+  select: d3Select,
+  transition: d3Transition
 };
 
 import {box} from "d3plus-text";
@@ -16,7 +16,7 @@ import {default as image} from "./image";
     @private
 */
 function rectInnerBounds(s) {
-  return {"width": s.width, "height": s.height, "x": -s.width / 2, "y": -s.height / 2};
+  return {width: s.width, height: s.height, x: -s.width / 2, y: -s.height / 2};
 }
 
 /**
@@ -111,7 +111,7 @@ export default function(data = []) {
         /* Draws background image */
         const imageUrl = show ? backgroundImage(d, i) : false;
         image()
-          .data(imageUrl ? [{"url": imageUrl}] : [])
+          .data(imageUrl ? [{url: imageUrl}] : [])
           .duration(duration)
           .height(show ? h : 0)
           .select(this)
@@ -125,7 +125,7 @@ export default function(data = []) {
               labelText = show ? label(d, i) : false;
 
         if (labelText) {
-          const bounds = innerBounds({"width": w, "height": h}, i),
+          const bounds = innerBounds({width: w, height: h}, i),
                 padding = labelPadding(d, i);
 
           bounds.height -= padding * 2;
