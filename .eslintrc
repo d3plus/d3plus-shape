@@ -4,8 +4,8 @@
     "es6": true,
     "node": true
   },
-  parserOptions: {
-    sourceType: "module"
+  "parserOptions": {
+    "sourceType": "module"
   },
   "rules": {
     "array-bracket-spacing": 2,
@@ -31,7 +31,7 @@
     "dot-notation": 2,
     "eol-last": 2,
     "eqeqeq": 2,
-    "func-style": [2, "declaration"],
+    "func-style": [2, "declaration", {"allowArrowFunctions": true}],
     "generator-star-spacing": 2,
     "global-require": 2,
     "guard-for-in": 2,
@@ -86,7 +86,7 @@
     "prefer-const": 2,
     "prefer-spread": 2,
     "prefer-template": 1,
-    "quote-props": 2,
+    "quote-props": [2, "consistent-as-needed"],
     "quotes": 2,
     "radix": 2,
     "require-jsdoc": 1,
