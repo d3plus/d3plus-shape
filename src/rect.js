@@ -139,27 +139,32 @@ export default function(data = []) {
                 vA = verticalAlign(d, i);
 
           let labels = label(d, i);
-          if (labels.constructor !== Array) labels = [labels];
 
-          for (let l = 0; l < labels.length; l++) {
-            const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
-                  p = padding.constructor === Array ? padding[l] : padding;
-            b.height -= p * 2;
-            b.width -= p * 2;
-            b.x += p;
-            b.y += p;
-            b.id = `${id(d, i)}_${l}`;
-            b.text = labels[l];
+          if (labels !== false && labels !== void 0) {
 
-            b.fC = fC.constructor === Array ? fC[l] : fC;
-            b.fF = fF.constructor === Array ? fF[l] : fF;
-            b.fR = fR.constructor === Array ? fR[l] : fR;
-            b.fS = fS.constructor === Array ? fS[l] : fS;
-            b.lH = lH.constructor === Array ? lH[l] : lH;
-            b.tA = tA.constructor === Array ? tA[l] : tA;
-            b.vA = vA.constructor === Array ? vA[l] : vA;
+            if (labels.constructor !== Array) labels = [labels];
 
-            labelData.push(b);
+            for (let l = 0; l < labels.length; l++) {
+              const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
+                    p = padding.constructor === Array ? padding[l] : padding;
+              b.height -= p * 2;
+              b.width -= p * 2;
+              b.x += p;
+              b.y += p;
+              b.id = `${id(d, i)}_${l}`;
+              b.text = labels[l];
+
+              b.fC = fC.constructor === Array ? fC[l] : fC;
+              b.fF = fF.constructor === Array ? fF[l] : fF;
+              b.fR = fR.constructor === Array ? fR[l] : fR;
+              b.fS = fS.constructor === Array ? fS[l] : fS;
+              b.lH = lH.constructor === Array ? lH[l] : lH;
+              b.tA = tA.constructor === Array ? tA[l] : tA;
+              b.vA = vA.constructor === Array ? vA[l] : vA;
+
+              labelData.push(b);
+            }
+
           }
         }
 
