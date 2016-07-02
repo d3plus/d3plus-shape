@@ -234,6 +234,23 @@ export default function(data = []) {
 
   /**
       @memberof rect
+      @desc If *value* is specified, sets the methods that correspond to the key/value pairs and returns this generator. If *value* is not specified, returns the current configuration.
+      @param {Object} [*value*]
+  */
+  rect.config = function(_) {
+    if (arguments.length) {
+      for (const k in _) if ({}.hasOwnProperty.call(_, k)) rect[k](_[k]);
+      return rect;
+    }
+    else {
+      const config = {};
+      for (const k in rect.prototype.constructor) if (k !== "config" && {}.hasOwnProperty.call(rect, k)) config[k] = rect[k]();
+      return config;
+    }
+  };
+
+  /**
+      @memberof rect
       @desc If *data* is specified, sets the data array to the specified array and returns this generator. If *data* is not specified, returns the current data array. A rectangle will be drawn for each object in the array.
       @param {Array} [*data* = []]
   */
