@@ -265,6 +265,7 @@ rect().data([data])(function() { alert("draw complete!"); })
 
 * [rect([data])](#rect)
     * [.backgroundImage([*value*])](#rect.backgroundImage)
+    * [.config([*value*])](#rect.config)
     * [.data([*data*])](#rect.data)
     * [.duration([*ms*])](#rect.duration)
     * [.fill([*value*])](#rect.fill)
@@ -299,6 +300,17 @@ If *value* is specified, sets the background-image accessor to the specified fun
 | Param | Type | Default |
 | --- | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> | <code>false</code> | 
+
+<a name="rect.config"></a>
+
+### rect.config([*value*])
+If *value* is specified, sets the methods that correspond to the key/value pairs and returns this generator. If *value* is not specified, returns the current configuration.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>Object</code> | 
 
 <a name="rect.data"></a>
 
