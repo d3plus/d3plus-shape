@@ -21,10 +21,10 @@ npm install d3plus-shape
 
 <a name="install.browser"></a>
 ### Browser
-In a vanilla environment, a `d3plus_shape` global is exported. To use a compiled version hosted on [d3plus.org](https://d3plus.org) that includes all dependencies:
+In a vanilla environment, a `d3plus` global is exported. To use a compiled version hosted on [d3plus.org](https://d3plus.org) that includes all dependencies:
 
 ```html
-<script src="https://d3plus.org/js/d3plus-shape.v0.5.full.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.v0.6.full.min.js"></script>
 ```
 
 Otherwise, [click here](https://github.com/d3plus/d3plus-shape/releases/latest) to download the latest release.
@@ -279,6 +279,7 @@ rect().data([data])(function() { alert("draw complete!"); })
     * [.labelPadding([*value*])](#rect.labelPadding)
     * [.lineHeight([*value*])](#rect.lineHeight)
     * [.on([*typenames*], [*listener*])](#rect.on)
+    * [.opacity([*value*])](#rect.opacity)
     * [.select([*selector*])](#rect.select)
     * [.stroke([*value*])](#rect.stroke)
     * [.strokeWidth([*value*])](#rect.strokeWidth)
@@ -335,46 +336,46 @@ If *value* is specified, sets the fill accessor to the specified function or str
 <a name="rect.fontColor"></a>
 
 ### rect.fontColor([*value*])
-If *value* is specified, sets the font-color accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color.
+If *value* is specified, sets the font-color accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | 
+| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
 
 <a name="rect.fontFamily"></a>
 
 ### rect.fontFamily([*value*])
-If *value* is specified, sets the font-family accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-family accessor.
+If *value* is specified, sets the font-family accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-family accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | 
+| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
 
 <a name="rect.fontResize"></a>
 
 ### rect.fontResize([*value*])
-If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#rect.label) will be resized the best fit the rectangle.
+If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#rect.label) will be resized the best fit the rectangle. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Boolean</code> | 
+| [*value*] | <code>function</code> &#124; <code>Boolean</code> &#124; <code>Array</code> | 
 
 <a name="rect.fontSize"></a>
 
 ### rect.fontSize([*value*])
-If *value* is specified, sets the font-size accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-size accessor.
+If *value* is specified, sets the font-size accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-size accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | 
+| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
 
 <a name="rect.height"></a>
 
@@ -419,7 +420,7 @@ If *bounds* is specified, sets the inner bounds to the specified function and re
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [*bounds*] | <code>function</code> | Given a rectangle's width and height, the function should return an object containing the following values: `width`, `height`, `x`, `y`. |
+| [*bounds*] | <code>function</code> | Given a rectangle's width and height, the function should return an object containing the following values: `width`, `height`, `x`, `y`. If an array is returned from the function, each value will be used in conjunction with each label. |
 
 **Example**  
 ```js
@@ -436,35 +437,35 @@ function(shape) {
 <a name="rect.label"></a>
 
 ### rect.label([*value*])
-If *value* is specified, sets the label accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default.
+If *value* is specified, sets the label accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default. If an array is passed or returned from the function, each value will be rendered as an individual label.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | 
+| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
 
 <a name="rect.labelPadding"></a>
 
 ### rect.labelPadding([*value*])
-If *value* is specified, sets the label padding to the specified number and returns this generator. If *value* is not specified, returns the current label padding.
+If *value* is specified, sets the label padding to the specified number and returns this generator. If *value* is not specified, returns the current label padding. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>Number</code> | <code>10</code> | 
+| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>Array</code> | <code>10</code> | 
 
 <a name="rect.lineHeight"></a>
 
 ### rect.lineHeight([*value*])
-If *value* is specified, sets the line-height accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current line-height accessor.
+If *value* is specified, sets the line-height accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current line-height accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | 
+| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
 
 <a name="rect.on"></a>
 
@@ -477,6 +478,17 @@ Adds or removes a *listener* to each rectangle for the specified event *typename
 | --- | --- |
 | [*typenames*] | <code>String</code> | 
 | [*listener*] | <code>function</code> | 
+
+<a name="rect.opacity"></a>
+
+### rect.opacity([*value*])
+If *value* is specified, sets the opacity accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current opacity accessor.
+
+**Kind**: static method of <code>[rect](#rect)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>Number</code> | <code>1</code> | 
 
 <a name="rect.select"></a>
 
@@ -514,24 +526,24 @@ If *value* is specified, sets the stroke-width accessor to the specified functio
 <a name="rect.textAnchor"></a>
 
 ### rect.textAnchor([*value*])
-If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`.
+If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;start&quot;</code> | 
+| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>&quot;start&quot;</code> | 
 
 <a name="rect.verticalAlign"></a>
 
 ### rect.verticalAlign([*value*])
-If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`.
+If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;start&quot;</code> | 
+| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>&quot;start&quot;</code> | 
 
 <a name="rect.width"></a>
 
