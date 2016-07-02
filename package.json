@@ -5,7 +5,7 @@
   "main": "build/d3plus-shape.js",
   "jsnext:main": "index",
   "license": "MIT",
-  "homepage": "http://www.d3plus.org",
+  "homepage": "https://d3plus.org",
   "repository": {
     "type": "git",
     "url": "https://github.com/d3plus/d3plus-shape.git"
