@@ -138,8 +138,6 @@ export default function(data = []) {
                 tA = textAnchor(d, i),
                 vA = verticalAlign(d, i);
 
-          console.log(vA);
-
           let labels = label(d, i);
           if (labels.constructor !== Array) labels = [labels];
 
