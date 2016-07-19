@@ -10,7 +10,7 @@
   "rules": {
     "array-bracket-spacing": 2,
     "arrow-body-style": 2,
-    "arrow-parens": 2,
+    "arrow-parens": [2, "as-needed"],
     "arrow-spacing": 2,
     "accessor-pairs": 2,
     "block-scoped-var": 2,
@@ -25,7 +25,7 @@
     "consistent-return": 2,
     "consistent-this": 2,
     "constructor-super": 2,
-    "curly": [2, "multi"],
+    "curly": [2, "multi-line"],
     "default-case": 2,
     "dot-location": [2, "property"],
     "dot-notation": 2,
