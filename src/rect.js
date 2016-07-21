@@ -66,6 +66,7 @@ export default function(data = []) {
       stroke = constant("black"),
       strokeWidth = constant(0),
       textAnchor = constant("start"),
+      transition = d3.transition().duration(600),
       verticalAlign = constant("top"),
       width = accessor("width"),
       x = accessor("x"),
@@ -80,14 +81,11 @@ export default function(data = []) {
     if (select === void 0) rect.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
     if (lineHeight === void 0) lineHeight = (d, i) => fontSize(d, i) * 1.1;
 
-    const t = d3.transition().duration(duration);
-
     /**
         Updates inner contents of all rectangles.
         @private
     */
-    function contents(g, show) {
-      if (show === void 0) show = true;
+    function contents(g, show = true) {
 
       g.each(function(d, i) {
 
@@ -172,17 +170,17 @@ export default function(data = []) {
 
     const groups = select.selectAll(".d3plus-shape-rect").data(data, id);
 
-    groups.transition(t)
+    groups.transition(transition)
       .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
-    groups.select("rect").transition(t)
+    groups.select("rect").transition(transition)
       .attr("fill", (d, i) => fill(d, i))
       .attr("stroke", (d, i) => stroke(d, i))
       .attr("stroke-width", (d, i) => strokeWidth(d, i));
 
     groups.exit().transition().delay(duration).remove();
 
-    groups.exit().select("rect").transition(t)
+    groups.exit().select("rect").transition(transition)
       .attr("width", 0)
       .attr("height", 0)
       .attr("x", 0)
@@ -206,13 +204,13 @@ export default function(data = []) {
 
     const update = enter.merge(groups);
 
-    update.select("rect").transition(t)
+    update.select("rect").transition(transition)
       .attr("width", (d, i) => width(d, i))
       .attr("height", (d, i) => height(d, i))
       .attr("x", (d, i) => -width(d, i) / 2)
       .attr("y", (d, i) => -height(d, i) / 2);
 
-    update.call(contents).transition(t)
+    update.call(contents).transition(transition)
       .attr("opacity", opacity);
 
     const events = Object.keys(on);
@@ -265,6 +263,7 @@ export default function(data = []) {
       @param {Number} [*ms* = 600]
   */
   rect.duration = function(_) {
+    transition.duration(duration);
     return arguments.length ? (duration = _, rect) : duration;
   };
 
@@ -443,6 +442,15 @@ function(shape) {
   */
   rect.textAnchor = function(_) {
     return arguments.length ? (textAnchor = typeof _ === "function" ? _ : constant(_), rect) : textAnchor;
+  };
+
+  /**
+      @memberof rect
+      @desc If *value* is specified, sets the transition to the specified d3 transition and returns this generator. If *value* is not specified, returns the current transition.
+      @param {Object} [*value* = d3.transition()]
+  */
+  rect.transition = function(_) {
+    return arguments.length ? (transition = _, rect) : transition;
   };
 
   /**
