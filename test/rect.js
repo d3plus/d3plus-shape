@@ -1,7 +1,7 @@
 import {test} from "tape";
 import {default as rect} from "../src/rect.js";
 
-test("rect", (assert) => {
+test("rect", assert => {
 
   rect()
     .data([{id: "test"}])
