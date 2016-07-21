@@ -83,23 +83,6 @@ export default function(data = []) {
     const t = d3.transition().duration(duration);
 
     /**
-        Sets styles for both entering and updating rectangles.
-        @private
-    */
-    function rectStyle(r, show) {
-      if (show === void 0) show = true;
-
-      r
-        .attr("width", show ? (d, i) => width(d, i) : 0)
-        .attr("height", show ? (d, i) => height(d, i) : 0)
-        .attr("x", show ? (d, i) => -width(d, i) / 2 : 0)
-        .attr("y", show ? (d, i) => -height(d, i) / 2 : 0)
-        .attr("fill", (d, i) => fill(d, i))
-        .attr("stroke", (d, i) => stroke(d, i))
-        .attr("stroke-width", (d, i) => strokeWidth(d, i));
-    }
-
-    /**
         Updates inner contents of all rectangles.
         @private
     */
@@ -127,22 +110,23 @@ export default function(data = []) {
         const labelData = [];
 
         if (show) {
-          const bounds = innerBounds({width: w, height: h}, i),
-                padding = labelPadding(d, i);
-
-          const fC = fontColor(d, i),
-                fF = fontFamily(d, i),
-                fR = fontResize(d, i),
-                fS = fontSize(d, i),
-                lH = lineHeight(d, i),
-                tA = textAnchor(d, i),
-                vA = verticalAlign(d, i);
 
           let labels = label(d, i);
 
           if (labels !== false && labels !== void 0) {
 
             if (labels.constructor !== Array) labels = [labels];
+
+            const bounds = innerBounds({width: w, height: h}, i),
+                  padding = labelPadding(d, i);
+
+            const fC = fontColor(d, i),
+                  fF = fontFamily(d, i),
+                  fR = fontResize(d, i),
+                  fS = fontSize(d, i),
+                  lH = lineHeight(d, i),
+                  tA = textAnchor(d, i),
+                  vA = verticalAlign(d, i);
 
             for (let l = 0; l < labels.length; l++) {
               const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
@@ -191,6 +175,11 @@ export default function(data = []) {
     groups.transition(t)
       .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
+    groups.select("rect").transition(t)
+      .attr("fill", (d, i) => fill(d, i))
+      .attr("stroke", (d, i) => stroke(d, i))
+      .attr("stroke-width", (d, i) => strokeWidth(d, i));
+
     groups.exit().transition().delay(duration).remove();
 
     groups.exit().select("rect").transition(t)
@@ -207,12 +196,21 @@ export default function(data = []) {
         .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
     enter.append("rect")
-      .call(rectStyle, false);
+      .attr("width", 0)
+      .attr("height", 0)
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("fill", (d, i) => fill(d, i))
+      .attr("stroke", (d, i) => stroke(d, i))
+      .attr("stroke-width", (d, i) => strokeWidth(d, i));
 
     const update = enter.merge(groups);
 
     update.select("rect").transition(t)
-      .call(rectStyle);
+      .attr("width", (d, i) => width(d, i))
+      .attr("height", (d, i) => height(d, i))
+      .attr("x", (d, i) => -width(d, i) / 2)
+      .attr("y", (d, i) => -height(d, i) / 2);
 
     update.call(contents).transition(t)
       .attr("opacity", opacity);
