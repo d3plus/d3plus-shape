@@ -30,20 +30,8 @@ function rectInnerBounds(s) {
 
 /**
     @function rect
-    @desc Creates SVG rectangles based on an array of data. If *data* is specified, immediately draws squares based on the specified array and returns this generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#rect.data) method.
+    @desc Creates SVG rectangles based on an array of data. If *data* is specified, immediately draws squares based on the specified array and returns this generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#rect.data) method. See [this example](https://d3plus.org/examples/d3plus-shape/getting-started/) for help getting started using the rectangle generator.
     @param {Array} [data = []]
-    @example <caption>a sample row of data</caption>
-var data = {"id": 0, "x": 100, "y": 50, "width": 200, "height": 100};
-@example <caption>passed to the generator</caption>
-rect([data]);
-@example <caption>creates the following</caption>
-<g class="d3plus-shape-rect" id="d3plus-shape-rect-0" transform="translate(100,50)">
-  <rect width="200" height="100" x="-100" y="-50" fill="black"></rect>
-</g>
-@example <caption>this is shorthand for the following</caption>
-rect().data([data])();
-@example <caption>which also allows a post-draw callback function</caption>
-rect().data([data])(function() { alert("draw complete!"); })
 */
 export default function(data = []) {
 
