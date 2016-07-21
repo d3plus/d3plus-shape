@@ -13,6 +13,14 @@ import {accessor, constant} from "d3plus-common";
 import {default as image} from "./image";
 
 /**
+    The default id accessor.
+    @private
+*/
+function rectId(d, i) {
+  return d.id !== void 0 ? d.id : i;
+}
+
+/**
     The default inner bounds function.
     @private
 */
@@ -57,17 +65,17 @@ export default function(data = []) {
       fontResize = constant(false),
       fontSize,
       height = accessor("height"),
-      id = accessor("id"),
+      id = rectId,
       innerBounds = rectInnerBounds,
       label = constant(false),
       labelPadding = constant(5),
       lineHeight,
       opacity = constant(1),
+      scale = constant(1),
       select,
       stroke = constant("black"),
       strokeWidth = constant(0),
       textAnchor = constant("start"),
-      transition = d3.transition().duration(600),
       verticalAlign = constant("top"),
       width = accessor("width"),
       x = accessor("x"),
@@ -192,16 +200,18 @@ export default function(data = []) {
     if (select === void 0) rect.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
     if (lineHeight === void 0) lineHeight = (d, i) => fontSize(d, i) * 1.1;
 
+    const t = d3.transition().duration(duration);
+
     const groups = select.selectAll(".d3plus-shape-rect").data(data, id);
 
-    groups.transition(transition)
+    groups.transition(t)
       .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
-    groups.select("rect").transition(transition).call(rectStyle);
+    groups.select("rect").transition(t).call(rectStyle);
 
     groups.exit().transition().delay(duration).remove();
 
-    groups.exit().select("rect").transition(transition)
+    groups.exit().select("rect").transition(t)
       .attr("width", 0)
       .attr("height", 0)
       .attr("x", 0)
@@ -223,10 +233,10 @@ export default function(data = []) {
 
     const update = enter.merge(groups);
 
-    update.select("rect").transition(transition)
+    update.select("rect").transition(t)
       .call(rectPosition);
 
-    update.call(contents).transition(transition)
+    update.call(contents).transition(t)
       .attr("opacity", opacity);
 
     const events = Object.keys(on);
@@ -279,7 +289,6 @@ export default function(data = []) {
       @param {Number} [*ms* = 600]
   */
   rect.duration = function(_) {
-    transition.duration(duration);
     return arguments.length ? (duration = _, rect) : duration;
   };
 
@@ -420,6 +429,15 @@ function(shape) {
 
   /**
       @memberof rect
+      @desc If *value* is specified, sets the scale accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current scale accessor.
+      @param {Function|Number} [*value* = 1]
+  */
+  rect.scale = function(_) {
+    return arguments.length ? (scale = typeof _ === "function" ? _ : constant(_), rect) : scale;
+  };
+
+  /**
+      @memberof rect
       @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this generator. If *selector* is not specified, returns the current SVG container element.
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
@@ -462,32 +480,21 @@ function(shape) {
 
   /**
       @memberof rect
-      @desc If *value* is specified, sets the transition to the specified d3 transition and returns this generator. If *value* is not specified, returns the current transition.
-      @param {Object} [*value* = d3.transition()]
-  */
-  rect.transition = function(_) {
-    return arguments.length ? (transition = _, rect) : transition;
-  };
-
-  /**
-      @memberof rect
       @desc Updates the style and positioning of the elements matching *selector* and returns this generator. This is helpful when not wanting to loop through all shapes just to change the style of a few.
       @param {String|HTMLElement} *selector*
   */
   rect.update = function(_) {
 
-    const groups = select.selectAll(_);
+    const groups = select.selectAll(_),
+          t = d3.transition().duration(duration);
 
-    groups.call(contents).transition(transition)
+    groups.call(contents).transition(t)
       .attr("opacity", opacity)
-      .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
+      .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})scale(${scale(d, i)})`);
 
-    groups.select("rect").transition(transition)
+    groups.select("rect").transition(t)
       .call(rectStyle)
       .call(rectPosition);
-
-    const events = Object.keys(on);
-    for (let e = 0; e < events.length; e++) groups.on(events[e], on[events[e]]);
 
     return rect;
   };
