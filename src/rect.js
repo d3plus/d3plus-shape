@@ -5,7 +5,7 @@ const d3 = {
   transition: d3Transition
 };
 
-import {box} from "d3plus-text";
+import {textBox} from "d3plus-text";
 import {contrast} from "d3plus-color";
 
 import {accessor, constant} from "d3plus-common";
@@ -168,7 +168,7 @@ export default function(data = []) {
           }
         }
 
-        box()
+        textBox()
           .data(labelData)
           .delay(duration / 2)
           .duration(duration)
