@@ -7,7 +7,7 @@ test("rect", assert => {
     .data([{id: "test"}])
     .duration(100)
     .height(200)
-    .label((d) => d.id)
+    .label(d => d.id)
     .width(100)
     .x(100)
     .y(50)
