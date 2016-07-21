@@ -1,7 +1,8 @@
-import {select as d3Select} from "d3-selection";
+import {select as d3Select, selectAll as d3SelectAll} from "d3-selection";
 import {transition as d3Transition} from "d3-transition";
 const d3 = {
   select: d3Select,
+  selectAll: d3SelectAll,
   transition: d3Transition
 };
 
@@ -73,6 +74,116 @@ export default function(data = []) {
       y = accessor("y");
 
   /**
+      Updates inner contents of all rectangles.
+      @private
+  */
+  function contents(g, show = true) {
+
+    g.each(function(d, i) {
+
+      const h = height(d, i),
+            w = width(d, i);
+
+      /* Draws background image */
+      const imageUrl = show ? backgroundImage(d, i) : false;
+      image()
+        .data(imageUrl ? [{url: imageUrl}] : [])
+        .duration(duration)
+        .height(show ? h : 0)
+        .select(this)
+        .width(show ? w : 0)
+        .x(show ? -w / 2 : 0)
+        .y(show ? -h / 2 : 0)
+        ();
+
+      /* Draws label based on inner bounds */
+      const labelData = [];
+
+      if (show) {
+
+        let labels = label(d, i);
+
+        if (labels !== false && labels !== void 0) {
+
+          if (labels.constructor !== Array) labels = [labels];
+
+          const bounds = innerBounds({width: w, height: h}, i),
+                padding = labelPadding(d, i);
+
+          const fC = fontColor(d, i),
+                fF = fontFamily(d, i),
+                fR = fontResize(d, i),
+                fS = fontSize(d, i),
+                lH = lineHeight(d, i),
+                tA = textAnchor(d, i),
+                vA = verticalAlign(d, i);
+
+          for (let l = 0; l < labels.length; l++) {
+            const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
+                  p = padding.constructor === Array ? padding[l] : padding;
+            b.height -= p * 2;
+            b.width -= p * 2;
+            b.x += p;
+            b.y += p;
+            b.id = `${id(d, i)}_${l}`;
+            b.text = labels[l];
+
+            b.fC = fC.constructor === Array ? fC[l] : fC;
+            b.fF = fF.constructor === Array ? fF[l] : fF;
+            b.fR = fR.constructor === Array ? fR[l] : fR;
+            b.fS = fS.constructor === Array ? fS[l] : fS;
+            b.lH = lH.constructor === Array ? lH[l] : lH;
+            b.tA = tA.constructor === Array ? tA[l] : tA;
+            b.vA = vA.constructor === Array ? vA[l] : vA;
+
+            labelData.push(b);
+          }
+
+        }
+      }
+
+      textBox()
+        .data(labelData)
+        .delay(duration / 2)
+        .duration(duration)
+        .fontColor(d => d.fC)
+        .fontFamily(d => d.fF)
+        .fontResize(d => d.fR)
+        .fontSize(d => d.fS)
+        .lineHeight(d => d.lH)
+        .textAnchor(d => d.tA)
+        .verticalAlign(d => d.vA)
+        .select(this)
+        ();
+
+    });
+
+  }
+
+  /**
+      Provides the default styling to the <rect> elements.
+      @private
+  */
+  function rectStyle(r) {
+    r
+      .attr("fill", (d, i) => fill(d, i))
+      .attr("stroke", (d, i) => stroke(d, i))
+      .attr("stroke-width", (d, i) => strokeWidth(d, i));
+  }
+
+  /**
+      Provides the default positioning to the <rect> elements.
+      @private
+  */
+  function rectPosition(r) {
+    r
+      .attr("width", (d, i) => width(d, i))
+      .attr("height", (d, i) => height(d, i))
+      .attr("x", (d, i) => -width(d, i) / 2)
+      .attr("y", (d, i) => -height(d, i) / 2);
+  }
+
+  /**
       The inner return object and draw function that gets assigned the public methods.
       @private
   */
@@ -81,102 +192,12 @@ export default function(data = []) {
     if (select === void 0) rect.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
     if (lineHeight === void 0) lineHeight = (d, i) => fontSize(d, i) * 1.1;
 
-    /**
-        Updates inner contents of all rectangles.
-        @private
-    */
-    function contents(g, show = true) {
-
-      g.each(function(d, i) {
-
-        const h = height(d, i),
-              w = width(d, i);
-
-        /* Draws background image */
-        const imageUrl = show ? backgroundImage(d, i) : false;
-        image()
-          .data(imageUrl ? [{url: imageUrl}] : [])
-          .duration(duration)
-          .height(show ? h : 0)
-          .select(this)
-          .width(show ? w : 0)
-          .x(show ? -w / 2 : 0)
-          .y(show ? -h / 2 : 0)
-          ();
-
-        /* Draws label based on inner bounds */
-        const labelData = [];
-
-        if (show) {
-
-          let labels = label(d, i);
-
-          if (labels !== false && labels !== void 0) {
-
-            if (labels.constructor !== Array) labels = [labels];
-
-            const bounds = innerBounds({width: w, height: h}, i),
-                  padding = labelPadding(d, i);
-
-            const fC = fontColor(d, i),
-                  fF = fontFamily(d, i),
-                  fR = fontResize(d, i),
-                  fS = fontSize(d, i),
-                  lH = lineHeight(d, i),
-                  tA = textAnchor(d, i),
-                  vA = verticalAlign(d, i);
-
-            for (let l = 0; l < labels.length; l++) {
-              const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
-                    p = padding.constructor === Array ? padding[l] : padding;
-              b.height -= p * 2;
-              b.width -= p * 2;
-              b.x += p;
-              b.y += p;
-              b.id = `${id(d, i)}_${l}`;
-              b.text = labels[l];
-
-              b.fC = fC.constructor === Array ? fC[l] : fC;
-              b.fF = fF.constructor === Array ? fF[l] : fF;
-              b.fR = fR.constructor === Array ? fR[l] : fR;
-              b.fS = fS.constructor === Array ? fS[l] : fS;
-              b.lH = lH.constructor === Array ? lH[l] : lH;
-              b.tA = tA.constructor === Array ? tA[l] : tA;
-              b.vA = vA.constructor === Array ? vA[l] : vA;
-
-              labelData.push(b);
-            }
-
-          }
-        }
-
-        textBox()
-          .data(labelData)
-          .delay(duration / 2)
-          .duration(duration)
-          .fontColor(d => d.fC)
-          .fontFamily(d => d.fF)
-          .fontResize(d => d.fR)
-          .fontSize(d => d.fS)
-          .lineHeight(d => d.lH)
-          .textAnchor(d => d.tA)
-          .verticalAlign(d => d.vA)
-          .select(this)
-          ();
-
-      });
-
-    }
-
     const groups = select.selectAll(".d3plus-shape-rect").data(data, id);
 
     groups.transition(transition)
       .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
 
-    groups.select("rect").transition(transition)
-      .attr("fill", (d, i) => fill(d, i))
-      .attr("stroke", (d, i) => stroke(d, i))
-      .attr("stroke-width", (d, i) => strokeWidth(d, i));
+    groups.select("rect").transition(transition).call(rectStyle);
 
     groups.exit().transition().delay(duration).remove();
 
@@ -198,17 +219,12 @@ export default function(data = []) {
       .attr("height", 0)
       .attr("x", 0)
       .attr("y", 0)
-      .attr("fill", (d, i) => fill(d, i))
-      .attr("stroke", (d, i) => stroke(d, i))
-      .attr("stroke-width", (d, i) => strokeWidth(d, i));
+      .call(rectStyle);
 
     const update = enter.merge(groups);
 
     update.select("rect").transition(transition)
-      .attr("width", (d, i) => width(d, i))
-      .attr("height", (d, i) => height(d, i))
-      .attr("x", (d, i) => -width(d, i) / 2)
-      .attr("y", (d, i) => -height(d, i) / 2);
+      .call(rectPosition);
 
     update.call(contents).transition(transition)
       .attr("opacity", opacity);
@@ -451,6 +467,29 @@ function(shape) {
   */
   rect.transition = function(_) {
     return arguments.length ? (transition = _, rect) : transition;
+  };
+
+  /**
+      @memberof rect
+      @desc Updates the style and positioning of the elements matching *selector* and returns this generator. This is helpful when not wanting to loop through all shapes just to change the style of a few.
+      @param {String|HTMLElement} *selector*
+  */
+  rect.update = function(_) {
+
+    const groups = select.selectAll(_);
+
+    groups.call(contents).transition(transition)
+      .attr("opacity", opacity)
+      .attr("transform", (d, i) => `translate(${x(d, i)},${y(d, i)})`);
+
+    groups.select("rect").transition(transition)
+      .call(rectStyle)
+      .call(rectPosition);
+
+    const events = Object.keys(on);
+    for (let e = 0; e < events.length; e++) groups.on(events[e], on[events[e]]);
+
+    return rect;
   };
 
   /**
