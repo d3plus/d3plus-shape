@@ -27,7 +27,7 @@
     "d3-transition": "^1.0.0",
     "d3plus-color": "^0.5.0",
     "d3plus-common": "^0.5.2",
-    "d3plus-text": "^0.7.0"
+    "d3plus-text": "^0.8.0"
   },
   "scripts": {
     "dev": "d3plus-dev",
