@@ -624,4 +624,4 @@ function(d) {
 ```
 
 
-###### <sub>Documentation generated on Fri, 22 Jul 2016 18:25:13 GMT</sub>
+###### <sub>Documentation generated on Fri, 22 Jul 2016 19:42:35 GMT</sub>
