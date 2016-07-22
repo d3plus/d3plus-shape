@@ -1,3 +1,5 @@
+[width]: 360
+[height]: 150
 # Getting Started
 
 Let's say you want to draw 2 rectangles with distinct labels and colors. If you structure your data like this:
@@ -15,6 +17,7 @@ It can be passed to the [rectangle generator](#rect) like this:
 d3plus.rect()
   .data(data)
   .fill(function(d) { return d.color; })
+  .fontFamily("Verdana")
   .label(function(d) { return d.text; })
   ();
 ```

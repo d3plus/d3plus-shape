@@ -14,7 +14,8 @@ If you use NPM, `npm install d3plus-shape`. Otherwise, download the [latest rele
 <script src="https://d3plus.org/js/d3plus-shape.v0.7.full.min.js"></script>
 ```
 
-
+[width]: 360
+[height]: 150
 ## Getting Started
 
 Let's say you want to draw 2 rectangles with distinct labels and colors. If you structure your data like this:
@@ -32,6 +33,7 @@ It can be passed to the [rectangle generator](#rect) like this:
 d3plus.rect()
   .data(data)
   .fill(function(d) { return d.color; })
+  .fontFamily("Verdana")
   .label(function(d) { return d.text; })
   ();
 ```
@@ -622,4 +624,4 @@ function(d) {
 ```
 
 
-###### <sub>Documentation generated on Thu, 21 Jul 2016 21:03:22 GMT</sub>
+###### <sub>Documentation generated on Fri, 22 Jul 2016 16:48:12 GMT</sub>
