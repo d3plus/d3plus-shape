@@ -49,9 +49,9 @@ export default function(data = []) {
       duration = 600,
       fill = constant("black"),
       fontColor = rectFontColor,
-      fontFamily,
+      fontFamily = constant("Verdana"),
       fontResize = constant(false),
-      fontSize,
+      fontSize = constant(12),
       height = accessor("height"),
       id = rectId,
       innerBounds = rectInnerBounds,
@@ -301,7 +301,7 @@ export default function(data = []) {
   /**
       @memberof rect
       @desc If *value* is specified, sets the font-family accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-family accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-      @param {Function|String|Array} [*value*]
+      @param {Function|String|Array} [*value* = "Verdana"]
   */
   rect.fontFamily = function(_) {
     return arguments.length ? (fontFamily = typeof _ === "function" ? _ : constant(_), rect) : fontFamily;
@@ -319,7 +319,7 @@ export default function(data = []) {
   /**
       @memberof rect
       @desc If *value* is specified, sets the font-size accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-size accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-      @param {Function|String|Array} [*value*]
+      @param {Function|String|Array} [*value* = 12]
   */
   rect.fontSize = function(_) {
     return arguments.length ? (fontSize = typeof _ === "function" ? _ : constant(_), rect) : fontSize;
@@ -430,13 +430,7 @@ function(shape) {
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
   rect.select = function(_) {
-    if (arguments.length) {
-      select = d3.select(_);
-      if (fontFamily === void 0) fontFamily = constant(select.style("font-family"));
-      if (fontSize === void 0) fontSize = constant(parseFloat(select.style("font-size"), 10));
-      return rect;
-    }
-    return select;
+    return arguments.length ? (select = d3.select(_), rect) : select;
   };
 
   /**
