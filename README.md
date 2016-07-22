@@ -16,6 +16,7 @@ If you use NPM, `npm install d3plus-shape`. Otherwise, download the [latest rele
 
 [width]: 360
 [height]: 150
+
 ## Getting Started
 
 Let's say you want to draw 2 rectangles with distinct labels and colors. If you structure your data like this:
@@ -33,7 +34,6 @@ It can be passed to the [rectangle generator](#rect) like this:
 d3plus.rect()
   .data(data)
   .fill(function(d) { return d.color; })
-  .fontFamily("Verdana")
   .label(function(d) { return d.text; })
   ();
 ```
@@ -355,9 +355,9 @@ If *value* is specified, sets the font-family accessor to the specified function
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>&quot;Verdana&quot;</code> | 
 
 <a name="rect.fontResize"></a>
 
@@ -377,9 +377,9 @@ If *value* is specified, sets the font-size accessor to the specified function o
 
 **Kind**: static method of <code>[rect](#rect)</code>  
 
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>12</code> | 
 
 <a name="rect.height"></a>
 
@@ -624,4 +624,4 @@ function(d) {
 ```
 
 
-###### <sub>Documentation generated on Fri, 22 Jul 2016 16:48:12 GMT</sub>
+###### <sub>Documentation generated on Fri, 22 Jul 2016 18:25:13 GMT</sub>
