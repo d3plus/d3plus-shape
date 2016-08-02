@@ -39,6 +39,17 @@ export default class Shape {
 
   /**
       @memberof Shape
+      @desc Given a specific data point and index, returns the aesthetic properties of the shape.
+      @param {Object} *data point*
+      @param {Number} *index*
+      @private
+  */
+  _aes() {
+    return {};
+  }
+
+  /**
+      @memberof Shape
       @desc Adds background image to each shape group.
       @param {D3Selection} *g*
       @param {Boolean} [*show* = True] Whether or not to show or remove the image.
@@ -91,41 +102,42 @@ export default class Shape {
 
         if (labels !== false && labels !== void 0) {
 
-          if (labels.constructor !== Array) labels = [labels];
+          const bounds = that._labelBounds(that._aes(d, i), i);
 
-          const h = that._height(d, i),
-                w = that._width(d, i);
+          if (bounds) {
 
-          const bounds = that._innerBounds({width: w, height: h}, i),
-                padding = that._labelPadding(d, i);
+            if (labels.constructor !== Array) labels = [labels];
 
-          const fC = that._fontColor(d, i),
-                fF = that._fontFamily(d, i),
-                fR = that._fontResize(d, i),
-                fS = that._fontSize(d, i),
-                lH = that._lineHeight(d, i),
-                tA = that._textAnchor(d, i),
-                vA = that._verticalAlign(d, i);
+            const fC = that._fontColor(d, i),
+                  fF = that._fontFamily(d, i),
+                  fR = that._fontResize(d, i),
+                  fS = that._fontSize(d, i),
+                  lH = that._lineHeight(d, i),
+                  padding = that._labelPadding(d, i),
+                  tA = that._textAnchor(d, i),
+                  vA = that._verticalAlign(d, i);
 
-          for (let l = 0; l < labels.length; l++) {
-            const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
-                  p = padding.constructor === Array ? padding[l] : padding;
-            b.height -= p * 2;
-            b.width -= p * 2;
-            b.x += p;
-            b.y += p;
-            b.id = `${that._id(d, i)}_${l}`;
-            b.text = labels[l];
+            for (let l = 0; l < labels.length; l++) {
+              const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
+                    p = padding.constructor === Array ? padding[l] : padding;
+              b.height -= p * 2;
+              b.width -= p * 2;
+              b.x += p;
+              b.y += p;
+              b.id = `${that._id(d, i)}_${l}`;
+              b.text = labels[l];
 
-            b.fC = fC.constructor === Array ? fC[l] : fC;
-            b.fF = fF.constructor === Array ? fF[l] : fF;
-            b.fR = fR.constructor === Array ? fR[l] : fR;
-            b.fS = fS.constructor === Array ? fS[l] : fS;
-            b.lH = lH.constructor === Array ? lH[l] : lH;
-            b.tA = tA.constructor === Array ? tA[l] : tA;
-            b.vA = vA.constructor === Array ? vA[l] : vA;
+              b.fC = fC.constructor === Array ? fC[l] : fC;
+              b.fF = fF.constructor === Array ? fF[l] : fF;
+              b.fR = fR.constructor === Array ? fR[l] : fR;
+              b.fS = fS.constructor === Array ? fS[l] : fS;
+              b.lH = lH.constructor === Array ? lH[l] : lH;
+              b.tA = tA.constructor === Array ? tA[l] : tA;
+              b.vA = vA.constructor === Array ? vA[l] : vA;
 
-            labelData.push(b);
+              labelData.push(b);
+            }
+
           }
 
         }
@@ -267,6 +279,24 @@ export default class Shape {
   */
   label(_) {
     return arguments.length ? (this._label = typeof _ === "function" ? _ : constant(_), this) : this._label;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *bounds* is specified, sets the label bounds to the specified function and returns this generator. If *bounds* is not specified, returns the current inner bounds accessor.
+      @param {Function} [*bounds*] The given function is passed the properties of the shape and should return an object containing the following values: `width`, `height`, `x`, `y`. If an array is returned from the function, each value will be used in conjunction with each label.
+      @example
+function(shape) {
+  return {
+    "width": shape.width,
+    "height": shape.height,
+    "x": -shape.width / 2,
+    "y": -shape.height / 2
+  };
+}
+  */
+  labelBounds(_) {
+    return arguments.length ? (this._labelBounds = _, this) : this._labelBounds;
   }
 
   /**

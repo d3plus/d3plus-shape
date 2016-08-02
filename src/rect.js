@@ -12,7 +12,7 @@ export default class Rect extends Shape {
   constructor() {
     super();
     this._height = accessor("height");
-    this._innerBounds = s => ({width: s.width, height: s.height, x: -s.width / 2, y: -s.height / 2});
+    this._labelBounds = s => ({width: s.width, height: s.height, x: -s.width / 2, y: -s.height / 2});
     this._width = accessor("width");
     this._x = accessor("x");
     this._y = accessor("y");
@@ -90,6 +90,17 @@ export default class Rect extends Shape {
 
   /**
       @memberof Rect
+      @desc Given a specific data point and index, returns the aesthetic properties of the shape.
+      @param {Object} *data point*
+      @param {Number} *index*
+      @private
+  */
+  _aes(d, i) {
+    return {width: this._width(d, i), height: this._height(d, i)};
+  }
+
+  /**
+      @memberof Rect
       @desc If *value* is specified, sets the height accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current height accessor.
       @param {Function|Number} [*value*]
       @example
@@ -99,24 +110,6 @@ function(d) {
   */
   height(_) {
     return arguments.length ? (this._height = typeof _ === "function" ? _ : constant(_), this) : this._height;
-  }
-
-  /**
-      @memberof Rect
-      @desc If *bounds* is specified, sets the inner bounds to the specified function and returns this generator. If *bounds* is not specified, returns the current inner bounds accessor.
-      @param {Function} [*bounds*] Given a rectangle's width and height, the function should return an object containing the following values: `width`, `height`, `x`, `y`. If an array is returned from the function, each value will be used in conjunction with each label.
-      @example
-function(shape) {
-  return {
-    "width": shape.width,
-    "height": shape.height,
-    "x": -shape.width / 2,
-    "y": -shape.height / 2
-  };
-}
-  */
-  innerBounds(_) {
-    return arguments.length ? (this._innerBounds = _, this) : this._innerBounds;
   }
 
   /**
