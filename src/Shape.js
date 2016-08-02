@@ -61,19 +61,26 @@ export default class Shape {
 
     g.each(function(d, i) {
 
-      const h = that._height(d, i),
-            w = that._width(d, i);
+      const aes = that._aes(d, i);
 
-      /* Draws background image */
-      const imageUrl = show ? that._backgroundImage(d, i) : false;
+      const imageData = [];
+      let h = 0, w = 0;
+
+      if (show && (aes.r || aes.w && aes.h)) {
+        h = aes.r ? aes.r * 2 : aes.h;
+        w = aes.r ? aes.r * 2 : aes.w;
+        const url = that._backgroundImage(d, i);
+        if (url) imageData.push({url});
+      }
+
       image()
-        .data(imageUrl ? [{url: imageUrl}] : [])
+        .data(imageData)
         .duration(that._duration)
-        .height(show ? h : 0)
+        .height(h)
         .select(this)
-        .width(show ? w : 0)
-        .x(show ? -w / 2 : 0)
-        .y(show ? -h / 2 : 0)
+        .width(w)
+        .x(-w / 2)
+        .y(-h / 2)
         ();
 
     });
@@ -100,7 +107,7 @@ export default class Shape {
 
         let labels = that._label(d, i);
 
-        if (labels !== false && labels !== void 0) {
+        if (that._labelBounds && labels !== false && labels !== void 0) {
 
           const bounds = that._labelBounds(that._aes(d, i), i);
 

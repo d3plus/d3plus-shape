@@ -4,22 +4,31 @@ import {default as Shape} from "./Shape";
 import {transition} from "d3-transition";
 
 /**
-    @class Rect
-    @desc Creates SVG rectangles based on an array of data. See [this example](https://d3plus.org/examples/d3plus-shape/getting-started/) for help getting started using the rectangle generator.
+    @class Circle
+    @desc Creates SVG circles based on an array of data.
 */
-export default class Rect extends Shape {
+export default class Circle extends Shape {
 
   constructor() {
     super();
-    this._height = accessor("height");
-    this._labelBounds = s => ({width: s.width, height: s.height, x: -s.width / 2, y: -s.height / 2});
-    this._width = accessor("width");
+    this._r = accessor("r");
     this._x = accessor("x");
     this._y = accessor("y");
   }
 
   /**
-      Draws the rectangles.
+      Provides the default positioning to the <rect> elements.
+      @private
+  */
+  _applyPosition(elem) {
+    elem
+      .attr("r", (d, i) => this._r(d, i))
+      .attr("x", (d, i) => -this._r(d, i) / 2)
+      .attr("y", (d, i) => -this._r(d, i) / 2);
+  }
+
+  /**
+      Draws the circles.
       @param {Function} [*callback* = undefined]
       @private
   */
@@ -27,18 +36,17 @@ export default class Rect extends Shape {
 
     super.render(callback);
 
-    const groups = this._select.selectAll(".d3plus-shape-rect").data(this._data, this._id);
+    const groups = this._select.selectAll(".d3plus-shape-circle").data(this._data, this._id);
 
     groups.transition(this._transition)
       .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})`);
 
-    groups.select("rect").transition(this._transition).call(this._applyStyle.bind(this));
+    groups.select("circle").transition(this._transition).call(this._applyStyle.bind(this));
 
     groups.exit().transition().delay(this._duration).remove();
 
-    groups.exit().select("rect").transition(this._transition)
-      .attr("width", 0)
-      .attr("height", 0)
+    groups.exit().select("circle").transition(this._transition)
+      .attr("r", 0)
       .attr("x", 0)
       .attr("y", 0);
 
@@ -47,20 +55,19 @@ export default class Rect extends Shape {
       .call(this._applyLabels.bind(this), false);
 
     const enter = groups.enter().append("g")
-        .attr("class", "d3plus-shape-rect")
-        .attr("id", (d, i) => `d3plus-shape-rect-${this._id(d, i)}`)
+        .attr("class", "d3plus-shape-circle")
+        .attr("id", (d, i) => `d3plus-shape-circle-${this._id(d, i)}`)
         .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})`);
 
-    enter.append("rect")
-      .attr("width", 0)
-      .attr("height", 0)
+    enter.append("circle")
+      .attr("r", 0)
       .attr("x", 0)
       .attr("y", 0)
       .call(this._applyStyle.bind(this));
 
     const update = enter.merge(groups);
 
-    update.select("rect").transition(this._transition)
+    update.select("circle").transition(this._transition)
       .call(this._applyPosition.bind(this));
 
     update
@@ -77,45 +84,31 @@ export default class Rect extends Shape {
   }
 
   /**
-      @memberof Rect
+      @memberof Circle
       @desc Given a specific data point and index, returns the aesthetic properties of the shape.
       @param {Object} *data point*
       @param {Number} *index*
       @private
   */
   _aes(d, i) {
-    return {width: this._width(d, i), height: this._height(d, i)};
+    return {r: this._r(d, i)};
   }
 
   /**
-      @memberof Rect
-      @desc Provides the default positioning to the <rect> elements.
-      @param {D3Selection} *elem*
-      @private
-  */
-  _applyPosition(elem) {
-    elem
-      .attr("width", (d, i) => this._width(d, i))
-      .attr("height", (d, i) => this._height(d, i))
-      .attr("x", (d, i) => -this._width(d, i) / 2)
-      .attr("y", (d, i) => -this._height(d, i) / 2);
-  }
-
-  /**
-      @memberof Rect
-      @desc If *value* is specified, sets the height accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current height accessor.
+      @memberof Circle
+      @desc If *value* is specified, sets the radius accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current radius accessor.
       @param {Function|Number} [*value*]
       @example
 function(d) {
-  return d.height;
+  return d.r;
 }
   */
-  height(_) {
-    return arguments.length ? (this._height = typeof _ === "function" ? _ : constant(_), this) : this._height;
+  r(_) {
+    return arguments.length ? (this._r = typeof _ === "function" ? _ : constant(_), this) : this._r;
   }
 
   /**
-      @memberof Rect
+      @memberof Circle
       @desc Updates the style and positioning of the elements matching *selector* and returns this generator. This is helpful when not wanting to loop through all shapes just to change the style of a few.
       @param {String|HTMLElement} *selector*
   */
@@ -131,7 +124,7 @@ function(d) {
         .attr("opacity", this._opacity)
         .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})scale(${this._scale(d, i)})`);
 
-    groups.select("rect").transition(t)
+    groups.select("circle").transition(t)
       .call(this._applyStyle.bind(this))
       .call(this._applyPosition.bind(this));
 
@@ -140,20 +133,7 @@ function(d) {
   }
 
   /**
-      @memberof Rect
-      @desc If *value* is specified, sets the width accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current width accessor.
-      @param {Function|Number} [*value*]
-      @example
-function(d) {
-  return d.width;
-}
-  */
-  width(_) {
-    return arguments.length ? (this._width = typeof _ === "function" ? _ : constant(_), this) : this._width;
-  }
-
-  /**
-      @memberof Rect
+      @memberof Circle
       @desc If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
       @param {Function|Number} [*value*]
       @example
@@ -166,7 +146,7 @@ function(d) {
   }
 
   /**
-      @memberof Rect
+      @memberof Circle
       @desc If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
       @param {Function|Number} [*value*]
       @example
