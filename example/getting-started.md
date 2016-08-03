@@ -12,14 +12,14 @@ var data = [
 ];
 ```
 
-It can be passed to the [rectangle generator](#rect) like this:
+It can be passed to the [rectangle generator](#Rect) like this:
 
 ```js
-d3plus.rect()
+new d3plus.Rect()
   .data(data)
   .fill(function(d) { return d.color; })
   .label(function(d) { return d.text; })
-  ();
+  .render();
 ```
 
 It even detects that the blue rectangle should have a dark label and the red rectangle's should be light!
