@@ -7,13 +7,12 @@ const d3 = {
 import {accessor, constant} from "d3plus-common";
 
 /**
-    @function image
-    @desc Creates SVG images based on an array of data. If *data* is specified, immediately draws the images based on the specified array and returns this generator. If *data* is not specified on instantiation, it can be passed/updated after instantiation using the [data](#image.data) method.
-    @param {Array} [data = []]
+    @class image
+    @desc Creates SVG images based on an array of data.
     @example <caption>a sample row of data</caption>
 var data = {"url": "file.png", "width": "100", "height": "50"};
 @example <caption>passed to the generator</caption>
-image([data]);
+new Image().data([data]).render();
 @example <caption>creates the following</caption>
 <image class="d3plus-shape-image" opacity="1" href="file.png" width="100" height="50" x="0" y="0"></image>
 @example <caption>this is shorthand for the following</caption>
@@ -21,42 +20,48 @@ image().data([data])();
 @example <caption>which also allows a post-draw callback function</caption>
 image().data([data])(function() { alert("draw complete!"); })
 */
-export default function(data = []) {
+export default class Icon {
 
-  let duration = 600,
-      height = accessor("height"),
-      id = accessor("url"),
-      select,
-      url = accessor("url"),
-      width = accessor("width"),
-      x = accessor("x", 0),
-      y = accessor("y", 0);
+  constructor() {
+    this._duration = 600;
+    this._height = accessor("height");
+    this._id = accessor("url");
+    this._select;
+    this._url = accessor("url");
+    this._width = accessor("width");
+    this._x = accessor("x", 0);
+    this._y = accessor("y", 0);
+  }
 
   /**
-      The inner return object and draw function that gets assigned the public methods.
-      @private
+      @memberof Image
+      @desc Renders the current Image to the page. If a *callback* is specified, it will be called once the images are done drawing.
+      @param {Function} [*callback* = undefined]
   */
-  function image(callback) {
+  render(callback) {
 
-    if (select === void 0) image.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
+    if (this._select === void 0) this.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
 
-    const images = select.selectAll(".d3plus-shape-image").data(data, id);
+    const images = this._select.selectAll(".d3plus-shape-image").data(this._data, this._id);
 
     const enter = images.enter().append("image")
       .attr("class", "d3plus-shape-image")
       .attr("opacity", 0);
 
-    const update = enter.merge(images);
+    const t = d3.transition().duration(this._duration),
+          that = this,
+          update = enter.merge(images);
 
-    update.attr("xlink:href", url)
-      .transition().duration(duration)
+    update
+        .attr("xlink:href", this._url)
+      .transition(t)
         .attr("opacity", 1)
-        .attr("width", (d, i) => width(d, i))
-        .attr("height", (d, i) => height(d, i))
-        .attr("x", (d, i) => x(d, i))
-        .attr("y", (d, i) => y(d, i))
+        .attr("width", (d, i) => this._width(d, i))
+        .attr("height", (d, i) => this._height(d, i))
+        .attr("x", (d, i) => this._x(d, i))
+        .attr("y", (d, i) => this._y(d, i))
         .each(function(d, i) {
-          const image = d3.select(this), link = url(d, i);
+          const image = d3.select(this), link = that._url(d, i);
           const fullAddress = link.indexOf("http://") === 0 || link.indexOf("https://") === 0;
           if (!fullAddress || link.indexOf(window.location.hostname) === 0) {
             const img = new Image();
@@ -73,39 +78,39 @@ export default function(data = []) {
           }
         });
 
-    images.exit().transition().duration(duration)
-      .attr("width", (d, i) => width(d, i))
-      .attr("height", (d, i) => height(d, i))
-      .attr("x", (d, i) => x(d, i))
-      .attr("y", (d, i) => y(d, i))
+    images.exit().transition(t)
+      .attr("width", (d, i) => this._width(d, i))
+      .attr("height", (d, i) => this._height(d, i))
+      .attr("x", (d, i) => this._x(d, i))
+      .attr("y", (d, i) => this._y(d, i))
       .attr("opacity", 0).remove();
 
-    if (callback) setTimeout(callback, duration + 100);
+    if (callback) setTimeout(callback, this._duration + 100);
 
-    return image;
+    return this;
 
   }
 
   /**
-      @memberof image
+      @memberof Image
       @desc If *data* is specified, sets the data array to the specified array and returns this generator. If *data* is not specified, returns the current data array. An <image> tag will be drawn for each object in the array.
       @param {Array} [*data* = []]
   */
-  image.data = function(_) {
-    return arguments.length ? (data = _, image) : data;
-  };
+  data(_) {
+    return arguments.length ? (this._data = _, this) : this._data;
+  }
 
   /**
-      @memberof image
+      @memberof Image
       @desc If *ms* is specified, sets the animation duration to the specified number and returns this generator. If *ms* is not specified, returns the current animation duration.
       @param {Number} [*ms* = 600]
   */
-  image.duration = function(_) {
-    return arguments.length ? (duration = _, image) : duration;
-  };
+  duration(_) {
+    return arguments.length ? (this._duration = _, this) : this._duration;
+  }
 
   /**
-      @memberof image
+      @memberof Image
       @desc If *value* is specified, sets the height accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current height accessor.
       @param {Function|Number} [*value*]
       @example
@@ -113,12 +118,12 @@ function(d) {
   return d.height;
 }
   */
-  image.height = function(_) {
-    return arguments.length ? (height = typeof _ === "function" ? _ : constant(_), image) : height;
-  };
+  height(_) {
+    return arguments.length ? (this._height = typeof _ === "function" ? _ : constant(_), this) : this._height;
+  }
 
   /**
-      @memberof image
+      @memberof Image
       @desc If *value* is specified, sets the id accessor to the specified function and returns this generator. If *value* is not specified, returns the current id accessor. This is useful if you want to duplicate the same image.
       @param {Function} [*value*]
       @example
@@ -126,21 +131,21 @@ function(d) {
   return d.url;
 }
   */
-  image.id = function(_) {
-    return arguments.length ? (id = _, image) : id;
-  };
+  id(_) {
+    return arguments.length ? (this._id = _, this) : this._id;
+  }
 
   /**
-      @memberof image
+      @memberof Image
       @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this generator. If *selector* is not specified, returns the current SVG container element.
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
-  image.select = function(_) {
-    return arguments.length ? (select = d3.select(_), image) : select;
-  };
+  select(_) {
+    return arguments.length ? (this._select = d3.select(_), this) : this._select;
+  }
 
   /**
-      @memberof image
+      @memberof Image
       @desc If *value* is specified, sets the URL accessor to the specified function and returns this generator. If *value* is not specified, returns the current URL accessor.
       @param {Function} [*value*]
       @example
@@ -148,12 +153,12 @@ function(d) {
   return d.url;
 }
   */
-  image.url = function(_) {
-    return arguments.length ? (url = _, image) : url;
-  };
+  url(_) {
+    return arguments.length ? (this._url = _, this) : this._url;
+  }
 
   /**
-      @memberof image
+      @memberof Image
       @desc If *value* is specified, sets the width accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current width accessor.
       @param {Function|Number} [*value*]
       @example
@@ -161,12 +166,12 @@ function(d) {
   return d.width;
 }
   */
-  image.width = function(_) {
-    return arguments.length ? (width = typeof _ === "function" ? _ : constant(_), image) : width;
-  };
+  width(_) {
+    return arguments.length ? (this._width = typeof _ === "function" ? _ : constant(_), this) : this._width;
+  }
 
   /**
-      @memberof image
+      @memberof Image
       @desc If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor.
       @param {Function|Number} [*value*]
       @example
@@ -174,12 +179,12 @@ function(d) {
   return d.x || 0;
 }
   */
-  image.x = function(_) {
-    return arguments.length ? (x = typeof _ === "function" ? _ : constant(_), image) : x;
-  };
+  x(_) {
+    return arguments.length ? (this._x = typeof _ === "function" ? _ : constant(_), this) : this._x;
+  }
 
   /**
-      @memberof image
+      @memberof Image
       @desc If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor.
       @param {Function|Number} [*value*]
       @example
@@ -187,10 +192,8 @@ function(d) {
   return d.y || 0;
 }
   */
-  image.y = function(_) {
-    return arguments.length ? (y = typeof _ === "function" ? _ : constant(_), image) : y;
-  };
-
-  return data.length ? image() : image;
+  y(_) {
+    return arguments.length ? (this._y = typeof _ === "function" ? _ : constant(_), this) : this._y;
+  }
 
 }

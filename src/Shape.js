@@ -9,10 +9,11 @@ const d3 = {
 import {constant} from "d3plus-common";
 import {contrast} from "d3plus-color";
 import {textBox} from "d3plus-text";
-import {default as image} from "./image";
+import {default as Image} from "./Image";
 
 /**
     @class Shape
+    @desc An abstracted class for generating shapes.
 */
 export default class Shape {
 
@@ -73,7 +74,7 @@ export default class Shape {
         if (url) imageData.push({url});
       }
 
-      image()
+      new Image()
         .data(imageData)
         .duration(that._duration)
         .height(h)
@@ -81,7 +82,7 @@ export default class Shape {
         .width(w)
         .x(-w / 2)
         .y(-h / 2)
-        ();
+        .render();
 
     });
 
