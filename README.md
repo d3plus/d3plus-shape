@@ -29,14 +29,14 @@ var data = [
 ];
 ```
 
-It can be passed to the [rectangle generator](#rect) like this:
+It can be passed to the [rectangle generator](#Rect) like this:
 
 ```js
-d3plus.rect()
+new d3plus.Rect()
   .data(data)
   .fill(function(d) { return d.color; })
   .label(function(d) { return d.text; })
-  ();
+  .render();
 ```
 
 It even detects that the blue rectangle should have a dark label and the red rectangle's should be light!
@@ -637,4 +637,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Wed, 03 Aug 2016 16:48:47 GMT</sub>
+###### <sub>Documentation generated on Wed, 03 Aug 2016 16:54:20 GMT</sub>
