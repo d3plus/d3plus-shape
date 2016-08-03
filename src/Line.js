@@ -68,6 +68,17 @@ export default class Line extends Shape {
 
   /**
       @memberof Line
+      @desc Given a specific data point and index, returns the aesthetic properties of the shape.
+      @param {Object} *data point*
+      @param {Number} *index*
+      @private
+  */
+  _aes(d, i) {
+    return {points: d.values.map(p => [this._x(p, i), this._y(p, i)])};
+  }
+
+  /**
+      @memberof Line
       @desc Updates the style and positioning of the elements matching *selector* and returns this generator. This is helpful when not wanting to loop through all shapes just to change the style of a few.
       @param {String|HTMLElement} *selector*
   */
