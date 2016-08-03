@@ -198,7 +198,7 @@ export default class Shape {
   */
   config(_) {
     if (arguments.length) {
-      for (const k in _) if ({}.hasOwnProperty.call(_, k)) this[k](_[k]);
+      for (const k in _) if ({}.hasOwnProperty.call(_, k) && k in this) this[k](_[k]);
       return this;
     }
     else {
