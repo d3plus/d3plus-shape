@@ -5,6 +5,7 @@ import {transition} from "d3-transition";
 
 /**
     @class Rect
+    @extends Shape
     @desc Creates SVG rectangles based on an array of data. See [this example](https://d3plus.org/examples/d3plus-shape/getting-started/) for help getting started using the rectangle generator.
 */
 export default class Rect extends Shape {

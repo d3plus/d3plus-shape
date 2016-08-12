@@ -5,6 +5,7 @@ import {transition} from "d3-transition";
 
 /**
     @class Circle
+    @extends Shape
     @desc Creates SVG circles based on an array of data.
 */
 export default class Circle extends Shape {

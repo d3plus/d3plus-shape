@@ -7,6 +7,7 @@ import {transition} from "d3-transition";
 
 /**
     @class Line
+    @extends Shape
     @desc Creates SVG lines based on an array of data.
 */
 export default class Line extends Shape {
