@@ -1,7 +1,7 @@
 import {accessor, constant} from "d3plus-common";
 import {default as Shape} from "./Shape";
 import {nest} from "d3-collection";
-import {line as lineGen} from "d3-shape";
+import * as paths from "d3-shape";
 
 import {transition} from "d3-transition";
 
@@ -14,8 +14,9 @@ export default class Line extends Shape {
 
   constructor() {
     super();
+    this._curve = "linear";
     this._fill = constant("none");
-    this._path = lineGen().defined(d => d);
+    this._path = paths.line().defined(d => d);
     this._strokeWidth = constant(1);
     this._x = accessor("x");
     this._y = accessor("y");
@@ -33,6 +34,7 @@ export default class Line extends Shape {
     const lines = nest().key(this._id).entries(this._data);
 
     this._path
+      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
       .x(this._x)
       .y(this._y);
 
@@ -76,6 +78,15 @@ export default class Line extends Shape {
   */
   _aes(d, i) {
     return {points: d.values.map(p => [this._x(p, i), this._y(p, i)])};
+  }
+
+  /**
+      @memberof Line
+      @desc If *value* is specified, sets the line curve to the specified string and returns this generator. If *value* is not specified, returns the current line curve. The number returned should correspond to the horizontal center of the rectangle.
+      @param {String} [*value* = "linear"]
+  */
+  curve(_) {
+    return arguments.length ? (this._curve = _, this) : this._curve;
   }
 
   /**
