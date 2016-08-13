@@ -7,7 +7,7 @@ const d3 = {
 import {accessor, constant} from "d3plus-common";
 
 /**
-    @class image
+    @class Image
     @desc Creates SVG images based on an array of data.
     @example <caption>a sample row of data</caption>
 var data = {"url": "file.png", "width": "100", "height": "50"};
@@ -20,7 +20,7 @@ image().data([data])();
 @example <caption>which also allows a post-draw callback function</caption>
 image().data([data])(function() { alert("draw complete!"); })
 */
-export default class Icon {
+export default class Image {
 
   constructor() {
     this._duration = 600;
