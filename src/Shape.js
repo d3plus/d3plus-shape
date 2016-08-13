@@ -8,7 +8,7 @@ const d3 = {
 
 import {constant} from "d3plus-common";
 import {contrast} from "d3plus-color";
-import {textBox} from "d3plus-text";
+import {TextBox} from "d3plus-text";
 import {default as Image} from "./Image";
 
 /**
@@ -151,7 +151,7 @@ export default class Shape {
         }
       }
 
-      textBox()
+      new TextBox()
         .data(labelData)
         .delay(that._duration / 2)
         .duration(that._duration)
@@ -163,7 +163,7 @@ export default class Shape {
         .textAnchor(d => d.tA)
         .verticalAlign(d => d.vA)
         .select(this)
-        ();
+        .render();
 
     });
 

@@ -1,9 +1,9 @@
 import {test} from "tape";
-import {default as rect} from "../src/rect.js";
+import {default as Rect} from "../src/Rect.js";
 
-test("rect", assert => {
+test("Rect", assert => {
 
-  rect()
+  new Rect()
     .data([{id: "test"}])
     .duration(100)
     .height(200)
@@ -11,7 +11,7 @@ test("rect", assert => {
     .width(100)
     .x(100)
     .y(50)
-    (() => {
+    .render(() => {
 
       assert.equal(document.getElementsByTagName("svg").length, 1, "automatically added <svg> element to page");
       assert.equal(document.getElementsByTagName("g").length, 1, "created <g> container element");
