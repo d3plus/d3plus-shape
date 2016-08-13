@@ -56,13 +56,13 @@ It even detects that the blue rectangle should have a dark label and the red rec
 ### Classes
 
 <dl>
-<dt><a href="#Circle">Circle</a></dt>
+<dt><a href="#Circle">Circle</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
-<dt><a href="#image">image</a></dt>
+<dt><a href="#Image">Image</a></dt>
 <dd></dd>
-<dt><a href="#Line">Line</a></dt>
+<dt><a href="#Line">Line</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
-<dt><a href="#Rect">Rect</a></dt>
+<dt><a href="#Rect">Rect</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
 <dt><a href="#Shape">Shape</a></dt>
 <dd></dd>
@@ -70,10 +70,11 @@ It even detects that the blue rectangle should have a dark label and the red rec
 
 <a name="Circle"></a>
 
-### Circle
+### Circle ⇐ <code>[Shape](#Shape)</code>
 **Kind**: global class  
+**Extends:** <code>[Shape](#Shape)</code>  
 
-* [Circle](#Circle)
+* [Circle](#Circle) ⇐ <code>[Shape](#Shape)</code>
     * [new Circle()](#new_Circle_new)
     * [.r([*value*])](#Circle.r)
     * [.update(*selector*)](#Circle.update)
@@ -88,7 +89,7 @@ Creates SVG circles based on an array of data.
 <a name="Circle.r"></a>
 
 #### Circle.r([*value*])
-If *value* is specified, sets the radius accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current radius accessor.
+If *value* is specified, sets the radius accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current radius accessor.
 
 **Kind**: static method of <code>[Circle](#Circle)</code>  
 
@@ -105,7 +106,7 @@ function(d) {
 <a name="Circle.update"></a>
 
 #### Circle.update(*selector*)
-Updates the style and positioning of the elements matching *selector* and returns this generator. This is helpful when not wanting to loop through all shapes just to change the style of a few.
+Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
 
 **Kind**: static method of <code>[Circle](#Circle)</code>  
 
@@ -116,7 +117,7 @@ Updates the style and positioning of the elements matching *selector* and return
 <a name="Circle.x"></a>
 
 #### Circle.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
+If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
 
 **Kind**: static method of <code>[Circle](#Circle)</code>  
 
@@ -133,7 +134,7 @@ function(d) {
 <a name="Circle.y"></a>
 
 #### Circle.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
+If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
 
 **Kind**: static method of <code>[Circle](#Circle)</code>  
 
@@ -147,13 +148,27 @@ function(d) {
   return d.y;
 }
 ```
-<a name="image"></a>
+<a name="Image"></a>
 
-### image
+### Image
 **Kind**: global class  
-<a name="new_image_new"></a>
 
-#### new image()
+* [Image](#Image)
+    * [new Image()](#new_Image_new)
+    * [.render([*callback*])](#Image.render)
+    * [.data([*data*])](#Image.data)
+    * [.duration([*ms*])](#Image.duration)
+    * [.height([*value*])](#Image.height)
+    * [.id([*value*])](#Image.id)
+    * [.select([*selector*])](#Image.select)
+    * [.url([*value*])](#Image.url)
+    * [.width([*value*])](#Image.width)
+    * [.x([*value*])](#Image.x)
+    * [.y([*value*])](#Image.y)
+
+<a name="new_Image_new"></a>
+
+#### new Image()
 Creates SVG images based on an array of data.
 
 **Example** *(a sample row of data)*  
@@ -176,13 +191,161 @@ image().data([data])();
 ```js
 image().data([data])(function() { alert("draw complete!"); })
 ```
+<a name="Image.render"></a>
+
+#### Image.render([*callback*])
+Renders the current Image to the page. If a *callback* is specified, it will be called once the images are done drawing.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*callback*] | <code>function</code> | 
+
+<a name="Image.data"></a>
+
+#### Image.data([*data*])
+If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. An <image> tag will be drawn for each object in the array.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*data*] | <code>Array</code> | <code>[]</code> | 
+
+<a name="Image.duration"></a>
+
+#### Image.duration([*ms*])
+If *ms* is specified, sets the animation duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current animation duration.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*ms*] | <code>Number</code> | <code>600</code> | 
+
+<a name="Image.height"></a>
+
+#### Image.height([*value*])
+If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.height;
+}
+```
+<a name="Image.id"></a>
+
+#### Image.id([*value*])
+If *value* is specified, sets the id accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current id accessor. This is useful if you want to duplicate the same image.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.url;
+}
+```
+<a name="Image.select"></a>
+
+#### Image.select([*selector*])
+If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*selector*] | <code>String</code> &#124; <code>HTMLElement</code> | <code>d3.select(&quot;body&quot;).append(&quot;svg&quot;)</code> | 
+
+<a name="Image.url"></a>
+
+#### Image.url([*value*])
+If *value* is specified, sets the URL accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current URL accessor.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.url;
+}
+```
+<a name="Image.width"></a>
+
+#### Image.width([*value*])
+If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.width;
+}
+```
+<a name="Image.x"></a>
+
+#### Image.x([*value*])
+If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.x || 0;
+}
+```
+<a name="Image.y"></a>
+
+#### Image.y([*value*])
+If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.y || 0;
+}
+```
 <a name="Line"></a>
 
-### Line
+### Line ⇐ <code>[Shape](#Shape)</code>
 **Kind**: global class  
+**Extends:** <code>[Shape](#Shape)</code>  
 
-* [Line](#Line)
+* [Line](#Line) ⇐ <code>[Shape](#Shape)</code>
     * [new Line()](#new_Line_new)
+    * [.curve([*value*])](#Line.curve)
     * [.update(*selector*)](#Line.update)
     * [.x([*value*])](#Line.x)
     * [.y([*value*])](#Line.y)
@@ -192,10 +355,21 @@ image().data([data])(function() { alert("draw complete!"); })
 #### new Line()
 Creates SVG lines based on an array of data.
 
+<a name="Line.curve"></a>
+
+#### Line.curve([*value*])
+If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve. The number returned should correspond to the horizontal center of the rectangle.
+
+**Kind**: static method of <code>[Line](#Line)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>String</code> | <code>&quot;linear&quot;</code> | 
+
 <a name="Line.update"></a>
 
 #### Line.update(*selector*)
-Updates the style and positioning of the elements matching *selector* and returns this generator. This is helpful when not wanting to loop through all shapes just to change the style of a few.
+Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
 
 **Kind**: static method of <code>[Line](#Line)</code>  
 
@@ -206,7 +380,7 @@ Updates the style and positioning of the elements matching *selector* and return
 <a name="Line.x"></a>
 
 #### Line.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
+If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
 
 **Kind**: static method of <code>[Line](#Line)</code>  
 
@@ -223,7 +397,7 @@ function(d) {
 <a name="Line.y"></a>
 
 #### Line.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
+If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
 
 **Kind**: static method of <code>[Line](#Line)</code>  
 
@@ -239,10 +413,11 @@ function(d) {
 ```
 <a name="Rect"></a>
 
-### Rect
+### Rect ⇐ <code>[Shape](#Shape)</code>
 **Kind**: global class  
+**Extends:** <code>[Shape](#Shape)</code>  
 
-* [Rect](#Rect)
+* [Rect](#Rect) ⇐ <code>[Shape](#Shape)</code>
     * [new Rect()](#new_Rect_new)
     * [.height([*value*])](#Rect.height)
     * [.update(*selector*)](#Rect.update)
@@ -258,7 +433,7 @@ Creates SVG rectangles based on an array of data. See [this example](https://d3p
 <a name="Rect.height"></a>
 
 #### Rect.height([*value*])
-If *value* is specified, sets the height accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current height accessor.
+If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
 
 **Kind**: static method of <code>[Rect](#Rect)</code>  
 
@@ -275,7 +450,7 @@ function(d) {
 <a name="Rect.update"></a>
 
 #### Rect.update(*selector*)
-Updates the style and positioning of the elements matching *selector* and returns this generator. This is helpful when not wanting to loop through all shapes just to change the style of a few.
+Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
 
 **Kind**: static method of <code>[Rect](#Rect)</code>  
 
@@ -286,7 +461,7 @@ Updates the style and positioning of the elements matching *selector* and return
 <a name="Rect.width"></a>
 
 #### Rect.width([*value*])
-If *value* is specified, sets the width accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current width accessor.
+If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
 
 **Kind**: static method of <code>[Rect](#Rect)</code>  
 
@@ -303,7 +478,7 @@ function(d) {
 <a name="Rect.x"></a>
 
 #### Rect.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
+If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
 
 **Kind**: static method of <code>[Rect](#Rect)</code>  
 
@@ -320,7 +495,7 @@ function(d) {
 <a name="Rect.y"></a>
 
 #### Rect.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
+If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
 
 **Kind**: static method of <code>[Rect](#Rect)</code>  
 
@@ -373,7 +548,7 @@ An abstracted class for generating shapes.
 <a name="Shape.backgroundImage"></a>
 
 #### Shape.backgroundImage([*value*])
-If *value* is specified, sets the background-image accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current background-image accessor.
+If *value* is specified, sets the background-image accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current background-image accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -384,7 +559,7 @@ If *value* is specified, sets the background-image accessor to the specified fun
 <a name="Shape.config"></a>
 
 #### Shape.config([*value*])
-If *value* is specified, sets the methods that correspond to the key/value pairs and returns this generator. If *value* is not specified, returns the current configuration.
+If *value* is specified, sets the methods that correspond to the key/value pairs and returns the current class instance. If *value* is not specified, returns the current configuration.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -395,7 +570,7 @@ If *value* is specified, sets the methods that correspond to the key/value pairs
 <a name="Shape.data"></a>
 
 #### Shape.data([*data*])
-If *data* is specified, sets the data array to the specified array and returns this generator. If *data* is not specified, returns the current data array. A shape will be drawn for each object in the array.
+If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. A shape will be drawn for each object in the array.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -406,7 +581,7 @@ If *data* is specified, sets the data array to the specified array and returns t
 <a name="Shape.duration"></a>
 
 #### Shape.duration([*ms*])
-If *ms* is specified, sets the animation duration to the specified number and returns this generator. If *ms* is not specified, returns the current animation duration.
+If *ms* is specified, sets the animation duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current animation duration.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -417,7 +592,7 @@ If *ms* is specified, sets the animation duration to the specified number and re
 <a name="Shape.fill"></a>
 
 #### Shape.fill([*value*])
-If *value* is specified, sets the fill accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current fill accessor.
+If *value* is specified, sets the fill accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current fill accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -428,7 +603,7 @@ If *value* is specified, sets the fill accessor to the specified function or str
 <a name="Shape.fontColor"></a>
 
 #### Shape.fontColor([*value*])
-If *value* is specified, sets the font-color accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+If *value* is specified, sets the font-color accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -439,7 +614,7 @@ If *value* is specified, sets the font-color accessor to the specified function 
 <a name="Shape.fontFamily"></a>
 
 #### Shape.fontFamily([*value*])
-If *value* is specified, sets the font-family accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-family accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+If *value* is specified, sets the font-family accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-family accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -450,7 +625,7 @@ If *value* is specified, sets the font-family accessor to the specified function
 <a name="Shape.fontResize"></a>
 
 #### Shape.fontResize([*value*])
-If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#label) will be resized the best fit the shape. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns the current class instance. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#label) will be resized the best fit the shape. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -461,7 +636,7 @@ If *value* is specified, sets the font resizing accessor to the specified functi
 <a name="Shape.fontSize"></a>
 
 #### Shape.fontSize([*value*])
-If *value* is specified, sets the font-size accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-size accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+If *value* is specified, sets the font-size accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-size accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -472,7 +647,7 @@ If *value* is specified, sets the font-size accessor to the specified function o
 <a name="Shape.id"></a>
 
 #### Shape.id([*value*])
-If *value* is specified, sets the id accessor to the specified function and returns this generator. If *value* is not specified, returns the current id accessor.
+If *value* is specified, sets the id accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current id accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -483,7 +658,7 @@ If *value* is specified, sets the id accessor to the specified function and retu
 <a name="Shape.label"></a>
 
 #### Shape.label([*value*])
-If *value* is specified, sets the label accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default. If an array is passed or returned from the function, each value will be rendered as an individual label.
+If *value* is specified, sets the label accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current text accessor, which is `undefined` by default. If an array is passed or returned from the function, each value will be rendered as an individual label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -494,17 +669,17 @@ If *value* is specified, sets the label accessor to the specified function or st
 <a name="Shape.labelBounds"></a>
 
 #### Shape.labelBounds([*bounds*])
-If *bounds* is specified, sets the label bounds to the specified function and returns this generator. If *bounds* is not specified, returns the current inner bounds accessor.
+If *bounds* is specified, sets the label bounds to the specified function and returns the current class instance. If *bounds* is not specified, returns the current inner bounds accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [*bounds*] | <code>function</code> | The given function is passed the properties of the shape and should return an object containing the following values: `width`, `height`, `x`, `y`. If an array is returned from the function, each value will be used in conjunction with each label. |
+| [*bounds*] | <code>function</code> | The given function is passed the data point, index, and internally defined properties of the shape and should return an object containing the following values: `width`, `height`, `x`, `y`. If an array is returned from the function, each value will be used in conjunction with each label. |
 
 **Example**  
 ```js
-function(shape) {
+function(d, i, shape) {
   return {
     "width": shape.width,
     "height": shape.height,
@@ -516,7 +691,7 @@ function(shape) {
 <a name="Shape.labelPadding"></a>
 
 #### Shape.labelPadding([*value*])
-If *value* is specified, sets the label padding to the specified number and returns this generator. If *value* is not specified, returns the current label padding. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+If *value* is specified, sets the label padding to the specified number and returns the current class instance. If *value* is not specified, returns the current label padding. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -527,7 +702,7 @@ If *value* is specified, sets the label padding to the specified number and retu
 <a name="Shape.lineHeight"></a>
 
 #### Shape.lineHeight([*value*])
-If *value* is specified, sets the line-height accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current line-height accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+If *value* is specified, sets the line-height accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current line-height accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -550,7 +725,7 @@ Adds or removes a *listener* to each shape for the specified event *typenames*. 
 <a name="Shape.opacity"></a>
 
 #### Shape.opacity([*value*])
-If *value* is specified, sets the opacity accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current opacity accessor.
+If *value* is specified, sets the opacity accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current opacity accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -572,7 +747,7 @@ Renders the current Shape to the page. If a *callback* is specified, it will be 
 <a name="Shape.scale"></a>
 
 #### Shape.scale([*value*])
-If *value* is specified, sets the scale accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current scale accessor.
+If *value* is specified, sets the scale accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current scale accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -583,7 +758,7 @@ If *value* is specified, sets the scale accessor to the specified function or st
 <a name="Shape.select"></a>
 
 #### Shape.select([*selector*])
-If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this generator. If *selector* is not specified, returns the current SVG container element.
+If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -594,7 +769,7 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 <a name="Shape.stroke"></a>
 
 #### Shape.stroke([*value*])
-If *value* is specified, sets the stroke accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current stroke accessor.
+If *value* is specified, sets the stroke accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current stroke accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -605,7 +780,7 @@ If *value* is specified, sets the stroke accessor to the specified function or s
 <a name="Shape.strokeWidth"></a>
 
 #### Shape.strokeWidth([*value*])
-If *value* is specified, sets the stroke-width accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current stroke-width accessor.
+If *value* is specified, sets the stroke-width accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current stroke-width accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -616,7 +791,7 @@ If *value* is specified, sets the stroke-width accessor to the specified functio
 <a name="Shape.textAnchor"></a>
 
 #### Shape.textAnchor([*value*])
-If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+If *value* is specified, sets the text-anchor accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -627,7 +802,7 @@ If *value* is specified, sets the text-anchor accessor to the specified function
 <a name="Shape.verticalAlign"></a>
 
 #### Shape.verticalAlign([*value*])
-If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 
@@ -637,4 +812,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Wed, 03 Aug 2016 18:25:24 GMT</sub>
+###### <sub>Documentation generated on Sat, 13 Aug 2016 14:42:15 GMT</sub>
