@@ -13,7 +13,7 @@ export default class Rect extends Shape {
   constructor() {
     super();
     this._height = accessor("height");
-    this._labelBounds = s => ({width: s.width, height: s.height, x: -s.width / 2, y: -s.height / 2});
+    this._labelBounds = (d, i, s) => ({width: s.width, height: s.height, x: -s.width / 2, y: -s.height / 2});
     this._width = accessor("width");
     this._x = accessor("x");
     this._y = accessor("y");

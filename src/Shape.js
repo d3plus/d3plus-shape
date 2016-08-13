@@ -110,7 +110,7 @@ export default class Shape {
 
         if (that._labelBounds && labels !== false && labels !== void 0) {
 
-          const bounds = that._labelBounds(that._aes(d, i), i);
+          const bounds = that._labelBounds(d, i, that._aes(d, i));
 
           if (bounds) {
 
@@ -292,9 +292,9 @@ export default class Shape {
   /**
       @memberof Shape
       @desc If *bounds* is specified, sets the label bounds to the specified function and returns the current class instance. If *bounds* is not specified, returns the current inner bounds accessor.
-      @param {Function} [*bounds*] The given function is passed the properties of the shape and should return an object containing the following values: `width`, `height`, `x`, `y`. If an array is returned from the function, each value will be used in conjunction with each label.
+      @param {Function} [*bounds*] The given function is passed the data point, index, and internally defined properties of the shape and should return an object containing the following values: `width`, `height`, `x`, `y`. If an array is returned from the function, each value will be used in conjunction with each label.
       @example
-function(shape) {
+function(d, i, shape) {
   return {
     "width": shape.width,
     "height": shape.height,
