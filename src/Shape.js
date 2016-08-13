@@ -67,9 +67,9 @@ export default class Shape {
       const imageData = [];
       let h = 0, w = 0;
 
-      if (show && (aes.r || aes.w && aes.h)) {
-        h = aes.r ? aes.r * 2 : aes.h;
-        w = aes.r ? aes.r * 2 : aes.w;
+      if (show && (aes.r || aes.width && aes.height)) {
+        h = aes.r ? aes.r * 2 : aes.height;
+        w = aes.r ? aes.r * 2 : aes.width;
         const url = that._backgroundImage(d, i);
         if (url) imageData.push({url});
       }
