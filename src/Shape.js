@@ -184,7 +184,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the background-image accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current background-image accessor.
+      @desc If *value* is specified, sets the background-image accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current background-image accessor.
       @param {Function|String} [*value* = false]
   */
   backgroundImage(_) {
@@ -193,7 +193,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the methods that correspond to the key/value pairs and returns this generator. If *value* is not specified, returns the current configuration.
+      @desc If *value* is specified, sets the methods that correspond to the key/value pairs and returns the current class instance. If *value* is not specified, returns the current configuration.
       @param {Object} [*value*]
   */
   config(_) {
@@ -210,7 +210,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *data* is specified, sets the data array to the specified array and returns this generator. If *data* is not specified, returns the current data array. A shape will be drawn for each object in the array.
+      @desc If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. A shape will be drawn for each object in the array.
       @param {Array} [*data* = []]
   */
   data(_) {
@@ -219,7 +219,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *ms* is specified, sets the animation duration to the specified number and returns this generator. If *ms* is not specified, returns the current animation duration.
+      @desc If *ms* is specified, sets the animation duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current animation duration.
       @param {Number} [*ms* = 600]
   */
   duration(_) {
@@ -228,7 +228,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the fill accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current fill accessor.
+      @desc If *value* is specified, sets the fill accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current fill accessor.
       @param {Function|String} [*value* = "black"]
   */
   fill(_) {
@@ -237,7 +237,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the font-color accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the font-color accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color. If an array is passed or returned from the function, each value will be used in conjunction with each label.
       @param {Function|String|Array} [*value*]
   */
   fontColor(_) {
@@ -246,7 +246,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the font-family accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-family accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the font-family accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-family accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
       @param {Function|String|Array} [*value* = "Verdana"]
   */
   fontFamily(_) {
@@ -255,7 +255,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns this generator. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#label) will be resized the best fit the shape. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns the current class instance. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#label) will be resized the best fit the shape. If an array is passed or returned from the function, each value will be used in conjunction with each label.
       @param {Function|Boolean|Array} [*value*]
   */
   fontResize(_) {
@@ -264,7 +264,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the font-size accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current font-size accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the font-size accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-size accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
       @param {Function|String|Array} [*value* = 12]
   */
   fontSize(_) {
@@ -273,7 +273,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the id accessor to the specified function and returns this generator. If *value* is not specified, returns the current id accessor.
+      @desc If *value* is specified, sets the id accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current id accessor.
       @param {Function} [*value*]
   */
   id(_) {
@@ -282,7 +282,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the label accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text accessor, which is `undefined` by default. If an array is passed or returned from the function, each value will be rendered as an individual label.
+      @desc If *value* is specified, sets the label accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current text accessor, which is `undefined` by default. If an array is passed or returned from the function, each value will be rendered as an individual label.
       @param {Function|String|Array} [*value*]
   */
   label(_) {
@@ -291,7 +291,7 @@ export default class Shape {
 
   /**
       @memberof Shape
-      @desc If *bounds* is specified, sets the label bounds to the specified function and returns this generator. If *bounds* is not specified, returns the current inner bounds accessor.
+      @desc If *bounds* is specified, sets the label bounds to the specified function and returns the current class instance. If *bounds* is not specified, returns the current inner bounds accessor.
       @param {Function} [*bounds*] The given function is passed the properties of the shape and should return an object containing the following values: `width`, `height`, `x`, `y`. If an array is returned from the function, each value will be used in conjunction with each label.
       @example
 function(shape) {
@@ -309,7 +309,7 @@ function(shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the label padding to the specified number and returns this generator. If *value* is not specified, returns the current label padding. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the label padding to the specified number and returns the current class instance. If *value* is not specified, returns the current label padding. If an array is passed or returned from the function, each value will be used in conjunction with each label.
       @param {Function|Number|Array} [*value* = 10]
   */
   labelPadding(_) {
@@ -318,7 +318,7 @@ function(shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the line-height accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current line-height accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the line-height accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current line-height accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
       @param {Function|String|Array} [*value*]
   */
   lineHeight(_) {
@@ -337,7 +337,7 @@ function(shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the opacity accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current opacity accessor.
+      @desc If *value* is specified, sets the opacity accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current opacity accessor.
       @param {Number} [*value* = 1]
   */
   opacity(_) {
@@ -363,7 +363,7 @@ function(shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the scale accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current scale accessor.
+      @desc If *value* is specified, sets the scale accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current scale accessor.
       @param {Function|Number} [*value* = 1]
   */
   scale(_) {
@@ -372,7 +372,7 @@ function(shape) {
 
   /**
       @memberof Shape
-      @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this generator. If *selector* is not specified, returns the current SVG container element.
+      @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
   select(_) {
@@ -381,7 +381,7 @@ function(shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the stroke accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current stroke accessor.
+      @desc If *value* is specified, sets the stroke accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current stroke accessor.
       @param {Function|String} [*value* = "black"]
   */
   stroke(_) {
@@ -390,7 +390,7 @@ function(shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the stroke-width accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current stroke-width accessor.
+      @desc If *value* is specified, sets the stroke-width accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current stroke-width accessor.
       @param {Function|Number} [*value* = 0]
   */
   strokeWidth(_) {
@@ -399,7 +399,7 @@ function(shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the text-anchor accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the text-anchor accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
       @param {Function|String|Array} [*value* = "start"]
   */
   textAnchor(_) {
@@ -408,7 +408,7 @@ function(shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns this generator. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
       @param {Function|String|Array} [*value* = "start"]
   */
   verticalAlign(_) {

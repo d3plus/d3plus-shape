@@ -93,7 +93,7 @@ export default class Icon {
 
   /**
       @memberof Image
-      @desc If *data* is specified, sets the data array to the specified array and returns this generator. If *data* is not specified, returns the current data array. An <image> tag will be drawn for each object in the array.
+      @desc If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. An <image> tag will be drawn for each object in the array.
       @param {Array} [*data* = []]
   */
   data(_) {
@@ -102,7 +102,7 @@ export default class Icon {
 
   /**
       @memberof Image
-      @desc If *ms* is specified, sets the animation duration to the specified number and returns this generator. If *ms* is not specified, returns the current animation duration.
+      @desc If *ms* is specified, sets the animation duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current animation duration.
       @param {Number} [*ms* = 600]
   */
   duration(_) {
@@ -111,7 +111,7 @@ export default class Icon {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the height accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current height accessor.
+      @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -124,7 +124,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the id accessor to the specified function and returns this generator. If *value* is not specified, returns the current id accessor. This is useful if you want to duplicate the same image.
+      @desc If *value* is specified, sets the id accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current id accessor. This is useful if you want to duplicate the same image.
       @param {Function} [*value*]
       @example
 function(d) {
@@ -137,7 +137,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns this generator. If *selector* is not specified, returns the current SVG container element.
+      @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
   select(_) {
@@ -146,7 +146,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the URL accessor to the specified function and returns this generator. If *value* is not specified, returns the current URL accessor.
+      @desc If *value* is specified, sets the URL accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current URL accessor.
       @param {Function} [*value*]
       @example
 function(d) {
@@ -159,7 +159,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the width accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current width accessor.
+      @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -172,7 +172,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor.
+      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -185,7 +185,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor.
+      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
       @param {Function|Number} [*value*]
       @example
 function(d) {

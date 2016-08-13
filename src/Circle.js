@@ -97,7 +97,7 @@ export default class Circle extends Shape {
 
   /**
       @memberof Circle
-      @desc If *value* is specified, sets the radius accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current radius accessor.
+      @desc If *value* is specified, sets the radius accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current radius accessor.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -110,7 +110,7 @@ function(d) {
 
   /**
       @memberof Circle
-      @desc Updates the style and positioning of the elements matching *selector* and returns this generator. This is helpful when not wanting to loop through all shapes just to change the style of a few.
+      @desc Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
       @param {String|HTMLElement} *selector*
   */
   update(_) {
@@ -135,7 +135,7 @@ function(d) {
 
   /**
       @memberof Circle
-      @desc If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
+      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -148,7 +148,7 @@ function(d) {
 
   /**
       @memberof Circle
-      @desc If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
+      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
       @param {Function|Number} [*value*]
       @example
 function(d) {

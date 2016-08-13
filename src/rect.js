@@ -104,7 +104,7 @@ export default class Rect extends Shape {
 
   /**
       @memberof Rect
-      @desc If *value* is specified, sets the height accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current height accessor.
+      @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -117,7 +117,7 @@ function(d) {
 
   /**
       @memberof Rect
-      @desc Updates the style and positioning of the elements matching *selector* and returns this generator. This is helpful when not wanting to loop through all shapes just to change the style of a few.
+      @desc Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
       @param {String|HTMLElement} *selector*
   */
   update(_) {
@@ -142,7 +142,7 @@ function(d) {
 
   /**
       @memberof Rect
-      @desc If *value* is specified, sets the width accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current width accessor.
+      @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -155,7 +155,7 @@ function(d) {
 
   /**
       @memberof Rect
-      @desc If *value* is specified, sets the x accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
+      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
       @param {Function|Number} [*value*]
       @example
 function(d) {
@@ -168,7 +168,7 @@ function(d) {
 
   /**
       @memberof Rect
-      @desc If *value* is specified, sets the y accessor to the specified function or number and returns this generator. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
+      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
       @param {Function|Number} [*value*]
       @example
 function(d) {
