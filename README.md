@@ -719,7 +719,7 @@ Adds or removes a *listener* to each shape for the specified event *typenames*. 
 
 | Param | Type |
 | --- | --- |
-| [*typenames*] | <code>String</code> | 
+| [*typenames*] | <code>String</code> &#124; <code>Object</code> | 
 | [*listener*] | <code>function</code> | 
 
 <a name="Shape.opacity"></a>
@@ -812,4 +812,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Sat, 13 Aug 2016 14:42:15 GMT</sub>
+###### <sub>Documentation generated on Thu, 18 Aug 2016 21:50:23 GMT</sub>
