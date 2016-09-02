@@ -42,7 +42,6 @@ export default class Line extends Shape {
       d.height = y[1] - y[0];
       d.y = y[0] + d.height / 2;
       d.nested = true;
-      console.log(d.x, d.y, d.width, d.height);
       return d;
     });
 
