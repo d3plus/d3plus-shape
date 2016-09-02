@@ -1,9 +1,10 @@
-import {accessor, constant} from "d3plus-common";
-import {default as Shape} from "./Shape";
+import {extent} from "d3-array";
 import {nest} from "d3-collection";
 import * as paths from "d3-shape";
-
 import {transition} from "d3-transition";
+
+import {accessor, constant} from "d3plus-common";
+import {default as Shape} from "./Shape";
 
 /**
     @class Line
@@ -31,7 +32,19 @@ export default class Line extends Shape {
 
     super.render(callback);
 
-    const lines = nest().key(this._id).entries(this._data);
+    const lines = nest().key(this._id).entries(this._data).map(d => {
+      const x = extent(d.values, v => v.x);
+      d.xR = x;
+      d.width = x[1] - x[0];
+      d.x = x[0] + d.width / 2;
+      const y = extent(d.values, v => v.y);
+      d.yR = y;
+      d.height = y[1] - y[0];
+      d.y = y[0] + d.height / 2;
+      d.nested = true;
+      console.log(d.x, d.y, d.width, d.height);
+      return d;
+    });
 
     this._path
       .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
@@ -40,7 +53,11 @@ export default class Line extends Shape {
 
     const groups = this._select.selectAll(".d3plus-shape-line").data(lines, d => d.key);
 
+    groups.transition(this._transition)
+      .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
     groups.select("path").transition(this._transition)
+      .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
       .attr("d", d => this._path(d.values))
       .call(this._applyStyle.bind(this));
 
@@ -50,9 +67,12 @@ export default class Line extends Shape {
 
     const enter = groups.enter().append("g")
         .attr("class", "d3plus-shape-line")
-        .attr("id", d => `d3plus-shape-line-${d.key}`);
+        .attr("id", d => `d3plus-shape-line-${d.key}`)
+        .attr("transform", d => `translate(${d.x}, ${d.y})`)
+        .attr("opacity", 0);
 
     enter.append("path")
+      .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
       .attr("d", d => this._path(d.values))
       .call(this._applyStyle.bind(this));
 

@@ -102,7 +102,7 @@ export default class Shape {
     g.each(function(datum, i) {
 
       let d = datum;
-      if (Object.keys(datum).length === 2 && datum.key && datum.values) d = datum.values[0];
+      if (datum.nested && datum.key && datum.values) d = datum.values[0];
 
       /* Draws label based on inner bounds */
       const labelData = [];
