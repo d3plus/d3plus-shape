@@ -99,7 +99,10 @@ export default class Shape {
 
     const that = this;
 
-    g.each(function(d, i) {
+    g.each(function(datum, i) {
+
+      let d = datum;
+      if (Object.keys(datum).length === 2 && datum.key && datum.values) d = datum.values[0];
 
       /* Draws label based on inner bounds */
       const labelData = [];
@@ -110,7 +113,7 @@ export default class Shape {
 
         if (that._labelBounds && labels !== false && labels !== void 0) {
 
-          const bounds = that._labelBounds(d, i, that._aes(d, i));
+          const bounds = that._labelBounds(d, i, that._aes(datum, i));
 
           if (bounds) {
 
@@ -304,7 +307,7 @@ function(d, i, shape) {
 }
   */
   labelBounds(_) {
-    return arguments.length ? (this._labelBounds = _, this) : this._labelBounds;
+    return arguments.length ? (this._labelBounds = typeof _ === "function" ? _ : constant(_), this) : this._labelBounds;
   }
 
   /**
