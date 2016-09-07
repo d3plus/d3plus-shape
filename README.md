@@ -525,6 +525,7 @@ function(d) {
     * [.fontFamily([*value*])](#Shape.fontFamily)
     * [.fontResize([*value*])](#Shape.fontResize)
     * [.fontSize([*value*])](#Shape.fontSize)
+    * [.hitArea([*bounds*])](#Shape.hitArea)
     * [.id([*value*])](#Shape.id)
     * [.label([*value*])](#Shape.label)
     * [.labelBounds([*bounds*])](#Shape.labelBounds)
@@ -644,6 +645,28 @@ If *value* is specified, sets the font-size accessor to the specified function o
 | --- | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>12</code> | 
 
+<a name="Shape.hitArea"></a>
+
+#### Shape.hitArea([*bounds*])
+If *bounds* is specified, sets the mouse hit area to the specified function and returns the current class instance. If *bounds* is not specified, returns the current mouse hit area accessor.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [*bounds*] | <code>function</code> | The given function is passed the data point, index, and internally defined properties of the shape and should return an object containing the following values: `width`, `height`, `x`, `y`. |
+
+**Example**  
+```js
+function(d, i, shape) {
+  return {
+    "width": shape.width,
+    "height": shape.height,
+    "x": -shape.width / 2,
+    "y": -shape.height / 2
+  };
+}
+```
 <a name="Shape.id"></a>
 
 #### Shape.id([*value*])
@@ -812,4 +835,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Fri, 02 Sep 2016 16:58:08 GMT</sub>
+###### <sub>Documentation generated on Wed, 07 Sep 2016 17:28:29 GMT</sub>
