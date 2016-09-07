@@ -74,8 +74,11 @@ export default class Circle extends Shape {
     update
         .call(this._applyImage.bind(this))
         .call(this._applyLabels.bind(this))
+        .attr("pointer-events", "none")
       .transition(this._transition)
-        .attr("opacity", this._opacity);
+        .attr("opacity", this._opacity)
+      .transition()
+        .attr("pointer-events", "all");
 
     const events = Object.keys(this._on);
     for (let e = 0; e < events.length; e++) update.on(events[e], this._on[events[e]]);

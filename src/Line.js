@@ -78,8 +78,11 @@ export default class Line extends Shape {
     const update = enter.merge(groups);
 
     update.call(this._applyLabels.bind(this))
+        .attr("pointer-events", "none")
       .transition(this._transition)
-        .attr("opacity", this._opacity);
+        .attr("opacity", this._opacity)
+      .transition()
+        .attr("pointer-events", "none");
 
     const events = Object.keys(this._on);
     for (let e = 0; e < events.length; e++) update.on(events[e], this._on[events[e]]);
