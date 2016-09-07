@@ -276,6 +276,24 @@ export default class Shape {
 
   /**
       @memberof Shape
+      @desc If *bounds* is specified, sets the mouse hit area to the specified function and returns the current class instance. If *bounds* is not specified, returns the current mouse hit area accessor.
+      @param {Function} [*bounds*] The given function is passed the data point, index, and internally defined properties of the shape and should return an object containing the following values: `width`, `height`, `x`, `y`.
+      @example
+function(d, i, shape) {
+  return {
+    "width": shape.width,
+    "height": shape.height,
+    "x": -shape.width / 2,
+    "y": -shape.height / 2
+  };
+}
+  */
+  hitArea(_) {
+    return arguments.length ? (this._hitArea = typeof _ === "function" ? _ : constant(_), this) : this._hitArea;
+  }
+
+  /**
+      @memberof Shape
       @desc If *value* is specified, sets the id accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current id accessor.
       @param {Function} [*value*]
   */

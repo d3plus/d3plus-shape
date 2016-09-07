@@ -1,9 +1,10 @@
 import {extent} from "d3-array";
 import {nest} from "d3-collection";
 import * as paths from "d3-shape";
+import {select} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {accessor, constant} from "d3plus-common";
+import {accessor, attrize, constant} from "d3plus-common";
 import {default as Shape} from "./Shape";
 
 /**
@@ -84,8 +85,23 @@ export default class Line extends Shape {
       .transition()
         .attr("pointer-events", "none");
 
+    const that = this;
+    let hitArea = update.selectAll(".hitArea").data(this._hitArea ? [0] : []);
+    hitArea.exit().remove();
+    hitArea = hitArea.enter().append("rect")
+        .attr("class", "hitArea")
+        .attr("fill", "none")
+      .merge(hitArea)
+        .data(d => [d])
+        .each(function(d) {
+          const h = that._hitArea(d, that._data.indexOf(d));
+          if (h) select(this).call(attrize, h);
+          else select(this).remove();
+        });
+    const handler = this._hitArea ? hitArea : update;
+
     const events = Object.keys(this._on);
-    for (let e = 0; e < events.length; e++) update.on(events[e], this._on[events[e]]);
+    for (let e = 0; e < events.length; e++) handler.on(events[e], this._on[events[e]]);
 
     return this;
 
