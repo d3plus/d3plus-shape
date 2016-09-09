@@ -1,7 +1,6 @@
-import {accessor, attrize, constant} from "d3plus-common";
+import {accessor, constant} from "d3plus-common";
 import {default as Shape} from "./Shape";
 
-import {select} from "d3-selection";
 import {transition} from "d3-transition";
 
 /**
@@ -74,23 +73,7 @@ export default class Rect extends Shape {
       .transition()
         .attr("pointer-events", "all");
 
-    const that = this;
-    let hitArea = update.selectAll(".hitArea").data(this._hitArea ? [0] : []);
-    hitArea.exit().remove();
-    hitArea = hitArea.enter().append("rect")
-        .attr("class", "hitArea")
-        .attr("fill", "none")
-      .merge(hitArea)
-        .data(d => [d])
-        .each(function(d) {
-          const h = that._hitArea(d, that._data.indexOf(d));
-          if (h) select(this).call(attrize, h);
-          else select(this).remove();
-        });
-    const handler = this._hitArea ? hitArea : update;
-
-    const events = Object.keys(this._on);
-    for (let e = 0; e < events.length; e++) handler.on(events[e], this._on[events[e]]);
+    this._applyEvents(update);
 
     return this;
 

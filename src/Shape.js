@@ -1,12 +1,7 @@
-import {select as d3Select, selectAll as d3SelectAll} from "d3-selection";
-import {transition as d3Transition} from "d3-transition";
-const d3 = {
-  select: d3Select,
-  selectAll: d3SelectAll,
-  transition: d3Transition
-};
+import {select} from "d3-selection";
+import {transition} from "d3-transition";
 
-import {constant} from "d3plus-common";
+import {attrize, constant} from "d3plus-common";
 import {contrast} from "d3plus-color";
 import {TextBox} from "d3plus-text";
 import {default as Image} from "./Image";
@@ -47,6 +42,40 @@ export default class Shape {
   */
   _aes() {
     return {};
+  }
+
+  /**
+      @memberof Shape
+      @desc Adds event listeners to each shape group or hit area.
+      @param {D3Selection} *update* The update cycle of the data binding.
+      @private
+  */
+  _applyEvents(update) {
+
+    const that = this;
+    let hitArea = update.selectAll(".hitArea").data(this._hitArea ? [0] : []);
+    hitArea.exit().remove();
+    hitArea = hitArea.enter().append("rect")
+        .attr("class", "hitArea")
+        .attr("fill", "none")
+      .merge(hitArea)
+        .data(d => [d])
+        .each(function(d) {
+          const h = that._hitArea(d, that._data.indexOf(d));
+          if (h) select(this).call(attrize, h);
+          else select(this).remove();
+        });
+    const handler = this._hitArea ? hitArea : update;
+
+    const events = Object.keys(this._on);
+    for (let e = 0; e < events.length; e++) {
+      handler.on(events[e], function(d, i) {
+        const hit = this.className.baseVal === "hitArea";
+        const t = hit ? this.parentNode : this;
+        that._on[events[e]].bind(t)(d, hit ? that._data.indexOf(d) : i);
+      });
+    }
+
   }
 
   /**
@@ -372,10 +401,10 @@ function(d, i, shape) {
   */
   render(callback) {
 
-    if (this._select === void 0) this.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
+    if (this._select === void 0) this.select(select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
     if (this._lineHeight === void 0) this.lineHeight((d, i) => this._fontSize(d, i) * 1.1);
 
-    this._transition = d3.transition().duration(this._duration);
+    this._transition = transition().duration(this._duration);
 
     if (callback) {
       setTimeout(() => {
@@ -402,7 +431,7 @@ function(d, i, shape) {
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
   select(_) {
-    return arguments.length ? (this._select = d3.select(_), this) : this._select;
+    return arguments.length ? (this._select = select(_), this) : this._select;
   }
 
   /**
