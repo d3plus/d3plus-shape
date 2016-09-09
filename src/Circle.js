@@ -1,7 +1,9 @@
-import {accessor, constant} from "d3plus-common";
-import {default as Shape} from "./Shape";
-
 import {transition} from "d3-transition";
+
+import {accessor, constant} from "d3plus-common";
+import {strip} from "d3plus-text";
+
+import {default as Shape} from "./Shape";
 
 /**
     @class Circle
@@ -56,7 +58,7 @@ export default class Circle extends Shape {
       .call(this._applyLabels.bind(this), false);
 
     const enter = groups.enter().append("g")
-        .attr("class", (d, i) => `d3plus-Shape d3plus-Circle d3plus-id-${this._id(d, i)}`)
+        .attr("class", (d, i) => `d3plus-Shape d3plus-Circle d3plus-id-${strip(this._id(d, i))}`)
         .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})`);
 
     enter.append("circle")

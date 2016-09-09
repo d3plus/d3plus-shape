@@ -4,6 +4,8 @@ import * as paths from "d3-shape";
 import {transition} from "d3-transition";
 
 import {accessor, constant} from "d3plus-common";
+import {strip} from "d3plus-text";
+
 import {default as Shape} from "./Shape";
 
 /**
@@ -65,7 +67,7 @@ export default class Line extends Shape {
     groups.exit().call(this._applyLabels.bind(this), false);
 
     const enter = groups.enter().append("g")
-        .attr("class", d => `d3plus-Shape d3plus-Line d3plus-id-${d.key}`)
+        .attr("class", d => `d3plus-Shape d3plus-Line d3plus-id-${strip(d.key)}`)
         .attr("transform", d => `translate(${d.x}, ${d.y})`)
         .attr("opacity", 0);
 
