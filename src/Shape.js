@@ -406,12 +406,7 @@ function(d, i, shape) {
 
     this._transition = transition().duration(this._duration);
 
-    if (callback) {
-      setTimeout(() => {
-        this._update = undefined;
-        callback();
-      }, this._duration + 100);
-    }
+    if (callback) setTimeout(callback, this._duration + 100);
 
     return this;
   }
@@ -459,19 +454,6 @@ function(d, i, shape) {
   */
   textAnchor(_) {
     return arguments.length ? (this._textAnchor = typeof _ === "function" ? _ : constant(_), this) : this._textAnchor;
-  }
-
-  /**
-      @memberof Shape
-      @desc Performs the standard render function, but only on the specified elements.
-      @param {Selector} *selector*
-  */
-  update(_) {
-
-    this._update = _;
-    this.render();
-
-    return this;
   }
 
   /**

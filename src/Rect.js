@@ -28,7 +28,7 @@ export default class Rect extends Shape {
 
     super.render(callback);
 
-    const groups = this._select.selectAll(this._update || ".d3plus-shape-rect").data(this._data, this._id);
+    const groups = this._select.selectAll(".d3plus-shape-rect").data(this._data, this._id);
 
     groups.transition(this._transition)
       .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})`);
