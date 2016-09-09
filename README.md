@@ -44,9 +44,9 @@ It even detects that the blue rectangle should have a dark label and the red rec
 *Please note that the x and y positions are relative to the center of the rectangles.*
 
 
-[Click here](https://d3plus.org/examples/d3plus-shape/getting-started/) to view this example live on the web.
+[<kbd><img src="/example/getting-started.png" width="360px" height="150px" /></kbd>](https://d3plus.org/examples/d3plus-shape/getting-started/)
 
-[![Getting Started](/example/getting-started.png)](https://d3plus.org/examples/d3plus-shape/getting-started/)
+[Click here](https://d3plus.org/examples/d3plus-shape/getting-started/) to view this example live on the web.
 
 
 
@@ -835,4 +835,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Wed, 07 Sep 2016 17:28:29 GMT</sub>
+###### <sub>Documentation generated on Fri, 09 Sep 2016 18:56:00 GMT</sub>
