@@ -539,6 +539,7 @@ function(d) {
     * [.stroke([*value*])](#Shape.stroke)
     * [.strokeWidth([*value*])](#Shape.strokeWidth)
     * [.textAnchor([*value*])](#Shape.textAnchor)
+    * [.update(*selector*)](#Shape.update)
     * [.verticalAlign([*value*])](#Shape.verticalAlign)
 
 <a name="new_Shape_new"></a>
@@ -822,6 +823,17 @@ If *value* is specified, sets the text-anchor accessor to the specified function
 | --- | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>&quot;start&quot;</code> | 
 
+<a name="Shape.update"></a>
+
+#### Shape.update(*selector*)
+Performs the standard render function, but only on the specified elements.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type |
+| --- | --- |
+| *selector* | <code>Selector</code> | 
+
 <a name="Shape.verticalAlign"></a>
 
 #### Shape.verticalAlign([*value*])
@@ -835,4 +847,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Fri, 09 Sep 2016 18:56:00 GMT</sub>
+###### <sub>Documentation generated on Fri, 09 Sep 2016 19:08:51 GMT</sub>
