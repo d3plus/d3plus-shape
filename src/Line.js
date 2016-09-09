@@ -1,10 +1,9 @@
 import {extent} from "d3-array";
 import {nest} from "d3-collection";
 import * as paths from "d3-shape";
-import {select} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {accessor, attrize, constant} from "d3plus-common";
+import {accessor, constant} from "d3plus-common";
 import {default as Shape} from "./Shape";
 
 /**

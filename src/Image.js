@@ -1,9 +1,6 @@
-import {select as d3Select} from "d3-selection";
-import {transition as d3Transition} from "d3-transition";
-const d3 = {
-  select: d3Select,
-  transition: d3Transition
-};
+import {select} from "d3-selection";
+import {transition} from "d3-transition";
+
 import {accessor, constant} from "d3plus-common";
 
 /**
@@ -40,7 +37,7 @@ export default class Image {
   */
   render(callback) {
 
-    if (this._select === void 0) this.select(d3.select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
+    if (this._select === void 0) this.select(select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
 
     const images = this._select.selectAll(".d3plus-shape-image").data(this._data, this._id);
 
@@ -48,7 +45,7 @@ export default class Image {
       .attr("class", "d3plus-shape-image")
       .attr("opacity", 0);
 
-    const t = d3.transition().duration(this._duration),
+    const t = transition().duration(this._duration),
           that = this,
           update = enter.merge(images);
 
@@ -61,7 +58,7 @@ export default class Image {
         .attr("x", (d, i) => this._x(d, i))
         .attr("y", (d, i) => this._y(d, i))
         .each(function(d, i) {
-          const image = d3.select(this), link = that._url(d, i);
+          const image = select(this), link = that._url(d, i);
           const fullAddress = link.indexOf("http://") === 0 || link.indexOf("https://") === 0;
           if (!fullAddress || link.indexOf(window.location.hostname) === 0) {
             const img = new Image();
@@ -141,7 +138,7 @@ function(d) {
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
   select(_) {
-    return arguments.length ? (this._select = d3.select(_), this) : this._select;
+    return arguments.length ? (this._select = select(_), this) : this._select;
   }
 
   /**

@@ -1,7 +1,6 @@
-import {accessor, attrize, constant} from "d3plus-common";
+import {accessor, constant} from "d3plus-common";
 import {default as Shape} from "./Shape";
 
-import {select} from "d3-selection";
 import {transition} from "d3-transition";
 
 /**
