@@ -37,7 +37,7 @@ export default class Circle extends Shape {
 
     super.render(callback);
 
-    const groups = this._select.selectAll(".d3plus-shape-circle").data(this._data, this._id);
+    const groups = this._select.selectAll(".d3plus-Circle").data(this._data, this._id);
 
     groups.transition(this._transition)
       .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})`);
@@ -56,8 +56,7 @@ export default class Circle extends Shape {
       .call(this._applyLabels.bind(this), false);
 
     const enter = groups.enter().append("g")
-        .attr("class", "d3plus-shape-circle")
-        .attr("id", (d, i) => `d3plus-shape-circle-${this._id(d, i)}`)
+        .attr("class", (d, i) => `d3plus-Shape d3plus-Circle d3plus-id-${this._id(d, i)}`)
         .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})`);
 
     enter.append("circle")

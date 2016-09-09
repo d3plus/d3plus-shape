@@ -50,7 +50,7 @@ export default class Line extends Shape {
       .x(this._x)
       .y(this._y);
 
-    const groups = this._select.selectAll(".d3plus-shape-line").data(lines, d => d.key);
+    const groups = this._select.selectAll(".d3plus-Line").data(lines, d => d.key);
 
     groups.transition(this._transition)
       .attr("transform", d => `translate(${d.x}, ${d.y})`);
@@ -65,8 +65,7 @@ export default class Line extends Shape {
     groups.exit().call(this._applyLabels.bind(this), false);
 
     const enter = groups.enter().append("g")
-        .attr("class", "d3plus-shape-line")
-        .attr("id", d => `d3plus-shape-line-${d.key}`)
+        .attr("class", d => `d3plus-Shape d3plus-Line d3plus-id-${d.key}`)
         .attr("transform", d => `translate(${d.x}, ${d.y})`)
         .attr("opacity", 0);
 

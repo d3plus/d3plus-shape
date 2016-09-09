@@ -28,7 +28,7 @@ export default class Rect extends Shape {
 
     super.render(callback);
 
-    const groups = this._select.selectAll(".d3plus-shape-rect").data(this._data, this._id);
+    const groups = this._select.selectAll(".d3plus-Rect").data(this._data, this._id);
 
     groups.transition(this._transition)
       .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})`);
@@ -48,8 +48,7 @@ export default class Rect extends Shape {
       .call(this._applyLabels.bind(this), false);
 
     const enter = groups.enter().append("g")
-        .attr("class", "d3plus-shape-rect")
-        .attr("id", (d, i) => `d3plus-shape-rect-${this._id(d, i)}`)
+        .attr("class", (d, i) => `d3plus-Shape d3plus-Rect d3plus-id-${this._id(d, i)}`)
         .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})`);
 
     enter.append("rect")
