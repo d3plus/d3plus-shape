@@ -131,7 +131,10 @@ export default class Shape {
     g.each(function(datum, i) {
 
       let d = datum;
-      if (datum.nested && datum.key && datum.values) d = datum.values[0];
+      if (datum.nested && datum.key && datum.values) {
+        d = datum.values[0];
+        i = that._data.indexOf(d);
+      }
 
       /* Draws label based on inner bounds */
       const labelData = [];
@@ -208,10 +211,18 @@ export default class Shape {
       @private
   */
   _applyStyle(elem) {
+
+    const that = this;
+    function styleLogic(d, i) {
+      return d.nested && d.key && d.values
+           ? this(d.values[0], that._data.indexOf(d.values[0]))
+           : this(d, i);
+    }
+
     elem
-      .attr("fill", (d, i) => this._fill(d, i))
-      .attr("stroke", (d, i) => this._stroke(d, i))
-      .attr("stroke-width", (d, i) => this._strokeWidth(d, i));
+      .attr("fill", styleLogic.bind(this._fill))
+      .attr("stroke", styleLogic.bind(this._stroke))
+      .attr("stroke-width", styleLogic.bind(this._strokeWidth));
   }
 
   /**
