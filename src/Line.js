@@ -1,5 +1,7 @@
 import {extent} from "d3-array";
 import {nest} from "d3-collection";
+import {interpolatePath} from "d3-interpolate-path";
+import {select} from "d3-selection";
 import * as paths from "d3-shape";
 import {transition} from "d3-transition";
 
@@ -34,6 +36,8 @@ export default class Line extends Shape {
 
     super.render(callback);
 
+    const that = this;
+
     const lines = nest().key(this._id).entries(this._data).map(d => {
       const x = extent(d.values, v => v.x);
       d.xR = x;
@@ -59,7 +63,9 @@ export default class Line extends Shape {
 
     groups.select("path").transition(this._transition)
       .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
-      .attr("d", d => this._path(d.values))
+      .attrTween("d", function(d) {
+        return interpolatePath(select(this).attr("d"), that._path(d.values));
+      })
       .call(this._applyStyle.bind(this));
 
     groups.exit().transition().delay(this._duration).remove();
