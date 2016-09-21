@@ -39,11 +39,11 @@ export default class Line extends Shape {
     const that = this;
 
     const lines = nest().key(this._id).entries(this._data).map(d => {
-      const x = extent(d.values, v => v.x);
+      const x = extent(d.values, this._x);
       d.xR = x;
       d.width = x[1] - x[0];
       d.x = x[0] + d.width / 2;
-      const y = extent(d.values, v => v.y);
+      const y = extent(d.values, this._y);
       d.yR = y;
       d.height = y[1] - y[0];
       d.y = y[0] + d.height / 2;
