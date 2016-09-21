@@ -44,7 +44,7 @@ It even detects that the blue rectangle should have a dark label and the red rec
 *Please note that the x and y positions are relative to the center of the rectangles.*
 
 
-[<kbd><img src="/example/getting-started.png" width="360px" height="150px" /></kbd>](https://d3plus.org/examples/d3plus-shape/getting-started/)
+[<kbd><img src="/example/getting-started.png" width="360px" /></kbd>](https://d3plus.org/examples/d3plus-shape/getting-started/)
 
 [Click here](https://d3plus.org/examples/d3plus-shape/getting-started/) to view this example live on the web.
 
@@ -56,6 +56,8 @@ It even detects that the blue rectangle should have a dark label and the red rec
 ### Classes
 
 <dl>
+<dt><a href="#Area">Area</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
+<dd></dd>
 <dt><a href="#Circle">Circle</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
 <dt><a href="#Image">Image</a></dt>
@@ -67,6 +69,128 @@ It even detects that the blue rectangle should have a dark label and the red rec
 <dt><a href="#Shape">Shape</a></dt>
 <dd></dd>
 </dl>
+
+<a name="Area"></a>
+
+### Area ⇐ <code>[Shape](#Shape)</code>
+**Kind**: global class  
+**Extends:** <code>[Shape](#Shape)</code>  
+
+* [Area](#Area) ⇐ <code>[Shape](#Shape)</code>
+    * [new Area()](#new_Area_new)
+    * [.curve([*value*])](#Area.curve)
+    * [.update(*selector*)](#Area.update)
+    * [.x([*value*])](#Area.x)
+    * [.x0([*value*])](#Area.x0)
+    * [.x1([*value*])](#Area.x1)
+    * [.y([*value*])](#Area.y)
+    * [.y0([*value*])](#Area.y0)
+    * [.y1([*value*])](#Area.y1)
+
+<a name="new_Area_new"></a>
+
+#### new Area()
+Creates SVG areas based on an array of data.
+
+<a name="Area.curve"></a>
+
+#### Area.curve([*value*])
+If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve. The number returned should correspond to the horizontal center of the rectangle.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>String</code> | <code>&quot;linear&quot;</code> | 
+
+<a name="Area.update"></a>
+
+#### Area.update(*selector*)
+Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| *selector* | <code>String</code> &#124; <code>HTMLElement</code> | 
+
+<a name="Area.x"></a>
+
+#### Area.x([*value*])
+If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.x;
+}
+```
+<a name="Area.x0"></a>
+
+#### Area.x0([*value*])
+If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+<a name="Area.x1"></a>
+
+#### Area.x1([*value*])
+If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x1 accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+<a name="Area.y"></a>
+
+#### Area.y([*value*])
+If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.y;
+}
+```
+<a name="Area.y0"></a>
+
+#### Area.y0([*value*])
+If *value* is specified, sets the y0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y0 accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+<a name="Area.y1"></a>
+
+#### Area.y1([*value*])
+If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
 
 <a name="Circle"></a>
 
@@ -380,7 +504,7 @@ Updates the style and positioning of the elements matching *selector* and return
 <a name="Line.x"></a>
 
 #### Line.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
+If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
 
 **Kind**: static method of <code>[Line](#Line)</code>  
 
@@ -397,7 +521,7 @@ function(d) {
 <a name="Line.y"></a>
 
 #### Line.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
+If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
 
 **Kind**: static method of <code>[Line](#Line)</code>  
 
@@ -835,4 +959,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Fri, 09 Sep 2016 22:54:10 GMT</sub>
+###### <sub>Documentation generated on Wed, 21 Sep 2016 23:17:34 GMT</sub>
