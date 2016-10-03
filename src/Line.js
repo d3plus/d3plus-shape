@@ -89,7 +89,7 @@ export default class Line extends Shape {
       .transition(this._transition)
         .attr("opacity", this._opacity)
       .transition()
-        .attr("pointer-events", "none");
+        .attr("pointer-events", "all");
 
     this._applyEvents(update);
 
