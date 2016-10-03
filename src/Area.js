@@ -182,7 +182,7 @@ function(d) {
 }
   */
   x(_) {
-    return arguments.length ? (this._x = _, this) : this._x;
+    return arguments.length ? (this._x = typeof _ === "function" ? _ : constant(_), this) : this._x;
   }
 
   /**
@@ -191,16 +191,16 @@ function(d) {
       @param {Function|Number} [*value*]
   */
   x0(_) {
-    return arguments.length ? (this._x0 = _, this) : this._x0;
+    return arguments.length ? (this._x0 = typeof _ === "function" ? _ : constant(_), this) : this._x0;
   }
 
   /**
       @memberof Area
       @desc If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x1 accessor.
-      @param {Function|Number} [*value*]
+      @param {Function|Number|null} [*value*]
   */
   x1(_) {
-    return arguments.length ? (this._x1 = _, this) : this._x1;
+    return arguments.length ? (this._x1 = typeof _ === "function" || _ === null ? _ : constant(_), this) : this._x1;
   }
 
   /**
@@ -213,7 +213,7 @@ function(d) {
 }
   */
   y(_) {
-    return arguments.length ? (this._y = _, this) : this._y;
+    return arguments.length ? (this._y = typeof _ === "function" ? _ : constant(_), this) : this._y;
   }
 
   /**
@@ -222,16 +222,16 @@ function(d) {
       @param {Function|Number} [*value*]
   */
   y0(_) {
-    return arguments.length ? (this._y0 = _, this) : this._y0;
+    return arguments.length ? (this._y0 = typeof _ === "function" ? _ : constant(_), this) : this._y0;
   }
 
   /**
       @memberof Area
       @desc If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
-      @param {Function|Number} [*value*]
+      @param {Function|Number|null} [*value*]
   */
   y1(_) {
-    return arguments.length ? (this._y1 = _, this) : this._y1;
+    return arguments.length ? (this._y1 = typeof _ === "function" || _ === null ? _ : constant(_), this) : this._y1;
   }
 
 }
