@@ -151,7 +151,7 @@ If *value* is specified, sets the x1 accessor to the specified function or numbe
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
 
 <a name="Area.y"></a>
 
@@ -190,7 +190,7 @@ If *value* is specified, sets the y1 accessor to the specified function or numbe
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
 
 <a name="Circle"></a>
 
@@ -959,4 +959,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Wed, 21 Sep 2016 23:17:34 GMT</sub>
+###### <sub>Documentation generated on Mon, 03 Oct 2016 21:55:52 GMT</sub>
