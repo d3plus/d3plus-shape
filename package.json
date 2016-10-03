@@ -29,10 +29,11 @@
     "d3-shape": "^1.0.1",
     "d3-transition": "^1.0.0",
     "d3plus-color": "^0.5.0",
-    "d3plus-common": "^0.5.20",
+    "d3plus-common": "^0.5.21",
     "d3plus-text": "^0.9.5"
   },
   "scripts": {
+    "build": "d3plus-build",
     "dev": "d3plus-dev",
     "docs": "d3plus-docs",
     "env": "d3plus-env",
