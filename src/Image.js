@@ -19,6 +19,11 @@ image().data([data])(function() { alert("draw complete!"); })
 */
 export default class Image {
 
+  /**
+      @memberof Image
+      @desc Invoked when creating a new class instance, and sets any default parameters.
+      @private
+  */
   constructor() {
     this._duration = 600;
     this._height = accessor("height");

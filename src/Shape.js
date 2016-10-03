@@ -12,6 +12,11 @@ import {default as Image} from "./Image";
 */
 export default class Shape {
 
+  /**
+      @memberof Shape
+      @desc Invoked when creating a new class instance, and sets any default parameters.
+      @private
+  */
   constructor() {
     this._backgroundImage = constant(false);
     this._data = [];

@@ -12,6 +12,11 @@ import {default as Shape} from "./Shape";
 */
 export default class Rect extends Shape {
 
+  /**
+      @memberof Rect
+      @desc Invoked when creating a new class instance, and overrides any default parameters inherited from Shape.
+      @private
+  */
   constructor() {
     super();
     this._height = accessor("height");

@@ -12,6 +12,11 @@ import {default as Shape} from "./Shape";
 */
 export default class Circle extends Shape {
 
+  /**
+      @memberof Circle
+      @desc Invoked when creating a new class instance, and overrides any default parameters inherited from Shape.
+      @private
+  */
   constructor() {
     super();
     this._r = accessor("r");

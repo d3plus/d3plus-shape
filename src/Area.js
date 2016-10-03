@@ -17,6 +17,11 @@ import {default as Shape} from "./Shape";
 */
 export default class Area extends Shape {
 
+  /**
+      @memberof Area
+      @desc Invoked when creating a new class instance, and overrides any default parameters inherited from Shape.
+      @private
+  */
   constructor() {
 
     super();
