@@ -24,22 +24,10 @@ export default class Area extends Shape {
     this._curve = "linear";
     this._x = accessor("x");
     this._x0 = accessor("x");
-    this._x1 = constant(null);
+    this._x1 = null;
     this._y = constant(0);
     this._y0 = constant(0);
     this._y1 = accessor("y");
-
-    this._path = paths.area()
-      .defined(d => d)
-      .x(this._x)
-      .y0(this._y0)
-      .y1(this._y1);
-
-    this._pathExit = paths.area()
-      .defined(d => d)
-      .x(this._x)
-      .y0(this._y0)
-      .y1(this._y0);
 
   }
 
@@ -52,19 +40,37 @@ export default class Area extends Shape {
 
     super.render(callback);
 
-    const that = this;
+    const path = this._path = paths.area()
+      .defined(d => d)
+      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+      .x(this._x)
+      .x0(this._x0)
+      .x1(this._x1)
+      .y(this._y)
+      .y0(this._y0)
+      .y1(this._y1);
+
+    const exitPath = paths.area()
+      .defined(d => d)
+      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+      .x(this._x)
+      .x0(this._x0)
+      .x1(this._x1)
+      .y(this._y)
+      .y0(this._y0)
+      .y1(this._y1);
 
     const areas = nest().key(this._id).entries(this._data).map(d => {
       const x = extent(d.values.map(this._x)
         .concat(d.values.map(this._x0))
-        .concat(d.values.map(this._x1))
+        .concat(this._x1 ? d.values.map(this._x1) : [])
       );
       d.xR = x;
       d.width = x[1] - x[0];
       d.x = x[0] + d.width / 2;
       const y = extent(d.values.map(this._y)
         .concat(d.values.map(this._y0))
-        .concat(d.values.map(this._y1))
+        .concat(this._y1 ? d.values.map(this._y1) : [])
       );
       d.yR = y;
       d.height = y[1] - y[0];
@@ -72,8 +78,6 @@ export default class Area extends Shape {
       d.nested = true;
       return d;
     });
-
-    this._path.curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`]);
 
     const groups = this._select.selectAll(".d3plus-Area").data(areas, d => d.key);
 
@@ -83,13 +87,13 @@ export default class Area extends Shape {
     groups.select("path").transition(this._transition)
       .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
       .attrTween("d", function(d) {
-        return interpolatePath(select(this).attr("d"), that._path(d.values));
+        return interpolatePath(select(this).attr("d"), path(d.values));
       })
       .call(this._applyStyle.bind(this));
 
     groups.exit().select("path").transition(this._transition)
       .attrTween("d", function(d) {
-        return interpolatePath(select(this).attr("d"), that._pathExit(d.values));
+        return interpolatePath(select(this).attr("d"), exitPath(d.values));
       });
 
     groups.exit().transition().delay(this._duration).remove();
@@ -103,7 +107,7 @@ export default class Area extends Shape {
 
     enter.append("path")
       .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
-      .attr("d", d => this._path(d.values))
+      .attr("d", d => path(d.values))
       .call(this._applyStyle.bind(this));
 
     const update = enter.merge(groups);
@@ -173,13 +177,7 @@ function(d) {
 }
   */
   x(_) {
-    if (arguments.length) {
-      this._x = typeof _ === "function" ? _ : constant(_);
-      this._path.x(this._x);
-      this._pathExit.x(this._x);
-      return this;
-    }
-    return this._x;
+    return arguments.length ? (this._x = _, this) : this._x;
   }
 
   /**
@@ -188,14 +186,7 @@ function(d) {
       @param {Function|Number} [*value*]
   */
   x0(_) {
-    if (arguments.length) {
-      this._x0 = typeof _ === "function" ? _ : constant(_);
-      this._path.x0(this._x0);
-      this._pathExit.x0(this._x0);
-      this._pathExit.x1(this._x0);
-      return this;
-    }
-    return this._x0;
+    return arguments.length ? (this._x0 = _, this) : this._x0;
   }
 
   /**
@@ -204,12 +195,7 @@ function(d) {
       @param {Function|Number} [*value*]
   */
   x1(_) {
-    if (arguments.length) {
-      this._x1 = typeof _ === "function" ? _ : constant(_);
-      this._path.x1(this._x1);
-      return this;
-    }
-    return this._x1;
+    return arguments.length ? (this._x1 = _, this) : this._x1;
   }
 
   /**
@@ -222,13 +208,7 @@ function(d) {
 }
   */
   y(_) {
-    if (arguments.length) {
-      this._y = typeof _ === "function" ? _ : constant(_);
-      this._path.y(this._y);
-      this._pathExit.y(this._y);
-      return this;
-    }
-    return this._y;
+    return arguments.length ? (this._y = _, this) : this._y;
   }
 
   /**
@@ -237,14 +217,7 @@ function(d) {
       @param {Function|Number} [*value*]
   */
   y0(_) {
-    if (arguments.length) {
-      this._y0 = typeof _ === "function" ? _ : constant(_);
-      this._path.y0(this._y0);
-      this._pathExit.y0(this._y0);
-      this._pathExit.y1(this._y0);
-      return this;
-    }
-    return this._y0;
+    return arguments.length ? (this._y0 = _, this) : this._y0;
   }
 
   /**
@@ -253,12 +226,7 @@ function(d) {
       @param {Function|Number} [*value*]
   */
   y1(_) {
-    if (arguments.length) {
-      this._y1 = typeof _ === "function" ? _ : constant(_);
-      this._path.y1(this._y1);
-      return this;
-    }
-    return this._y1;
+    return arguments.length ? (this._y1 = _, this) : this._y1;
   }
 
 }
