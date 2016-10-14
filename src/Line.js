@@ -25,8 +25,9 @@ export default class Line extends Shape {
   constructor() {
     super();
     this._curve = "linear";
+    this._defined = d => d;
     this._fill = constant("none");
-    this._path = paths.line().defined(d => d);
+    this._path = paths.line();
     this._strokeWidth = constant(1);
     this._x = accessor("x");
     this._y = accessor("y");
@@ -58,6 +59,7 @@ export default class Line extends Shape {
 
     this._path
       .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+      .defined(this._defined)
       .x(this._x)
       .y(this._y);
 
@@ -115,11 +117,20 @@ export default class Line extends Shape {
 
   /**
       @memberof Line
-      @desc If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve. The number returned should correspond to the horizontal center of the rectangle.
+      @desc If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve.
       @param {String} [*value* = "linear"]
   */
   curve(_) {
     return arguments.length ? (this._curve = _, this) : this._curve;
+  }
+
+  /**
+      @memberof Line
+      @desc If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
+      @param {Function} [*value*]
+  */
+  defined(_) {
+    return arguments.length ? (this._defined = _, this) : this._defined;
   }
 
   /**

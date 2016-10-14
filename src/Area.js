@@ -27,6 +27,7 @@ export default class Area extends Shape {
     super();
 
     this._curve = "linear";
+    this._defined = () => true;
     this._x = accessor("x");
     this._x0 = accessor("x");
     this._x1 = null;
@@ -46,7 +47,7 @@ export default class Area extends Shape {
     super.render(callback);
 
     const path = this._path = paths.area()
-      .defined(d => d)
+      .defined(this._defined)
       .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
       .x(this._x)
       .x0(this._x0)
@@ -143,11 +144,20 @@ export default class Area extends Shape {
 
   /**
       @memberof Area
-      @desc If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve. The number returned should correspond to the horizontal center of the rectangle.
+      @desc If *value* is specified, sets the area curve to the specified string and returns the current class instance. If *value* is not specified, returns the current area curve.
       @param {String} [*value* = "linear"]
   */
   curve(_) {
     return arguments.length ? (this._curve = _, this) : this._curve;
+  }
+
+  /**
+      @memberof Area
+      @desc If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
+      @param {Function} [*value*]
+  */
+  defined(_) {
+    return arguments.length ? (this._defined = _, this) : this._defined;
   }
 
   /**
