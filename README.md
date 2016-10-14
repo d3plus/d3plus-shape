@@ -79,6 +79,7 @@ It even detects that the blue rectangle should have a dark label and the red rec
 * [Area](#Area) ⇐ <code>[Shape](#Shape)</code>
     * [new Area()](#new_Area_new)
     * [.curve([*value*])](#Area.curve)
+    * [.defined([*value*])](#Area.defined)
     * [.update(*selector*)](#Area.update)
     * [.x([*value*])](#Area.x)
     * [.x0([*value*])](#Area.x0)
@@ -95,13 +96,24 @@ Creates SVG areas based on an array of data.
 <a name="Area.curve"></a>
 
 #### Area.curve([*value*])
-If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve. The number returned should correspond to the horizontal center of the rectangle.
+If *value* is specified, sets the area curve to the specified string and returns the current class instance. If *value* is not specified, returns the current area curve.
 
 **Kind**: static method of <code>[Area](#Area)</code>  
 
 | Param | Type | Default |
 | --- | --- | --- |
 | [*value*] | <code>String</code> | <code>&quot;linear&quot;</code> | 
+
+<a name="Area.defined"></a>
+
+#### Area.defined([*value*])
+If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> | 
 
 <a name="Area.update"></a>
 
@@ -470,6 +482,7 @@ function(d) {
 * [Line](#Line) ⇐ <code>[Shape](#Shape)</code>
     * [new Line()](#new_Line_new)
     * [.curve([*value*])](#Line.curve)
+    * [.defined([*value*])](#Line.defined)
     * [.update(*selector*)](#Line.update)
     * [.x([*value*])](#Line.x)
     * [.y([*value*])](#Line.y)
@@ -482,13 +495,24 @@ Creates SVG lines based on an array of data.
 <a name="Line.curve"></a>
 
 #### Line.curve([*value*])
-If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve. The number returned should correspond to the horizontal center of the rectangle.
+If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve.
 
 **Kind**: static method of <code>[Line](#Line)</code>  
 
 | Param | Type | Default |
 | --- | --- | --- |
 | [*value*] | <code>String</code> | <code>&quot;linear&quot;</code> | 
+
+<a name="Line.defined"></a>
+
+#### Line.defined([*value*])
+If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
+
+**Kind**: static method of <code>[Line](#Line)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> | 
 
 <a name="Line.update"></a>
 
@@ -959,4 +983,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Mon, 03 Oct 2016 22:01:57 GMT</sub>
+###### <sub>Documentation generated on Fri, 14 Oct 2016 21:28:22 GMT</sub>
