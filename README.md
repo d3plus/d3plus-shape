@@ -665,7 +665,6 @@ function(d) {
 * [Shape](#Shape)
     * [new Shape()](#new_Shape_new)
     * [.backgroundImage([*value*])](#Shape.backgroundImage)
-    * [.config([*value*])](#Shape.config)
     * [.data([*data*])](#Shape.data)
     * [.duration([*ms*])](#Shape.duration)
     * [.fill([*value*])](#Shape.fill)
@@ -679,7 +678,6 @@ function(d) {
     * [.labelBounds([*bounds*])](#Shape.labelBounds)
     * [.labelPadding([*value*])](#Shape.labelPadding)
     * [.lineHeight([*value*])](#Shape.lineHeight)
-    * [.on([*typenames*], [*listener*])](#Shape.on)
     * [.opacity([*value*])](#Shape.opacity)
     * [.render([*callback*])](#Shape.render)
     * [.scale([*value*])](#Shape.scale)
@@ -704,17 +702,6 @@ If *value* is specified, sets the background-image accessor to the specified fun
 | Param | Type | Default |
 | --- | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> | <code>false</code> | 
-
-<a name="Shape.config"></a>
-
-#### Shape.config([*value*])
-If *value* is specified, sets the methods that correspond to the key/value pairs and returns the current class instance. If *value* is not specified, returns the current configuration.
-
-**Kind**: static method of <code>[Shape](#Shape)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>Object</code> | 
 
 <a name="Shape.data"></a>
 
@@ -881,18 +868,6 @@ If *value* is specified, sets the line-height accessor to the specified function
 | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
 
-<a name="Shape.on"></a>
-
-#### Shape.on([*typenames*], [*listener*])
-Adds or removes a *listener* to each shape for the specified event *typenames*. If a *listener* is not specified, returns the currently-assigned listener for the specified event *typename*. Mirrors the core [d3-selection](https://github.com/d3/d3-selection#selection_on) behavior.
-
-**Kind**: static method of <code>[Shape](#Shape)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*typenames*] | <code>String</code> &#124; <code>Object</code> | 
-| [*listener*] | <code>function</code> | 
-
 <a name="Shape.opacity"></a>
 
 #### Shape.opacity([*value*])
@@ -983,4 +958,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Mon, 17 Oct 2016 19:24:04 GMT</sub>
+###### <sub>Documentation generated on Mon, 17 Oct 2016 19:42:02 GMT</sub>
