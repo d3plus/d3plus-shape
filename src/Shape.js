@@ -75,6 +75,7 @@ export default class Shape {
     const events = Object.keys(this._on);
     for (let e = 0; e < events.length; e++) {
       handler.on(events[e], function(d, i) {
+        if (!that._on[events[e]]) return;
         const hit = this.className.baseVal === "hitArea";
         const t = hit ? this.parentNode : this;
         that._on[events[e]].bind(t)(d, hit ? that._data.indexOf(d) : i);
