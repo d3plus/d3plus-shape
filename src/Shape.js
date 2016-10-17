@@ -1,7 +1,7 @@
 import {select} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {attrize, constant} from "d3plus-common";
+import {attrize, BaseClass, constant} from "d3plus-common";
 import {contrast} from "d3plus-color";
 import {TextBox} from "d3plus-text";
 import {default as Image} from "./Image";
@@ -10,7 +10,7 @@ import {default as Image} from "./Image";
     @class Shape
     @desc An abstracted class for generating shapes.
 */
-export default class Shape {
+export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
@@ -18,6 +18,7 @@ export default class Shape {
       @private
   */
   constructor() {
+    super();
     this._backgroundImage = constant(false);
     this._data = [];
     this._duration = 600;
@@ -29,7 +30,6 @@ export default class Shape {
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._label = constant(false);
     this._labelPadding = constant(5);
-    this._on = {};
     this._opacity = constant(1);
     this._scale = constant(1);
     this._stroke = constant("black");
@@ -219,6 +219,13 @@ export default class Shape {
   _applyStyle(elem) {
 
     const that = this;
+
+    /**
+        @desc Determines whether a shape is a nested collection of data points, and uses the appropriate data and index for the given function context.
+        @param {Object} *d* data point
+        @param {Number} *i* index
+        @private
+    */
     function styleLogic(d, i) {
       return d.nested && d.key && d.values
            ? this(d.values[0], that._data.indexOf(d.values[0]))
@@ -238,23 +245,6 @@ export default class Shape {
   */
   backgroundImage(_) {
     return arguments.length ? (this._backgroundImage = typeof _ === "function" ? _ : constant(_), this) : this._backgroundImage;
-  }
-
-  /**
-      @memberof Shape
-      @desc If *value* is specified, sets the methods that correspond to the key/value pairs and returns the current class instance. If *value* is not specified, returns the current configuration.
-      @param {Object} [*value*]
-  */
-  config(_) {
-    if (arguments.length) {
-      for (const k in _) if ({}.hasOwnProperty.call(_, k) && k in this) this[k](_[k]);
-      return this;
-    }
-    else {
-      const config = {};
-      for (const k in this.prototype.constructor) if (k !== "config" && {}.hasOwnProperty.call(this, k)) config[k] = this[k]();
-      return config;
-    }
   }
 
   /**
@@ -390,16 +380,6 @@ function(d, i, shape) {
   */
   lineHeight(_) {
     return arguments.length ? (this._lineHeight = typeof _ === "function" ? _ : constant(_), this) : this._lineHeight;
-  }
-
-  /**
-      @memberof Shape
-      @desc Adds or removes a *listener* to each shape for the specified event *typenames*. If a *listener* is not specified, returns the currently-assigned listener for the specified event *typename*. Mirrors the core [d3-selection](https://github.com/d3/d3-selection#selection_on) behavior.
-      @param {String|Object} [*typenames*]
-      @param {Function} [*listener*]
-  */
-  on(_, f) {
-    return arguments.length === 2 ? (this._on[_] = f, this) : arguments.length ? typeof _ === "string" ? this._on[_] : (this._on = Object.assign({}, this._on, _), this) : this._on;
   }
 
   /**
