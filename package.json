@@ -28,7 +28,7 @@
     "d3-selection": "^1.0.2",
     "d3-shape": "^1.0.1",
     "d3-transition": "^1.0.0",
-    "d3plus-color": "^0.5.0",
+    "d3plus-color": "^0.5.3",
     "d3plus-common": "^0.6.5",
     "d3plus-text": "^0.9.5"
   },
