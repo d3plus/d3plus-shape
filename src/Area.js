@@ -162,41 +162,6 @@ export default class Area extends Shape {
 
   /**
       @memberof Area
-      @desc Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
-      @param {String|HTMLElement} *selector*
-  */
-  update(_) {
-
-    const groups = this._select.selectAll(_),
-          t = transition().duration(this._duration);
-
-    groups
-        .call(this._applyLabels.bind(this))
-      .transition(t)
-        .attr("opacity", this._opacity);
-
-    groups.select("path").transition(t)
-      .attr("d", d => this._path(d.values));
-
-    return this;
-
-  }
-
-  /**
-      @memberof Area
-      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
-      @param {Function|Number} [*value*]
-      @example
-function(d) {
-  return d.x;
-}
-  */
-  x(_) {
-    return arguments.length ? (this._x = typeof _ === "function" ? _ : constant(_), this) : this._x;
-  }
-
-  /**
-      @memberof Area
       @desc If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
       @param {Function|Number} [*value*]
   */
@@ -211,19 +176,6 @@ function(d) {
   */
   x1(_) {
     return arguments.length ? (this._x1 = typeof _ === "function" || _ === null ? _ : constant(_), this) : this._x1;
-  }
-
-  /**
-      @memberof Area
-      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
-      @param {Function|Number} [*value*]
-      @example
-function(d) {
-  return d.y;
-}
-  */
-  y(_) {
-    return arguments.length ? (this._y = typeof _ === "function" ? _ : constant(_), this) : this._y;
   }
 
   /**

@@ -3,9 +3,8 @@ import {nest} from "d3-collection";
 import {interpolatePath} from "d3-interpolate-path";
 import {select} from "d3-selection";
 import * as paths from "d3-shape";
-import {transition} from "d3-transition";
 
-import {accessor, constant} from "d3plus-common";
+import {constant} from "d3plus-common";
 import {strip} from "d3plus-text";
 
 import {default as Shape} from "./Shape";
@@ -23,14 +22,15 @@ export default class Line extends Shape {
       @private
   */
   constructor() {
+
     super();
+
     this._curve = "linear";
     this._defined = d => d;
     this._fill = constant("none");
     this._path = paths.line();
     this._strokeWidth = constant(1);
-    this._x = accessor("x");
-    this._y = accessor("y");
+
   }
 
   /**
@@ -131,54 +131,6 @@ export default class Line extends Shape {
   */
   defined(_) {
     return arguments.length ? (this._defined = _, this) : this._defined;
-  }
-
-  /**
-      @memberof Line
-      @desc Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
-      @param {String|HTMLElement} *selector*
-  */
-  update(_) {
-
-    const groups = this._select.selectAll(_),
-          t = transition().duration(this._duration);
-
-    groups
-        .call(this._applyLabels.bind(this))
-      .transition(t)
-        .attr("opacity", this._opacity);
-
-    groups.select("path").transition(t)
-      .attr("d", d => this._path(d.values));
-
-    return this;
-
-  }
-
-  /**
-      @memberof Line
-      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
-      @param {Function|Number} [*value*]
-      @example
-function(d) {
-  return d.x;
-}
-  */
-  x(_) {
-    return arguments.length ? (this._x = typeof _ === "function" ? _ : constant(_), this) : this._x;
-  }
-
-  /**
-      @memberof Line
-      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
-      @param {Function|Number} [*value*]
-      @example
-function(d) {
-  return d.y;
-}
-  */
-  y(_) {
-    return arguments.length ? (this._y = typeof _ === "function" ? _ : constant(_), this) : this._y;
   }
 
 }

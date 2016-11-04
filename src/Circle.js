@@ -1,5 +1,3 @@
-import {transition} from "d3-transition";
-
 import {accessor, constant} from "d3plus-common";
 import {strip} from "d3plus-text";
 
@@ -20,8 +18,6 @@ export default class Circle extends Shape {
   constructor() {
     super();
     this._r = accessor("r");
-    this._x = accessor("x");
-    this._y = accessor("y");
   }
 
   /**
@@ -114,57 +110,6 @@ function(d) {
   */
   r(_) {
     return arguments.length ? (this._r = typeof _ === "function" ? _ : constant(_), this) : this._r;
-  }
-
-  /**
-      @memberof Circle
-      @desc Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
-      @param {String|HTMLElement} *selector*
-  */
-  update(_) {
-
-    const groups = this._select.selectAll(_),
-          t = transition().duration(this._duration);
-
-    groups
-        .call(this._applyImage.bind(this))
-        .call(this._applyLabels.bind(this))
-      .transition(t)
-        .attr("opacity", this._opacity)
-        .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})scale(${this._scale(d, i)})`);
-
-    groups.select("circle").transition(t)
-      .call(this._applyStyle.bind(this))
-      .call(this._applyPosition.bind(this));
-
-    return this;
-
-  }
-
-  /**
-      @memberof Circle
-      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
-      @param {Function|Number} [*value*]
-      @example
-function(d) {
-  return d.x;
-}
-  */
-  x(_) {
-    return arguments.length ? (this._x = typeof _ === "function" ? _ : constant(_), this) : this._x;
-  }
-
-  /**
-      @memberof Circle
-      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
-      @param {Function|Number} [*value*]
-      @example
-function(d) {
-  return d.y;
-}
-  */
-  y(_) {
-    return arguments.length ? (this._y = typeof _ === "function" ? _ : constant(_), this) : this._y;
   }
 
 }

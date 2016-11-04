@@ -1,7 +1,7 @@
 import {select} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {attrize, BaseClass, constant} from "d3plus-common";
+import {accessor, attrize, BaseClass, constant} from "d3plus-common";
 import {contrast} from "d3plus-color";
 import {TextBox} from "d3plus-text";
 import {default as Image} from "./Image";
@@ -18,7 +18,9 @@ export default class Shape extends BaseClass {
       @private
   */
   constructor() {
+
     super();
+
     this._backgroundImage = constant(false);
     this._data = [];
     this._duration = 600;
@@ -38,6 +40,9 @@ export default class Shape extends BaseClass {
     this._transform = constant("");
     this._vectorEffect = constant("non-scaling-stroke");
     this._verticalAlign = constant("top");
+    this._x = accessor("x");
+    this._y = accessor("y");
+
   }
 
   /**
@@ -482,6 +487,32 @@ function(d, i, shape) {
   */
   verticalAlign(_) {
     return arguments.length ? (this._verticalAlign = typeof _ === "function" ? _ : constant(_), this) : this._verticalAlign;
+  }
+
+  /**
+      @memberof Rect
+      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
+      @param {Function|Number} [*value*]
+      @example
+function(d) {
+  return d.x;
+}
+  */
+  x(_) {
+    return arguments.length ? (this._x = typeof _ === "function" ? _ : constant(_), this) : this._x;
+  }
+
+  /**
+      @memberof Rect
+      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
+      @param {Function|Number} [*value*]
+      @example
+function(d) {
+  return d.y;
+}
+  */
+  y(_) {
+    return arguments.length ? (this._y = typeof _ === "function" ? _ : constant(_), this) : this._y;
   }
 
 }
