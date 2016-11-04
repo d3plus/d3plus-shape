@@ -64,6 +64,8 @@ It even detects that the blue rectangle should have a dark label and the red rec
 <dd></dd>
 <dt><a href="#Line">Line</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
+<dt><a href="#Path">Path</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
+<dd></dd>
 <dt><a href="#Rect">Rect</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
 <dt><a href="#Shape">Shape</a></dt>
@@ -80,11 +82,8 @@ It even detects that the blue rectangle should have a dark label and the red rec
     * [new Area()](#new_Area_new)
     * [.curve([*value*])](#Area.curve)
     * [.defined([*value*])](#Area.defined)
-    * [.update(*selector*)](#Area.update)
-    * [.x([*value*])](#Area.x)
     * [.x0([*value*])](#Area.x0)
     * [.x1([*value*])](#Area.x1)
-    * [.y([*value*])](#Area.y)
     * [.y0([*value*])](#Area.y0)
     * [.y1([*value*])](#Area.y1)
 
@@ -115,34 +114,6 @@ If *value* is specified, sets the defined accessor to the specified function and
 | --- | --- |
 | [*value*] | <code>function</code> | 
 
-<a name="Area.update"></a>
-
-#### Area.update(*selector*)
-Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
-
-**Kind**: static method of <code>[Area](#Area)</code>  
-
-| Param | Type |
-| --- | --- |
-| *selector* | <code>String</code> &#124; <code>HTMLElement</code> | 
-
-<a name="Area.x"></a>
-
-#### Area.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
-
-**Kind**: static method of <code>[Area](#Area)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
-
-**Example**  
-```js
-function(d) {
-  return d.x;
-}
-```
 <a name="Area.x0"></a>
 
 #### Area.x0([*value*])
@@ -165,23 +136,6 @@ If *value* is specified, sets the x1 accessor to the specified function or numbe
 | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
 
-<a name="Area.y"></a>
-
-#### Area.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
-
-**Kind**: static method of <code>[Area](#Area)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
-
-**Example**  
-```js
-function(d) {
-  return d.y;
-}
-```
 <a name="Area.y0"></a>
 
 #### Area.y0([*value*])
@@ -213,9 +167,6 @@ If *value* is specified, sets the y1 accessor to the specified function or numbe
 * [Circle](#Circle) ⇐ <code>[Shape](#Shape)</code>
     * [new Circle()](#new_Circle_new)
     * [.r([*value*])](#Circle.r)
-    * [.update(*selector*)](#Circle.update)
-    * [.x([*value*])](#Circle.x)
-    * [.y([*value*])](#Circle.y)
 
 <a name="new_Circle_new"></a>
 
@@ -237,51 +188,6 @@ If *value* is specified, sets the radius accessor to the specified function or n
 ```js
 function(d) {
   return d.r;
-}
-```
-<a name="Circle.update"></a>
-
-#### Circle.update(*selector*)
-Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
-
-**Kind**: static method of <code>[Circle](#Circle)</code>  
-
-| Param | Type |
-| --- | --- |
-| *selector* | <code>String</code> &#124; <code>HTMLElement</code> | 
-
-<a name="Circle.x"></a>
-
-#### Circle.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
-
-**Kind**: static method of <code>[Circle](#Circle)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
-
-**Example**  
-```js
-function(d) {
-  return d.x;
-}
-```
-<a name="Circle.y"></a>
-
-#### Circle.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
-
-**Kind**: static method of <code>[Circle](#Circle)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
-
-**Example**  
-```js
-function(d) {
-  return d.y;
 }
 ```
 <a name="Image"></a>
@@ -483,9 +389,6 @@ function(d) {
     * [new Line()](#new_Line_new)
     * [.curve([*value*])](#Line.curve)
     * [.defined([*value*])](#Line.defined)
-    * [.update(*selector*)](#Line.update)
-    * [.x([*value*])](#Line.x)
-    * [.y([*value*])](#Line.y)
 
 <a name="new_Line_new"></a>
 
@@ -514,49 +417,36 @@ If *value* is specified, sets the defined accessor to the specified function and
 | --- | --- |
 | [*value*] | <code>function</code> | 
 
-<a name="Line.update"></a>
+<a name="Path"></a>
 
-#### Line.update(*selector*)
-Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
+### Path ⇐ <code>[Shape](#Shape)</code>
+**Kind**: global class  
+**Extends:** <code>[Shape](#Shape)</code>  
 
-**Kind**: static method of <code>[Line](#Line)</code>  
+* [Path](#Path) ⇐ <code>[Shape](#Shape)</code>
+    * [new Path()](#new_Path_new)
+    * [.d([*value*])](#Path.d)
+
+<a name="new_Path_new"></a>
+
+#### new Path()
+Creates SVG rectangles based on an array of data. See [this example](https://d3plus.org/examples/d3plus-shape/getting-started/) for help getting started using the rectangle generator.
+
+<a name="Path.d"></a>
+
+#### Path.d([*value*])
+If *value* is specified, sets the "d" attribute accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current "d" attribute accessor.
+
+**Kind**: static method of <code>[Path](#Path)</code>  
 
 | Param | Type |
 | --- | --- |
-| *selector* | <code>String</code> &#124; <code>HTMLElement</code> | 
-
-<a name="Line.x"></a>
-
-#### Line.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
-
-**Kind**: static method of <code>[Line](#Line)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> &#124; <code>String</code> | 
 
 **Example**  
 ```js
 function(d) {
-  return d.x;
-}
-```
-<a name="Line.y"></a>
-
-#### Line.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
-
-**Kind**: static method of <code>[Line](#Line)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
-
-**Example**  
-```js
-function(d) {
-  return d.y;
+  return d.path;
 }
 ```
 <a name="Rect"></a>
@@ -568,7 +458,6 @@ function(d) {
 * [Rect](#Rect) ⇐ <code>[Shape](#Shape)</code>
     * [new Rect()](#new_Rect_new)
     * [.height([*value*])](#Rect.height)
-    * [.update(*selector*)](#Rect.update)
     * [.width([*value*])](#Rect.width)
     * [.x([*value*])](#Rect.x)
     * [.y([*value*])](#Rect.y)
@@ -595,17 +484,6 @@ function(d) {
   return d.height;
 }
 ```
-<a name="Rect.update"></a>
-
-#### Rect.update(*selector*)
-Updates the style and positioning of the elements matching *selector* and returns the current class instance. This is helpful when not wanting to loop through all shapes just to change the style of a few.
-
-**Kind**: static method of <code>[Rect](#Rect)</code>  
-
-| Param | Type |
-| --- | --- |
-| *selector* | <code>String</code> &#124; <code>HTMLElement</code> | 
-
 <a name="Rect.width"></a>
 
 #### Rect.width([*value*])
@@ -626,7 +504,7 @@ function(d) {
 <a name="Rect.x"></a>
 
 #### Rect.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor. The number returned should correspond to the horizontal center of the rectangle.
+If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
 
 **Kind**: static method of <code>[Rect](#Rect)</code>  
 
@@ -643,7 +521,7 @@ function(d) {
 <a name="Rect.y"></a>
 
 #### Rect.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor. The number returned should correspond to the vertical center of the rectangle.
+If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
 
 **Kind**: static method of <code>[Rect](#Rect)</code>  
 
@@ -685,6 +563,8 @@ function(d) {
     * [.stroke([*value*])](#Shape.stroke)
     * [.strokeWidth([*value*])](#Shape.strokeWidth)
     * [.textAnchor([*value*])](#Shape.textAnchor)
+    * [.transform([*value*])](#Shape.transform)
+    * [.vectorEffect([*value*])](#Shape.vectorEffect)
     * [.verticalAlign([*value*])](#Shape.verticalAlign)
 
 <a name="new_Shape_new"></a>
@@ -945,6 +825,28 @@ If *value* is specified, sets the text-anchor accessor to the specified function
 | --- | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>&quot;start&quot;</code> | 
 
+<a name="Shape.transform"></a>
+
+#### Shape.transform([*value*])
+If *value* is specified, sets the transform accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current transform accessor.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;&quot;</code> | 
+
+<a name="Shape.vectorEffect"></a>
+
+#### Shape.vectorEffect([*value*])
+If *value* is specified, sets the vector-effect accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current vector-effect accessor.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;non-scaling-stroke&quot;</code> | 
+
 <a name="Shape.verticalAlign"></a>
 
 #### Shape.verticalAlign([*value*])
@@ -958,4 +860,4 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 
 
-###### <sub>Documentation generated on Mon, 31 Oct 2016 20:43:42 GMT</sub>
+###### <sub>Documentation generated on Fri, 04 Nov 2016 20:32:56 GMT</sub>
