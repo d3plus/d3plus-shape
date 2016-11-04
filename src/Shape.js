@@ -35,6 +35,7 @@ export default class Shape extends BaseClass {
     this._stroke = constant("black");
     this._strokeWidth = constant(0);
     this._textAnchor = constant("start");
+    this._transform = constant("");
     this._vectorEffect = constant("non-scaling-stroke");
     this._verticalAlign = constant("top");
   }
@@ -237,6 +238,7 @@ export default class Shape extends BaseClass {
       .attr("fill", styleLogic.bind(this._fill))
       .attr("stroke", styleLogic.bind(this._stroke))
       .attr("stroke-width", styleLogic.bind(this._strokeWidth))
+      .attr("transform", styleLogic.bind(this._transform))
       .attr("vector-effect", styleLogic.bind(this._vectorEffect));
   }
 
@@ -453,6 +455,15 @@ function(d, i, shape) {
   */
   textAnchor(_) {
     return arguments.length ? (this._textAnchor = typeof _ === "function" ? _ : constant(_), this) : this._textAnchor;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the transform accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current transform accessor.
+      @param {Function|String} [*value* = ""]
+  */
+  transform(_) {
+    return arguments.length ? (this._transform = typeof _ === "function" ? _ : constant(_), this) : this._transform;
   }
 
   /**
