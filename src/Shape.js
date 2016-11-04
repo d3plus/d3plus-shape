@@ -35,6 +35,7 @@ export default class Shape extends BaseClass {
     this._stroke = constant("black");
     this._strokeWidth = constant(0);
     this._textAnchor = constant("start");
+    this._vectorEffect = constant("non-scaling-stroke");
     this._verticalAlign = constant("top");
   }
 
@@ -235,7 +236,8 @@ export default class Shape extends BaseClass {
     elem
       .attr("fill", styleLogic.bind(this._fill))
       .attr("stroke", styleLogic.bind(this._stroke))
-      .attr("stroke-width", styleLogic.bind(this._strokeWidth));
+      .attr("stroke-width", styleLogic.bind(this._strokeWidth))
+      .attr("vector-effect", styleLogic.bind(this._vectorEffect));
   }
 
   /**
@@ -451,6 +453,15 @@ function(d, i, shape) {
   */
   textAnchor(_) {
     return arguments.length ? (this._textAnchor = typeof _ === "function" ? _ : constant(_), this) : this._textAnchor;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the vector-effect accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current vector-effect accessor.
+      @param {Function|String} [*value* = "non-scaling-stroke"]
+  */
+  vectorEffect(_) {
+    return arguments.length ? (this._vectorEffect = typeof _ === "function" ? _ : constant(_), this) : this._vectorEffect;
   }
 
   /**
