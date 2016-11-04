@@ -3,7 +3,6 @@ import {nest} from "d3-collection";
 import {interpolatePath} from "d3-interpolate-path";
 import {select} from "d3-selection";
 import * as paths from "d3-shape";
-import {transition} from "d3-transition";
 
 import {accessor, constant} from "d3plus-common";
 import {strip} from "d3plus-text";
