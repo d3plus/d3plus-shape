@@ -3,7 +3,7 @@ import {transition} from "d3-transition";
 
 import {accessor, attrize, BaseClass, constant} from "d3plus-common";
 import {contrast} from "d3plus-color";
-import {TextBox} from "d3plus-text";
+import {strip, TextBox} from "d3plus-text";
 import {default as Image} from "./Image";
 
 /**
@@ -25,13 +25,16 @@ export default class Shape extends BaseClass {
     this._data = [];
     this._duration = 600;
     this._fill = constant("black");
+
     this._fontColor = (d, i) => contrast(this._fill(d, i));
     this._fontFamily = constant("Verdana");
     this._fontResize = constant(false);
     this._fontSize = constant(12);
+
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._label = constant(false);
     this._labelPadding = constant(5);
+    this._name = "Shape";
     this._opacity = constant(1);
     this._scale = constant(1);
     this._stroke = constant("black");
@@ -40,6 +43,7 @@ export default class Shape extends BaseClass {
     this._transform = constant("");
     this._vectorEffect = constant("non-scaling-stroke");
     this._verticalAlign = constant("top");
+
     this._x = accessor("x");
     this._y = accessor("y");
 
@@ -249,11 +253,98 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
+      @desc Calculates the transform for the group elements.
+      @param {HTMLElement} *elem*
+      @private
+  */
+  _applyTransform(elem) {
+
+    elem
+      .attr("transform", (d, i) => `
+        translate(${d.__d3plus__ ? d.x ? d.x : this._x(d.data, d.i) : this._x(d, i)},
+                  ${d.__d3plus__ ? d.y ? d.y : this._y(d.data, d.i) : this._y(d, i)})
+        scale(${d.__d3plus__ ? d.scale ? d.scale : this._scale(d.data, d.i) : this._scale(d, i)})`);
+  }
+
+  /**
+      @memberof Shape
+      @desc Renders the current Shape to the page. If a *callback* is specified, it will be called once the shapes are done drawing.
+      @param {Function} [*callback* = undefined]
+  */
+  render(callback) {
+
+    if (this._select === void 0) {
+      this.select(select("body").append("svg")
+        .style("width", `${window.innerWidth}px`)
+        .style("height", `${window.innerHeight}px`)
+        .style("display", "block").node());
+    }
+
+    if (this._lineHeight === void 0) {
+      this.lineHeight((d, i) => this._fontSize(d, i) * 1.1);
+    }
+
+    this._transition = transition().duration(this._duration);
+
+    let data = this._data, key = this._id;
+    if (this._dataFilter) {
+      data = this._dataFilter(data);
+      if (data.key) key = data.key;
+    }
+
+    // Makes the update state of the group selection accessible.
+    const update = this._select.selectAll(`.d3plus-${this._name}`).data(data, key);
+    update.transition(this._transition)
+      .call(this._applyTransform.bind(this));
+    this._update = update.select(".d3plus-Shape-bg");
+
+    // Makes the enter state of the group selection accessible.
+    const enter = update.enter().append("g")
+      .attr("class", (d, i) => `d3plus-Shape d3plus-${this._name} d3plus-id-${strip(this._id(d, i))}`)
+      .call(this._applyTransform.bind(this))
+      .attr("opacity", this._opacity);
+
+    this._enter = enter.append("g").attr("class", "d3plus-Shape-bg");
+    const fg = enter.append("g").attr("class", "d3plus-Shape-fg");
+
+    const enterUpdate = this._enter.merge(update);
+
+    fg.merge(update.select(".d3plus-Shape-fg"))
+      .call(this._applyImage.bind(this))
+      .call(this._applyLabels.bind(this));
+
+    enterUpdate
+        .attr("pointer-events", "none")
+      .transition(this._transition)
+        .attr("opacity", this._opacity)
+      .transition()
+        .attr("pointer-events", "all");
+
+    this._applyEvents(enterUpdate);
+
+    // Makes the exit state of the group selection accessible.
+    const exit = update.exit();
+    exit.select(".d3plus-Shape-fg")
+      .call(this._applyImage.bind(this), false)
+      .call(this._applyLabels.bind(this), false);
+    exit.transition().delay(this._duration).remove();
+    this._exit = exit.select(".d3plus-Shape-bg");
+
+    if (callback) setTimeout(callback, this._duration + 100);
+
+    return this;
+
+  }
+
+  /**
+      @memberof Shape
       @desc If *value* is specified, sets the background-image accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current background-image accessor.
       @param {Function|String} [*value* = false]
   */
   backgroundImage(_) {
-    return arguments.length ? (this._backgroundImage = typeof _ === "function" ? _ : constant(_), this) : this._backgroundImage;
+    return arguments.length
+         ? (this._backgroundImage = typeof _ === "function" ? _ : constant(_), this)
+         : this._backgroundImage;
   }
 
   /**
@@ -262,7 +353,9 @@ export default class Shape extends BaseClass {
       @param {Array} [*data* = []]
   */
   data(_) {
-    return arguments.length ? (this._data = _, this) : this._data;
+    return arguments.length
+         ? (this._data = _, this)
+         : this._data;
   }
 
   /**
@@ -271,7 +364,9 @@ export default class Shape extends BaseClass {
       @param {Number} [*ms* = 600]
   */
   duration(_) {
-    return arguments.length ? (this._duration = _, this) : this._duration;
+    return arguments.length
+         ? (this._duration = _, this)
+         : this._duration;
   }
 
   /**
@@ -280,7 +375,9 @@ export default class Shape extends BaseClass {
       @param {Function|String} [*value* = "black"]
   */
   fill(_) {
-    return arguments.length ? (this._fill = typeof _ === "function" ? _ : constant(_), this) : this._fill;
+    return arguments.length
+         ? (this._fill = typeof _ === "function" ? _ : constant(_), this)
+         : this._fill;
   }
 
   /**
@@ -289,7 +386,9 @@ export default class Shape extends BaseClass {
       @param {Function|String|Array} [*value*]
   */
   fontColor(_) {
-    return arguments.length ? (this._fontColor = typeof _ === "function" ? _ : constant(_), this) : this._fontColor;
+    return arguments.length
+         ? (this._fontColor = typeof _ === "function" ? _ : constant(_), this)
+         : this._fontColor;
   }
 
   /**
@@ -298,7 +397,9 @@ export default class Shape extends BaseClass {
       @param {Function|String|Array} [*value* = "Verdana"]
   */
   fontFamily(_) {
-    return arguments.length ? (this._fontFamily = typeof _ === "function" ? _ : constant(_), this) : this._fontFamily;
+    return arguments.length
+         ? (this._fontFamily = typeof _ === "function" ? _ : constant(_), this)
+         : this._fontFamily;
   }
 
   /**
@@ -307,7 +408,9 @@ export default class Shape extends BaseClass {
       @param {Function|Boolean|Array} [*value*]
   */
   fontResize(_) {
-    return arguments.length ? (this._fontResize = typeof _ === "function" ? _ : constant(_), this) : this._fontResize;
+    return arguments.length
+         ? (this._fontResize = typeof _ === "function" ? _ : constant(_), this)
+         : this._fontResize;
   }
 
   /**
@@ -316,7 +419,9 @@ export default class Shape extends BaseClass {
       @param {Function|String|Array} [*value* = 12]
   */
   fontSize(_) {
-    return arguments.length ? (this._fontSize = typeof _ === "function" ? _ : constant(_), this) : this._fontSize;
+    return arguments.length
+         ? (this._fontSize = typeof _ === "function" ? _ : constant(_), this)
+         : this._fontSize;
   }
 
   /**
@@ -334,7 +439,9 @@ function(d, i, shape) {
 }
   */
   hitArea(_) {
-    return arguments.length ? (this._hitArea = typeof _ === "function" ? _ : constant(_), this) : this._hitArea;
+    return arguments.length
+         ? (this._hitArea = typeof _ === "function" ? _ : constant(_), this)
+         : this._hitArea;
   }
 
   /**
@@ -343,7 +450,9 @@ function(d, i, shape) {
       @param {Function} [*value*]
   */
   id(_) {
-    return arguments.length ? (this._id = _, this) : this._id;
+    return arguments.length
+         ? (this._id = _, this)
+         : this._id;
   }
 
   /**
@@ -352,7 +461,9 @@ function(d, i, shape) {
       @param {Function|String|Array} [*value*]
   */
   label(_) {
-    return arguments.length ? (this._label = typeof _ === "function" ? _ : constant(_), this) : this._label;
+    return arguments.length
+         ? (this._label = typeof _ === "function" ? _ : constant(_), this)
+         : this._label;
   }
 
   /**
@@ -370,7 +481,9 @@ function(d, i, shape) {
 }
   */
   labelBounds(_) {
-    return arguments.length ? (this._labelBounds = typeof _ === "function" ? _ : constant(_), this) : this._labelBounds;
+    return arguments.length
+         ? (this._labelBounds = typeof _ === "function" ? _ : constant(_), this)
+         : this._labelBounds;
   }
 
   /**
@@ -379,7 +492,9 @@ function(d, i, shape) {
       @param {Function|Number|Array} [*value* = 10]
   */
   labelPadding(_) {
-    return arguments.length ? (this._labelPadding = typeof _ === "function" ? _ : constant(_), this) : this._labelPadding;
+    return arguments.length
+         ? (this._labelPadding = typeof _ === "function" ? _ : constant(_), this)
+         : this._labelPadding;
   }
 
   /**
@@ -388,7 +503,9 @@ function(d, i, shape) {
       @param {Function|String|Array} [*value*]
   */
   lineHeight(_) {
-    return arguments.length ? (this._lineHeight = typeof _ === "function" ? _ : constant(_), this) : this._lineHeight;
+    return arguments.length
+         ? (this._lineHeight = typeof _ === "function" ? _ : constant(_), this)
+         : this._lineHeight;
   }
 
   /**
@@ -397,24 +514,9 @@ function(d, i, shape) {
       @param {Number} [*value* = 1]
   */
   opacity(_) {
-    return arguments.length ? (this._opacity = typeof _ === "function" ? _ : constant(_), this) : this._opacity;
-  }
-
-  /**
-      @memberof Shape
-      @desc Renders the current Shape to the page. If a *callback* is specified, it will be called once the shapes are done drawing.
-      @param {Function} [*callback* = undefined]
-  */
-  render(callback) {
-
-    if (this._select === void 0) this.select(select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
-    if (this._lineHeight === void 0) this.lineHeight((d, i) => this._fontSize(d, i) * 1.1);
-
-    this._transition = transition().duration(this._duration);
-
-    if (callback) setTimeout(callback, this._duration + 100);
-
-    return this;
+    return arguments.length
+         ? (this._opacity = typeof _ === "function" ? _ : constant(_), this)
+         : this._opacity;
   }
 
   /**
@@ -423,7 +525,9 @@ function(d, i, shape) {
       @param {Function|Number} [*value* = 1]
   */
   scale(_) {
-    return arguments.length ? (this._scale = typeof _ === "function" ? _ : constant(_), this) : this._scale;
+    return arguments.length
+         ? (this._scale = typeof _ === "function" ? _ : constant(_), this)
+         : this._scale;
   }
 
   /**
@@ -432,7 +536,9 @@ function(d, i, shape) {
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
   */
   select(_) {
-    return arguments.length ? (this._select = select(_), this) : this._select;
+    return arguments.length
+         ? (this._select = select(_), this)
+         : this._select;
   }
 
   /**
@@ -441,7 +547,9 @@ function(d, i, shape) {
       @param {Function|String} [*value* = "black"]
   */
   stroke(_) {
-    return arguments.length ? (this._stroke = typeof _ === "function" ? _ : constant(_), this) : this._stroke;
+    return arguments.length
+         ? (this._stroke = typeof _ === "function" ? _ : constant(_), this)
+         : this._stroke;
   }
 
   /**
@@ -450,7 +558,9 @@ function(d, i, shape) {
       @param {Function|Number} [*value* = 0]
   */
   strokeWidth(_) {
-    return arguments.length ? (this._strokeWidth = typeof _ === "function" ? _ : constant(_), this) : this._strokeWidth;
+    return arguments.length
+         ? (this._strokeWidth = typeof _ === "function" ? _ : constant(_), this)
+         : this._strokeWidth;
   }
 
   /**
@@ -459,7 +569,9 @@ function(d, i, shape) {
       @param {Function|String|Array} [*value* = "start"]
   */
   textAnchor(_) {
-    return arguments.length ? (this._textAnchor = typeof _ === "function" ? _ : constant(_), this) : this._textAnchor;
+    return arguments.length
+         ? (this._textAnchor = typeof _ === "function" ? _ : constant(_), this)
+         : this._textAnchor;
   }
 
   /**
@@ -468,7 +580,9 @@ function(d, i, shape) {
       @param {Function|String} [*value* = ""]
   */
   transform(_) {
-    return arguments.length ? (this._transform = typeof _ === "function" ? _ : constant(_), this) : this._transform;
+    return arguments.length
+         ? (this._transform = typeof _ === "function" ? _ : constant(_), this)
+         : this._transform;
   }
 
   /**
@@ -477,7 +591,9 @@ function(d, i, shape) {
       @param {Function|String} [*value* = "non-scaling-stroke"]
   */
   vectorEffect(_) {
-    return arguments.length ? (this._vectorEffect = typeof _ === "function" ? _ : constant(_), this) : this._vectorEffect;
+    return arguments.length
+         ? (this._vectorEffect = typeof _ === "function" ? _ : constant(_), this)
+         : this._vectorEffect;
   }
 
   /**
@@ -486,7 +602,9 @@ function(d, i, shape) {
       @param {Function|String|Array} [*value* = "start"]
   */
   verticalAlign(_) {
-    return arguments.length ? (this._verticalAlign = typeof _ === "function" ? _ : constant(_), this) : this._verticalAlign;
+    return arguments.length
+         ? (this._verticalAlign = typeof _ === "function" ? _ : constant(_), this)
+         : this._verticalAlign;
   }
 
   /**
@@ -499,7 +617,9 @@ function(d) {
 }
   */
   x(_) {
-    return arguments.length ? (this._x = typeof _ === "function" ? _ : constant(_), this) : this._x;
+    return arguments.length
+         ? (this._x = typeof _ === "function" ? _ : constant(_), this)
+         : this._x;
   }
 
   /**
@@ -512,7 +632,9 @@ function(d) {
 }
   */
   y(_) {
-    return arguments.length ? (this._y = typeof _ === "function" ? _ : constant(_), this) : this._y;
+    return arguments.length
+         ? (this._y = typeof _ === "function" ? _ : constant(_), this)
+         : this._y;
   }
 
 }

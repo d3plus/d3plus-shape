@@ -5,7 +5,6 @@ import {select} from "d3-selection";
 import * as paths from "d3-shape";
 
 import {constant} from "d3plus-common";
-import {strip} from "d3plus-text";
 
 import {default as Shape} from "./Shape";
 
@@ -28,8 +27,35 @@ export default class Line extends Shape {
     this._curve = "linear";
     this._defined = d => d;
     this._fill = constant("none");
+    this._name = "Line";
     this._path = paths.line();
     this._strokeWidth = constant(1);
+
+  }
+
+  /**
+      Filters/manipulates the data array before binding each point to an SVG group.
+      @param {Array} [*data* = the data array to be filtered]
+      @private
+  */
+  _dataFilter(data) {
+
+    const lines = nest().key(this._id).entries(data).map(d => {
+      const x = extent(d.values, this._x);
+      d.xR = x;
+      d.width = x[1] - x[0];
+      d.x = x[0] + d.width / 2;
+      const y = extent(d.values, this._y);
+      d.yR = y;
+      d.height = y[1] - y[0];
+      d.y = y[0] + d.height / 2;
+      d.nested = true;
+      d.__d3plus__ = true;
+      return d;
+    });
+
+    lines.key = d => d.key;
+    return lines;
 
   }
 
@@ -44,61 +70,23 @@ export default class Line extends Shape {
 
     const that = this;
 
-    const lines = nest().key(this._id).entries(this._data).map(d => {
-      const x = extent(d.values, this._x);
-      d.xR = x;
-      d.width = x[1] - x[0];
-      d.x = x[0] + d.width / 2;
-      const y = extent(d.values, this._y);
-      d.yR = y;
-      d.height = y[1] - y[0];
-      d.y = y[0] + d.height / 2;
-      d.nested = true;
-      return d;
-    });
-
     this._path
       .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
       .defined(this._defined)
       .x(this._x)
       .y(this._y);
 
-    const groups = this._select.selectAll(".d3plus-Line").data(lines, d => d.key);
+    this._enter.append("path")
+      .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
+      .attr("d", d => this._path(d.values))
+      .call(this._applyStyle.bind(this));
 
-    groups.transition(this._transition)
-      .attr("transform", d => `translate(${d.x}, ${d.y})`);
-
-    groups.select("path").transition(this._transition)
+    this._update.select("path").transition(this._transition)
       .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
       .attrTween("d", function(d) {
         return interpolatePath(select(this).attr("d"), that._path(d.values));
       })
       .call(this._applyStyle.bind(this));
-
-    groups.exit().transition().delay(this._duration).remove();
-
-    groups.exit().call(this._applyLabels.bind(this), false);
-
-    const enter = groups.enter().append("g")
-        .attr("class", d => `d3plus-Shape d3plus-Line d3plus-id-${strip(d.key)}`)
-        .attr("transform", d => `translate(${d.x}, ${d.y})`)
-        .attr("opacity", 0);
-
-    enter.append("path")
-      .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
-      .attr("d", d => this._path(d.values))
-      .call(this._applyStyle.bind(this));
-
-    const update = enter.merge(groups);
-
-    update.call(this._applyLabels.bind(this))
-        .attr("pointer-events", "none")
-      .transition(this._transition)
-        .attr("opacity", this._opacity)
-      .transition()
-        .attr("pointer-events", "all");
-
-    this._applyEvents(update);
 
     return this;
 

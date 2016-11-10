@@ -1,5 +1,4 @@
 import {accessor, constant} from "d3plus-common";
-import {strip} from "d3plus-text";
 
 import {default as Shape} from "./Shape";
 
@@ -18,6 +17,7 @@ export default class Path extends Shape {
   constructor() {
     super();
     this._d = accessor("path");
+    this._name = "Path";
   }
 
   /**
@@ -29,46 +29,20 @@ export default class Path extends Shape {
 
     super.render(callback);
 
-    const groups = this._select.selectAll(".d3plus-Path").data(this._data, this._id);
-
-    groups.transition(this._transition)
-      .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})scale(${this._scale(d, i)})`);
-
-    groups.select("path").transition(this._transition).call(this._applyStyle.bind(this));
-
-    groups.exit().transition().delay(this._duration).remove();
-
-    groups.exit().select("path").transition(this._transition)
-      .attr("opacity", 0);
-
-    groups.exit()
-      .call(this._applyImage.bind(this), false)
-      .call(this._applyLabels.bind(this), false);
-
-    const enter = groups.enter().append("g")
-        .attr("class", (d, i) => `d3plus-Shape d3plus-Path d3plus-id-${strip(this._id(d, i))}`)
-        .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})scale(${this._scale(d, i)})`);
-
-    enter.append("path")
-      .attr("opacity", 0)
-      .call(this._applyStyle.bind(this));
-
-    const update = enter.merge(groups);
-
-    update.select("path").transition(this._transition)
-      .attr("opacity", 1)
-      .attr("d", this._d);
-
-    update
-        .call(this._applyImage.bind(this))
-        .call(this._applyLabels.bind(this))
-        .attr("pointer-events", "none")
+    this._enter.append("path")
+        .attr("opacity", 0)
+        .attr("d", this._d)
+      .call(this._applyStyle.bind(this))
       .transition(this._transition)
-        .attr("opacity", this._opacity)
-      .transition()
-        .attr("pointer-events", "all");
+        .attr("opacity", 1);
 
-    this._applyEvents(update);
+    this._update.select("path").transition(this._transition)
+      .call(this._applyStyle.bind(this))
+        .attr("opacity", 1)
+        .attr("d", this._d);
+
+    this._exit.select("path").transition(this._transition)
+      .attr("opacity", 0);
 
     return this;
 
@@ -84,7 +58,9 @@ function(d) {
 }
   */
   d(_) {
-    return arguments.length ? (this._d = typeof _ === "function" ? _ : constant(_), this) : this._d;
+    return arguments.length
+         ? (this._d = typeof _ === "function" ? _ : constant(_), this)
+         : this._d;
   }
 
 }

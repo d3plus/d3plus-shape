@@ -1,5 +1,4 @@
 import {accessor, constant} from "d3plus-common";
-import {strip} from "d3plus-text";
 
 import {default as Shape} from "./Shape";
 
@@ -18,7 +17,9 @@ export default class Rect extends Shape {
   constructor() {
     super();
     this._height = accessor("height");
-    this._labelBounds = (d, i, s) => ({width: s.width, height: s.height, x: -s.width / 2, y: -s.height / 2});
+    this._labelBounds = (d, i, s) =>
+      ({width: s.width, height: s.height, x: -s.width / 2, y: -s.height / 2});
+    this._name = "Rect";
     this._width = accessor("width");
   }
 
@@ -31,51 +32,20 @@ export default class Rect extends Shape {
 
     super.render(callback);
 
-    const groups = this._select.selectAll(".d3plus-Rect").data(this._data, this._id);
+    this._enter.append("rect")
+        .attr("width", 0).attr("height", 0)
+        .attr("x", 0).attr("y", 0)
+        .call(this._applyStyle.bind(this))
+      .transition(this._transition)
+        .call(this._applyPosition.bind(this));
 
-    groups.transition(this._transition)
-      .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})`);
-
-    groups.select("rect").transition(this._transition).call(this._applyStyle.bind(this));
-
-    groups.exit().transition().delay(this._duration).remove();
-
-    groups.exit().select("rect").transition(this._transition)
-      .attr("width", 0)
-      .attr("height", 0)
-      .attr("x", 0)
-      .attr("y", 0);
-
-    groups.exit()
-      .call(this._applyImage.bind(this), false)
-      .call(this._applyLabels.bind(this), false);
-
-    const enter = groups.enter().append("g")
-        .attr("class", (d, i) => `d3plus-Shape d3plus-Rect d3plus-id-${strip(this._id(d, i))}`)
-        .attr("transform", (d, i) => `translate(${this._x(d, i)},${this._y(d, i)})`);
-
-    enter.append("rect")
-      .attr("width", 0)
-      .attr("height", 0)
-      .attr("x", 0)
-      .attr("y", 0)
-      .call(this._applyStyle.bind(this));
-
-    const update = enter.merge(groups);
-
-    update.select("rect").transition(this._transition)
+    this._update.select("rect").transition(this._transition)
+      .call(this._applyStyle.bind(this))
       .call(this._applyPosition.bind(this));
 
-    update
-        .call(this._applyImage.bind(this))
-        .call(this._applyLabels.bind(this))
-        .attr("pointer-events", "none")
-      .transition(this._transition)
-        .attr("opacity", this._opacity)
-      .transition()
-        .attr("pointer-events", "all");
-
-    this._applyEvents(update);
+    this._exit.select("rect").transition(this._transition)
+      .attr("width", 0).attr("height", 0)
+      .attr("x", 0).attr("y", 0);
 
     return this;
 
@@ -116,7 +86,9 @@ function(d) {
 }
   */
   height(_) {
-    return arguments.length ? (this._height = typeof _ === "function" ? _ : constant(_), this) : this._height;
+    return arguments.length
+         ? (this._height = typeof _ === "function" ? _ : constant(_), this)
+         : this._height;
   }
 
   /**
@@ -129,7 +101,9 @@ function(d) {
 }
   */
   width(_) {
-    return arguments.length ? (this._width = typeof _ === "function" ? _ : constant(_), this) : this._width;
+    return arguments.length
+         ? (this._width = typeof _ === "function" ? _ : constant(_), this)
+         : this._width;
   }
 
 }

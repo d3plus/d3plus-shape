@@ -5,7 +5,6 @@ import {select} from "d3-selection";
 import * as paths from "d3-shape";
 
 import {accessor, constant} from "d3plus-common";
-import {strip} from "d3plus-text";
 
 import {default as Shape} from "./Shape";
 
@@ -27,6 +26,7 @@ export default class Area extends Shape {
 
     this._curve = "linear";
     this._defined = () => true;
+    this._name = "Area";
     this._x = accessor("x");
     this._x0 = accessor("x");
     this._x1 = null;
@@ -37,35 +37,13 @@ export default class Area extends Shape {
   }
 
   /**
-      Draws the lines.
-      @param {Function} [*callback* = undefined]
+      Filters/manipulates the data array before binding each point to an SVG group.
+      @param {Array} [*data* = the data array to be filtered]
       @private
   */
-  render(callback) {
+  _dataFilter(data) {
 
-    super.render(callback);
-
-    const path = this._path = paths.area()
-      .defined(this._defined)
-      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
-      .x(this._x)
-      .x0(this._x0)
-      .x1(this._x1)
-      .y(this._y)
-      .y0(this._y0)
-      .y1(this._y1);
-
-    const exitPath = paths.area()
-      .defined(d => d)
-      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
-      .x(this._x)
-      .x0(this._x0)
-      .x1(this._x1)
-      .y(this._y)
-      .y0(this._y0)
-      .y1(this._y1);
-
-    const areas = nest().key(this._id).entries(this._data).map(d => {
+    const areas = nest().key(this._id).entries(data).map(d => {
       const x = extent(d.values.map(this._x)
         .concat(d.values.map(this._x0))
         .concat(this._x1 ? d.values.map(this._x1) : [])
@@ -84,47 +62,48 @@ export default class Area extends Shape {
       return d;
     });
 
-    const groups = this._select.selectAll(".d3plus-Area").data(areas, d => d.key);
+    areas.key = d => d.key;
+    return areas;
 
-    groups.transition(this._transition)
-      .attr("transform", d => `translate(${d.x}, ${d.y})`);
+  }
 
-    groups.select("path").transition(this._transition)
+  /**
+      Draws the area polygons.
+      @param {Function} [*callback* = undefined]
+      @private
+  */
+  render(callback) {
+
+    super.render(callback);
+
+    const path = this._path = paths.area()
+      .defined(this._defined)
+      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+      .x(this._x).x0(this._x0).x1(this._x1)
+      .y(this._y).y0(this._y0).y1(this._y1);
+
+    const exitPath = paths.area()
+      .defined(d => d)
+      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+      .x(this._x).x0(this._x0).x1(this._x1)
+      .y(this._y).y0(this._y0).y1(this._y1);
+
+    this._enter.append("path")
+      .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
+      .attr("d", d => path(d.values))
+      .call(this._applyStyle.bind(this));
+
+    this._update.select("path").transition(this._transition)
       .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
       .attrTween("d", function(d) {
         return interpolatePath(select(this).attr("d"), path(d.values));
       })
       .call(this._applyStyle.bind(this));
 
-    groups.exit().select("path").transition(this._transition)
+    this._exit.select("path").transition(this._transition)
       .attrTween("d", function(d) {
         return interpolatePath(select(this).attr("d"), exitPath(d.values));
       });
-
-    groups.exit().transition().delay(this._duration).remove();
-
-    groups.exit().call(this._applyLabels.bind(this), false);
-
-    const enter = groups.enter().append("g")
-        .attr("class", d => `d3plus-Shape d3plus-Area d3plus-id-${strip(d.key)}`)
-        .attr("transform", d => `translate(${d.x}, ${d.y})`)
-        .attr("opacity", 0);
-
-    enter.append("path")
-      .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
-      .attr("d", d => path(d.values))
-      .call(this._applyStyle.bind(this));
-
-    const update = enter.merge(groups);
-
-    update.call(this._applyLabels.bind(this))
-        .attr("pointer-events", "none")
-      .transition(this._transition)
-        .attr("opacity", this._opacity)
-      .transition()
-        .attr("pointer-events", "all");
-
-    this._applyEvents(update);
 
     return this;
 
@@ -147,7 +126,9 @@ export default class Area extends Shape {
       @param {String} [*value* = "linear"]
   */
   curve(_) {
-    return arguments.length ? (this._curve = _, this) : this._curve;
+    return arguments.length
+         ? (this._curve = _, this)
+         : this._curve;
   }
 
   /**
@@ -156,7 +137,9 @@ export default class Area extends Shape {
       @param {Function} [*value*]
   */
   defined(_) {
-    return arguments.length ? (this._defined = _, this) : this._defined;
+    return arguments.length
+         ? (this._defined = _, this)
+         : this._defined;
   }
 
   /**
@@ -165,7 +148,9 @@ export default class Area extends Shape {
       @param {Function|Number} [*value*]
   */
   x0(_) {
-    return arguments.length ? (this._x0 = typeof _ === "function" ? _ : constant(_), this) : this._x0;
+    return arguments.length
+         ? (this._x0 = typeof _ === "function" ? _ : constant(_), this)
+         : this._x0;
   }
 
   /**
@@ -174,7 +159,9 @@ export default class Area extends Shape {
       @param {Function|Number|null} [*value*]
   */
   x1(_) {
-    return arguments.length ? (this._x1 = typeof _ === "function" || _ === null ? _ : constant(_), this) : this._x1;
+    return arguments.length
+         ? (this._x1 = typeof _ === "function" || _ === null ? _ : constant(_), this)
+         : this._x1;
   }
 
   /**
@@ -183,7 +170,9 @@ export default class Area extends Shape {
       @param {Function|Number} [*value*]
   */
   y0(_) {
-    return arguments.length ? (this._y0 = typeof _ === "function" ? _ : constant(_), this) : this._y0;
+    return arguments.length
+         ? (this._y0 = typeof _ === "function" ? _ : constant(_), this)
+         : this._y0;
   }
 
   /**
@@ -192,7 +181,9 @@ export default class Area extends Shape {
       @param {Function|Number|null} [*value*]
   */
   y1(_) {
-    return arguments.length ? (this._y1 = typeof _ === "function" || _ === null ? _ : constant(_), this) : this._y1;
+    return arguments.length
+         ? (this._y1 = typeof _ === "function" || _ === null ? _ : constant(_), this)
+         : this._y1;
   }
 
 }
