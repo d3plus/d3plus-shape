@@ -292,9 +292,11 @@ export default class Shape extends BaseClass {
       if (data.key) key = data.key;
     }
 
+    if (this._sort) data = data.sort((a, b) => this._sort(a.__d3plus__ ? a.data : a, b.__d3plus__ ? b.data : b));
+
     // Makes the update state of the group selection accessible.
     const update = this._select.selectAll(`.d3plus-${this._name}`).data(data, key);
-    update.transition(this._transition)
+    update.order().transition(this._transition)
       .call(this._applyTransform.bind(this));
     this._update = update.select(".d3plus-Shape-bg");
 
@@ -539,6 +541,17 @@ function(d, i, shape) {
     return arguments.length
          ? (this._select = select(_), this)
          : this._select;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the sort comparator to the specified function and returns the current class instance. If *value* is not specified, returns the current sort comparator.
+      @param {false|Function} [*value* = []]
+  */
+  sort(_) {
+    return arguments.length
+         ? (this._sort = _, this)
+         : this._sort;
   }
 
   /**
