@@ -56,11 +56,11 @@ It even detects that the blue rectangle should have a dark label and the red rec
 ### Classes
 
 <dl>
+<dt><a href="#Image">Image</a></dt>
+<dd></dd>
 <dt><a href="#Area">Area</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
 <dt><a href="#Circle">Circle</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
-<dd></dd>
-<dt><a href="#Image">Image</a></dt>
 <dd></dd>
 <dt><a href="#Line">Line</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
@@ -72,124 +72,14 @@ It even detects that the blue rectangle should have a dark label and the red rec
 <dd></dd>
 </dl>
 
-<a name="Area"></a>
+### Functions
 
-### Area ⇐ <code>[Shape](#Shape)</code>
-**Kind**: global class  
-**Extends:** <code>[Shape](#Shape)</code>  
+<dl>
+<dt><a href="#distance">distance(p1, p2)</a> ⇒ <code>Number</code></dt>
+<dd><p>Calculates the pixel distance between two points.</p>
+</dd>
+</dl>
 
-* [Area](#Area) ⇐ <code>[Shape](#Shape)</code>
-    * [new Area()](#new_Area_new)
-    * [.curve([*value*])](#Area.curve)
-    * [.defined([*value*])](#Area.defined)
-    * [.x0([*value*])](#Area.x0)
-    * [.x1([*value*])](#Area.x1)
-    * [.y0([*value*])](#Area.y0)
-    * [.y1([*value*])](#Area.y1)
-
-<a name="new_Area_new"></a>
-
-#### new Area()
-Creates SVG areas based on an array of data.
-
-<a name="Area.curve"></a>
-
-#### Area.curve([*value*])
-If *value* is specified, sets the area curve to the specified string and returns the current class instance. If *value* is not specified, returns the current area curve.
-
-**Kind**: static method of <code>[Area](#Area)</code>  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [*value*] | <code>String</code> | <code>&quot;linear&quot;</code> | 
-
-<a name="Area.defined"></a>
-
-#### Area.defined([*value*])
-If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
-
-**Kind**: static method of <code>[Area](#Area)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> | 
-
-<a name="Area.x0"></a>
-
-#### Area.x0([*value*])
-If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
-
-**Kind**: static method of <code>[Area](#Area)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
-
-<a name="Area.x1"></a>
-
-#### Area.x1([*value*])
-If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x1 accessor.
-
-**Kind**: static method of <code>[Area](#Area)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
-
-<a name="Area.y0"></a>
-
-#### Area.y0([*value*])
-If *value* is specified, sets the y0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y0 accessor.
-
-**Kind**: static method of <code>[Area](#Area)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
-
-<a name="Area.y1"></a>
-
-#### Area.y1([*value*])
-If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
-
-**Kind**: static method of <code>[Area](#Area)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
-
-<a name="Circle"></a>
-
-### Circle ⇐ <code>[Shape](#Shape)</code>
-**Kind**: global class  
-**Extends:** <code>[Shape](#Shape)</code>  
-
-* [Circle](#Circle) ⇐ <code>[Shape](#Shape)</code>
-    * [new Circle()](#new_Circle_new)
-    * [.r([*value*])](#Circle.r)
-
-<a name="new_Circle_new"></a>
-
-#### new Circle()
-Creates SVG circles based on an array of data.
-
-<a name="Circle.r"></a>
-
-#### Circle.r([*value*])
-If *value* is specified, sets the radius accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current radius accessor.
-
-**Kind**: static method of <code>[Circle](#Circle)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
-
-**Example**  
-```js
-function(d) {
-  return d.r;
-}
-```
 <a name="Image"></a>
 
 ### Image
@@ -377,6 +267,124 @@ If *value* is specified, sets the y accessor to the specified function or number
 ```js
 function(d) {
   return d.y || 0;
+}
+```
+<a name="Area"></a>
+
+### Area ⇐ <code>[Shape](#Shape)</code>
+**Kind**: global class  
+**Extends:** <code>[Shape](#Shape)</code>  
+
+* [Area](#Area) ⇐ <code>[Shape](#Shape)</code>
+    * [new Area()](#new_Area_new)
+    * [.curve([*value*])](#Area.curve)
+    * [.defined([*value*])](#Area.defined)
+    * [.x0([*value*])](#Area.x0)
+    * [.x1([*value*])](#Area.x1)
+    * [.y0([*value*])](#Area.y0)
+    * [.y1([*value*])](#Area.y1)
+
+<a name="new_Area_new"></a>
+
+#### new Area()
+Creates SVG areas based on an array of data.
+
+<a name="Area.curve"></a>
+
+#### Area.curve([*value*])
+If *value* is specified, sets the area curve to the specified string and returns the current class instance. If *value* is not specified, returns the current area curve.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>String</code> | <code>&quot;linear&quot;</code> | 
+
+<a name="Area.defined"></a>
+
+#### Area.defined([*value*])
+If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> | 
+
+<a name="Area.x0"></a>
+
+#### Area.x0([*value*])
+If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+<a name="Area.x1"></a>
+
+#### Area.x1([*value*])
+If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x1 accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
+
+<a name="Area.y0"></a>
+
+#### Area.y0([*value*])
+If *value* is specified, sets the y0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y0 accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+<a name="Area.y1"></a>
+
+#### Area.y1([*value*])
+If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
+
+<a name="Circle"></a>
+
+### Circle ⇐ <code>[Shape](#Shape)</code>
+**Kind**: global class  
+**Extends:** <code>[Shape](#Shape)</code>  
+
+* [Circle](#Circle) ⇐ <code>[Shape](#Shape)</code>
+    * [new Circle()](#new_Circle_new)
+    * [.r([*value*])](#Circle.r)
+
+<a name="new_Circle_new"></a>
+
+#### new Circle()
+Creates SVG circles based on an array of data.
+
+<a name="Circle.r"></a>
+
+#### Circle.r([*value*])
+If *value* is specified, sets the radius accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current radius accessor.
+
+**Kind**: static method of <code>[Circle](#Circle)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.r;
 }
 ```
 <a name="Line"></a>
@@ -888,6 +896,18 @@ function(d) {
   return d.y;
 }
 ```
+<a name="distance"></a>
+
+### distance(p1, p2) ⇒ <code>Number</code>
+Calculates the pixel distance between two points.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| p1 | <code>Array</code> &#124; <code>Object</code> | The first point, either an Array formatted like `[x, y]` or a keyed object formatted like `{x, y}`. |
+| p2 | <code>Array</code> &#124; <code>Object</code> | The second point, either an Array formatted like `[x, y]` or a keyed object formatted like `{x, y}` |
 
 
-###### <sub>Documentation generated on Thu, 10 Nov 2016 18:13:16 GMT</sub>
+
+###### <sub>Documentation generated on Thu, 10 Nov 2016 19:07:28 GMT</sub>
