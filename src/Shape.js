@@ -37,6 +37,7 @@ export default class Shape extends BaseClass {
     this._name = "Shape";
     this._opacity = constant(1);
     this._scale = constant(1);
+    this._shapeRendering = constant("geometricPrecision");
     this._stroke = constant("black");
     this._strokeWidth = constant(0);
     this._textAnchor = constant("start");
@@ -268,6 +269,16 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
+      @desc Checks for nested data and uses the appropriate variables for accessor functions.
+      @param {HTMLElement} *elem*
+      @private
+  */
+  _nestWrapper(method) {
+    return (d, i) => method(d.__d3plus__ ? d.data : d, d.__d3plus__ ? d.i : i);
+  }
+
+  /**
+      @memberof Shape
       @desc Renders the current Shape to the page. If a *callback* is specified, it will be called once the shapes are done drawing.
       @param {Function} [*callback* = undefined]
   */
@@ -296,15 +307,20 @@ export default class Shape extends BaseClass {
 
     // Makes the update state of the group selection accessible.
     const update = this._select.selectAll(`.d3plus-${this._name}`).data(data, key);
-    update.order().transition(this._transition)
-      .call(this._applyTransform.bind(this));
+    update
+        .order()
+        .attr("shape-rendering", this._nestWrapper(this._shapeRendering))
+      .transition(this._transition)
+        .call(this._applyTransform.bind(this));
     this._update = update.select(".d3plus-Shape-bg");
 
     // Makes the enter state of the group selection accessible.
     const enter = update.enter().append("g")
-      .attr("class", (d, i) => `d3plus-Shape d3plus-${this._name} d3plus-id-${strip(this._id(d, i))}`)
+      .attr("class", (d, i) =>
+        `d3plus-Shape d3plus-${this._name} d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
       .call(this._applyTransform.bind(this))
-      .attr("opacity", this._opacity);
+      .attr("opacity", this._nestWrapper(this._opacity))
+      .attr("shape-rendering", this._nestWrapper(this._shapeRendering));
 
     this._enter = enter.append("g").attr("class", "d3plus-Shape-bg");
     const fg = enter.append("g").attr("class", "d3plus-Shape-fg");
@@ -318,7 +334,7 @@ export default class Shape extends BaseClass {
     enterUpdate
         .attr("pointer-events", "none")
       .transition(this._transition)
-        .attr("opacity", this._opacity)
+        .attr("opacity", this._nestWrapper(this._opacity))
       .transition()
         .attr("pointer-events", "all");
 
@@ -545,6 +561,21 @@ function(d, i, shape) {
 
   /**
       @memberof Shape
+      @desc If *value* is specified, sets the shape-rendering accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current shape-rendering accessor.
+      @param {Function|String} [*value* = "geometricPrecision"]
+      @example
+function(d) {
+  return d.x;
+}
+  */
+  shapeRendering(_) {
+    return arguments.length
+         ? (this._shapeRendering = typeof _ === "function" ? _ : constant(_), this)
+         : this._shapeRendering;
+  }
+
+  /**
+      @memberof Shape
       @desc If *value* is specified, sets the sort comparator to the specified function and returns the current class instance. If *value* is not specified, returns the current sort comparator.
       @param {false|Function} [*value* = []]
   */
@@ -621,7 +652,7 @@ function(d, i, shape) {
   }
 
   /**
-      @memberof Rect
+      @memberof Shape
       @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
       @param {Function|Number} [*value*]
       @example
@@ -636,7 +667,7 @@ function(d) {
   }
 
   /**
-      @memberof Rect
+      @memberof Shape
       @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
       @param {Function|Number} [*value*]
       @example
