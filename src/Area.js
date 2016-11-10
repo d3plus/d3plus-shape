@@ -4,7 +4,7 @@ import {interpolatePath} from "d3-interpolate-path";
 import {select} from "d3-selection";
 import * as paths from "d3-shape";
 
-import {accessor, constant} from "d3plus-common";
+import {accessor, constant, merge} from "d3plus-common";
 
 import {default as Shape} from "./Shape";
 
@@ -44,6 +44,10 @@ export default class Area extends Shape {
   _dataFilter(data) {
 
     const areas = nest().key(this._id).entries(data).map(d => {
+
+      d.data = merge(d.values);
+      d.i = data.indexOf(d.values[0]);
+
       const x = extent(d.values.map(this._x)
         .concat(d.values.map(this._x0))
         .concat(this._x1 ? d.values.map(this._x1) : [])
@@ -51,6 +55,7 @@ export default class Area extends Shape {
       d.xR = x;
       d.width = x[1] - x[0];
       d.x = x[0] + d.width / 2;
+
       const y = extent(d.values.map(this._y)
         .concat(d.values.map(this._y0))
         .concat(this._y1 ? d.values.map(this._y1) : [])
@@ -58,7 +63,9 @@ export default class Area extends Shape {
       d.yR = y;
       d.height = y[1] - y[0];
       d.y = y[0] + d.height / 2;
+
       d.nested = true;
+      d.__d3plus__ = true;
       return d;
     });
 

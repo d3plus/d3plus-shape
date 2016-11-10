@@ -4,7 +4,7 @@ import {interpolatePath} from "d3-interpolate-path";
 import {select} from "d3-selection";
 import * as paths from "d3-shape";
 
-import {constant} from "d3plus-common";
+import {constant, merge} from "d3plus-common";
 
 import {default as Shape} from "./Shape";
 
@@ -41,16 +41,23 @@ export default class Line extends Shape {
   _dataFilter(data) {
 
     const lines = nest().key(this._id).entries(data).map(d => {
+
+      d.data = merge(d.values);
+      d.i = data.indexOf(d.values[0]);
+
       const x = extent(d.values, this._x);
       d.xR = x;
       d.width = x[1] - x[0];
       d.x = x[0] + d.width / 2;
+
       const y = extent(d.values, this._y);
       d.yR = y;
       d.height = y[1] - y[0];
       d.y = y[0] + d.height / 2;
+
       d.nested = true;
       d.__d3plus__ = true;
+
       return d;
     });
 
