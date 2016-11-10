@@ -459,8 +459,6 @@ function(d) {
     * [new Rect()](#new_Rect_new)
     * [.height([*value*])](#Rect.height)
     * [.width([*value*])](#Rect.width)
-    * [.x([*value*])](#Rect.x)
-    * [.y([*value*])](#Rect.y)
 
 <a name="new_Rect_new"></a>
 
@@ -501,40 +499,6 @@ function(d) {
   return d.width;
 }
 ```
-<a name="Rect.x"></a>
-
-#### Rect.x([*value*])
-If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
-
-**Kind**: static method of <code>[Rect](#Rect)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
-
-**Example**  
-```js
-function(d) {
-  return d.x;
-}
-```
-<a name="Rect.y"></a>
-
-#### Rect.y([*value*])
-If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
-
-**Kind**: static method of <code>[Rect](#Rect)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
-
-**Example**  
-```js
-function(d) {
-  return d.y;
-}
-```
 <a name="Shape"></a>
 
 ### Shape
@@ -542,6 +506,7 @@ function(d) {
 
 * [Shape](#Shape)
     * [new Shape()](#new_Shape_new)
+    * [.render([*callback*])](#Shape.render)
     * [.backgroundImage([*value*])](#Shape.backgroundImage)
     * [.data([*data*])](#Shape.data)
     * [.duration([*ms*])](#Shape.duration)
@@ -557,20 +522,34 @@ function(d) {
     * [.labelPadding([*value*])](#Shape.labelPadding)
     * [.lineHeight([*value*])](#Shape.lineHeight)
     * [.opacity([*value*])](#Shape.opacity)
-    * [.render([*callback*])](#Shape.render)
     * [.scale([*value*])](#Shape.scale)
     * [.select([*selector*])](#Shape.select)
+    * [.shapeRendering([*value*])](#Shape.shapeRendering)
+    * [.sort([*value*])](#Shape.sort)
     * [.stroke([*value*])](#Shape.stroke)
     * [.strokeWidth([*value*])](#Shape.strokeWidth)
     * [.textAnchor([*value*])](#Shape.textAnchor)
     * [.transform([*value*])](#Shape.transform)
     * [.vectorEffect([*value*])](#Shape.vectorEffect)
     * [.verticalAlign([*value*])](#Shape.verticalAlign)
+    * [.x([*value*])](#Shape.x)
+    * [.y([*value*])](#Shape.y)
 
 <a name="new_Shape_new"></a>
 
 #### new Shape()
 An abstracted class for generating shapes.
+
+<a name="Shape.render"></a>
+
+#### Shape.render([*callback*])
+Renders the current Shape to the page. If a *callback* is specified, it will be called once the shapes are done drawing.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*callback*] | <code>function</code> | 
 
 <a name="Shape.backgroundImage"></a>
 
@@ -759,17 +738,6 @@ If *value* is specified, sets the opacity accessor to the specified function or 
 | --- | --- | --- |
 | [*value*] | <code>Number</code> | <code>1</code> | 
 
-<a name="Shape.render"></a>
-
-#### Shape.render([*callback*])
-Renders the current Shape to the page. If a *callback* is specified, it will be called once the shapes are done drawing.
-
-**Kind**: static method of <code>[Shape](#Shape)</code>  
-
-| Param | Type |
-| --- | --- |
-| [*callback*] | <code>function</code> | 
-
 <a name="Shape.scale"></a>
 
 #### Shape.scale([*value*])
@@ -791,6 +759,34 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 | Param | Type | Default |
 | --- | --- | --- |
 | [*selector*] | <code>String</code> &#124; <code>HTMLElement</code> | <code>d3.select(&quot;body&quot;).append(&quot;svg&quot;)</code> | 
+
+<a name="Shape.shapeRendering"></a>
+
+#### Shape.shapeRendering([*value*])
+If *value* is specified, sets the shape-rendering accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current shape-rendering accessor.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;geometricPrecision&quot;</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.x;
+}
+```
+<a name="Shape.sort"></a>
+
+#### Shape.sort([*value*])
+If *value* is specified, sets the sort comparator to the specified function and returns the current class instance. If *value* is not specified, returns the current sort comparator.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>false</code> &#124; <code>function</code> | <code>[]</code> | 
 
 <a name="Shape.stroke"></a>
 
@@ -858,6 +854,40 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 | --- | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>&quot;start&quot;</code> | 
 
+<a name="Shape.x"></a>
+
+#### Shape.x([*value*])
+If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.x;
+}
+```
+<a name="Shape.y"></a>
+
+#### Shape.y([*value*])
+If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.y;
+}
+```
 
 
-###### <sub>Documentation generated on Fri, 04 Nov 2016 20:32:56 GMT</sub>
+###### <sub>Documentation generated on Thu, 10 Nov 2016 18:13:16 GMT</sub>
