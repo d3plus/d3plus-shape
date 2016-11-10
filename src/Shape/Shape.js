@@ -4,7 +4,7 @@ import {transition} from "d3-transition";
 import {accessor, attrize, BaseClass, constant} from "d3plus-common";
 import {contrast} from "d3plus-color";
 import {strip, TextBox} from "d3plus-text";
-import {default as Image} from "./Image";
+import {default as Image} from "../Image";
 
 /**
     @class Shape
