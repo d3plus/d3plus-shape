@@ -14,7 +14,7 @@ test("Rect", assert => {
     .render(() => {
 
       assert.equal(document.getElementsByTagName("svg").length, 1, "automatically added <svg> element to page");
-      assert.equal(document.getElementsByTagName("g").length, 1, "created <g> container element");
+      assert.equal(document.getElementsByClassName("d3plus-Rect").length, 1, "created <g> container element");
       assert.equal(document.getElementsByTagName("rect").length, 1, "created <rect> element");
       assert.equal(document.getElementsByTagName("text").length, 1, "created <text> element");
       const tspans = document.getElementsByTagName("tspan");
