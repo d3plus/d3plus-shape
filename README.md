@@ -910,4 +910,4 @@ Calculates the pixel distance between two points.
 
 
 
-###### <sub>Documentation generated on Wed, 16 Nov 2016 03:24:59 GMT</sub>
+###### <sub>Documentation generated on Wed, 16 Nov 2016 03:30:22 GMT</sub>
