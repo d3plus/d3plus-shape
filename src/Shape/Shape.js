@@ -325,18 +325,17 @@ export default class Shape extends BaseClass {
       .transition()
         .attr("pointer-events", "all");
 
-    const that = this;
     let hitArea = enterUpdate.selectAll(".d3plus-Shape-hitArea").data(this._hitArea ? [0] : []);
     hitArea.exit().remove();
     hitArea = hitArea.enter().append("rect")
         .attr("class", "d3plus-Shape-hitArea")
         .attr("fill", "none")
       .merge(hitArea)
-        .data(d => [d])
+        .data(d => [this._hitArea 
+             ? this._hitArea(d, this._data.indexOf(d), this._aes(d, this._data.indexOf(d)))
+             : null])
         .each(function(d) {
-          const h = that._hitArea(d, that._data.indexOf(d));
-          if (h) select(this).call(attrize, h);
-          else select(this).remove();
+          return d ? select(this).call(attrize, d) : select(this).remove();
         });
 
     this._applyEvents(this._hitArea ? hitArea : enterUpdate);
