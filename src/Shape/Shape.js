@@ -67,22 +67,9 @@ export default class Shape extends BaseClass {
       @param {D3Selection} *update* The update cycle of the data binding.
       @private
   */
-  _applyEvents(update) {
+  _applyEvents(handler) {
 
     const that = this;
-    let hitArea = update.selectAll(".hitArea").data(this._hitArea ? [0] : []);
-    hitArea.exit().remove();
-    hitArea = hitArea.enter().append("rect")
-        .attr("class", "hitArea")
-        .attr("fill", "none")
-      .merge(hitArea)
-        .data(d => [d])
-        .each(function(d) {
-          const h = that._hitArea(d, that._data.indexOf(d));
-          if (h) select(this).call(attrize, h);
-          else select(this).remove();
-        });
-    const handler = this._hitArea ? hitArea : update;
 
     const events = Object.keys(this._on);
     for (let e = 0; e < events.length; e++) {
@@ -325,7 +312,7 @@ export default class Shape extends BaseClass {
     this._enter = enter.append("g").attr("class", "d3plus-Shape-bg");
     const fg = enter.append("g").attr("class", "d3plus-Shape-fg");
 
-    const enterUpdate = this._enter.merge(update);
+    const enterUpdate = enter.merge(update);
 
     fg.merge(update.select(".d3plus-Shape-fg"))
       .call(this._applyImage.bind(this))
@@ -338,7 +325,21 @@ export default class Shape extends BaseClass {
       .transition()
         .attr("pointer-events", "all");
 
-    this._applyEvents(enterUpdate);
+    const that = this;
+    let hitArea = enterUpdate.selectAll(".d3plus-Shape-hitArea").data(this._hitArea ? [0] : []);
+    hitArea.exit().remove();
+    hitArea = hitArea.enter().append("rect")
+        .attr("class", "d3plus-Shape-hitArea")
+        .attr("fill", "none")
+      .merge(hitArea)
+        .data(d => [d])
+        .each(function(d) {
+          const h = that._hitArea(d, that._data.indexOf(d));
+          if (h) select(this).call(attrize, h);
+          else select(this).remove();
+        });
+
+    this._applyEvents(this._hitArea ? hitArea : enterUpdate);
 
     // Makes the exit state of the group selection accessible.
     const exit = update.exit();
