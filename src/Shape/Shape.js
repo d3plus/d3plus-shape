@@ -45,8 +45,8 @@ export default class Shape extends BaseClass {
     this._vectorEffect = constant("non-scaling-stroke");
     this._verticalAlign = constant("top");
 
-    this._x = accessor("x");
-    this._y = accessor("y");
+    this._x = accessor("x", 0);
+    this._y = accessor("y", 0);
 
   }
 
@@ -249,9 +249,11 @@ export default class Shape extends BaseClass {
 
     elem
       .attr("transform", (d, i) => `
-        translate(${d.__d3plus__ ? d.x ? d.x : this._x(d.data, d.i) : this._x(d, i)},
-                  ${d.__d3plus__ ? d.y ? d.y : this._y(d.data, d.i) : this._y(d, i)})
-        scale(${d.__d3plus__ ? d.scale ? d.scale : this._scale(d.data, d.i) : this._scale(d, i)})`);
+        translate(${d.__d3plus__
+                  ? d.translate || `${this._x(d.data, d.i)},${this._y(d.data, d.i)}`
+                  : `${this._x(d, i)},${this._y(d, i)}`})
+        scale(${d.__d3plus__ ? d.scale || this._scale(d.data, d.i)
+              : this._scale(d, i)})`);
   }
 
   /**
