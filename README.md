@@ -537,7 +537,6 @@ function(d) {
     * [.stroke([*value*])](#Shape.stroke)
     * [.strokeWidth([*value*])](#Shape.strokeWidth)
     * [.textAnchor([*value*])](#Shape.textAnchor)
-    * [.transform([*value*])](#Shape.transform)
     * [.vectorEffect([*value*])](#Shape.vectorEffect)
     * [.verticalAlign([*value*])](#Shape.verticalAlign)
     * [.x([*value*])](#Shape.x)
@@ -829,17 +828,6 @@ If *value* is specified, sets the text-anchor accessor to the specified function
 | --- | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>&quot;start&quot;</code> | 
 
-<a name="Shape.transform"></a>
-
-#### Shape.transform([*value*])
-If *value* is specified, sets the transform accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current transform accessor.
-
-**Kind**: static method of <code>[Shape](#Shape)</code>  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;&quot;</code> | 
-
 <a name="Shape.vectorEffect"></a>
 
 #### Shape.vectorEffect([*value*])
@@ -910,4 +898,4 @@ Calculates the pixel distance between two points.
 
 
 
-###### <sub>Documentation generated on Thu, 17 Nov 2016 04:38:12 GMT</sub>
+###### <sub>Documentation generated on Thu, 17 Nov 2016 04:53:18 GMT</sub>
