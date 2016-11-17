@@ -1,3 +1,4 @@
+import {extent} from "d3-array";
 import {nest} from "d3-collection";
 import {interpolatePath} from "d3-interpolate-path";
 import {select} from "d3-selection";
@@ -44,8 +45,18 @@ export default class Line extends Shape {
       d.data = merge(d.values);
       d.i = data.indexOf(d.values[0]);
 
+      const x = extent(d.values, this._x);
+      d.xR = x;
+      d.width = x[1] - x[0];
+      d.x = x[0] + d.width / 2;
+
+      const y = extent(d.values, this._y);
+      d.yR = y;
+      d.height = y[1] - y[0];
+      d.y = y[0] + d.height / 2;
+
       d.nested = true;
-      d.translate = [0, 0];
+      d.translate = [d.x, d.y];
       d.__d3plus__ = true;
 
       return d;
@@ -74,10 +85,12 @@ export default class Line extends Shape {
       .y(this._y);
 
     this._enter.append("path")
+      .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
       .attr("d", d => this._path(d.values))
       .call(this._applyStyle.bind(this));
 
     this._update.select("path").transition(this._transition)
+      .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
       .attrTween("d", function(d) {
         return interpolatePath(select(this).attr("d"), that._path(d.values));
       })
