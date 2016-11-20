@@ -247,11 +247,11 @@ export default class Shape extends BaseClass {
 
     elem
       .attr("transform", (d, i) => `
-        translate(${d.__d3plus__
+        translate(${d.__d3plusShape__
                   ? d.translate ? d.translate
                   : `${this._x(d.data, d.i)},${this._y(d.data, d.i)}`
                   : `${this._x(d, i)},${this._y(d, i)}`})
-        scale(${d.__d3plus__ ? d.scale || this._scale(d.data, d.i)
+        scale(${d.__d3plusShape__ ? d.scale || this._scale(d.data, d.i)
               : this._scale(d, i)})`);
   }
 
@@ -262,7 +262,7 @@ export default class Shape extends BaseClass {
       @private
   */
   _nestWrapper(method) {
-    return (d, i) => method(d.__d3plus__ ? d.data : d, d.__d3plus__ ? d.i : i);
+    return (d, i) => method(d.__d3plusShape__ ? d.data : d, d.__d3plusShape__ ? d.i : i);
   }
 
   /**
@@ -291,7 +291,7 @@ export default class Shape extends BaseClass {
       if (data.key) key = data.key;
     }
 
-    if (this._sort) data = data.sort((a, b) => this._sort(a.__d3plus__ ? a.data : a, b.__d3plus__ ? b.data : b));
+    if (this._sort) data = data.sort((a, b) => this._sort(a.__d3plusShape__ ? a.data : a, b.__d3plusShape__ ? b.data : b));
 
     // Makes the update state of the group selection accessible.
     const update = this._select.selectAll(`.d3plus-${this._name}`).data(data, key);

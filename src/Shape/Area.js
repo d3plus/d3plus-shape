@@ -66,7 +66,7 @@ export default class Area extends Shape {
 
       d.nested = true;
       d.translate = [d.x, d.y];
-      d.__d3plus__ = true;
+      d.__d3plusShape__ = true;
 
       return d;
     });
