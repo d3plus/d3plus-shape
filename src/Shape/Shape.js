@@ -248,7 +248,8 @@ export default class Shape extends BaseClass {
     elem
       .attr("transform", (d, i) => `
         translate(${d.__d3plus__
-                  ? d.translate || `${this._x(d.data, d.i)},${this._y(d.data, d.i)}`
+                  ? d.translate ? d.translate
+                  : `${this._x(d.data, d.i)},${this._y(d.data, d.i)}`
                   : `${this._x(d, i)},${this._y(d, i)}`})
         scale(${d.__d3plus__ ? d.scale || this._scale(d.data, d.i)
               : this._scale(d, i)})`);
