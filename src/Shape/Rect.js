@@ -15,7 +15,7 @@ export default class Rect extends Shape {
       @private
   */
   constructor() {
-    super();
+    super("rect");
     this._height = accessor("height");
     this._labelBounds = (d, i, s) =>
       ({width: s.width, height: s.height, x: -s.width / 2, y: -s.height / 2});
@@ -32,18 +32,18 @@ export default class Rect extends Shape {
 
     super.render(callback);
 
-    this._enter.append("rect")
+    this._enter
         .attr("width", 0).attr("height", 0)
         .attr("x", 0).attr("y", 0)
         .call(this._applyStyle.bind(this))
       .transition(this._transition)
         .call(this._applyPosition.bind(this));
 
-    this._update.select("rect").transition(this._transition)
+    this._update.transition(this._transition)
       .call(this._applyStyle.bind(this))
       .call(this._applyPosition.bind(this));
 
-    this._exit.select("rect").transition(this._transition)
+    this._exit.transition(this._transition)
       .attr("width", 0).attr("height", 0)
       .attr("x", 0).attr("y", 0);
 

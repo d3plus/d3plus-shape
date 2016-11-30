@@ -15,7 +15,7 @@ export default class Circle extends Shape {
       @private
   */
   constructor() {
-    super();
+    super("circle");
     this._name = "Circle";
     this._r = accessor("r");
   }
@@ -40,17 +40,17 @@ export default class Circle extends Shape {
 
     super.render(callback);
 
-    this._enter.append("circle")
+    this._enter
         .attr("r", 0).attr("x", 0).attr("y", 0)
         .call(this._applyStyle.bind(this))
       .transition(this._transition)
         .call(this._applyPosition.bind(this));
 
-    this._update.select("circle").transition(this._transition)
+    this._update.transition(this._transition)
       .call(this._applyStyle.bind(this))
       .call(this._applyPosition.bind(this));
 
-    this._exit.select("circle").transition(this._transition)
+    this._exit.transition(this._transition)
       .attr("r", 0).attr("x", 0).attr("y", 0);
 
     return this;

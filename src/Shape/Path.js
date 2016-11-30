@@ -15,7 +15,7 @@ export default class Path extends Shape {
       @private
   */
   constructor() {
-    super();
+    super("path");
     this._d = accessor("path");
     this._name = "Path";
   }
@@ -29,19 +29,19 @@ export default class Path extends Shape {
 
     super.render(callback);
 
-    this._enter.append("path")
+    this._enter
         .attr("opacity", 0)
         .attr("d", this._d)
       .call(this._applyStyle.bind(this))
       .transition(this._transition)
         .attr("opacity", 1);
 
-    this._update.select("path").transition(this._transition)
+    this._update.transition(this._transition)
       .call(this._applyStyle.bind(this))
         .attr("opacity", 1)
         .attr("d", this._d);
 
-    this._exit.select("path").transition(this._transition)
+    this._exit.transition(this._transition)
       .attr("opacity", 0);
 
     return this;

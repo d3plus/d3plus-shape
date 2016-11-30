@@ -17,7 +17,7 @@ export default class Shape extends BaseClass {
       @desc Invoked when creating a new class instance, and sets any default parameters.
       @private
   */
-  constructor() {
+  constructor(tagName = "g") {
 
     super();
 
@@ -40,6 +40,7 @@ export default class Shape extends BaseClass {
     this._shapeRendering = constant("geometricPrecision");
     this._stroke = constant("black");
     this._strokeWidth = constant(0);
+    this._tagName = tagName;
     this._textAnchor = constant("start");
     this._vectorEffect = constant("non-scaling-stroke");
     this._verticalAlign = constant("top");
@@ -74,137 +75,9 @@ export default class Shape extends BaseClass {
     for (let e = 0; e < events.length; e++) {
       handler.on(events[e], function(d, i) {
         if (!that._on[events[e]]) return;
-        const hit = this.className.baseVal === "hitArea";
-        const t = hit ? this.parentNode : this;
-        that._on[events[e]].bind(t)(d, hit ? that._data.indexOf(d) : i);
+        that._on[events[e]].bind(this)(d, i);
       });
     }
-
-  }
-
-  /**
-      @memberof Shape
-      @desc Adds background image to each shape group.
-      @param {D3Selection} *g*
-      @param {Boolean} [*show* = True] Whether or not to show or remove the image.
-      @private
-  */
-  _applyImage(g, show = true) {
-
-    const that = this;
-
-    g.each(function(d, i) {
-
-      const aes = that._aes(d, i);
-
-      const imageData = [];
-      let h = 0, w = 0;
-
-      if (show && (aes.r || aes.width && aes.height)) {
-        h = aes.r ? aes.r * 2 : aes.height;
-        w = aes.r ? aes.r * 2 : aes.width;
-        const url = that._backgroundImage(d, i);
-        if (url) imageData.push({url});
-      }
-
-      new Image()
-        .data(imageData)
-        .duration(that._duration)
-        .height(h)
-        .select(this)
-        .width(w)
-        .x(-w / 2)
-        .y(-h / 2)
-        .render();
-
-    });
-
-  }
-
-  /**
-      @memberof Shape
-      @desc Adds labels to each shape group.
-      @param {D3Selection} *g*
-      @param {Boolean} [*show* = True] Whether or not to show or remove the labels.
-      @private
-  */
-  _applyLabels(g, show = true) {
-
-    const that = this;
-
-    g.each(function(datum, i) {
-
-      let d = datum;
-      if (datum.nested && datum.key && datum.values) {
-        d = datum.values[0];
-        i = that._data.indexOf(d);
-      }
-
-      /* Draws label based on inner bounds */
-      const labelData = [];
-
-      if (show) {
-
-        let labels = that._label(d, i);
-
-        if (that._labelBounds && labels !== false && labels !== void 0) {
-
-          const bounds = that._labelBounds(d, i, that._aes(datum, i));
-
-          if (bounds) {
-
-            if (labels.constructor !== Array) labels = [labels];
-
-            const fC = that._fontColor(d, i),
-                  fF = that._fontFamily(d, i),
-                  fR = that._fontResize(d, i),
-                  fS = that._fontSize(d, i),
-                  lH = that._lineHeight(d, i),
-                  padding = that._labelPadding(d, i),
-                  tA = that._textAnchor(d, i),
-                  vA = that._verticalAlign(d, i);
-
-            for (let l = 0; l < labels.length; l++) {
-              const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
-                    p = padding.constructor === Array ? padding[l] : padding;
-              b.height -= p * 2;
-              b.width -= p * 2;
-              b.x += p;
-              b.y += p;
-              b.id = `${that._id(d, i)}_${l}`;
-              b.text = labels[l];
-
-              b.fC = fC.constructor === Array ? fC[l] : fC;
-              b.fF = fF.constructor === Array ? fF[l] : fF;
-              b.fR = fR.constructor === Array ? fR[l] : fR;
-              b.fS = fS.constructor === Array ? fS[l] : fS;
-              b.lH = lH.constructor === Array ? lH[l] : lH;
-              b.tA = tA.constructor === Array ? tA[l] : tA;
-              b.vA = vA.constructor === Array ? vA[l] : vA;
-
-              labelData.push(b);
-            }
-
-          }
-
-        }
-      }
-
-      new TextBox()
-        .data(labelData)
-        .delay(that._duration / 2)
-        .duration(that._duration)
-        .fontColor(d => d.fC)
-        .fontFamily(d => d.fF)
-        .fontResize(d => d.fR)
-        .fontSize(d => d.fS)
-        .lineHeight(d => d.lH)
-        .textAnchor(d => d.tA)
-        .verticalAlign(d => d.vA)
-        .select(this)
-        .render();
-
-    });
 
   }
 
@@ -267,6 +140,142 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
+      @desc Adds background image to each shape group.
+      @private
+  */
+  _renderImage() {
+
+    const imageData = [];
+
+    this._update.merge(this._enter).data()
+      .forEach((d, i) => {
+
+        const aes = this._aes(d, i);
+
+        if (aes.r || aes.width && aes.height) {
+
+          const height = aes.r ? aes.r * 2 : aes.height,
+                url = this._backgroundImage(d, i),
+                width = aes.r ? aes.r * 2 : aes.width;
+
+          if (url) {
+
+            const x = d.__d3plusShape__ ? d.translate ? d.translate[0]
+                    : this._x(d.data, d.i) : this._x(d, d),
+                  y = d.__d3plusShape__ ? d.translate ? d.translate[1]
+                    : this._y(d.data, d.i) : this._y(d, d);
+
+            imageData.push({
+              height,
+              url,
+              width,
+              x: x + -width / 2,
+              y: y + -height / 2
+            });
+
+          }
+
+        }
+
+      });
+
+    new Image()
+      .data(imageData)
+      .duration(this._duration)
+      .select(this._select.node())
+      .render();
+
+  }
+
+  /**
+      @memberof Shape
+      @desc Adds labels to each shape group.
+      @private
+  */
+  _renderLabels() {
+
+    const labelData = [];
+
+    this._update.merge(this._enter).data()
+      .forEach((datum, i) => {
+
+        let d = datum;
+        if (datum.nested && datum.key && datum.values) {
+          d = datum.values[0];
+          i = this._data.indexOf(d);
+        }
+
+        let labels = this._label(d, i);
+
+        if (this._labelBounds && labels !== false && labels !== void 0) {
+
+          const bounds = this._labelBounds(d, i, this._aes(datum, i));
+
+          if (bounds) {
+
+            if (labels.constructor !== Array) labels = [labels];
+
+            const x = d.__d3plusShape__ ? d.translate ? d.translate[0]
+                    : this._x(d.data, d.i) : this._x(d, d),
+                  y = d.__d3plusShape__ ? d.translate ? d.translate[1]
+                    : this._y(d.data, d.i) : this._y(d, d);
+
+            const fC = this._fontColor(d, i),
+                  fF = this._fontFamily(d, i),
+                  fR = this._fontResize(d, i),
+                  fS = this._fontSize(d, i),
+                  lH = this._lineHeight(d, i),
+                  padding = this._labelPadding(d, i),
+                  tA = this._textAnchor(d, i),
+                  vA = this._verticalAlign(d, i);
+
+            for (let l = 0; l < labels.length; l++) {
+
+              const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
+                    p = padding.constructor === Array ? padding[l] : padding;
+
+              labelData.push(Object.assign(b, {
+                fC: fC.constructor === Array ? fC[l] : fC,
+                fF: fF.constructor === Array ? fF[l] : fF,
+                fR: fR.constructor === Array ? fR[l] : fR,
+                fS: fS.constructor === Array ? fS[l] : fS,
+                height: b.height - p * 2,
+                id: `${this._id(d, i)}_${l}`,
+                lH: lH.constructor === Array ? lH[l] : lH,
+                tA: tA.constructor === Array ? tA[l] : tA,
+                text: labels[l],
+                vA: vA.constructor === Array ? vA[l] : vA,
+                width: b.width - p * 2,
+                x: x + b.x + p,
+                y: y + b.y + p
+              }));
+
+            }
+
+          }
+
+        }
+
+      });
+
+    new TextBox()
+      .data(labelData)
+      .delay(this._duration / 2)
+      .duration(this._duration)
+      .fontColor(d => d.fC)
+      .fontFamily(d => d.fF)
+      .fontResize(d => d.fR)
+      .fontSize(d => d.fS)
+      .lineHeight(d => d.lH)
+      .textAnchor(d => d.tA)
+      .verticalAlign(d => d.vA)
+      .select(this._select.node())
+      .render();
+
+  }
+
+  /**
+      @memberof Shape
       @desc Renders the current Shape to the page. If a *callback* is specified, it will be called once the shapes are done drawing.
       @param {Function} [*callback* = undefined]
   */
@@ -294,60 +303,58 @@ export default class Shape extends BaseClass {
     if (this._sort) data = data.sort((a, b) => this._sort(a.__d3plusShape__ ? a.data : a, b.__d3plusShape__ ? b.data : b));
 
     // Makes the update state of the group selection accessible.
-    const update = this._select.selectAll(`.d3plus-${this._name}`).data(data, key);
-    update
-        .order()
-        .attr("shape-rendering", this._nestWrapper(this._shapeRendering))
-      .transition(this._transition)
-        .call(this._applyTransform.bind(this));
-    this._update = update.select(".d3plus-Shape-bg");
+    const update = this._update = this._select.selectAll(`.d3plus-${this._name}`)
+      .data(data, key);
+
+    // Orders and transforms the updating Shapes.
+    update.order().transition(this._transition)
+      .call(this._applyTransform.bind(this));
 
     // Makes the enter state of the group selection accessible.
-    const enter = update.enter().append("g")
-      .attr("class", (d, i) =>
-        `d3plus-Shape d3plus-${this._name} d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
+    const enter = this._enter = update.enter().append(this._tagName)
+        .attr("class", (d, i) => `d3plus-Shape d3plus-${this._name} d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
       .call(this._applyTransform.bind(this))
-      .attr("opacity", this._nestWrapper(this._opacity))
-      .attr("shape-rendering", this._nestWrapper(this._shapeRendering));
-
-    this._enter = enter.append("g").attr("class", "d3plus-Shape-bg");
-    const fg = enter.append("g").attr("class", "d3plus-Shape-fg");
+        .attr("opacity", this._nestWrapper(this._opacity));
 
     const enterUpdate = enter.merge(update);
 
-    fg.merge(update.select(".d3plus-Shape-fg"))
-      .call(this._applyImage.bind(this))
-      .call(this._applyLabels.bind(this));
-
     enterUpdate
+        .attr("shape-rendering", this._nestWrapper(this._shapeRendering))
         .attr("pointer-events", "none")
       .transition(this._transition)
         .attr("opacity", this._nestWrapper(this._opacity))
       .transition()
         .attr("pointer-events", "all");
 
-    const that = this;
-    let hitArea = enterUpdate.selectAll(".d3plus-Shape-hitArea").data(this._hitArea ? [0] : []);
-    hitArea.exit().remove();
-    hitArea = hitArea.enter().append("rect")
-        .attr("class", "d3plus-Shape-hitArea")
-        .attr("fill", "none")
-      .merge(hitArea)
-        .data(d => [d])
-        .each(function(d) {
-          const h = that._hitArea(d, that._data.indexOf(d), that._aes(d, that._data.indexOf(d)));
-          return h ? select(this).call(attrize, h) : select(this).remove();
-        });
-
-    this._applyEvents(this._hitArea ? hitArea : enterUpdate);
-
     // Makes the exit state of the group selection accessible.
-    const exit = update.exit();
-    exit.select(".d3plus-Shape-fg")
-      .call(this._applyImage.bind(this), false)
-      .call(this._applyLabels.bind(this), false);
+    const exit = this._exit = update.exit();
     exit.transition().delay(this._duration).remove();
-    this._exit = exit.select(".d3plus-Shape-bg");
+
+    const that = this;
+
+    const hitAreas = this._select.selectAll(`.d3plus-${this._name}-HitArea`)
+      .data(this._hitArea ? data : [], key);
+
+    hitAreas.order().transition(this._transition)
+      .call(this._applyTransform.bind(this));
+
+    const hitEnter = hitAreas.enter().append("rect")
+        .attr("class", (d, i) => `d3plus-Shape d3plus-${this._name}-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
+        .attr("fill", "transparent")
+      .call(this._applyTransform.bind(this));
+
+    const hitUpdates = hitAreas.merge(hitEnter)
+      .each(function(d) {
+        const h = that._hitArea(d, that._data.indexOf(d), that._aes(d, that._data.indexOf(d)));
+        return h ? select(this).call(attrize, h) : select(this).remove();
+      });
+
+    hitAreas.exit().remove();
+
+    this._applyEvents(this._hitArea ? hitUpdates : enterUpdate);
+
+    this._renderImage();
+    this._renderLabels();
 
     if (callback) setTimeout(callback, this._duration + 100);
 
