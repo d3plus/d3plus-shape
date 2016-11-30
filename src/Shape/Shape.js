@@ -333,7 +333,7 @@ export default class Shape extends BaseClass {
 
     const that = this;
 
-    const hitAreas = this._select.selectAll(`.d3plus-${this._name}-HitArea`)
+    const hitAreas = this._group.selectAll(`.d3plus-${this._name}-HitArea`)
       .data(this._hitArea ? data : [], key);
 
     hitAreas.order().transition(this._transition)
