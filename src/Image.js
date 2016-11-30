@@ -48,7 +48,11 @@ export default class Image {
 
     const enter = images.enter().append("image")
       .attr("class", "d3plus-shape-image")
-      .attr("opacity", 0);
+      .attr("opacity", 0)
+      .attr("width", 0)
+      .attr("height", 0)
+      .attr("x", (d, i) => this._x(d, i) + this._width(d, i) / 2)
+      .attr("y", (d, i) => this._y(d, i) + this._height(d, i) / 2);
 
     const t = transition().duration(this._duration),
           that = this,
