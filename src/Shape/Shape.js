@@ -1,7 +1,7 @@
 import {select} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {accessor, attrize, BaseClass, constant} from "d3plus-common";
+import {accessor, attrize, BaseClass, constant, elem} from "d3plus-common";
 import {contrast} from "d3plus-color";
 import {strip, TextBox} from "d3plus-text";
 import {default as Image} from "../Image";
@@ -182,7 +182,7 @@ export default class Shape extends BaseClass {
     new Image()
       .data(imageData)
       .duration(this._duration)
-      .select(this._select.node())
+      .select(elem(`g.d3plus-${this._name}-Images`, {parent: this._select}).node())
       .render();
 
   }
@@ -269,7 +269,7 @@ export default class Shape extends BaseClass {
       .lineHeight(d => d.lH)
       .textAnchor(d => d.tA)
       .verticalAlign(d => d.vA)
-      .select(this._select.node())
+      .select(elem(`g.d3plus-${this._name}-Labels`, {parent: this._select}).node())
       .render();
 
   }
