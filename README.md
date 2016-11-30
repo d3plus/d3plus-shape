@@ -12,7 +12,7 @@ Fancy SVG shapes for visualizations
 If you use NPM, `npm install d3plus-shape`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-shape/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. Create a [custom bundle using Rollup](https://github.com/rollup/rollup) or your preferred bundler. You can also load directly from [d3plus.org](https://d3plus.org):
 
 ```html
-<script src="https://d3plus.org/js/d3plus-shape.v0.9.full.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.v0.10.full.min.js"></script>
 ```
 
 [width]: 360
@@ -898,4 +898,4 @@ Calculates the pixel distance between two points.
 
 
 
-###### <sub>Documentation generated on Sun, 20 Nov 2016 05:30:38 GMT</sub>
+###### <sub>Documentation generated on Wed, 30 Nov 2016 22:19:25 GMT</sub>
