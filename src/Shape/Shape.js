@@ -255,8 +255,6 @@ export default class Shape extends BaseClass {
               const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
                     p = padding.constructor === Array ? padding[l] : padding;
 
-              console.log(d);
-
               labelData.push(Object.assign(b, {
                 __d3plusShape__: true,
                 data: d,
