@@ -523,6 +523,9 @@ function(d) {
     * [.fontFamily([*value*])](#Shape.fontFamily)
     * [.fontResize([*value*])](#Shape.fontResize)
     * [.fontSize([*value*])](#Shape.fontSize)
+    * [.highlight([*value*])](#Shape.highlight)
+    * [.highlightDuration([*ms*])](#Shape.highlightDuration)
+    * [.highlightOpacity([*value*])](#Shape.highlightOpacity)
     * [.hitArea([*bounds*])](#Shape.hitArea)
     * [.id([*value*])](#Shape.id)
     * [.label([*value*])](#Shape.label)
@@ -645,6 +648,39 @@ If *value* is specified, sets the font-size accessor to the specified function o
 | Param | Type | Default |
 | --- | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>12</code> | 
+
+<a name="Shape.highlight"></a>
+
+#### Shape.highlight([*value*])
+If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight accessor.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> | 
+
+<a name="Shape.highlightDuration"></a>
+
+#### Shape.highlightDuration([*ms*])
+If *ms* is specified, sets the highlight duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current highlight duration.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*ms*] | <code>Number</code> | <code>200</code> | 
+
+<a name="Shape.highlightOpacity"></a>
+
+#### Shape.highlightOpacity([*value*])
+If *value* is specified, sets the highlight opacity to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight opacity.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>Number</code> | <code>0.5</code> | 
 
 <a name="Shape.hitArea"></a>
 
@@ -898,4 +934,4 @@ Calculates the pixel distance between two points.
 
 
 
-###### <sub>Documentation generated on Thu, 01 Dec 2016 00:11:21 GMT</sub>
+###### <sub>Documentation generated on Thu, 01 Dec 2016 15:21:54 GMT</sub>
