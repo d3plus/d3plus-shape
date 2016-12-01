@@ -113,7 +113,7 @@ new Image().data([data]).render();
 ```
 **Example** *(creates the following)*  
 ```js
-<image class="d3plus-shape-image" opacity="1" href="file.png" width="100" height="50" x="0" y="0"></image>
+<image class="d3plus-Image" opacity="1" href="file.png" width="100" height="50" x="0" y="0"></image>
 ```
 **Example** *(this is shorthand for the following)*  
 ```js
@@ -898,4 +898,4 @@ Calculates the pixel distance between two points.
 
 
 
-###### <sub>Documentation generated on Wed, 30 Nov 2016 23:37:48 GMT</sub>
+###### <sub>Documentation generated on Thu, 01 Dec 2016 00:11:21 GMT</sub>
