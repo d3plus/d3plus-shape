@@ -11,7 +11,7 @@ var data = {"url": "file.png", "width": "100", "height": "50"};
 @example <caption>passed to the generator</caption>
 new Image().data([data]).render();
 @example <caption>creates the following</caption>
-<image class="d3plus-shape-image" opacity="1" href="file.png" width="100" height="50" x="0" y="0"></image>
+<image class="d3plus-Image" opacity="1" href="file.png" width="100" height="50" x="0" y="0"></image>
 @example <caption>this is shorthand for the following</caption>
 image().data([data])();
 @example <caption>which also allows a post-draw callback function</caption>
@@ -44,10 +44,10 @@ export default class Image {
 
     if (this._select === void 0) this.select(select("body").append("svg").style("width", `${window.innerWidth}px`).style("height", `${window.innerHeight}px`).style("display", "block").node());
 
-    const images = this._select.selectAll(".d3plus-shape-image").data(this._data, this._id);
+    const images = this._select.selectAll(".d3plus-Image").data(this._data, this._id);
 
     const enter = images.enter().append("image")
-      .attr("class", "d3plus-shape-image")
+      .attr("class", "d3plus-Image")
       .attr("opacity", 0)
       .attr("width", 0)
       .attr("height", 0)
