@@ -148,7 +148,13 @@ export default class Shape extends BaseClass {
     const imageData = [];
 
     this._update.merge(this._enter).data()
-      .forEach((d, i) => {
+      .forEach((datum, i) => {
+
+        let d = datum;
+        if (datum.nested && datum.key && datum.values) {
+          d = datum.values[0];
+          i = this._data.indexOf(d);
+        }
 
         const aes = this._aes(d, i);
 
@@ -165,8 +171,16 @@ export default class Shape extends BaseClass {
                   y = d.__d3plusShape__ ? d.translate ? d.translate[1]
                     : this._y(d.data, d.i) : this._y(d, d);
 
+            if (d.__d3plusShape__) {
+              d = d.data;
+              i = d.i;
+            }
+
             imageData.push({
+              __d3plus__: true,
+              data: d,
               height,
+              i,
               url,
               width,
               x: x + -width / 2,
@@ -220,6 +234,11 @@ export default class Shape extends BaseClass {
                   y = d.__d3plusShape__ ? d.translate ? d.translate[1]
                     : this._y(d.data, d.i) : this._y(d, d);
 
+            if (d.__d3plusShape__) {
+              d = d.data;
+              i = d.i;
+            }
+
             const fC = this._fontColor(d, i),
                   fF = this._fontFamily(d, i),
                   fR = this._fontResize(d, i),
@@ -235,11 +254,14 @@ export default class Shape extends BaseClass {
                     p = padding.constructor === Array ? padding[l] : padding;
 
               labelData.push(Object.assign(b, {
+                __d3plusShape__: true,
+                data: d,
                 fC: fC.constructor === Array ? fC[l] : fC,
                 fF: fF.constructor === Array ? fF[l] : fF,
                 fR: fR.constructor === Array ? fR[l] : fR,
                 fS: fS.constructor === Array ? fS[l] : fS,
                 height: b.height - p * 2,
+                i,
                 id: `${this._id(d, i)}_${l}`,
                 lH: lH.constructor === Array ? lH[l] : lH,
                 tA: tA.constructor === Array ? tA[l] : tA,
@@ -331,6 +353,9 @@ export default class Shape extends BaseClass {
     const exit = this._exit = update.exit();
     exit.transition().delay(this._duration).remove();
 
+    this._renderImage();
+    this._renderLabels();
+
     const that = this;
 
     const hitAreas = this._group.selectAll(`.d3plus-${this._name}-HitArea`)
@@ -353,9 +378,6 @@ export default class Shape extends BaseClass {
     hitAreas.exit().remove();
 
     this._applyEvents(this._hitArea ? hitUpdates : enterUpdate);
-
-    this._renderImage();
-    this._renderLabels();
 
     if (callback) setTimeout(callback, this._duration + 100);
 
