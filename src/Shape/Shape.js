@@ -489,7 +489,7 @@ export default class Shape extends BaseClass {
     this._group.selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
       .style(`${prefix()}transition`, `opacity ${this._highlightDuration / 1000}s`)
       .style("opacity", function(d, i) {
-        if (_ === void 0) return 1;
+        if (!_ || typeof _ !== "function") return 1;
         if (this.tagName === "text") d = d.data;
         if (d.__d3plusShape__ || d.__d3plus__) {
           d = d.data;
