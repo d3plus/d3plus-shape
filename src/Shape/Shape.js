@@ -1,7 +1,7 @@
 import {select} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {accessor, attrize, BaseClass, constant, elem} from "d3plus-common";
+import {accessor, attrize, BaseClass, constant, elem, prefix} from "d3plus-common";
 import {contrast} from "d3plus-color";
 import {strip, TextBox} from "d3plus-text";
 import {default as Image} from "../Image";
@@ -31,6 +31,8 @@ export default class Shape extends BaseClass {
     this._fontResize = constant(false);
     this._fontSize = constant(12);
 
+    this._highlightDuration = 200;
+    this._highlightOpacity = 0.5;
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._label = constant(false);
     this._labelPadding = constant(5);
@@ -253,6 +255,8 @@ export default class Shape extends BaseClass {
               const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
                     p = padding.constructor === Array ? padding[l] : padding;
 
+              console.log(d);
+
               labelData.push(Object.assign(b, {
                 __d3plusShape__: true,
                 data: d,
@@ -471,6 +475,48 @@ export default class Shape extends BaseClass {
     return arguments.length
          ? (this._fontSize = typeof _ === "function" ? _ : constant(_), this)
          : this._fontSize;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight accessor.
+      @param {Function} [*value*]
+  */
+  highlight(_) {
+
+    const that = this;
+
+    this._group.selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
+      .style(`${prefix()}transition`, `opacity ${this._highlightDuration / 1000}s`)
+      .style("opacity", function(d, i) {
+        if (_ === void 0) return 1;
+        if (this.tagName === "text") d = d.data;
+        if (d.__d3plusShape__ || d.__d3plus__) {
+          d = d.data;
+          i = d.i;
+        }
+        return _(d, i) ? 1 : that._highlightOpacity;
+      });
+
+    return this;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *ms* is specified, sets the highlight duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current highlight duration.
+      @param {Number} [*ms* = 200]
+  */
+  highlightDuration(_) {
+    return arguments.length ? (this._highlightDuration = _, this) : this._highlightDuration;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the highlight opacity to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight opacity.
+      @param {Number} [*value* = 0.5]
+  */
+  highlightOpacity(_) {
+    return arguments.length ? (this._highlightOpacity = _, this) : this._highlightOpacity;
   }
 
   /**
