@@ -152,15 +152,15 @@ export default class Shape extends BaseClass {
     this._update.merge(this._enter).data()
       .forEach((datum, i) => {
 
-        let d = datum;
-        if (datum.nested && datum.key && datum.values) {
-          d = datum.values[0];
-          i = this._data.indexOf(d);
-        }
-
-        const aes = this._aes(d, i);
+        const aes = this._aes(datum, i);
 
         if (aes.r || aes.width && aes.height) {
+
+          let d = datum;
+          if (datum.nested && datum.key && datum.values) {
+            d = datum.values[0];
+            i = this._data.indexOf(d);
+          }
 
           const height = aes.r ? aes.r * 2 : aes.height,
                 url = this._backgroundImage(d, i),
