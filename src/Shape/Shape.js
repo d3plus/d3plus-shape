@@ -168,10 +168,13 @@ export default class Shape extends BaseClass {
 
           if (url) {
 
-            const x = d.__d3plusShape__ ? d.translate ? d.translate[0]
-                    : this._x(d.data, d.i) : this._x(d, d),
-                  y = d.__d3plusShape__ ? d.translate ? d.translate[1]
-                    : this._y(d.data, d.i) : this._y(d, d);
+            let x = d.__d3plusShape__ ? d.translate ? d.translate[0]
+                  : this._x(d.data, d.i) : this._x(d, i),
+                y = d.__d3plusShape__ ? d.translate ? d.translate[1]
+                  : this._y(d.data, d.i) : this._y(d, i);
+
+            if (aes.x) x += aes.x;
+            if (aes.y) y += aes.y;
 
             if (d.__d3plusShape__) {
               d = d.data;
@@ -225,16 +228,20 @@ export default class Shape extends BaseClass {
 
         if (this._labelBounds && labels !== false && labels !== void 0) {
 
-          const bounds = this._labelBounds(d, i, this._aes(datum, i));
+          const aes = this._aes(datum, i),
+                bounds = this._labelBounds(d, i, aes);
 
           if (bounds) {
 
             if (labels.constructor !== Array) labels = [labels];
 
-            const x = d.__d3plusShape__ ? d.translate ? d.translate[0]
-                    : this._x(d.data, d.i) : this._x(d, d),
-                  y = d.__d3plusShape__ ? d.translate ? d.translate[1]
-                    : this._y(d.data, d.i) : this._y(d, d);
+            let x = d.__d3plusShape__ ? d.translate ? d.translate[0]
+                  : this._x(d.data, d.i) : this._x(d, i),
+                y = d.__d3plusShape__ ? d.translate ? d.translate[1]
+                  : this._y(d.data, d.i) : this._y(d, i);
+
+            if (aes.x) x += aes.x;
+            if (aes.y) y += aes.y;
 
             if (d.__d3plusShape__) {
               d = d.data;
