@@ -157,9 +157,10 @@ export default class Area extends Shape {
       @param {Function|Number} [*value*]
   */
   x0(_) {
-    return arguments.length
-         ? (this._x0 = typeof _ === "function" ? _ : constant(_), this)
-         : this._x0;
+    if (!arguments.length) return this._x0;
+    this._x0 = typeof _ === "function" ? _ : constant(_);
+    this._x = this._x0;
+    return this;
   }
 
   /**
@@ -179,9 +180,10 @@ export default class Area extends Shape {
       @param {Function|Number} [*value*]
   */
   y0(_) {
-    return arguments.length
-         ? (this._y0 = typeof _ === "function" ? _ : constant(_), this)
-         : this._y0;
+    if (!arguments.length) return this._y0;
+    this._y0 = typeof _ === "function" ? _ : constant(_);
+    this._y = this._y0;
+    return this;
   }
 
   /**
