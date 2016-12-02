@@ -60,6 +60,8 @@ It even detects that the blue rectangle should have a dark label and the red rec
 <dd></dd>
 <dt><a href="#Area">Area</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
+<dt><a href="#Bar">Bar</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
+<dd></dd>
 <dt><a href="#Circle">Circle</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
 <dt><a href="#Line">Line</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
@@ -350,6 +352,104 @@ If *value* is specified, sets the y0 accessor to the specified function or numbe
 If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
 
 **Kind**: static method of <code>[Area](#Area)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
+
+<a name="Bar"></a>
+
+### Bar ⇐ <code>[Shape](#Shape)</code>
+**Kind**: global class  
+**Extends:** <code>[Shape](#Shape)</code>  
+
+* [Bar](#Bar) ⇐ <code>[Shape](#Shape)</code>
+    * [new Bar()](#new_Bar_new)
+    * [.height([*value*])](#Bar.height)
+    * [.width([*value*])](#Bar.width)
+    * [.x0([*value*])](#Bar.x0)
+    * [.x1([*value*])](#Bar.x1)
+    * [.y0([*value*])](#Bar.y0)
+    * [.y1([*value*])](#Bar.y1)
+
+<a name="new_Bar_new"></a>
+
+#### new Bar()
+Creates SVG areas based on an array of data.
+
+<a name="Bar.height"></a>
+
+#### Bar.height([*value*])
+If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
+
+**Kind**: static method of <code>[Bar](#Bar)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.height;
+}
+```
+<a name="Bar.width"></a>
+
+#### Bar.width([*value*])
+If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
+
+**Kind**: static method of <code>[Bar](#Bar)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+**Example**  
+```js
+function(d) {
+  return d.width;
+}
+```
+<a name="Bar.x0"></a>
+
+#### Bar.x0([*value*])
+If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
+
+**Kind**: static method of <code>[Bar](#Bar)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+<a name="Bar.x1"></a>
+
+#### Bar.x1([*value*])
+If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x1 accessor.
+
+**Kind**: static method of <code>[Bar](#Bar)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
+
+<a name="Bar.y0"></a>
+
+#### Bar.y0([*value*])
+If *value* is specified, sets the y0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y0 accessor.
+
+**Kind**: static method of <code>[Bar](#Bar)</code>  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
+<a name="Bar.y1"></a>
+
+#### Bar.y1([*value*])
+If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
+
+**Kind**: static method of <code>[Bar](#Bar)</code>  
 
 | Param | Type |
 | --- | --- |
@@ -934,4 +1034,4 @@ Calculates the pixel distance between two points.
 
 
 
-###### <sub>Documentation generated on Thu, 01 Dec 2016 17:16:01 GMT</sub>
+###### <sub>Documentation generated on Fri, 02 Dec 2016 20:28:46 GMT</sub>
