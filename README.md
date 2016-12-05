@@ -94,6 +94,7 @@ It even detects that the blue rectangle should have a dark label and the red rec
     * [.duration([*ms*])](#Image.duration)
     * [.height([*value*])](#Image.height)
     * [.id([*value*])](#Image.id)
+    * [.pointerEvents([*value*])](#Image.pointerEvents)
     * [.select([*selector*])](#Image.select)
     * [.url([*value*])](#Image.url)
     * [.width([*value*])](#Image.width)
@@ -192,6 +193,17 @@ function(d) {
   return d.url;
 }
 ```
+<a name="Image.pointerEvents"></a>
+
+#### Image.pointerEvents([*value*])
+If *value* is specified, sets the pointer-events accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current pointer-events accessor.
+
+**Kind**: static method of <code>[Image](#Image)</code>  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;auto&quot;</code> | 
+
 <a name="Image.select"></a>
 
 #### Image.select([*selector*])
@@ -1034,4 +1046,4 @@ Calculates the pixel distance between two points.
 
 
 
-###### <sub>Documentation generated on Fri, 02 Dec 2016 20:28:46 GMT</sub>
+###### <sub>Documentation generated on Mon, 05 Dec 2016 02:38:21 GMT</sub>
