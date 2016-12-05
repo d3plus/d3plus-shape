@@ -54,8 +54,10 @@ export default class Bar extends Shape {
       .call(this._applyPosition.bind(this));
 
     this._exit.transition(this._transition)
-      .attr("width", 0).attr("height", 0)
-      .attr("x", 0).attr("y", 0);
+      .attr("width", (d, i) => this._x1 === null ? this._getWidth(d, i) : 0)
+      .attr("height", (d, i) => this._x1 !== null ? this._getHeight(d, i) : 0)
+      .attr("x", (d, i) => this._x1 === null ? -this._getWidth(d, i) / 2 : 0)
+      .attr("y", (d, i) => this._x1 !== null ? -this._getHeight(d, i) / 2 : 0);
 
     return this;
 
@@ -72,8 +74,8 @@ export default class Bar extends Shape {
     return {
       height: this._getHeight(d, i),
       width: this._getWidth(d, i),
-      x: this._x1 !== null ? -this._getWidth(d, i) / 2 : 0,
-      y: this._x1 === null ? -this._getHeight(d, i) / 2 : 0
+      x: this._x1 !== null ? this._getX(d, i) + this._getWidth(d, i) / 2 : this._getX(d, i),
+      y: this._x1 === null ? this._getY(d, i) + this._getHeight(d, i) / 2 : this._getY(d, i)
     };
   }
 
@@ -87,8 +89,8 @@ export default class Bar extends Shape {
     elem
       .attr("width", (d, i) => this._getWidth(d, i))
       .attr("height", (d, i) => this._getHeight(d, i))
-      .attr("x", (d, i) => this._x1 !== null ? -this._getWidth(d, i) : -this._getWidth(d, i) / 2)
-      .attr("y", (d, i) => this._x1 === null ? -this._getHeight(d, i) : -this._getHeight(d, i) / 2);
+      .attr("x", (d, i) => this._x1 !== null ? this._getX(d, i) : -this._getWidth(d, i) / 2)
+      .attr("y", (d, i) => this._x1 === null ? this._getY(d, i) : -this._getHeight(d, i) / 2);
   }
 
   /**
@@ -113,6 +115,32 @@ export default class Bar extends Shape {
   _getWidth(d, i) {
     if (this._x1 === null) return this._width(d, i);
     return Math.abs(this._x1(d, i) - this._x(d, i));
+  }
+
+  /**
+      @memberof Bar
+      @desc Calculates the x of the <rect> by assessing the x and width properties.
+      @param {Object} *d*
+      @param {Number} *i*
+      @private
+  */
+  _getX(d, i) {
+    const w = this._x1 === null ? this._width(d, i) : this._x1(d, i) - this._x(d, i);
+    if (w < 0) return w;
+    else return 0;
+  }
+
+  /**
+      @memberof Bar
+      @desc Calculates the y of the <rect> by assessing the y and height properties.
+      @param {Object} *d*
+      @param {Number} *i*
+      @private
+  */
+  _getY(d, i) {
+    const h = this._x1 !== null ? this._height(d, i) : this._y1(d, i) - this._y(d, i);
+    if (h < 0) return h;
+    else return 0;
   }
 
   /**
