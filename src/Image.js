@@ -28,6 +28,7 @@ export default class Image {
     this._duration = 600;
     this._height = accessor("height");
     this._id = accessor("url");
+    this._pointerEvents = constant("auto");
     this._select;
     this._url = accessor("url");
     this._width = accessor("width");
@@ -60,6 +61,7 @@ export default class Image {
 
     update
         .attr("xlink:href", this._url)
+        .style("pointer-events", this._pointerEvents)
       .transition(t)
         .attr("opacity", 1)
         .attr("width", (d, i) => this._width(d, i))
@@ -139,6 +141,15 @@ function(d) {
   */
   id(_) {
     return arguments.length ? (this._id = _, this) : this._id;
+  }
+
+  /**
+      @memberof Image
+      @desc If *value* is specified, sets the pointer-events accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current pointer-events accessor.
+      @param {Function|String} [*value* = "auto"]
+  */
+  pointerEvents(_) {
+    return arguments.length ? (this._pointerEvents = typeof _ === "function" ? _ : constant(_), this) : this._pointerEvents;
   }
 
   /**
