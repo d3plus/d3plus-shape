@@ -27,7 +27,7 @@ export default class Image {
   constructor() {
     this._duration = 600;
     this._height = accessor("height");
-    this._id = accessor("url");
+    this._id = accessor("id");
     this._pointerEvents = constant("auto");
     this._select;
     this._url = accessor("url");
@@ -136,7 +136,7 @@ function(d) {
       @param {Function} [*value*]
       @example
 function(d) {
-  return d.url;
+  return d.id;
 }
   */
   id(_) {
