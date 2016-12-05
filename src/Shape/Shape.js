@@ -299,6 +299,7 @@ export default class Shape extends BaseClass {
       .fontResize(d => d.fR)
       .fontSize(d => d.fS)
       .lineHeight(d => d.lH)
+      .pointerEvents("none")
       .textAnchor(d => d.tA)
       .verticalAlign(d => d.vA)
       .select(this._group.node())
