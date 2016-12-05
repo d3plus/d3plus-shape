@@ -186,6 +186,7 @@ export default class Shape extends BaseClass {
               data: d,
               height,
               i,
+              id: this._id(d, i),
               url,
               width,
               x: x + -width / 2,
@@ -202,7 +203,7 @@ export default class Shape extends BaseClass {
       .data(imageData)
       .duration(this._duration)
       .pointerEvents("none")
-      .select(this._group.node())
+      .select(elem(`g.d3plus-${this._name}-images`, {parent: this._group}).node())
       .render();
 
   }
@@ -302,7 +303,7 @@ export default class Shape extends BaseClass {
       .pointerEvents("none")
       .textAnchor(d => d.tA)
       .verticalAlign(d => d.vA)
-      .select(this._group.node())
+      .select(elem(`g.d3plus-${this._name}-labels`, {parent: this._group}).node())
       .render();
 
   }
@@ -336,9 +337,10 @@ export default class Shape extends BaseClass {
     if (this._sort) data = data.sort((a, b) => this._sort(a.__d3plusShape__ ? a.data : a, b.__d3plusShape__ ? b.data : b));
 
     // Makes the update state of the group selection accessible.
-    this._group = elem(`g.d3plus-${this._name}-Group`, {parent: this._select});
-    const update = this._update = this._group.selectAll(`.d3plus-${this._name}`)
-      .data(data, key);
+    this._group = elem(`g.d3plus-${this._name}-group`, {parent: this._select});
+    const update = this._update = elem(`g.d3plus-${this._name}-shapes`, {parent: this._group})
+      .selectAll(`.d3plus-${this._name}`)
+        .data(data, key);
 
     // Orders and transforms the updating Shapes.
     update.order().transition(this._transition)
