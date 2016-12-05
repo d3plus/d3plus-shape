@@ -201,6 +201,7 @@ export default class Shape extends BaseClass {
     new Image()
       .data(imageData)
       .duration(this._duration)
+      .pointerEvents("none")
       .select(this._group.node())
       .render();
 
