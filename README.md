@@ -190,7 +190,7 @@ If *value* is specified, sets the id accessor to the specified function and retu
 **Example**  
 ```js
 function(d) {
-  return d.url;
+  return d.id;
 }
 ```
 <a name="Image.pointerEvents"></a>
@@ -1046,4 +1046,4 @@ Calculates the pixel distance between two points.
 
 
 
-###### <sub>Documentation generated on Mon, 05 Dec 2016 02:38:21 GMT</sub>
+###### <sub>Documentation generated on Mon, 05 Dec 2016 21:40:04 GMT</sub>
