@@ -1,3 +1,8 @@
+/**
+    @external BaseClass
+    @see https://github.com/d3plus/d3plus-common#BaseClass
+*/
+
 import {select} from "d3-selection";
 import {transition} from "d3-transition";
 
@@ -8,6 +13,7 @@ import {default as Image} from "../Image";
 
 /**
     @class Shape
+    @extends external:BaseClass
     @desc An abstracted class for generating shapes.
 */
 export default class Shape extends BaseClass {
