@@ -24,9 +24,10 @@ export default class Rect extends Shape {
   }
 
   /**
-      Draws the rectangles.
-      @param {Function} [*callback* = undefined]
-      @private
+      @memberof Rect
+      @desc Draws the rectangles.
+      @param {Function} [*callback*]
+      @chainable
   */
   render(callback) {
 
@@ -80,6 +81,7 @@ export default class Rect extends Shape {
       @memberof Rect
       @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
       @param {Function|Number} [*value*]
+      @chainable
       @example
 function(d) {
   return d.height;
@@ -95,6 +97,7 @@ function(d) {
       @memberof Rect
       @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
       @param {Function|Number} [*value*]
+      @chainable
       @example
 function(d) {
   return d.width;

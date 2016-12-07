@@ -21,9 +21,10 @@ export default class Path extends Shape {
   }
 
   /**
-      Draws the rectangles.
-      @param {Function} [*callback* = undefined]
-      @private
+      @memberof Path
+      @desc Draws the paths.
+      @param {Function} [*callback*]
+      @chainable
   */
   render(callback) {
 
@@ -52,6 +53,7 @@ export default class Path extends Shape {
       @memberof Path
       @desc If *value* is specified, sets the "d" attribute accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current "d" attribute accessor.
       @param {Function|String} [*value*]
+      @chainable
       @example
 function(d) {
   return d.path;

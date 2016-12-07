@@ -39,7 +39,8 @@ export default class Image {
   /**
       @memberof Image
       @desc Renders the current Image to the page. If a *callback* is specified, it will be called once the images are done drawing.
-      @param {Function} [*callback* = undefined]
+      @param {Function} [*callback*]
+      @chainable
   */
   render(callback) {
 
@@ -103,6 +104,7 @@ export default class Image {
       @memberof Image
       @desc If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. An <image> tag will be drawn for each object in the array.
       @param {Array} [*data* = []]
+      @chainable
   */
   data(_) {
     return arguments.length ? (this._data = _, this) : this._data;
@@ -112,6 +114,7 @@ export default class Image {
       @memberof Image
       @desc If *ms* is specified, sets the animation duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current animation duration.
       @param {Number} [*ms* = 600]
+      @chainable
   */
   duration(_) {
     return arguments.length ? (this._duration = _, this) : this._duration;
@@ -121,6 +124,7 @@ export default class Image {
       @memberof Image
       @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
       @param {Function|Number} [*value*]
+      @chainable
       @example
 function(d) {
   return d.height;
@@ -134,6 +138,7 @@ function(d) {
       @memberof Image
       @desc If *value* is specified, sets the id accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current id accessor. This is useful if you want to duplicate the same image.
       @param {Function} [*value*]
+      @chainable
       @example
 function(d) {
   return d.id;
@@ -147,6 +152,7 @@ function(d) {
       @memberof Image
       @desc If *value* is specified, sets the pointer-events accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current pointer-events accessor.
       @param {Function|String} [*value* = "auto"]
+      @chainable
   */
   pointerEvents(_) {
     return arguments.length ? (this._pointerEvents = typeof _ === "function" ? _ : constant(_), this) : this._pointerEvents;
@@ -156,6 +162,7 @@ function(d) {
       @memberof Image
       @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
+      @chainable
   */
   select(_) {
     return arguments.length ? (this._select = select(_), this) : this._select;
@@ -165,6 +172,7 @@ function(d) {
       @memberof Image
       @desc If *value* is specified, sets the URL accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current URL accessor.
       @param {Function} [*value*]
+      @chainable
       @example
 function(d) {
   return d.url;
@@ -178,6 +186,7 @@ function(d) {
       @memberof Image
       @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
       @param {Function|Number} [*value*]
+      @chainable
       @example
 function(d) {
   return d.width;
@@ -191,6 +200,7 @@ function(d) {
       @memberof Image
       @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
       @param {Function|Number} [*value*]
+      @chainable
       @example
 function(d) {
   return d.x || 0;
@@ -204,6 +214,7 @@ function(d) {
       @memberof Image
       @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
       @param {Function|Number} [*value*]
+      @chainable
       @example
 function(d) {
   return d.y || 0;

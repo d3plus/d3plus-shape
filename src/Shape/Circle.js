@@ -21,7 +21,8 @@ export default class Circle extends Shape {
   }
 
   /**
-      Provides the default positioning to the <rect> elements.
+      @memberof Circle
+      @desc Provides the default positioning to the <rect> elements.
       @private
   */
   _applyPosition(elem) {
@@ -32,9 +33,10 @@ export default class Circle extends Shape {
   }
 
   /**
-      Draws the circles.
-      @param {Function} [*callback* = undefined]
-      @private
+      @memberof Circle
+      @desc Draws the circles.
+      @param {Function} [*callback*]
+      @chainable
   */
   render(callback) {
 
@@ -72,6 +74,7 @@ export default class Circle extends Shape {
       @memberof Circle
       @desc If *value* is specified, sets the radius accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current radius accessor.
       @param {Function|Number} [*value*]
+      @chainable
       @example
 function(d) {
   return d.r;

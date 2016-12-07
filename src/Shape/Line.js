@@ -34,7 +34,8 @@ export default class Line extends Shape {
   }
 
   /**
-      Filters/manipulates the data array before binding each point to an SVG group.
+      @memberof Line
+      @desc Filters/manipulates the data array before binding each point to an SVG group.
       @param {Array} [*data* = the data array to be filtered]
       @private
   */
@@ -68,9 +69,10 @@ export default class Line extends Shape {
   }
 
   /**
-      Draws the lines.
-      @param {Function} [*callback* = undefined]
-      @private
+      @memberof Line
+      @desc Draws the lines.
+      @param {Function} [*callback*]
+      @chainable
   */
   render(callback) {
 
@@ -115,6 +117,7 @@ export default class Line extends Shape {
       @memberof Line
       @desc If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve.
       @param {String} [*value* = "linear"]
+      @chainable
   */
   curve(_) {
     return arguments.length ? (this._curve = _, this) : this._curve;
@@ -124,6 +127,7 @@ export default class Line extends Shape {
       @memberof Line
       @desc If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
       @param {Function} [*value*]
+      @chainable
   */
   defined(_) {
     return arguments.length ? (this._defined = _, this) : this._defined;

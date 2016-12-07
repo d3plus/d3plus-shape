@@ -37,7 +37,8 @@ export default class Area extends Shape {
   }
 
   /**
-      Filters/manipulates the data array before binding each point to an SVG group.
+      @memberof Area
+      @desc Filters/manipulates the data array before binding each point to an SVG group.
       @param {Array} [*data* = the data array to be filtered]
       @private
   */
@@ -77,9 +78,10 @@ export default class Area extends Shape {
   }
 
   /**
-      Draws the area polygons.
-      @param {Function} [*callback* = undefined]
-      @private
+      @memberof Area
+      @desc Draws the area polygons.
+      @param {Function} [*callback*]
+      @chainable
   */
   render(callback) {
 
@@ -133,6 +135,7 @@ export default class Area extends Shape {
       @memberof Area
       @desc If *value* is specified, sets the area curve to the specified string and returns the current class instance. If *value* is not specified, returns the current area curve.
       @param {String} [*value* = "linear"]
+      @chainable
   */
   curve(_) {
     return arguments.length
@@ -144,6 +147,7 @@ export default class Area extends Shape {
       @memberof Area
       @desc If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
       @param {Function} [*value*]
+      @chainable
   */
   defined(_) {
     return arguments.length
@@ -155,6 +159,7 @@ export default class Area extends Shape {
       @memberof Area
       @desc If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
       @param {Function|Number} [*value*]
+      @chainable
   */
   x0(_) {
     if (!arguments.length) return this._x0;
@@ -167,6 +172,7 @@ export default class Area extends Shape {
       @memberof Area
       @desc If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x1 accessor.
       @param {Function|Number|null} [*value*]
+      @chainable
   */
   x1(_) {
     return arguments.length
@@ -178,6 +184,7 @@ export default class Area extends Shape {
       @memberof Area
       @desc If *value* is specified, sets the y0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y0 accessor.
       @param {Function|Number} [*value*]
+      @chainable
   */
   y0(_) {
     if (!arguments.length) return this._y0;
@@ -190,6 +197,7 @@ export default class Area extends Shape {
       @memberof Area
       @desc If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
       @param {Function|Number|null} [*value*]
+      @chainable
   */
   y1(_) {
     return arguments.length

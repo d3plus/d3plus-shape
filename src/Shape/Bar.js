@@ -32,9 +32,10 @@ export default class Bar extends Shape {
   }
 
   /**
-      Draws the rectangles.
-      @param {Function} [*callback* = undefined]
-      @private
+      @memberof Bar
+      @desc Draws the bars.
+      @param {Function} [*callback*]
+      @chainable
   */
   render(callback) {
 
@@ -147,6 +148,7 @@ export default class Bar extends Shape {
       @memberof Bar
       @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
       @param {Function|Number} [*value*]
+      @chainable
       @example
 function(d) {
   return d.height;
@@ -162,6 +164,7 @@ function(d) {
       @memberof Bar
       @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
       @param {Function|Number} [*value*]
+      @chainable
       @example
 function(d) {
   return d.width;
@@ -177,6 +180,7 @@ function(d) {
       @memberof Bar
       @desc If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
       @param {Function|Number} [*value*]
+      @chainable
   */
   x0(_) {
     if (!arguments.length) return this._x0;
@@ -189,6 +193,7 @@ function(d) {
       @memberof Bar
       @desc If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x1 accessor.
       @param {Function|Number|null} [*value*]
+      @chainable
   */
   x1(_) {
     return arguments.length
@@ -200,6 +205,7 @@ function(d) {
       @memberof Bar
       @desc If *value* is specified, sets the y0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y0 accessor.
       @param {Function|Number} [*value*]
+      @chainable
   */
   y0(_) {
     if (!arguments.length) return this._y0;
@@ -212,6 +218,7 @@ function(d) {
       @memberof Bar
       @desc If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
       @param {Function|Number|null} [*value*]
+      @chainable
   */
   y1(_) {
     return arguments.length
