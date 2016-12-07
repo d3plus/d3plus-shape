@@ -3,10 +3,10 @@
     @see https://github.com/d3plus/d3plus-common#BaseClass
 */
 
-import {select} from "d3-selection";
+import {select, selectAll} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {accessor, attrize, BaseClass, constant, elem, prefix} from "d3plus-common";
+import {accessor, attrize, BaseClass, constant, elem} from "d3plus-common";
 import {contrast} from "d3plus-color";
 import {strip, TextBox} from "d3plus-text";
 import {default as Image} from "../Image";
@@ -37,8 +37,7 @@ export default class Shape extends BaseClass {
     this._fontResize = constant(false);
     this._fontSize = constant(12);
 
-    this._highlightDuration = 200;
-    this._highlightOpacity = 0.5;
+    this._hoverOpacity = 0.5;
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._label = constant(false);
     this._labelPadding = constant(5);
@@ -205,11 +204,11 @@ export default class Shape extends BaseClass {
 
       });
 
-    new Image()
+    return new Image()
       .data(imageData)
       .duration(this._duration)
       .pointerEvents("none")
-      .select(elem(`g.d3plus-${this._name}-images`, {parent: this._group}).node())
+      .select(elem(`g.d3plus-${this._name}-image`, {parent: this._group, update: {opacity: 1}}).node())
       .render();
 
   }
@@ -297,7 +296,7 @@ export default class Shape extends BaseClass {
 
       });
 
-    new TextBox()
+    return new TextBox()
       .data(labelData)
       .delay(this._duration / 2)
       .duration(this._duration)
@@ -309,7 +308,7 @@ export default class Shape extends BaseClass {
       .pointerEvents("none")
       .textAnchor(d => d.tA)
       .verticalAlign(d => d.vA)
-      .select(elem(`g.d3plus-${this._name}-labels`, {parent: this._group}).node())
+      .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: 1}}).node())
       .render();
 
   }
@@ -343,9 +342,13 @@ export default class Shape extends BaseClass {
 
     if (this._sort) data = data.sort((a, b) => this._sort(a.__d3plusShape__ ? a.data : a, b.__d3plusShape__ ? b.data : b));
 
+    selectAll(`g.d3plus-${this._name}-hover > *`).each(function(d) {
+      d.parent.appendChild(this);
+    });
+
     // Makes the update state of the group selection accessible.
     this._group = elem(`g.d3plus-${this._name}-group`, {parent: this._select});
-    const update = this._update = elem(`g.d3plus-${this._name}-shapes`, {parent: this._group})
+    const update = this._update = elem(`g.d3plus-${this._name}-shape`, {parent: this._group, update: {opacity: 1}})
       .selectAll(`.d3plus-${this._name}`)
         .data(data, key);
 
@@ -373,8 +376,16 @@ export default class Shape extends BaseClass {
     const exit = this._exit = update.exit();
     exit.transition().delay(this._duration).remove();
 
-    this._renderImage();
-    this._renderLabels();
+    const images = this._renderImage();
+    const labels = this._renderLabels();
+
+    this._hover = [
+      enterUpdate,
+      images.select().selectAll(".d3plus-Image"),
+      labels.select().selectAll(".d3plus-textBox")
+    ];
+
+    this._hoverGroup = elem(`g.d3plus-${this._name}-hover`, {parent: this._group});
 
     const that = this;
 
@@ -507,33 +518,32 @@ export default class Shape extends BaseClass {
       @param {Function} [*value*]
       @chainable
   */
-  highlight(_) {
+  hover(_) {
 
     const that = this;
 
     this._group.selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
-      .style(`${prefix()}transition`, `opacity ${this._highlightDuration / 1000}s`)
-      .style("opacity", function(d, i) {
-        if (!_ || typeof _ !== "function") return 1;
+      .each(function(d, i) {
+
+        if (!d.parent) d.parent = this.parentNode;
+        const parent = d.parent;
+
         if (this.tagName === "text") d = d.data;
         if (d.__d3plusShape__ || d.__d3plus__) {
-          d = d.data;
           i = d.i;
+          d = d.data;
         }
-        return _(d, i) ? 1 : that._highlightOpacity;
+        else i = that._data.indexOf(d);
+
+        const group = !_ || typeof _ !== "function" || !_(d, i) ? parent : that._hoverGroup.node();
+        if (group !== this.parentNode) group.appendChild(this);
+
       });
 
-    return this;
-  }
+    this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
+      .attr("opacity", !_ || typeof _ !== "function" ? 1 : this._hoverOpacity);
 
-  /**
-      @memberof Shape
-      @desc If *ms* is specified, sets the highlight duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current highlight duration.
-      @param {Number} [*ms* = 200]
-      @chainable
-  */
-  highlightDuration(_) {
-    return arguments.length ? (this._highlightDuration = _, this) : this._highlightDuration;
+    return this;
   }
 
   /**
@@ -542,8 +552,8 @@ export default class Shape extends BaseClass {
       @param {Number} [*value* = 0.5]
       @chainable
   */
-  highlightOpacity(_) {
-    return arguments.length ? (this._highlightOpacity = _, this) : this._highlightOpacity;
+  hoverOpacity(_) {
+    return arguments.length ? (this._hoverOpacity = _, this) : this._hoverOpacity;
   }
 
   /**
