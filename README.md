@@ -12,7 +12,7 @@ Fancy SVG shapes for visualizations
 If you use NPM, `npm install d3plus-shape`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-shape/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. Create a [custom bundle using Rollup](https://github.com/rollup/rollup) or your preferred bundler. You can also load directly from [d3plus.org](https://d3plus.org):
 
 ```html
-<script src="https://d3plus.org/js/d3plus-shape.v0.10.full.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.v0.11.full.min.js"></script>
 ```
 
 [width]: 360
@@ -70,7 +70,7 @@ It even detects that the blue rectangle should have a dark label and the red rec
 <dd></dd>
 <dt><a href="#Rect">Rect</a> ⇐ <code><a href="#Shape">Shape</a></code></dt>
 <dd></dd>
-<dt><a href="#Shape">Shape</a></dt>
+<dt><a href="#Shape">Shape</a> ⇐ <code><a href="https://github.com/d3plus/d3plus-common#BaseClass">BaseClass</a></code></dt>
 <dd></dd>
 </dl>
 
@@ -89,17 +89,17 @@ It even detects that the blue rectangle should have a dark label and the red rec
 
 * [Image](#Image)
     * [new Image()](#new_Image_new)
-    * [.render([*callback*])](#Image.render)
-    * [.data([*data*])](#Image.data)
-    * [.duration([*ms*])](#Image.duration)
-    * [.height([*value*])](#Image.height)
-    * [.id([*value*])](#Image.id)
-    * [.pointerEvents([*value*])](#Image.pointerEvents)
-    * [.select([*selector*])](#Image.select)
-    * [.url([*value*])](#Image.url)
-    * [.width([*value*])](#Image.width)
-    * [.x([*value*])](#Image.x)
-    * [.y([*value*])](#Image.y)
+    * [.render([*callback*])](#Image.render) ↩︎
+    * [.data([*data*])](#Image.data) ↩︎
+    * [.duration([*ms*])](#Image.duration) ↩︎
+    * [.height([*value*])](#Image.height) ↩︎
+    * [.id([*value*])](#Image.id) ↩︎
+    * [.pointerEvents([*value*])](#Image.pointerEvents) ↩︎
+    * [.select([*selector*])](#Image.select) ↩︎
+    * [.url([*value*])](#Image.url) ↩︎
+    * [.width([*value*])](#Image.width) ↩︎
+    * [.x([*value*])](#Image.x) ↩︎
+    * [.y([*value*])](#Image.y) ↩︎
 
 <a name="new_Image_new"></a>
 
@@ -128,10 +128,11 @@ image().data([data])(function() { alert("draw complete!"); })
 ```
 <a name="Image.render"></a>
 
-#### Image.render([*callback*])
+#### Image.render([*callback*]) ↩︎
 Renders the current Image to the page. If a *callback* is specified, it will be called once the images are done drawing.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -139,10 +140,11 @@ Renders the current Image to the page. If a *callback* is specified, it will be 
 
 <a name="Image.data"></a>
 
-#### Image.data([*data*])
+#### Image.data([*data*]) ↩︎
 If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. An <image> tag will be drawn for each object in the array.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -150,10 +152,11 @@ If *data* is specified, sets the data array to the specified array and returns t
 
 <a name="Image.duration"></a>
 
-#### Image.duration([*ms*])
+#### Image.duration([*ms*]) ↩︎
 If *ms* is specified, sets the animation duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current animation duration.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -161,10 +164,11 @@ If *ms* is specified, sets the animation duration to the specified number and re
 
 <a name="Image.height"></a>
 
-#### Image.height([*value*])
+#### Image.height([*value*]) ↩︎
 If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -178,10 +182,11 @@ function(d) {
 ```
 <a name="Image.id"></a>
 
-#### Image.id([*value*])
+#### Image.id([*value*]) ↩︎
 If *value* is specified, sets the id accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current id accessor. This is useful if you want to duplicate the same image.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -195,10 +200,11 @@ function(d) {
 ```
 <a name="Image.pointerEvents"></a>
 
-#### Image.pointerEvents([*value*])
+#### Image.pointerEvents([*value*]) ↩︎
 If *value* is specified, sets the pointer-events accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current pointer-events accessor.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -206,10 +212,11 @@ If *value* is specified, sets the pointer-events accessor to the specified funct
 
 <a name="Image.select"></a>
 
-#### Image.select([*selector*])
+#### Image.select([*selector*]) ↩︎
 If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -217,10 +224,11 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 
 <a name="Image.url"></a>
 
-#### Image.url([*value*])
+#### Image.url([*value*]) ↩︎
 If *value* is specified, sets the URL accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current URL accessor.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -234,10 +242,11 @@ function(d) {
 ```
 <a name="Image.width"></a>
 
-#### Image.width([*value*])
+#### Image.width([*value*]) ↩︎
 If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -251,10 +260,11 @@ function(d) {
 ```
 <a name="Image.x"></a>
 
-#### Image.x([*value*])
+#### Image.x([*value*]) ↩︎
 If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -268,10 +278,11 @@ function(d) {
 ```
 <a name="Image.y"></a>
 
-#### Image.y([*value*])
+#### Image.y([*value*]) ↩︎
 If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
 
 **Kind**: static method of <code>[Image](#Image)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -291,24 +302,38 @@ function(d) {
 
 * [Area](#Area) ⇐ <code>[Shape](#Shape)</code>
     * [new Area()](#new_Area_new)
-    * [.curve([*value*])](#Area.curve)
-    * [.defined([*value*])](#Area.defined)
-    * [.x0([*value*])](#Area.x0)
-    * [.x1([*value*])](#Area.x1)
-    * [.y0([*value*])](#Area.y0)
-    * [.y1([*value*])](#Area.y1)
+    * [.render([*callback*])](#Area.render) ↩︎
+    * [.curve([*value*])](#Area.curve) ↩︎
+    * [.defined([*value*])](#Area.defined) ↩︎
+    * [.x0([*value*])](#Area.x0) ↩︎
+    * [.x1([*value*])](#Area.x1) ↩︎
+    * [.y0([*value*])](#Area.y0) ↩︎
+    * [.y1([*value*])](#Area.y1) ↩︎
 
 <a name="new_Area_new"></a>
 
 #### new Area()
 Creates SVG areas based on an array of data.
 
+<a name="Area.render"></a>
+
+#### Area.render([*callback*]) ↩︎
+Draws the area polygons.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+**Chainable**  
+
+| Param | Type |
+| --- | --- |
+| [*callback*] | <code>function</code> | 
+
 <a name="Area.curve"></a>
 
-#### Area.curve([*value*])
+#### Area.curve([*value*]) ↩︎
 If *value* is specified, sets the area curve to the specified string and returns the current class instance. If *value* is not specified, returns the current area curve.
 
 **Kind**: static method of <code>[Area](#Area)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -316,10 +341,11 @@ If *value* is specified, sets the area curve to the specified string and returns
 
 <a name="Area.defined"></a>
 
-#### Area.defined([*value*])
+#### Area.defined([*value*]) ↩︎
 If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
 
 **Kind**: static method of <code>[Area](#Area)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -327,10 +353,11 @@ If *value* is specified, sets the defined accessor to the specified function and
 
 <a name="Area.x0"></a>
 
-#### Area.x0([*value*])
+#### Area.x0([*value*]) ↩︎
 If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
 
 **Kind**: static method of <code>[Area](#Area)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -338,10 +365,11 @@ If *value* is specified, sets the x0 accessor to the specified function or numbe
 
 <a name="Area.x1"></a>
 
-#### Area.x1([*value*])
+#### Area.x1([*value*]) ↩︎
 If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x1 accessor.
 
 **Kind**: static method of <code>[Area](#Area)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -349,10 +377,11 @@ If *value* is specified, sets the x1 accessor to the specified function or numbe
 
 <a name="Area.y0"></a>
 
-#### Area.y0([*value*])
+#### Area.y0([*value*]) ↩︎
 If *value* is specified, sets the y0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y0 accessor.
 
 **Kind**: static method of <code>[Area](#Area)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -360,10 +389,11 @@ If *value* is specified, sets the y0 accessor to the specified function or numbe
 
 <a name="Area.y1"></a>
 
-#### Area.y1([*value*])
+#### Area.y1([*value*]) ↩︎
 If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
 
 **Kind**: static method of <code>[Area](#Area)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -377,24 +407,38 @@ If *value* is specified, sets the y1 accessor to the specified function or numbe
 
 * [Bar](#Bar) ⇐ <code>[Shape](#Shape)</code>
     * [new Bar()](#new_Bar_new)
-    * [.height([*value*])](#Bar.height)
-    * [.width([*value*])](#Bar.width)
-    * [.x0([*value*])](#Bar.x0)
-    * [.x1([*value*])](#Bar.x1)
-    * [.y0([*value*])](#Bar.y0)
-    * [.y1([*value*])](#Bar.y1)
+    * [.render([*callback*])](#Bar.render) ↩︎
+    * [.height([*value*])](#Bar.height) ↩︎
+    * [.width([*value*])](#Bar.width) ↩︎
+    * [.x0([*value*])](#Bar.x0) ↩︎
+    * [.x1([*value*])](#Bar.x1) ↩︎
+    * [.y0([*value*])](#Bar.y0) ↩︎
+    * [.y1([*value*])](#Bar.y1) ↩︎
 
 <a name="new_Bar_new"></a>
 
 #### new Bar()
 Creates SVG areas based on an array of data.
 
+<a name="Bar.render"></a>
+
+#### Bar.render([*callback*]) ↩︎
+Draws the bars.
+
+**Kind**: static method of <code>[Bar](#Bar)</code>  
+**Chainable**  
+
+| Param | Type |
+| --- | --- |
+| [*callback*] | <code>function</code> | 
+
 <a name="Bar.height"></a>
 
-#### Bar.height([*value*])
+#### Bar.height([*value*]) ↩︎
 If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
 
 **Kind**: static method of <code>[Bar](#Bar)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -408,10 +452,11 @@ function(d) {
 ```
 <a name="Bar.width"></a>
 
-#### Bar.width([*value*])
+#### Bar.width([*value*]) ↩︎
 If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
 
 **Kind**: static method of <code>[Bar](#Bar)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -425,10 +470,11 @@ function(d) {
 ```
 <a name="Bar.x0"></a>
 
-#### Bar.x0([*value*])
+#### Bar.x0([*value*]) ↩︎
 If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
 
 **Kind**: static method of <code>[Bar](#Bar)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -436,10 +482,11 @@ If *value* is specified, sets the x0 accessor to the specified function or numbe
 
 <a name="Bar.x1"></a>
 
-#### Bar.x1([*value*])
+#### Bar.x1([*value*]) ↩︎
 If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x1 accessor.
 
 **Kind**: static method of <code>[Bar](#Bar)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -447,10 +494,11 @@ If *value* is specified, sets the x1 accessor to the specified function or numbe
 
 <a name="Bar.y0"></a>
 
-#### Bar.y0([*value*])
+#### Bar.y0([*value*]) ↩︎
 If *value* is specified, sets the y0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y0 accessor.
 
 **Kind**: static method of <code>[Bar](#Bar)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -458,10 +506,11 @@ If *value* is specified, sets the y0 accessor to the specified function or numbe
 
 <a name="Bar.y1"></a>
 
-#### Bar.y1([*value*])
+#### Bar.y1([*value*]) ↩︎
 If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
 
 **Kind**: static method of <code>[Bar](#Bar)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -475,19 +524,33 @@ If *value* is specified, sets the y1 accessor to the specified function or numbe
 
 * [Circle](#Circle) ⇐ <code>[Shape](#Shape)</code>
     * [new Circle()](#new_Circle_new)
-    * [.r([*value*])](#Circle.r)
+    * [.render([*callback*])](#Circle.render) ↩︎
+    * [.r([*value*])](#Circle.r) ↩︎
 
 <a name="new_Circle_new"></a>
 
 #### new Circle()
 Creates SVG circles based on an array of data.
 
+<a name="Circle.render"></a>
+
+#### Circle.render([*callback*]) ↩︎
+Draws the circles.
+
+**Kind**: static method of <code>[Circle](#Circle)</code>  
+**Chainable**  
+
+| Param | Type |
+| --- | --- |
+| [*callback*] | <code>function</code> | 
+
 <a name="Circle.r"></a>
 
-#### Circle.r([*value*])
+#### Circle.r([*value*]) ↩︎
 If *value* is specified, sets the radius accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current radius accessor.
 
 **Kind**: static method of <code>[Circle](#Circle)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -507,20 +570,34 @@ function(d) {
 
 * [Line](#Line) ⇐ <code>[Shape](#Shape)</code>
     * [new Line()](#new_Line_new)
-    * [.curve([*value*])](#Line.curve)
-    * [.defined([*value*])](#Line.defined)
+    * [.render([*callback*])](#Line.render) ↩︎
+    * [.curve([*value*])](#Line.curve) ↩︎
+    * [.defined([*value*])](#Line.defined) ↩︎
 
 <a name="new_Line_new"></a>
 
 #### new Line()
 Creates SVG lines based on an array of data.
 
+<a name="Line.render"></a>
+
+#### Line.render([*callback*]) ↩︎
+Draws the lines.
+
+**Kind**: static method of <code>[Line](#Line)</code>  
+**Chainable**  
+
+| Param | Type |
+| --- | --- |
+| [*callback*] | <code>function</code> | 
+
 <a name="Line.curve"></a>
 
-#### Line.curve([*value*])
+#### Line.curve([*value*]) ↩︎
 If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve.
 
 **Kind**: static method of <code>[Line](#Line)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -528,10 +605,11 @@ If *value* is specified, sets the line curve to the specified string and returns
 
 <a name="Line.defined"></a>
 
-#### Line.defined([*value*])
+#### Line.defined([*value*]) ↩︎
 If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
 
 **Kind**: static method of <code>[Line](#Line)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -545,19 +623,33 @@ If *value* is specified, sets the defined accessor to the specified function and
 
 * [Path](#Path) ⇐ <code>[Shape](#Shape)</code>
     * [new Path()](#new_Path_new)
-    * [.d([*value*])](#Path.d)
+    * [.render([*callback*])](#Path.render) ↩︎
+    * [.d([*value*])](#Path.d) ↩︎
 
 <a name="new_Path_new"></a>
 
 #### new Path()
 Creates SVG rectangles based on an array of data. See [this example](https://d3plus.org/examples/d3plus-shape/getting-started/) for help getting started using the rectangle generator.
 
+<a name="Path.render"></a>
+
+#### Path.render([*callback*]) ↩︎
+Draws the paths.
+
+**Kind**: static method of <code>[Path](#Path)</code>  
+**Chainable**  
+
+| Param | Type |
+| --- | --- |
+| [*callback*] | <code>function</code> | 
+
 <a name="Path.d"></a>
 
-#### Path.d([*value*])
+#### Path.d([*value*]) ↩︎
 If *value* is specified, sets the "d" attribute accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current "d" attribute accessor.
 
 **Kind**: static method of <code>[Path](#Path)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -577,20 +669,34 @@ function(d) {
 
 * [Rect](#Rect) ⇐ <code>[Shape](#Shape)</code>
     * [new Rect()](#new_Rect_new)
-    * [.height([*value*])](#Rect.height)
-    * [.width([*value*])](#Rect.width)
+    * [.render([*callback*])](#Rect.render) ↩︎
+    * [.height([*value*])](#Rect.height) ↩︎
+    * [.width([*value*])](#Rect.width) ↩︎
 
 <a name="new_Rect_new"></a>
 
 #### new Rect()
 Creates SVG rectangles based on an array of data. See [this example](https://d3plus.org/examples/d3plus-shape/getting-started/) for help getting started using the rectangle generator.
 
+<a name="Rect.render"></a>
+
+#### Rect.render([*callback*]) ↩︎
+Draws the rectangles.
+
+**Kind**: static method of <code>[Rect](#Rect)</code>  
+**Chainable**  
+
+| Param | Type |
+| --- | --- |
+| [*callback*] | <code>function</code> | 
+
 <a name="Rect.height"></a>
 
-#### Rect.height([*value*])
+#### Rect.height([*value*]) ↩︎
 If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
 
 **Kind**: static method of <code>[Rect](#Rect)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -604,10 +710,11 @@ function(d) {
 ```
 <a name="Rect.width"></a>
 
-#### Rect.width([*value*])
+#### Rect.width([*value*]) ↩︎
 If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
 
 **Kind**: static method of <code>[Rect](#Rect)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -621,41 +728,43 @@ function(d) {
 ```
 <a name="Shape"></a>
 
-### Shape
+### Shape ⇐ <code>[BaseClass](https://github.com/d3plus/d3plus-common#BaseClass)</code>
 **Kind**: global class  
+**Extends:** <code>[BaseClass](https://github.com/d3plus/d3plus-common#BaseClass)</code>  
 
-* [Shape](#Shape)
+* [Shape](#Shape) ⇐ <code>[BaseClass](https://github.com/d3plus/d3plus-common#BaseClass)</code>
     * [new Shape()](#new_Shape_new)
-    * [.render([*callback*])](#Shape.render)
-    * [.backgroundImage([*value*])](#Shape.backgroundImage)
-    * [.data([*data*])](#Shape.data)
-    * [.duration([*ms*])](#Shape.duration)
-    * [.fill([*value*])](#Shape.fill)
-    * [.fontColor([*value*])](#Shape.fontColor)
-    * [.fontFamily([*value*])](#Shape.fontFamily)
-    * [.fontResize([*value*])](#Shape.fontResize)
-    * [.fontSize([*value*])](#Shape.fontSize)
-    * [.highlight([*value*])](#Shape.highlight)
-    * [.highlightDuration([*ms*])](#Shape.highlightDuration)
-    * [.highlightOpacity([*value*])](#Shape.highlightOpacity)
-    * [.hitArea([*bounds*])](#Shape.hitArea)
-    * [.id([*value*])](#Shape.id)
-    * [.label([*value*])](#Shape.label)
-    * [.labelBounds([*bounds*])](#Shape.labelBounds)
-    * [.labelPadding([*value*])](#Shape.labelPadding)
-    * [.lineHeight([*value*])](#Shape.lineHeight)
-    * [.opacity([*value*])](#Shape.opacity)
-    * [.scale([*value*])](#Shape.scale)
-    * [.select([*selector*])](#Shape.select)
-    * [.shapeRendering([*value*])](#Shape.shapeRendering)
-    * [.sort([*value*])](#Shape.sort)
-    * [.stroke([*value*])](#Shape.stroke)
-    * [.strokeWidth([*value*])](#Shape.strokeWidth)
-    * [.textAnchor([*value*])](#Shape.textAnchor)
-    * [.vectorEffect([*value*])](#Shape.vectorEffect)
-    * [.verticalAlign([*value*])](#Shape.verticalAlign)
-    * [.x([*value*])](#Shape.x)
-    * [.y([*value*])](#Shape.y)
+    * [.render([*callback*])](#Shape.render) ↩︎
+    * [.active([*value*])](#Shape.active) ↩︎
+    * [.activeOpacity([*value*])](#Shape.activeOpacity) ↩︎
+    * [.backgroundImage([*value*])](#Shape.backgroundImage) ↩︎
+    * [.data([*data*])](#Shape.data) ↩︎
+    * [.duration([*ms*])](#Shape.duration) ↩︎
+    * [.fill([*value*])](#Shape.fill) ↩︎
+    * [.fontColor([*value*])](#Shape.fontColor) ↩︎
+    * [.fontFamily([*value*])](#Shape.fontFamily) ↩︎
+    * [.fontResize([*value*])](#Shape.fontResize) ↩︎
+    * [.fontSize([*value*])](#Shape.fontSize) ↩︎
+    * [.hover([*value*])](#Shape.hover) ↩︎
+    * [.hoverOpacity([*value*])](#Shape.hoverOpacity) ↩︎
+    * [.hitArea([*bounds*])](#Shape.hitArea) ↩︎
+    * [.id([*value*])](#Shape.id) ↩︎
+    * [.label([*value*])](#Shape.label) ↩︎
+    * [.labelBounds([*bounds*])](#Shape.labelBounds) ↩︎
+    * [.labelPadding([*value*])](#Shape.labelPadding) ↩︎
+    * [.lineHeight([*value*])](#Shape.lineHeight) ↩︎
+    * [.opacity([*value*])](#Shape.opacity) ↩︎
+    * [.scale([*value*])](#Shape.scale) ↩︎
+    * [.select([*selector*])](#Shape.select) ↩︎
+    * [.shapeRendering([*value*])](#Shape.shapeRendering) ↩︎
+    * [.sort([*value*])](#Shape.sort) ↩︎
+    * [.stroke([*value*])](#Shape.stroke) ↩︎
+    * [.strokeWidth([*value*])](#Shape.strokeWidth) ↩︎
+    * [.textAnchor([*value*])](#Shape.textAnchor) ↩︎
+    * [.vectorEffect([*value*])](#Shape.vectorEffect) ↩︎
+    * [.verticalAlign([*value*])](#Shape.verticalAlign) ↩︎
+    * [.x([*value*])](#Shape.x) ↩︎
+    * [.y([*value*])](#Shape.y) ↩︎
 
 <a name="new_Shape_new"></a>
 
@@ -664,21 +773,47 @@ An abstracted class for generating shapes.
 
 <a name="Shape.render"></a>
 
-#### Shape.render([*callback*])
+#### Shape.render([*callback*]) ↩︎
 Renders the current Shape to the page. If a *callback* is specified, it will be called once the shapes are done drawing.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
 | [*callback*] | <code>function</code> | 
 
+<a name="Shape.active"></a>
+
+#### Shape.active([*value*]) ↩︎
+If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight accessor.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> | 
+
+<a name="Shape.activeOpacity"></a>
+
+#### Shape.activeOpacity([*value*]) ↩︎
+If *value* is specified, sets the active opacity to the specified function and returns the current class instance. If *value* is not specified, returns the current active opacity.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>Number</code> | <code>0.75</code> | 
+
 <a name="Shape.backgroundImage"></a>
 
-#### Shape.backgroundImage([*value*])
+#### Shape.backgroundImage([*value*]) ↩︎
 If *value* is specified, sets the background-image accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current background-image accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -686,10 +821,11 @@ If *value* is specified, sets the background-image accessor to the specified fun
 
 <a name="Shape.data"></a>
 
-#### Shape.data([*data*])
+#### Shape.data([*data*]) ↩︎
 If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. A shape will be drawn for each object in the array.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -697,10 +833,11 @@ If *data* is specified, sets the data array to the specified array and returns t
 
 <a name="Shape.duration"></a>
 
-#### Shape.duration([*ms*])
+#### Shape.duration([*ms*]) ↩︎
 If *ms* is specified, sets the animation duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current animation duration.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -708,10 +845,11 @@ If *ms* is specified, sets the animation duration to the specified number and re
 
 <a name="Shape.fill"></a>
 
-#### Shape.fill([*value*])
+#### Shape.fill([*value*]) ↩︎
 If *value* is specified, sets the fill accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current fill accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -719,10 +857,11 @@ If *value* is specified, sets the fill accessor to the specified function or str
 
 <a name="Shape.fontColor"></a>
 
-#### Shape.fontColor([*value*])
+#### Shape.fontColor([*value*]) ↩︎
 If *value* is specified, sets the font-color accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -730,10 +869,11 @@ If *value* is specified, sets the font-color accessor to the specified function 
 
 <a name="Shape.fontFamily"></a>
 
-#### Shape.fontFamily([*value*])
+#### Shape.fontFamily([*value*]) ↩︎
 If *value* is specified, sets the font-family accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-family accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -741,10 +881,11 @@ If *value* is specified, sets the font-family accessor to the specified function
 
 <a name="Shape.fontResize"></a>
 
-#### Shape.fontResize([*value*])
+#### Shape.fontResize([*value*]) ↩︎
 If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns the current class instance. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#label) will be resized the best fit the shape. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -752,43 +893,35 @@ If *value* is specified, sets the font resizing accessor to the specified functi
 
 <a name="Shape.fontSize"></a>
 
-#### Shape.fontSize([*value*])
+#### Shape.fontSize([*value*]) ↩︎
 If *value* is specified, sets the font-size accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-size accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>12</code> | 
 
-<a name="Shape.highlight"></a>
+<a name="Shape.hover"></a>
 
-#### Shape.highlight([*value*])
+#### Shape.hover([*value*]) ↩︎
 If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
 | [*value*] | <code>function</code> | 
 
-<a name="Shape.highlightDuration"></a>
+<a name="Shape.hoverOpacity"></a>
 
-#### Shape.highlightDuration([*ms*])
-If *ms* is specified, sets the highlight duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current highlight duration.
-
-**Kind**: static method of <code>[Shape](#Shape)</code>  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [*ms*] | <code>Number</code> | <code>200</code> | 
-
-<a name="Shape.highlightOpacity"></a>
-
-#### Shape.highlightOpacity([*value*])
-If *value* is specified, sets the highlight opacity to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight opacity.
+#### Shape.hoverOpacity([*value*]) ↩︎
+If *value* is specified, sets the hover opacity to the specified function and returns the current class instance. If *value* is not specified, returns the current hover opacity.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -796,10 +929,11 @@ If *value* is specified, sets the highlight opacity to the specified function an
 
 <a name="Shape.hitArea"></a>
 
-#### Shape.hitArea([*bounds*])
+#### Shape.hitArea([*bounds*]) ↩︎
 If *bounds* is specified, sets the mouse hit area to the specified function and returns the current class instance. If *bounds* is not specified, returns the current mouse hit area accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -818,10 +952,11 @@ function(d, i, shape) {
 ```
 <a name="Shape.id"></a>
 
-#### Shape.id([*value*])
+#### Shape.id([*value*]) ↩︎
 If *value* is specified, sets the id accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current id accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -829,10 +964,11 @@ If *value* is specified, sets the id accessor to the specified function and retu
 
 <a name="Shape.label"></a>
 
-#### Shape.label([*value*])
+#### Shape.label([*value*]) ↩︎
 If *value* is specified, sets the label accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current text accessor, which is `undefined` by default. If an array is passed or returned from the function, each value will be rendered as an individual label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -840,10 +976,11 @@ If *value* is specified, sets the label accessor to the specified function or st
 
 <a name="Shape.labelBounds"></a>
 
-#### Shape.labelBounds([*bounds*])
+#### Shape.labelBounds([*bounds*]) ↩︎
 If *bounds* is specified, sets the label bounds to the specified function and returns the current class instance. If *bounds* is not specified, returns the current inner bounds accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -862,10 +999,11 @@ function(d, i, shape) {
 ```
 <a name="Shape.labelPadding"></a>
 
-#### Shape.labelPadding([*value*])
+#### Shape.labelPadding([*value*]) ↩︎
 If *value* is specified, sets the label padding to the specified number and returns the current class instance. If *value* is not specified, returns the current label padding. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -873,10 +1011,11 @@ If *value* is specified, sets the label padding to the specified number and retu
 
 <a name="Shape.lineHeight"></a>
 
-#### Shape.lineHeight([*value*])
+#### Shape.lineHeight([*value*]) ↩︎
 If *value* is specified, sets the line-height accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current line-height accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -884,10 +1023,11 @@ If *value* is specified, sets the line-height accessor to the specified function
 
 <a name="Shape.opacity"></a>
 
-#### Shape.opacity([*value*])
+#### Shape.opacity([*value*]) ↩︎
 If *value* is specified, sets the opacity accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current opacity accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -895,10 +1035,11 @@ If *value* is specified, sets the opacity accessor to the specified function or 
 
 <a name="Shape.scale"></a>
 
-#### Shape.scale([*value*])
+#### Shape.scale([*value*]) ↩︎
 If *value* is specified, sets the scale accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current scale accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -906,10 +1047,11 @@ If *value* is specified, sets the scale accessor to the specified function or st
 
 <a name="Shape.select"></a>
 
-#### Shape.select([*selector*])
+#### Shape.select([*selector*]) ↩︎
 If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -917,10 +1059,11 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 
 <a name="Shape.shapeRendering"></a>
 
-#### Shape.shapeRendering([*value*])
+#### Shape.shapeRendering([*value*]) ↩︎
 If *value* is specified, sets the shape-rendering accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current shape-rendering accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -934,10 +1077,11 @@ function(d) {
 ```
 <a name="Shape.sort"></a>
 
-#### Shape.sort([*value*])
+#### Shape.sort([*value*]) ↩︎
 If *value* is specified, sets the sort comparator to the specified function and returns the current class instance. If *value* is not specified, returns the current sort comparator.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -945,10 +1089,11 @@ If *value* is specified, sets the sort comparator to the specified function and 
 
 <a name="Shape.stroke"></a>
 
-#### Shape.stroke([*value*])
+#### Shape.stroke([*value*]) ↩︎
 If *value* is specified, sets the stroke accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current stroke accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -956,10 +1101,11 @@ If *value* is specified, sets the stroke accessor to the specified function or s
 
 <a name="Shape.strokeWidth"></a>
 
-#### Shape.strokeWidth([*value*])
+#### Shape.strokeWidth([*value*]) ↩︎
 If *value* is specified, sets the stroke-width accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current stroke-width accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -967,10 +1113,11 @@ If *value* is specified, sets the stroke-width accessor to the specified functio
 
 <a name="Shape.textAnchor"></a>
 
-#### Shape.textAnchor([*value*])
+#### Shape.textAnchor([*value*]) ↩︎
 If *value* is specified, sets the text-anchor accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -978,10 +1125,11 @@ If *value* is specified, sets the text-anchor accessor to the specified function
 
 <a name="Shape.vectorEffect"></a>
 
-#### Shape.vectorEffect([*value*])
+#### Shape.vectorEffect([*value*]) ↩︎
 If *value* is specified, sets the vector-effect accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current vector-effect accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -989,10 +1137,11 @@ If *value* is specified, sets the vector-effect accessor to the specified functi
 
 <a name="Shape.verticalAlign"></a>
 
-#### Shape.verticalAlign([*value*])
+#### Shape.verticalAlign([*value*]) ↩︎
 If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -1000,10 +1149,11 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 <a name="Shape.x"></a>
 
-#### Shape.x([*value*])
+#### Shape.x([*value*]) ↩︎
 If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -1017,10 +1167,11 @@ function(d) {
 ```
 <a name="Shape.y"></a>
 
-#### Shape.y([*value*])
+#### Shape.y([*value*]) ↩︎
 If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
 
 | Param | Type |
 | --- | --- |
@@ -1046,4 +1197,4 @@ Calculates the pixel distance between two points.
 
 
 
-###### <sub>Documentation generated on Mon, 05 Dec 2016 21:40:04 GMT</sub>
+###### <sub>Documentation generated on Thu, 08 Dec 2016 00:05:27 GMT</sub>
