@@ -3,13 +3,17 @@
     @see https://github.com/d3plus/d3plus-common#BaseClass
 */
 
-import {select, selectAll} from "d3-selection";
+import {min} from "d3-array";
+import {color} from "d3-color";
+import {mouse, select, selectAll} from "d3-selection";
 import {transition} from "d3-transition";
 
 import {accessor, attrize, BaseClass, constant, elem} from "d3plus-common";
 import {contrast} from "d3plus-color";
 import {strip, TextBox} from "d3plus-text";
+
 import {default as Image} from "../Image";
+import {default as pointDistance} from "../pointDistance";
 
 /**
     @class Shape
@@ -27,6 +31,14 @@ export default class Shape extends BaseClass {
 
     super();
 
+    this._activeOpacity = 0.75;
+    this._activeStyle = {
+      "stroke": (d, i) => color(this._stroke(d, i)).darker(2),
+      "stroke-width": (d, i) => {
+        const s = this._strokeWidth(d, i);
+        return s ? s * 2 : 1;
+      }
+    };
     this._backgroundImage = constant(false);
     this._data = [];
     this._duration = 600;
@@ -45,7 +57,7 @@ export default class Shape extends BaseClass {
     this._opacity = constant(1);
     this._scale = constant(1);
     this._shapeRendering = constant("geometricPrecision");
-    this._stroke = constant("black");
+    this._stroke = (d, i) => color(this._fill(d, i)).darker(1);
     this._strokeWidth = constant(0);
     this._tagName = tagName;
     this._textAnchor = constant("start");
@@ -76,15 +88,55 @@ export default class Shape extends BaseClass {
   */
   _applyEvents(handler) {
 
-    const that = this;
-
     const events = Object.keys(this._on);
     for (let e = 0; e < events.length; e++) {
-      handler.on(events[e], function(d, i) {
-        if (!that._on[events[e]]) return;
-        that._on[events[e]].bind(this)(d, i);
+      handler.on(events[e], (d, i) => {
+        if (!this._on[events[e]]) return;
+        if (d.i !== void 0) i = d.i;
+        if (d.nested && d.values) {
+          const cursor = mouse(this._select.node()),
+                values = d.values.map(d => pointDistance(cursor, [this._x(d, i), this._y(d, i)]));
+          d = d.values[values.indexOf(min(values))];
+        }
+        this._on[events[e]].bind(this)(d, i);
       });
     }
+
+  }
+
+  /**
+      @memberof Shape
+      @desc Provides the default styling to the active shape elements.
+      @param {HTMLElement} *elem*
+      @private
+  */
+  _applyActive(elem) {
+
+    const that = this;
+
+    if (elem.size() && elem.node().tagName === "g") elem = elem.selectAll("*");
+
+    /**
+        @desc Determines whether a shape is a nested collection of data points, and uses the appropriate data and index for the given function context.
+        @param {Object} *d* data point
+        @param {Number} *i* index
+        @private
+    */
+    function styleLogic(d, i) {
+      return typeof this !== "function" ? this
+           : d.nested && d.key && d.values
+           ? this(d.values[0], that._data.indexOf(d.values[0]))
+           : this(d, i);
+    }
+
+    const activeStyle = {};
+    for (const key in this._activeStyle) {
+      if ({}.hasOwnProperty.call(this._activeStyle, key)) {
+        activeStyle[key] = styleLogic.bind(this._activeStyle[key]);
+      }
+    }
+
+    elem.transition().duration(0).call(attrize, activeStyle);
 
   }
 
@@ -98,6 +150,8 @@ export default class Shape extends BaseClass {
 
     const that = this;
 
+    if (elem.size() && elem.node().tagName === "g") elem = elem.selectAll("*");
+
     /**
         @desc Determines whether a shape is a nested collection of data points, and uses the appropriate data and index for the given function context.
         @param {Object} *d* data point
@@ -105,7 +159,8 @@ export default class Shape extends BaseClass {
         @private
     */
     function styleLogic(d, i) {
-      return d.nested && d.key && d.values
+      return typeof this !== "function" ? this
+           : d.nested && d.key && d.values
            ? this(d.values[0], that._data.indexOf(d.values[0]))
            : this(d, i);
     }
@@ -208,7 +263,7 @@ export default class Shape extends BaseClass {
       .data(imageData)
       .duration(this._duration)
       .pointerEvents("none")
-      .select(elem(`g.d3plus-${this._name}-image`, {parent: this._group, update: {opacity: 1}}).node())
+      .select(elem(`g.d3plus-${this._name}-image`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
       .render();
 
   }
@@ -308,7 +363,7 @@ export default class Shape extends BaseClass {
       .pointerEvents("none")
       .textAnchor(d => d.tA)
       .verticalAlign(d => d.vA)
-      .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: 1}}).node())
+      .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
       .render();
 
   }
@@ -342,13 +397,14 @@ export default class Shape extends BaseClass {
 
     if (this._sort) data = data.sort((a, b) => this._sort(a.__d3plusShape__ ? a.data : a, b.__d3plusShape__ ? b.data : b));
 
-    selectAll(`g.d3plus-${this._name}-hover > *`).each(function(d) {
-      d.parent.appendChild(this);
+    selectAll(`g.d3plus-${this._name}-hover > *, g.d3plus-${this._name}-active > *`).each(function(d) {
+      if (d && d.parent) d.parent.appendChild(this);
+      else this.parentNode.removeChild(this);
     });
 
     // Makes the update state of the group selection accessible.
     this._group = elem(`g.d3plus-${this._name}-group`, {parent: this._select});
-    const update = this._update = elem(`g.d3plus-${this._name}-shape`, {parent: this._group, update: {opacity: 1}})
+    const update = this._update = elem(`g.d3plus-${this._name}-shape`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}})
       .selectAll(`.d3plus-${this._name}`)
         .data(data, key);
 
@@ -376,27 +432,22 @@ export default class Shape extends BaseClass {
     const exit = this._exit = update.exit();
     exit.transition().delay(this._duration).remove();
 
-    const images = this._renderImage();
-    const labels = this._renderLabels();
-
-    this._hover = [
-      enterUpdate,
-      images.select().selectAll(".d3plus-Image"),
-      labels.select().selectAll(".d3plus-textBox")
-    ];
+    this._renderImage();
+    this._renderLabels();
 
     this._hoverGroup = elem(`g.d3plus-${this._name}-hover`, {parent: this._group});
+    this._activeGroup = elem(`g.d3plus-${this._name}-active`, {parent: this._group});
 
     const that = this;
 
-    const hitAreas = this._group.selectAll(`.d3plus-${this._name}-HitArea`)
+    const hitAreas = this._group.selectAll(".d3plus-HitArea")
       .data(this._hitArea ? data : [], key);
 
     hitAreas.order().transition(this._transition)
       .call(this._applyTransform.bind(this));
 
     const hitEnter = hitAreas.enter().append("rect")
-        .attr("class", (d, i) => `d3plus-Shape d3plus-${this._name}-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
+        .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
         .attr("fill", "transparent")
       .call(this._applyTransform.bind(this));
 
@@ -409,11 +460,66 @@ export default class Shape extends BaseClass {
     hitAreas.exit().remove();
 
     this._applyEvents(this._hitArea ? hitUpdates : enterUpdate);
+    this.active(this._active);
 
     if (callback) setTimeout(callback, this._duration + 100);
 
     return this;
 
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight accessor.
+      @param {Function} [*value*]
+      @chainable
+  */
+  active(_) {
+
+    if (!arguments.length || _ === void 0) return this._active;
+    this._active = _;
+
+    const that = this;
+
+    this._group.selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
+      .each(function(d, i) {
+
+        if (!d.parent) d.parent = this.parentNode;
+        const parent = d.parent;
+
+        if (this.tagName === "text") d = d.data;
+        if (d.__d3plusShape__ || d.__d3plus__) {
+          i = d.i;
+          d = d.data;
+        }
+        else i = that._data.indexOf(d);
+
+        const group = !_ || typeof _ !== "function" || !_(d, i) ? parent : that._activeGroup.node();
+        if (group !== this.parentNode) {
+          group.appendChild(this);
+          if (this.className.baseVal.includes("d3plus-Shape")) {
+            if (parent === group) select(this).call(that._applyStyle.bind(that));
+            else select(this).call(that._applyActive.bind(that));
+          }
+        }
+
+      });
+
+    this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
+      .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
+
+    return this;
+
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the active opacity to the specified function and returns the current class instance. If *value* is not specified, returns the current active opacity.
+      @param {Number} [*value* = 0.75]
+      @chainable
+  */
+  activeOpacity(_) {
+    return arguments.length ? (this._activeOpacity = _, this) : this._activeOpacity;
   }
 
   /**
@@ -520,9 +626,13 @@ export default class Shape extends BaseClass {
   */
   hover(_) {
 
+    if (!arguments.length || _ === void 0) return this._hover;
+    this._hover = _;
+
     const that = this;
 
-    this._group.selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
+    this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text, g.d3plus-${this._name}-hover`)
+      .selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
       .each(function(d, i) {
 
         if (!d.parent) d.parent = this.parentNode;
@@ -541,14 +651,14 @@ export default class Shape extends BaseClass {
       });
 
     this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
-      .attr("opacity", !_ || typeof _ !== "function" ? 1 : this._hoverOpacity);
+      .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
 
     return this;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the highlight opacity to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight opacity.
+      @desc If *value* is specified, sets the hover opacity to the specified function and returns the current class instance. If *value* is not specified, returns the current hover opacity.
       @param {Number} [*value* = 0.5]
       @chainable
   */
