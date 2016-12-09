@@ -398,7 +398,7 @@ export default class Shape extends BaseClass {
     if (this._sort) data = data.sort((a, b) => this._sort(a.__d3plusShape__ ? a.data : a, b.__d3plusShape__ ? b.data : b));
 
     selectAll(`g.d3plus-${this._name}-hover > *, g.d3plus-${this._name}-active > *`).each(function(d) {
-      if (d && d.parent) d.parent.appendChild(this);
+      if (d && d.parentNode) d.parentNode.appendChild(this);
       else this.parentNode.removeChild(this);
     });
 
@@ -484,8 +484,8 @@ export default class Shape extends BaseClass {
     this._group.selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
       .each(function(d, i) {
 
-        if (!d.parent) d.parent = this.parentNode;
-        const parent = d.parent;
+        if (!d.parentNode) d.parentNode = this.parentNode;
+        const parent = d.parentNode;
 
         if (this.tagName === "text") d = d.data;
         if (d.__d3plusShape__ || d.__d3plus__) {
@@ -635,8 +635,8 @@ export default class Shape extends BaseClass {
       .selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
       .each(function(d, i) {
 
-        if (!d.parent) d.parent = this.parentNode;
-        const parent = d.parent;
+        if (!d.parentNode) d.parentNode = this.parentNode;
+        const parent = d.parentNode;
 
         if (this.tagName === "text") d = d.data;
         if (d.__d3plusShape__ || d.__d3plus__) {
