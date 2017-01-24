@@ -29,6 +29,7 @@ export default class Line extends Shape {
     this._fill = constant("none");
     this._name = "Line";
     this._path = paths.line();
+    this._stroke = constant("black");
     this._strokeWidth = constant(1);
 
   }
