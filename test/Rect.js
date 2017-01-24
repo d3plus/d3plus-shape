@@ -1,7 +1,7 @@
 import {test} from "tape";
 import {default as Rect} from "../src/Shape/Rect";
 
-test("Rect", assert => {
+test("Shape/Rect", assert => {
 
   new Rect()
     .data([{id: "test"}])
