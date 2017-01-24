@@ -10,3 +10,4 @@ export {default as Rect} from "./src/Shape/Rect";
 
 export {default as lineIntersection} from "./src/geom/lineIntersection";
 export {default as pointDistance} from "./src/geom/pointDistance";
+export {default as pointInSegmentBox} from "./src/geom/pointInSegmentBox";
