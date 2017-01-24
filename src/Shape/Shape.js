@@ -13,7 +13,7 @@ import {contrast} from "d3plus-color";
 import {strip, TextBox} from "d3plus-text";
 
 import {default as Image} from "../Image";
-import {default as pointDistance} from "../pointDistance";
+import {default as pointDistance} from "../geom/pointDistance";
 
 /**
     @class Shape
