@@ -14,4 +14,5 @@ export {default as pointInPoly} from "./src/geom/pointInPoly";
 export {default as pointInSegmentBox} from "./src/geom/pointInSegmentBox";
 export {default as rotatePoint} from "./src/geom/rotatePoint";
 export {default as rotatePoly} from "./src/geom/rotatePoly";
+export {default as segmentsIntersect} from "./src/geom/segmentsIntersect";
 export {default as squaredDistance} from "./src/geom/squaredDistance";
