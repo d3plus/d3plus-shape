@@ -1,8 +1,9 @@
-import {default as pointInPoly} from "./pointInPoly";
+import {polygonContains} from "d3-polygon";
+
 import {default as segmentsIntersect} from "./segmentsIntersect";
 
 /**
-    @function polyInPoly
+    @function polygonInside
     @desc Checks if one polygon is inside another polygon.
     @param {Array} polyA An Array of `[x, y]` points to be used as the inner polygon, checking if it is inside polyA.
     @param {Array} polyB An Array of `[x, y]` points to be used as the containing polygon.
@@ -29,6 +30,6 @@ export default function(polyA, polyB) {
     }
   }
 
-  return pointInPoly(polyA[0], polyB);
+  return polygonContains(polyB, polyA[0]);
 
 }

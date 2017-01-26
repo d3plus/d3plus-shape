@@ -1,4 +1,4 @@
-import {default as squaredDistance} from "./squaredDistance";
+import {default as pointDistanceSquared} from "./pointDistanceSquared";
 
 // square distance from a point to a segment
 function getSqSegDist(p, p1, p2) {
@@ -44,7 +44,7 @@ function simplifyRadialDist(poly, sqTolerance) {
   for (let i = 1, len = poly.length; i < len; i++) {
     point = poly[i];
 
-    if (squaredDistance(point, prevPoint) > sqTolerance) {
+    if (pointDistanceSquared(point, prevPoint) > sqTolerance) {
       newPoints.push(point);
       prevPoint = point;
     }

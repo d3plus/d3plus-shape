@@ -1,12 +1,11 @@
 import {extent, range} from "d3-array";
-import {polygonArea, polygonCentroid} from "d3-polygon";
+import {polygonArea, polygonCentroid, polygonContains} from "d3-polygon";
 
-import {default as pointInPoly} from "./pointInPoly";
-import {default as polyInPoly} from "./polyInPoly";
-import {default as rayIntersectsPoly} from "./rayIntersectsPoly";
-import {default as rotatePoly} from "./rotatePoly";
+import {default as polygonInside} from "./polygonInside";
+import {default as polygonRayCast} from "./polygonRayCast";
+import {default as polygonRotate} from "./polygonRotate";
 import {default as simplify} from "./simplify";
-import {default as squaredDistance} from "./squaredDistance";
+import {default as pointDistanceSquared} from "./pointDistanceSquared";
 
 // Algorithm constants
 const aspectRatioStep = 0.5; // step size for the aspect ratio
@@ -103,13 +102,13 @@ export default function(poly, options = {}) {
   if (!origins.length) {
     // get the centroid of the polygon
     const centroid = polygonCentroid(poly);
-    if (pointInPoly(centroid, poly)) origins.push(centroid);
+    if (polygonContains(poly, centroid)) origins.push(centroid);
     // get few more points inside the polygon
     while (origins.length < options.nTries) {
       const rndX = Math.random() * boxWidth + minx;
       const rndY = Math.random() * boxHeight + miny;
       const rndPoint = [rndX, rndY];
-      if (pointInPoly(rndPoint, poly)) origins.push(rndPoint);
+      if (polygonContains(poly, rndPoint)) origins.push(rndPoint);
     }
   }
   if (options.events) events.push({type: "origins", points: origins});
@@ -123,8 +122,8 @@ export default function(poly, options = {}) {
     origins.forEach((origOrigin, i) => {
 
       // generate improved origins
-      const [p1W, p2W] = rayIntersectsPoly(poly, origOrigin, angleRad);
-      const [p1H, p2H] = rayIntersectsPoly(poly, origOrigin, angleRad + Math.PI / 2);
+      const [p1W, p2W] = polygonRayCast(poly, origOrigin, angleRad);
+      const [p1H, p2H] = polygonRayCast(poly, origOrigin, angleRad + Math.PI / 2);
       const modifOrigins = [];
       if (p1W && p2W) modifOrigins.push([(p1W[0] + p2W[0]) / 2, (p1W[1] + p2W[1]) / 2]); // average along with width axis
       if (p1H && p2H) modifOrigins.push([(p1H[0] + p2H[0]) / 2, (p1H[1] + p2H[1]) / 2]); // average along with height axis
@@ -137,14 +136,14 @@ export default function(poly, options = {}) {
 
         if (options.events) events.push({type: "origin", cx: origin[0], cy: origin[1]});
 
-        const [p1W, p2W] = rayIntersectsPoly(poly, origin, angleRad);
+        const [p1W, p2W] = polygonRayCast(poly, origin, angleRad);
         if (p1W === null || p2W === null) continue;
-        const minSqDistW = Math.min(squaredDistance(origin, p1W), squaredDistance(origin, p2W));
+        const minSqDistW = Math.min(pointDistanceSquared(origin, p1W), pointDistanceSquared(origin, p2W));
         const maxWidth = 2 * Math.sqrt(minSqDistW);
 
-        const [p1H, p2H] = rayIntersectsPoly(poly, origin, angleRad + Math.PI / 2);
+        const [p1H, p2H] = polygonRayCast(poly, origin, angleRad + Math.PI / 2);
         if (p1H === null || p2H === null) continue;
-        const minSqDistH = Math.min(squaredDistance(origin, p1H), squaredDistance(origin, p2H));
+        const minSqDistH = Math.min(pointDistanceSquared(origin, p1H), pointDistanceSquared(origin, p2H));
         const maxHeight = 2 * Math.sqrt(minSqDistH);
 
         if (maxWidth * maxHeight < maxArea) continue;
@@ -177,8 +176,8 @@ export default function(poly, options = {}) {
               [cx + width / 2, cy + height / 2],
               [cx - width / 2, cy + height / 2]
             ];
-            rectPoly = rotatePoly(rectPoly, angleRad, origin);
-            const insidePoly = polyInPoly(rectPoly, poly);
+            rectPoly = polygonRotate(rectPoly, angleRad, origin);
+            const insidePoly = polygonInside(rectPoly, poly);
             if (insidePoly) {
               // we know that the area is already greater than the maxArea found so far
               maxArea = width * height;

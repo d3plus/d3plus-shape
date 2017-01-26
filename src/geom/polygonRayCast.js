@@ -1,9 +1,9 @@
 import {default as lineIntersection} from "./lineIntersection";
-import {default as pointInSegmentBox} from "./pointInSegmentBox";
-import {default as squaredDistance} from "./squaredDistance";
+import {default as segmentBoxContains} from "./segmentBoxContains";
+import {default as pointDistanceSquared} from "./pointDistanceSquared";
 
 /**
-    @function rayIntersectsSegment
+    @function polygonRayCast
     @desc Gives the two closest intersection points between a ray cast from a point inside a polygon. The two points should lie on opposite sides of the origin.
     @param {Array} poly The polygon to test against, which should be an `[x, y]` formatted Array.
     @param {Array} origin The origin point of the ray to be cast, which should be an `[x, y]` formatted Array.
@@ -30,8 +30,8 @@ export default function(poly, origin, alpha = 0) {
     const a = b;
     b = poly[i];
     const p = lineIntersection(origin, shiftedOrigin, a, b);
-    if (p && pointInSegmentBox(p, a, b)) {
-      const sqDist = squaredDistance(origin, p);
+    if (p && segmentBoxContains(a, b, p)) {
+      const sqDist = pointDistanceSquared(origin, p);
       if (p[idx] < origin[idx]) {
         if (sqDist < minSqDistLeft) {
           minSqDistLeft = sqDist;

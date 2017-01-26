@@ -1,5 +1,5 @@
 import {default as lineIntersection} from "./lineIntersection";
-import {default as pointInSegmentBox} from "./pointInSegmentBox";
+import {default as segmentBoxContains} from "./segmentBoxContains";
 
 /**
     @function segmentsIntersect
@@ -14,6 +14,6 @@ export default function(p1, q1, p2, q2) {
 
   const p = lineIntersection(p1, q1, p2, q2);
   if (!p) return false;
-  return pointInSegmentBox(p, p1, q1) && pointInSegmentBox(p, p2, q2);
+  return segmentBoxContains(p1, q1, p) && segmentBoxContains(p2, q2, p);
 
 }

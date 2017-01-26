@@ -1,5 +1,5 @@
 /**
-    @function squaredDistance
+    @function pointDistanceSquared
     @desc Returns the squared euclidean distance between two points.
     @param {Array} p1 The first point, which should always be an `[x, y]` formatted Array.
     @param {Array} p2 The second point, which should always be an `[x, y]` formatted Array.

@@ -1,5 +1,5 @@
 /**
-    @function rotatePoint
+    @function pointRotate
     @desc Rotates a point around a given origin.
     @param {Array} p The point to be rotated, which should always be an `[x, y]` formatted Array.
     @param {Number} alpha The angle in radians to rotate.

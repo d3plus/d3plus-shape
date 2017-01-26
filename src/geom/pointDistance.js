@@ -1,4 +1,4 @@
-import {default as squaredDistance} from "./squaredDistance";
+import {default as pointDistanceSquared} from "./pointDistanceSquared";
 
 /**
     @function pointDistance
@@ -7,4 +7,4 @@ import {default as squaredDistance} from "./squaredDistance";
     @param {Array} p2 The second point, which should always be an `[x, y]` formatted Array.
     @returns {Number}
 */
-export default (p1, p2) => Math.sqrt(squaredDistance(p1, p2));
+export default (p1, p2) => Math.sqrt(pointDistanceSquared(p1, p2));
