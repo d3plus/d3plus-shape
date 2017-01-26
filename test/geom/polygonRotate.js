@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as polygonRotate} from "../src/geom/polygonRotate";
+import {default as polygonRotate} from "../../src/geom/polygonRotate";
 
 test("geom/polygonRotate", assert => {
 

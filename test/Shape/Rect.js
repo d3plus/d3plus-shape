@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as Rect} from "../src/Shape/Rect";
+import {default as Rect} from "../../src/Shape/Rect";
 
 test("Shape/Rect", assert => {
 

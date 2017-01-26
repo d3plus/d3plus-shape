@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as pointRotate} from "../src/geom/pointRotate";
+import {default as pointRotate} from "../../src/geom/pointRotate";
 
 test("geom/pointRotate", assert => {
 

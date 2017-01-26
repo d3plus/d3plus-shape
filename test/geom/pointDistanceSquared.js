@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as pointDistanceSquared} from "../src/geom/pointDistanceSquared";
+import {default as pointDistanceSquared} from "../../src/geom/pointDistanceSquared";
 
 test("geom/pointDistanceSquared", assert => {
 

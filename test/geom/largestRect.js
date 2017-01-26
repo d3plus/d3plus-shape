@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as largestRect} from "../src/geom/largestRect";
+import {default as largestRect} from "../../src/geom/largestRect";
 
 test("geom/largestRect", assert => {
 

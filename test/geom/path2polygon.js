@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as path2polygon} from "../src/geom/path2polygon";
+import {default as path2polygon} from "../../src/geom/path2polygon";
 
 test("geom/path2polygon", assert => {
 

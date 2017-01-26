@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as polygonInside} from "../src/geom/polygonInside";
+import {default as polygonInside} from "../../src/geom/polygonInside";
 
 test("geom/polygonInside", assert => {
 

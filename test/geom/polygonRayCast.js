@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as polygonRayCast} from "../src/geom/polygonRayCast";
+import {default as polygonRayCast} from "../../src/geom/polygonRayCast";
 
 test("geom/polygonRayCast", assert => {
 

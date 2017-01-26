@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as segmentBoxContains} from "../src/geom/segmentBoxContains";
+import {default as segmentBoxContains} from "../../src/geom/segmentBoxContains";
 
 test("geom/segmentBoxContains", assert => {
 

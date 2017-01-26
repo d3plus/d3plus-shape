@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as segmentsIntersect} from "../src/geom/segmentsIntersect";
+import {default as segmentsIntersect} from "../../src/geom/segmentsIntersect";
 
 test("geom/segmentsIntersect", assert => {
 

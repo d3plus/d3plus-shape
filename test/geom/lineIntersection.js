@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as lineIntersection} from "../src/geom/lineIntersection";
+import {default as lineIntersection} from "../../src/geom/lineIntersection";
 
 test("geom/lineIntersection", assert => {
 

@@ -1,5 +1,5 @@
 import {test} from "tape";
-import {default as shapeEdgePoint} from "../src/geom/shapeEdgePoint";
+import {default as shapeEdgePoint} from "../../src/geom/shapeEdgePoint";
 
 test("geom/shapeEdgePoint", assert => {
 
