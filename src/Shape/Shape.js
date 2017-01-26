@@ -9,7 +9,7 @@ import {mouse, select, selectAll} from "d3-selection";
 import {transition} from "d3-transition";
 
 import {accessor, attrize, BaseClass, constant, elem} from "d3plus-common";
-import {contrast} from "d3plus-color";
+import {colorContrast} from "d3plus-color";
 import {strip, TextBox} from "d3plus-text";
 
 import {default as Image} from "../Image";
@@ -44,7 +44,7 @@ export default class Shape extends BaseClass {
     this._duration = 600;
     this._fill = constant("black");
 
-    this._fontColor = (d, i) => contrast(this._fill(d, i));
+    this._fontColor = (d, i) => colorContrast(this._fill(d, i));
     this._fontFamily = constant("Verdana");
     this._fontResize = constant(false);
     this._fontSize = constant(12);
