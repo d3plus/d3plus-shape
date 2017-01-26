@@ -337,7 +337,7 @@ export default class Shape extends BaseClass {
                 i,
                 id: `${this._id(d, i)}_${l}`,
                 lH: lH.constructor === Array ? lH[l] : lH,
-                r: r.constructor === Array ? r[l] : r,
+                r: bounds.angle !== void 0 ? bounds.angle : r.constructor === Array ? r[l] : r,
                 tA: tA.constructor === Array ? tA[l] : tA,
                 text: labels[l],
                 vA: vA.constructor === Array ? vA[l] : vA,
