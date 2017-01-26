@@ -1,6 +1,8 @@
 import {accessor, constant} from "d3plus-common";
 
 import {default as Shape} from "./Shape";
+import {default as largestRect} from "../geom/largestRect";
+import {default as path2polygon} from "../geom/path2polygon";
 
 /**
     @class Path
@@ -17,7 +19,13 @@ export default class Path extends Shape {
   constructor() {
     super("path");
     this._d = accessor("path");
+    this._labelBounds = (d, i) => {
+      const r = largestRect(path2polygon(this._d(d, i)), {angle: this._labelRotate(d, i)});
+      return {width: r.width, height: r.height, x: r.cx - r.width / 2, y: r.cy - r.height / 2};
+    };
     this._name = "Path";
+    this.textAnchor("middle");
+    this.verticalAlign("middle");
   }
 
   /**
