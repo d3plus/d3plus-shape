@@ -52,6 +52,7 @@ export default class Shape extends BaseClass {
     this._hoverOpacity = 0.5;
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._label = constant(false);
+    this._labelRotate = constant(0);
     this._labelPadding = constant(5);
     this._name = "Shape";
     this._opacity = constant(1);
@@ -316,6 +317,7 @@ export default class Shape extends BaseClass {
                   fS = this._fontSize(d, i),
                   lH = this._lineHeight(d, i),
                   padding = this._labelPadding(d, i),
+                  r = this._labelRotate(d, i),
                   tA = this._textAnchor(d, i),
                   vA = this._verticalAlign(d, i);
 
@@ -335,6 +337,7 @@ export default class Shape extends BaseClass {
                 i,
                 id: `${this._id(d, i)}_${l}`,
                 lH: lH.constructor === Array ? lH[l] : lH,
+                r: r.constructor === Array ? r[l] : r,
                 tA: tA.constructor === Array ? tA[l] : tA,
                 text: labels[l],
                 vA: vA.constructor === Array ? vA[l] : vA,
@@ -361,6 +364,7 @@ export default class Shape extends BaseClass {
       .fontSize(d => d.fS)
       .lineHeight(d => d.lH)
       .pointerEvents("none")
+      .rotate(d => d.data.r)
       .textAnchor(d => d.tA)
       .verticalAlign(d => d.vA)
       .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
@@ -730,6 +734,18 @@ function(d, i, shape) {
     return arguments.length
          ? (this._labelBounds = typeof _ === "function" ? _ : constant(_), this)
          : this._labelBounds;
+  }
+
+  /**
+      @memberof Shape
+      @desc Specifies the rotation angle, in degrees, of a shape's label. If *value* is not specified, returns the current label rotation. If an array is passed or returned from the function, each value will be used consecutively with each label.
+      @param {Function|Number|Array} [angle = 0]
+      @chainable
+  */
+  labelRotate(_) {
+    return arguments.length
+         ? (this._labelRotate = typeof _ === "function" ? _ : constant(_), this)
+         : this._labelRotate;
   }
 
   /**
