@@ -25,6 +25,7 @@ const angleStep = 5; // step size for angles (in degrees); has linear impact on 
 
 /**
     @function largestRect
+    @author Daniel Smilkov [dsmilkov@gmail.com]
     @desc An angle of zero means that the longer side of the polygon (the width) will be aligned with the x axis. An angle of 90 and/or -90 means that the longer side of the polygon (the width) will be aligned with the y axis. The value can be a number between -90 and 90 specifying the angle of rotation of the polygon, a string which is parsed to a number, or an array of numbers specifying the possible rotations of the polygon.
     @param {Array} poly An Array of points that represent a polygon.
     @param {Object} [options] An Object that allows for overriding various parameters of the algorithm.
