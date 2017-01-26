@@ -12,7 +12,7 @@ Fancy SVG shapes for visualizations
 If you use NPM, `npm install d3plus-shape`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-shape/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. Create a [custom bundle using Rollup](https://github.com/rollup/rollup) or your preferred bundler. You can also load directly from [d3plus.org](https://d3plus.org):
 
 ```html
-<script src="https://d3plus.org/js/d3plus-shape.v0.11.full.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.v0.12.full.min.js"></script>
 ```
 
 [width]: 360
@@ -77,8 +77,52 @@ It even detects that the blue rectangle should have a dark label and the red rec
 ### Functions
 
 <dl>
-<dt><a href="#distance">distance(p1, p2)</a> ⇒ <code>Number</code></dt>
+<dt><a href="#largestRect">largestRect(poly, [options])</a> ⇒ <code><a href="#LargestRect">LargestRect</a></code></dt>
+<dd><p>An angle of zero means that the longer side of the polygon (the width) will be aligned with the x axis. An angle of 90 and/or -90 means that the longer side of the polygon (the width) will be aligned with the y axis. The value can be a number between -90 and 90 specifying the angle of rotation of the polygon, a string which is parsed to a number, or an array of numbers specifying the possible rotations of the polygon.</p>
+</dd>
+<dt><a href="#lineIntersection">lineIntersection(p1, q1, p2, q2)</a> ⇒ <code>Boolean</code></dt>
+<dd><p>Finds the intersection point (if there is one) of the lines p1q1 and p2q2.</p>
+</dd>
+<dt><a href="#path2polygon">path2polygon(path, [segmentLength])</a> ⇒ <code>Array</code></dt>
+<dd><p>Transforms a path string into an Array of points.</p>
+</dd>
+<dt><a href="#pointDistance">pointDistance(p1, p2)</a> ⇒ <code>Number</code></dt>
 <dd><p>Calculates the pixel distance between two points.</p>
+</dd>
+<dt><a href="#pointDistanceSquared">pointDistanceSquared(p1, p2)</a> ⇒ <code>Number</code></dt>
+<dd><p>Returns the squared euclidean distance between two points.</p>
+</dd>
+<dt><a href="#pointRotate">pointRotate(p, alpha, [origin])</a> ⇒ <code>Boolean</code></dt>
+<dd><p>Rotates a point around a given origin.</p>
+</dd>
+<dt><a href="#polygonInside">polygonInside(polyA, polyB)</a> ⇒ <code>Boolean</code></dt>
+<dd><p>Checks if one polygon is inside another polygon.</p>
+</dd>
+<dt><a href="#polygonRayCast">polygonRayCast(poly, origin, [alpha])</a> ⇒ <code>Array</code></dt>
+<dd><p>Gives the two closest intersection points between a ray cast from a point inside a polygon. The two points should lie on opposite sides of the origin.</p>
+</dd>
+<dt><a href="#polygonRotate">polygonRotate(poly, alpha, [origin])</a> ⇒ <code>Boolean</code></dt>
+<dd><p>Rotates a point around a given origin.</p>
+</dd>
+<dt><a href="#segmentBoxContains">segmentBoxContains(s1, s2, p)</a> ⇒ <code>Boolean</code></dt>
+<dd><p>Checks whether a point is inside the bounding box of a line segment.</p>
+</dd>
+<dt><a href="#segmentsIntersect">segmentsIntersect(p1, q1, p2, q2)</a> ⇒ <code>Boolean</code></dt>
+<dd><p>Checks whether the line segments p1q1 &amp;&amp; p2q2 intersect.</p>
+</dd>
+<dt><a href="#shapeEdgePoint">shapeEdgePoint(angle, distance)</a> ⇒ <code>String</code></dt>
+<dd><p>Calculates the x/y position of a point at the edge of a shape, from the center of the shape, given a specified pixel distance and radian angle.</p>
+</dd>
+<dt><a href="#largestRect">largestRect(poly, [tolerance], [highestQuality])</a></dt>
+<dd><p>Simplifies the points of a polygon using both the Ramer-Douglas-Peucker algorithm and basic distance-based simplification. Adapted to an ES6 module from the excellent <a href="http://mourner.github.io/simplify-js/">Simplify.js</a>.</p>
+</dd>
+</dl>
+
+### Typedefs
+
+<dl>
+<dt><a href="#LargestRect">LargestRect</a> : <code>Object</code></dt>
+<dd><p>The returned Object of the largestRect function.</p>
 </dd>
 </dl>
 
@@ -751,6 +795,7 @@ function(d) {
     * [.id([*value*])](#Shape.id) ↩︎
     * [.label([*value*])](#Shape.label) ↩︎
     * [.labelBounds([*bounds*])](#Shape.labelBounds) ↩︎
+    * [.labelRotate([angle])](#Shape.labelRotate) ↩︎
     * [.labelPadding([*value*])](#Shape.labelPadding) ↩︎
     * [.lineHeight([*value*])](#Shape.lineHeight) ↩︎
     * [.opacity([*value*])](#Shape.opacity) ↩︎
@@ -997,6 +1042,18 @@ function(d, i, shape) {
   };
 }
 ```
+<a name="Shape.labelRotate"></a>
+
+#### Shape.labelRotate([angle]) ↩︎
+Specifies the rotation angle, in degrees, of a shape's label. If *value* is not specified, returns the current label rotation. If an array is passed or returned from the function, each value will be used consecutively with each label.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [angle] | <code>function</code> &#124; <code>Number</code> &#124; <code>Array</code> | <code>0</code> | 
+
 <a name="Shape.labelPadding"></a>
 
 #### Shape.labelPadding([*value*]) ↩︎
@@ -1183,18 +1240,202 @@ function(d) {
   return d.y;
 }
 ```
-<a name="distance"></a>
+<a name="largestRect"></a>
 
-### distance(p1, p2) ⇒ <code>Number</code>
+### largestRect(poly, [options]) ⇒ <code>[LargestRect](#LargestRect)</code>
+An angle of zero means that the longer side of the polygon (the width) will be aligned with the x axis. An angle of 90 and/or -90 means that the longer side of the polygon (the width) will be aligned with the y axis. The value can be a number between -90 and 90 specifying the angle of rotation of the polygon, a string which is parsed to a number, or an array of numbers specifying the possible rotations of the polygon.
+
+**Kind**: global function  
+**Author:** Daniel Smilkov [dsmilkov@gmail.com]  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| poly | <code>Array</code> |  | An Array of points that represent a polygon. |
+| [options] | <code>Object</code> |  | An Object that allows for overriding various parameters of the algorithm. |
+| [options.angle] | <code>Number</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>d3.range(-90, 95, 5)</code> | The allowed rotations of the final rectangle. |
+| [options.aspectRatio] | <code>Number</code> &#124; <code>String</code> &#124; <code>Array</code> |  | The ratio between the width and height of the rectangle. The value can be a number, a string which is parsed to a number, or an array of numbers specifying the possible aspect ratios of the final rectangle. |
+| [options.maxAspectRatio] | <code>Number</code> | <code>15</code> | The maximum aspect ratio (width/height) allowed for the rectangle. This property should only be used if the aspectRatio is not provided. |
+| [options.minAspectRatio] | <code>Number</code> | <code>1</code> | The minimum aspect ratio (width/height) allowed for the rectangle. This property should only be used if the aspectRatio is not provided. |
+| [options.nTries] | <code>Number</code> | <code>20</code> | The number of randomly drawn points inside the polygon which the algorithm explores as possible center points of the maximal rectangle. |
+| [options.minHeight] | <code>Number</code> | <code>0</code> | The minimum height of the rectangle. |
+| [options.minWidth] | <code>Number</code> | <code>0</code> | The minimum width of the rectangle. |
+| [options.tolerance] | <code>Number</code> | <code>0.02</code> | The simplification tolerance factor, between 0 and 1. A larger tolerance corresponds to more extensive simplification. |
+| [options.origin] | <code>Array</code> |  | The center point of the rectangle. If specified, the rectangle will be fixed at that point, otherwise the algorithm optimizes across all possible points. The given value can be either a two dimensional array specifying the x and y coordinate of the origin or an array of two dimensional points specifying multiple possible center points of the rectangle. |
+
+<a name="lineIntersection"></a>
+
+### lineIntersection(p1, q1, p2, q2) ⇒ <code>Boolean</code>
+Finds the intersection point (if there is one) of the lines p1q1 and p2q2.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| p1 | <code>Array</code> | The first point of the first line segment, which should always be an `[x, y]` formatted Array. |
+| q1 | <code>Array</code> | The second point of the first line segment, which should always be an `[x, y]` formatted Array. |
+| p2 | <code>Array</code> | The first point of the second line segment, which should always be an `[x, y]` formatted Array. |
+| q2 | <code>Array</code> | The second point of the second line segment, which should always be an `[x, y]` formatted Array. |
+
+<a name="path2polygon"></a>
+
+### path2polygon(path, [segmentLength]) ⇒ <code>Array</code>
+Transforms a path string into an Array of points.
+
+**Kind**: global function  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| path | <code>String</code> |  | An SVG string path, commonly the "d" property of a <path> element. |
+| [segmentLength] | <code>Number</code> | <code>20</code> | The lenght of line segments when converting curves line segments. Higher values lower computation time, but will result in curves that are more rigid. |
+
+<a name="pointDistance"></a>
+
+### pointDistance(p1, p2) ⇒ <code>Number</code>
 Calculates the pixel distance between two points.
 
 **Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| p1 | <code>Array</code> &#124; <code>Object</code> | The first point, either an Array formatted like `[x, y]` or a keyed object formatted like `{x, y}`. |
-| p2 | <code>Array</code> &#124; <code>Object</code> | The second point, either an Array formatted like `[x, y]` or a keyed object formatted like `{x, y}` |
+| p1 | <code>Array</code> | The first point, which should always be an `[x, y]` formatted Array. |
+| p2 | <code>Array</code> | The second point, which should always be an `[x, y]` formatted Array. |
+
+<a name="pointDistanceSquared"></a>
+
+### pointDistanceSquared(p1, p2) ⇒ <code>Number</code>
+Returns the squared euclidean distance between two points.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| p1 | <code>Array</code> | The first point, which should always be an `[x, y]` formatted Array. |
+| p2 | <code>Array</code> | The second point, which should always be an `[x, y]` formatted Array. |
+
+<a name="pointRotate"></a>
+
+### pointRotate(p, alpha, [origin]) ⇒ <code>Boolean</code>
+Rotates a point around a given origin.
+
+**Kind**: global function  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| p | <code>Array</code> |  | The point to be rotated, which should always be an `[x, y]` formatted Array. |
+| alpha | <code>Number</code> |  | The angle in radians to rotate. |
+| [origin] | <code>Array</code> | <code>[0, 0]</code> | The origin point of the rotation, which should always be an `[x, y]` formatted Array. |
+
+<a name="polygonInside"></a>
+
+### polygonInside(polyA, polyB) ⇒ <code>Boolean</code>
+Checks if one polygon is inside another polygon.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| polyA | <code>Array</code> | An Array of `[x, y]` points to be used as the inner polygon, checking if it is inside polyA. |
+| polyB | <code>Array</code> | An Array of `[x, y]` points to be used as the containing polygon. |
+
+<a name="polygonRayCast"></a>
+
+### polygonRayCast(poly, origin, [alpha]) ⇒ <code>Array</code>
+Gives the two closest intersection points between a ray cast from a point inside a polygon. The two points should lie on opposite sides of the origin.
+
+**Kind**: global function  
+**Returns**: <code>Array</code> - An array containing two values, the closest point on the left and the closest point on the right. If either point cannot be found, that value will be `null`.  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| poly | <code>Array</code> |  | The polygon to test against, which should be an `[x, y]` formatted Array. |
+| origin | <code>Array</code> |  | The origin point of the ray to be cast, which should be an `[x, y]` formatted Array. |
+| [alpha] | <code>Number</code> | <code>0</code> | The angle in radians of the ray. |
+
+<a name="polygonRotate"></a>
+
+### polygonRotate(poly, alpha, [origin]) ⇒ <code>Boolean</code>
+Rotates a point around a given origin.
+
+**Kind**: global function  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| poly | <code>Array</code> |  | The polygon to be rotated, which should be an Array of `[x, y]` values. |
+| alpha | <code>Number</code> |  | The angle in radians to rotate. |
+| [origin] | <code>Array</code> | <code>[0, 0]</code> | The origin point of the rotation, which should be an `[x, y]` formatted Array. |
+
+<a name="segmentBoxContains"></a>
+
+### segmentBoxContains(s1, s2, p) ⇒ <code>Boolean</code>
+Checks whether a point is inside the bounding box of a line segment.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| s1 | <code>Array</code> | The first point of the line segment to be used for the bounding box, which should always be an `[x, y]` formatted Array. |
+| s2 | <code>Array</code> | The second point of the line segment to be used for the bounding box, which should always be an `[x, y]` formatted Array. |
+| p | <code>Array</code> | The point to be checked, which should always be an `[x, y]` formatted Array. |
+
+<a name="segmentsIntersect"></a>
+
+### segmentsIntersect(p1, q1, p2, q2) ⇒ <code>Boolean</code>
+Checks whether the line segments p1q1 && p2q2 intersect.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| p1 | <code>Array</code> | The first point of the first line segment, which should always be an `[x, y]` formatted Array. |
+| q1 | <code>Array</code> | The second point of the first line segment, which should always be an `[x, y]` formatted Array. |
+| p2 | <code>Array</code> | The first point of the second line segment, which should always be an `[x, y]` formatted Array. |
+| q2 | <code>Array</code> | The second point of the second line segment, which should always be an `[x, y]` formatted Array. |
+
+<a name="shapeEdgePoint"></a>
+
+### shapeEdgePoint(angle, distance) ⇒ <code>String</code>
+Calculates the x/y position of a point at the edge of a shape, from the center of the shape, given a specified pixel distance and radian angle.
+
+**Kind**: global function  
+**Returns**: <code>String</code> - [shape = "circle"] The type of shape, which can be either "circle" or "square".  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| angle | <code>Number</code> | The angle, in radians, of the offset point. |
+| distance | <code>Number</code> | The pixel distance away from the origin. |
+
+<a name="largestRect"></a>
+
+### largestRect(poly, [tolerance], [highestQuality])
+Simplifies the points of a polygon using both the Ramer-Douglas-Peucker algorithm and basic distance-based simplification. Adapted to an ES6 module from the excellent [Simplify.js](http://mourner.github.io/simplify-js/).
+
+**Kind**: global function  
+**Author:** Vladimir Agafonkin  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| poly | <code>Array</code> |  | An Array of points that represent a polygon. |
+| [tolerance] | <code>Number</code> | <code>1</code> | Affects the amount of simplification (in the same metric as the point coordinates). |
+| [highestQuality] | <code>Boolean</code> | <code>false</code> | Excludes distance-based preprocessing step which leads to highest quality simplification but runs ~10-20 times slower. |
+
+<a name="LargestRect"></a>
+
+### LargestRect : <code>Object</code>
+The returned Object of the largestRect function.
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| width | <code>Number</code> | The width of the rectangle |
+| height | <code>Number</code> | The height of the rectangle |
+| cx | <code>Number</code> | The x coordinate of the rectangle's center |
+| cy | <code>Number</code> | The y coordinate of the rectangle's center |
+| angle | <code>Number</code> | The rotation angle of the rectangle in degrees. The anchor of rotation is the center point. |
+| area | <code>Number</code> | The area of the largest rectangle. |
+| points | <code>Array</code> | An array of x/y coordinates for each point in the rectangle, useful for rendering paths. |
 
 
 
-###### <sub>Documentation generated on Mon, 19 Dec 2016 20:49:08 GMT</sub>
+###### <sub>Documentation generated on Thu, 26 Jan 2017 15:49:13 GMT</sub>
