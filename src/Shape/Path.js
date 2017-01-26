@@ -19,13 +19,24 @@ export default class Path extends Shape {
   constructor() {
     super("path");
     this._d = accessor("path");
-    this._labelBounds = (d, i) => {
-      const r = largestRect(path2polygon(this._d(d, i)), {angle: this._labelRotate(d, i)});
+    this._labelBounds = (d, i, aes) => {
+      const r = largestRect(aes.points, {angle: this._labelRotate(d, i)});
       return {width: r.width, height: r.height, x: r.cx - r.width / 2, y: r.cy - r.height / 2};
     };
     this._name = "Path";
     this.textAnchor("middle");
     this.verticalAlign("middle");
+  }
+
+  /**
+      @memberof Path
+      @desc Given a specific data point and index, returns the aesthetic properties of the shape.
+      @param {Object} *data point*
+      @param {Number} *index*
+      @private
+  */
+  _aes(d, i) {
+    return {points: path2polygon(this._d(d, i))};
   }
 
   /**
