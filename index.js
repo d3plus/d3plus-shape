@@ -18,4 +18,5 @@ export {default as polygonRayCast} from "./src/geom/polygonRayCast";
 export {default as polygonRotate} from "./src/geom/polygonRotate";
 export {default as segmentBoxContains} from "./src/geom/segmentBoxContains";
 export {default as segmentsIntersect} from "./src/geom/segmentsIntersect";
+export {default as shapeEdgePoint} from "./src/geom/shapeEdgePoint";
 export {default as simplify} from "./src/geom/simplify";
