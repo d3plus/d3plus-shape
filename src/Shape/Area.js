@@ -7,6 +7,7 @@ import * as paths from "d3-shape";
 import {accessor, constant, merge} from "d3plus-common";
 
 import {default as Shape} from "./Shape";
+import {default as largestRect} from "../geom/largestRect";
 
 /**
     @class Area
@@ -26,7 +27,13 @@ export default class Area extends Shape {
 
     this._curve = "linear";
     this._defined = () => true;
+    this._labelBounds = (d, i, aes) => {
+      const r = largestRect(aes.points);
+      return {angle: r.angle, width: r.width, height: r.height, x: r.cx - r.width / 2, y: r.cy - r.height / 2};
+    };
     this._name = "Area";
+    this.textAnchor("middle");
+    this.verticalAlign("middle");
     this._x = accessor("x");
     this._x0 = accessor("x");
     this._x1 = null;
@@ -34,6 +41,21 @@ export default class Area extends Shape {
     this._y0 = constant(0);
     this._y1 = accessor("y");
 
+  }
+
+  /**
+      @memberof Area
+      @desc Given a specific data point and index, returns the aesthetic properties of the shape.
+      @param {Object} *data point*
+      @param {Number} *index*
+      @private
+  */
+  _aes(d) {
+    const values = d.values.slice().sort((a, b) => this._y1 ? this._x(a) - this._x(b) : this._y(a) - this._y(b));
+    const points = values.map((v, z) => [this._x0(v, z), this._y0(v, z)])
+      .concat(values.reverse().map((v, z) => this._y1 ? [this._x(v, z), this._y1(v, z)] : [this._x1(v, z), this._y(v, z)]));
+    points.push(points[0]);
+    return {points};
   }
 
   /**
@@ -118,17 +140,6 @@ export default class Area extends Shape {
 
     return this;
 
-  }
-
-  /**
-      @memberof Area
-      @desc Given a specific data point and index, returns the aesthetic properties of the shape.
-      @param {Object} *data point*
-      @param {Number} *index*
-      @private
-  */
-  _aes(d, i) {
-    return {points: d.values.map(p => [this._x(p, i), this._y(p, i)])};
   }
 
   /**
