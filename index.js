@@ -10,6 +10,7 @@ export {default as Rect} from "./src/Shape/Rect";
 
 export {default as largestRect} from "./src/geom/largestRect";
 export {default as lineIntersection} from "./src/geom/lineIntersection";
+export {default as path2polygon} from "./src/geom/path2polygon";
 export {default as pointDistance} from "./src/geom/pointDistance";
 export {default as pointDistanceSquared} from "./src/geom/pointDistanceSquared";
 export {default as pointRotate} from "./src/geom/pointRotate";
