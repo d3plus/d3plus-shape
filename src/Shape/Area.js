@@ -52,8 +52,10 @@ export default class Area extends Shape {
   */
   _aes(d) {
     const values = d.values.slice().sort((a, b) => this._y1 ? this._x(a) - this._x(b) : this._y(a) - this._y(b));
-    const points = values.map((v, z) => [this._x0(v, z), this._y0(v, z)])
-      .concat(values.reverse().map((v, z) => this._y1 ? [this._x(v, z), this._y1(v, z)] : [this._x1(v, z), this._y(v, z)]));
+    const points1 = values.map((v, z) => [this._x0(v, z), this._y0(v, z)]);
+    const points2 = values.reverse().map((v, z) => this._y1 ? [this._x(v, z), this._y1(v, z)] : [this._x1(v, z), this._y(v, z)]);
+    let points = points1.concat(points2);
+    if (points1[0][1] > points2[0][1]) points = points.reverse();
     points.push(points[0]);
     return {points};
   }
