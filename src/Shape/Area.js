@@ -170,6 +170,19 @@ export default class Area extends Shape {
 
   /**
       @memberof Area
+      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
+      @param {Function|Number} [*value*]
+      @chainable
+  */
+  x(_) {
+    if (!arguments.length) return this._x;
+    this._x = typeof _ === "function" ? _ : constant(_);
+    this._x0 = this._x;
+    return this;
+  }
+
+  /**
+      @memberof Area
       @desc If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
       @param {Function|Number} [*value*]
       @chainable
@@ -191,6 +204,19 @@ export default class Area extends Shape {
     return arguments.length
          ? (this._x1 = typeof _ === "function" || _ === null ? _ : constant(_), this)
          : this._x1;
+  }
+
+  /**
+      @memberof Area
+      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
+      @param {Function|Number} [*value*]
+      @chainable
+  */
+  y(_) {
+    if (!arguments.length) return this._y;
+    this._y = typeof _ === "function" ? _ : constant(_);
+    this._y0 = this._y;
+    return this;
   }
 
   /**
