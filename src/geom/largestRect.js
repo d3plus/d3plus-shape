@@ -117,7 +117,7 @@ export default function(poly, options = {}) {
   let maxRect = null;
 
   angles.forEach(angle => {
-    const angleRad = angle * Math.PI / 180;
+    const angleRad = -angle * Math.PI / 180;
     if (options.events) events.push({type: "angle", angle});
     origins.forEach((origOrigin, i) => {
 
@@ -182,7 +182,7 @@ export default function(poly, options = {}) {
               // we know that the area is already greater than the maxArea found so far
               maxArea = width * height;
               rectPoly.push(rectPoly[0]);
-              maxRect = {area: maxArea, cx, cy, width, height, angle, points: rectPoly};
+              maxRect = {area: maxArea, cx, cy, width, height, angle: -angle, points: rectPoly};
               left = width; // increase the width in the binary search
             }
             else {
