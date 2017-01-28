@@ -117,8 +117,7 @@ export default function(poly, options = {}) {
   let maxRect = null;
 
   angles.forEach(angle => {
-
-    const angleRad = -angle * Math.PI / 180;
+    const angleRad = angle * Math.PI / 180;
     if (options.events) events.push({type: "angle", angle});
     origins.forEach((origOrigin, i) => {
 
