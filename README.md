@@ -49,8 +49,9 @@ It even detects that the blue rectangle should have a dark label and the red rec
 [Click here](https://d3plus.org/examples/d3plus-shape/getting-started/) to view this example live on the web.
 
 
+### More Examples
 
-
+ * [Area Generator](http://d3plus.org/examples/d3plus-shape/area/)<sup> ***New***</sup>
 
 ## API Reference
 ### Classes
@@ -349,8 +350,10 @@ function(d) {
     * [.render([*callback*])](#Area.render) ↩︎
     * [.curve([*value*])](#Area.curve) ↩︎
     * [.defined([*value*])](#Area.defined) ↩︎
+    * [.x([*value*])](#Area.x) ↩︎
     * [.x0([*value*])](#Area.x0) ↩︎
     * [.x1([*value*])](#Area.x1) ↩︎
+    * [.y([*value*])](#Area.y) ↩︎
     * [.y0([*value*])](#Area.y0) ↩︎
     * [.y1([*value*])](#Area.y1) ↩︎
 
@@ -395,6 +398,18 @@ If *value* is specified, sets the defined accessor to the specified function and
 | --- | --- |
 | [*value*] | <code>function</code> | 
 
+<a name="Area.x"></a>
+
+#### Area.x([*value*]) ↩︎
+If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+**Chainable**  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+
 <a name="Area.x0"></a>
 
 #### Area.x0([*value*]) ↩︎
@@ -418,6 +433,18 @@ If *value* is specified, sets the x1 accessor to the specified function or numbe
 | Param | Type |
 | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
+
+<a name="Area.y"></a>
+
+#### Area.y([*value*]) ↩︎
+If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
+
+**Kind**: static method of <code>[Area](#Area)</code>  
+**Chainable**  
+
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>function</code> &#124; <code>Number</code> | 
 
 <a name="Area.y0"></a>
 
@@ -1438,4 +1465,4 @@ The returned Object of the largestRect function.
 
 
 
-###### <sub>Documentation generated on Sat, 28 Jan 2017 06:43:58 GMT</sub>
+###### <sub>Documentation generated on Sat, 28 Jan 2017 17:22:37 GMT</sub>
