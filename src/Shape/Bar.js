@@ -23,8 +23,8 @@ export default class Bar extends Shape {
     this._labelBounds = (d, i, s) => ({
       width: s.width,
       height: s.height,
-      x: this._x1 !== null ? this._x(d, i) + this._getX(d, i) : -s.width / 2,
-      y: this._x1 === null ? this._y(d, i) + this._getY(d, i) : this._y(d, i) - s.height / 2
+      x: this._x1 !== null ? this._getX(d, i) : -s.width / 2,
+      y: this._x1 === null ? this._getY(d, i) : -s.height / 2
     });
     this._width = constant(10);
     this._x = accessor("x");
