@@ -103,6 +103,10 @@ export default function(poly, options = {}) {
   if (!origins.length) {
     // get the centroid of the polygon
     const centroid = polygonCentroid(poly);
+    if (isNaN(centroid[0])) {
+      if (options.verbose) console.error("cannot find centroid", poly);
+      return null;
+    }
     if (polygonContains(poly, centroid)) origins.push(centroid);
     // get few more points inside the polygon
     while (origins.length < options.nTries) {
