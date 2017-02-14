@@ -116,11 +116,12 @@ export default function(poly, options = {}) {
   let maxArea = 0;
   let maxRect = null;
 
-  angles.forEach(angle => {
+  for (let ai = 0; ai < angles.length; ai++) {
+    const angle = angles[ai];
     const angleRad = -angle * Math.PI / 180;
     if (options.events) events.push({type: "angle", angle});
-    origins.forEach((origOrigin, i) => {
-
+    for (let i = 0; i < origins.length; i++) {
+      const origOrigin = origins[i];
       // generate improved origins
       const [p1W, p2W] = polygonRayCast(poly, origOrigin, angleRad);
       const [p1H, p2H] = polygonRayCast(poly, origOrigin, angleRad + Math.PI / 2);
@@ -196,9 +197,9 @@ export default function(poly, options = {}) {
 
       }
 
-    });
+    }
 
-  });
+  }
 
   return options.events ? Object.assign(maxRect || {}, {events}) : maxRect;
 
