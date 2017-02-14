@@ -353,7 +353,6 @@ export default class Shape extends BaseClass {
 
     return new TextBox()
       .data(labelData)
-      .delay(this._duration / 2)
       .duration(this._duration)
       .fontColor(d => d.fC)
       .fontFamily(d => d.fF)
