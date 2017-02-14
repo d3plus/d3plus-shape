@@ -29,6 +29,7 @@ export default class Area extends Shape {
     this._defined = () => true;
     this._labelBounds = (d, i, aes) => {
       const r = largestRect(aes.points);
+      if (!r) return null;
       return {angle: r.angle, width: r.width, height: r.height, x: r.cx - r.width / 2 - this._x(d, i), y: r.cy - r.height / 2 - this._y(d, i)};
     };
     this._name = "Area";
