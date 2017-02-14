@@ -51,7 +51,7 @@ It even detects that the blue rectangle should have a dark label and the red rec
 
 ### More Examples
 
- * [Area Generator](http://d3plus.org/examples/d3plus-shape/area/)<sup> ***New***</sup>
+ * [Area Generator](http://d3plus.org/examples/d3plus-shape/area/)
 
 ## API Reference
 ### Classes
@@ -1465,4 +1465,4 @@ The returned Object of the largestRect function.
 
 
 
-###### <sub>Documentation generated on Wed, 01 Feb 2017 03:24:34 GMT</sub>
+###### <sub>Documentation generated on Tue, 14 Feb 2017 17:32:47 GMT</sub>
