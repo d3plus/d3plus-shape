@@ -1465,4 +1465,4 @@ The returned Object of the largestRect function.
 
 
 
-###### <sub>Documentation generated on Tue, 14 Feb 2017 17:32:47 GMT</sub>
+###### <sub>Documentation generated on Tue, 14 Feb 2017 17:36:34 GMT</sub>
