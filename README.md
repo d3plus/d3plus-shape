@@ -816,6 +816,7 @@ function(d) {
     * [.fontFamily([*value*])](#Shape.fontFamily) ↩︎
     * [.fontResize([*value*])](#Shape.fontResize) ↩︎
     * [.fontSize([*value*])](#Shape.fontSize) ↩︎
+    * [.fontWeight([*value*])](#Shape.fontWeight) ↩︎
     * [.hover([*value*])](#Shape.hover) ↩︎
     * [.hoverOpacity([*value*])](#Shape.hoverOpacity) ↩︎
     * [.hitArea([*bounds*])](#Shape.hitArea) ↩︎
@@ -974,6 +975,18 @@ If *value* is specified, sets the font-size accessor to the specified function o
 | Param | Type | Default |
 | --- | --- | --- |
 | [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>12</code> | 
+
+<a name="Shape.fontWeight"></a>
+
+#### Shape.fontWeight([*value*]) ↩︎
+If *value* is specified, sets the font-weight accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-weight accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>400</code> | 
 
 <a name="Shape.hover"></a>
 
@@ -1465,4 +1478,4 @@ The returned Object of the largestRect function.
 
 
 
-###### <sub>Documentation generated on Tue, 14 Feb 2017 17:36:34 GMT</sub>
+###### <sub>Documentation generated on Sat, 18 Feb 2017 03:44:12 GMT</sub>
