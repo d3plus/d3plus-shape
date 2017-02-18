@@ -48,6 +48,7 @@ export default class Shape extends BaseClass {
     this._fontFamily = constant("Verdana");
     this._fontResize = constant(false);
     this._fontSize = constant(12);
+    this._fontWeight = constant(400);
 
     this._hoverOpacity = 0.5;
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
@@ -312,6 +313,7 @@ export default class Shape extends BaseClass {
                   fF = this._fontFamily(d, i),
                   fR = this._fontResize(d, i),
                   fS = this._fontSize(d, i),
+                  fW = this._fontWeight(d, i),
                   lH = this._lineHeight(d, i),
                   padding = this._labelPadding(d, i),
                   r = this._labelRotate(d, i),
@@ -330,6 +332,7 @@ export default class Shape extends BaseClass {
                 fF: fF.constructor === Array ? fF[l] : fF,
                 fR: fR.constructor === Array ? fR[l] : fR,
                 fS: fS.constructor === Array ? fS[l] : fS,
+                fW: fW.constructor === Array ? fW[l] : fW,
                 height: b.height - p * 2,
                 i,
                 id: `${this._id(d, i)}_${l}`,
@@ -358,6 +361,7 @@ export default class Shape extends BaseClass {
       .fontFamily(d => d.fF)
       .fontResize(d => d.fR)
       .fontSize(d => d.fS)
+      .fontWeight(d => d.fW)
       .lineHeight(d => d.lH)
       .pointerEvents("none")
       .rotate(d => d.data.r)
@@ -616,6 +620,18 @@ export default class Shape extends BaseClass {
     return arguments.length
          ? (this._fontSize = typeof _ === "function" ? _ : constant(_), this)
          : this._fontSize;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the font-weight accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-weight accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @param {Function|String|Array} [*value* = 400]
+      @chainable
+  */
+  fontWeight(_) {
+    return arguments.length
+         ? (this._fontWeight = typeof _ === "function" ? _ : constant(_), this)
+         : this._fontWeight;
   }
 
   /**
