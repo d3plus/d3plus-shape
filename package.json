@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "d3-array": "^1.1.1",
-    "d3-collection": "^1.0.2",
+    "d3-collection": "^1.0.3",
     "d3-color": "^1.0.2",
     "d3-interpolate-path": "^1.1.1",
     "d3-polygon": "^1.0.2",
@@ -45,6 +45,6 @@
     "test": "d3plus-test"
   },
   "devDependencies": {
-    "d3plus-dev": "^0.2.1"
+    "d3plus-dev": "^0.3.1"
   }
 }
