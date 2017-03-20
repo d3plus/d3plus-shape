@@ -8,7 +8,7 @@ import {color} from "d3-color";
 import {mouse, select, selectAll} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {accessor, attrize, BaseClass, constant, elem} from "d3plus-common";
+import {accessor, assign, attrize, BaseClass, constant, elem} from "d3plus-common";
 import {colorContrast} from "d3plus-color";
 import {strip, TextBox} from "d3plus-text";
 
@@ -44,16 +44,13 @@ export default class Shape extends BaseClass {
     this._duration = 600;
     this._fill = constant("black");
 
-    this._fontColor = (d, i) => colorContrast(this._fill(d, i));
-    this._fontFamily = constant("Verdana");
-    this._fontResize = constant(false);
-    this._fontSize = constant(12);
-    this._fontWeight = constant(400);
-
     this._hoverOpacity = 0.5;
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._label = constant(false);
-    this._labelRotate = constant(0);
+    this._labelConfig = {
+      fontColor: (d, i) => colorContrast(this._fill(d, i)),
+      fontSize: 12
+    };
     this._labelPadding = constant(5);
     this._name = "Shape";
     this._opacity = constant(1);
@@ -290,10 +287,9 @@ export default class Shape extends BaseClass {
 
         let labels = this._label(d, i);
 
-        if (this._labelBounds && labels !== false && labels !== void 0) {
+        if (this._labelBounds && labels !== false && labels !== undefined) {
 
-          const aes = this._aes(datum, i),
-                bounds = this._labelBounds(d, i, aes);
+          const bounds = this._labelBounds(d, i, this._aes(datum, i));
 
           if (bounds) {
 
@@ -309,42 +305,25 @@ export default class Shape extends BaseClass {
               i = d.i;
             }
 
-            const fC = this._fontColor(d, i),
-                  fF = this._fontFamily(d, i),
-                  fR = this._fontResize(d, i),
-                  fS = this._fontSize(d, i),
-                  fW = this._fontWeight(d, i),
-                  lH = this._lineHeight(d, i),
-                  padding = this._labelPadding(d, i),
-                  r = this._labelRotate(d, i),
-                  tA = this._textAnchor(d, i),
-                  vA = this._verticalAlign(d, i);
+            const padding = this._labelPadding(d, i);
 
             for (let l = 0; l < labels.length; l++) {
 
               const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
                     p = padding.constructor === Array ? padding[l] : padding;
 
-              labelData.push(Object.assign(b, {
-                __d3plusShape__: true,
+              labelData.push({
+                __d3plus__: true,
                 data: d,
-                fC: fC.constructor === Array ? fC[l] : fC,
-                fF: fF.constructor === Array ? fF[l] : fF,
-                fR: fR.constructor === Array ? fR[l] : fR,
-                fS: fS.constructor === Array ? fS[l] : fS,
-                fW: fW.constructor === Array ? fW[l] : fW,
                 height: b.height - p * 2,
-                i,
+                l,
                 id: `${this._id(d, i)}_${l}`,
-                lH: lH.constructor === Array ? lH[l] : lH,
-                r: bounds.angle !== void 0 ? bounds.angle : r.constructor === Array ? r[l] : r,
-                tA: tA.constructor === Array ? tA[l] : tA,
+                r: bounds.angle !== undefined ? bounds.angle : 0,
                 text: labels[l],
-                vA: vA.constructor === Array ? vA[l] : vA,
                 width: b.width - p * 2,
                 x: x + b.x + p,
                 y: y + b.y + p
-              }));
+              });
 
             }
 
@@ -357,17 +336,10 @@ export default class Shape extends BaseClass {
     return new TextBox()
       .data(labelData)
       .duration(this._duration)
-      .fontColor(d => d.fC)
-      .fontFamily(d => d.fF)
-      .fontResize(d => d.fR)
-      .fontSize(d => d.fS)
-      .fontWeight(d => d.fW)
-      .lineHeight(d => d.lH)
       .pointerEvents("none")
       .rotate(d => d.data.r)
-      .textAnchor(d => d.tA)
-      .verticalAlign(d => d.vA)
       .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
+      .config(this._labelConfig)
       .render();
 
   }
@@ -576,66 +548,6 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the font-color accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-      @param {Function|String|Array} [*value*]
-      @chainable
-  */
-  fontColor(_) {
-    return arguments.length
-         ? (this._fontColor = typeof _ === "function" ? _ : constant(_), this)
-         : this._fontColor;
-  }
-
-  /**
-      @memberof Shape
-      @desc If *value* is specified, sets the font-family accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-family accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-      @param {Function|String|Array} [*value* = "Verdana"]
-      @chainable
-  */
-  fontFamily(_) {
-    return arguments.length
-         ? (this._fontFamily = typeof _ === "function" ? _ : constant(_), this)
-         : this._fontFamily;
-  }
-
-  /**
-      @memberof Shape
-      @desc If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns the current class instance. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#label) will be resized the best fit the shape. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-      @param {Function|Boolean|Array} [*value*]
-      @chainable
-  */
-  fontResize(_) {
-    return arguments.length
-         ? (this._fontResize = typeof _ === "function" ? _ : constant(_), this)
-         : this._fontResize;
-  }
-
-  /**
-      @memberof Shape
-      @desc If *value* is specified, sets the font-size accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-size accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-      @param {Function|String|Array} [*value* = 12]
-      @chainable
-  */
-  fontSize(_) {
-    return arguments.length
-         ? (this._fontSize = typeof _ === "function" ? _ : constant(_), this)
-         : this._fontSize;
-  }
-
-  /**
-      @memberof Shape
-      @desc If *value* is specified, sets the font-weight accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-weight accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-      @param {Function|String|Array} [*value* = 400]
-      @chainable
-  */
-  fontWeight(_) {
-    return arguments.length
-         ? (this._fontWeight = typeof _ === "function" ? _ : constant(_), this)
-         : this._fontWeight;
-  }
-
-  /**
-      @memberof Shape
       @desc If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight accessor.
       @param {Function} [*value*]
       @chainable
@@ -750,14 +662,12 @@ function(d, i, shape) {
 
   /**
       @memberof Shape
-      @desc Specifies the rotation angle, in degrees, of a shape's label. If *value* is not specified, returns the current label rotation. If an array is passed or returned from the function, each value will be used consecutively with each label.
-      @param {Function|Number|Array} [angle = 0]
+      @desc A pass-through to the config method of the TextBox class used to create a shape's labels.
+      @param {Object} [*value*]
       @chainable
   */
-  labelRotate(_) {
-    return arguments.length
-         ? (this._labelRotate = typeof _ === "function" ? _ : constant(_), this)
-         : this._labelRotate;
+  labelConfig(_) {
+    return arguments.length ? (this._labelConfig = assign(this._labelConfig, _), this) : this._labelConfig;
   }
 
   /**
