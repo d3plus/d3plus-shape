@@ -55,9 +55,12 @@ export default class Shape extends BaseClass {
     this._labelPadding = constant(5);
     this._name = "Shape";
     this._opacity = constant(1);
+    this._rx = constant(0);
+    this._ry = constant(0);
     this._scale = constant(1);
     this._shapeRendering = constant("geometricPrecision");
     this._stroke = (d, i) => color(this._fill(d, i)).darker(1);
+    this._strokeDasharray = constant("1");
     this._strokeLinecap = constant("butt");
     this._strokeOpacity = constant(1);
     this._strokeWidth = constant(0);
@@ -170,7 +173,10 @@ export default class Shape extends BaseClass {
     elem
       .attr("fill", styleLogic.bind(this._fill))
       .attr("fill-opacity", styleLogic.bind(this._fillOpacity))
+      .attr("rx", styleLogic.bind(this._rx))
+      .attr("ry", styleLogic.bind(this._ry))
       .attr("stroke", styleLogic.bind(this._stroke))
+      .attr("stroke-dasharray", styleLogic.bind(this._strokeDasharray))
       .attr("stroke-linecap", styleLogic.bind(this._strokeLinecap))
       .attr("stroke-opacity", styleLogic.bind(this._strokeOpacity))
       .attr("stroke-width", styleLogic.bind(this._strokeWidth))
@@ -786,6 +792,18 @@ function(d) {
     return arguments.length
          ? (this._stroke = typeof _ === "function" ? _ : constant(_), this)
          : this._stroke;
+  }
+
+  /**
+      @memberof Shape
+      @desc Defines the "stroke-dasharray" attribute for the shapes.
+      @param {Function|String} [*value* = "1"]
+      @chainable
+  */
+  strokeDasharray(_) {
+    return arguments.length
+         ? (this._strokeDasharray = typeof _ === "function" ? _ : constant(_), this)
+         : this._strokeDasharray;
   }
 
   /**
