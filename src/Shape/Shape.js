@@ -732,6 +732,26 @@ function(d, i, shape) {
 
   /**
       @memberof Shape
+      @desc Defines the "rx" attribute for the shapes.
+      @param {Function|Number} [*value* = 0]
+      @chainable
+  */
+  rx(_) {
+    return arguments.length ? (this._rx = typeof _ === "function" ? _ : constant(_), this) : this._rx;
+  }
+
+  /**
+      @memberof Shape
+      @desc Defines the "rx" attribute for the shapes.
+      @param {Function|Number} [*value* = 0]
+      @chainable
+  */
+  ry(_) {
+    return arguments.length ? (this._ry = typeof _ === "function" ? _ : constant(_), this) : this._ry;
+  }
+
+  /**
+      @memberof Shape
       @desc If *value* is specified, sets the scale accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current scale accessor.
       @param {Function|Number} [*value* = 1]
       @chainable
