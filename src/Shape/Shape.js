@@ -60,7 +60,7 @@ export default class Shape extends BaseClass {
     this._scale = constant(1);
     this._shapeRendering = constant("geometricPrecision");
     this._stroke = (d, i) => color(this._fill(d, i)).darker(1);
-    this._strokeDasharray = constant("1");
+    this._strokeDasharray = constant("0");
     this._strokeLinecap = constant("butt");
     this._strokeOpacity = constant(1);
     this._strokeWidth = constant(0);
