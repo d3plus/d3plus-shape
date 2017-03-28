@@ -12,7 +12,7 @@ Fancy SVG shapes for visualizations
 If you use NPM, `npm install d3plus-shape`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-shape/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. Create a [custom bundle using Rollup](https://github.com/rollup/rollup) or your preferred bundler. You can also load directly from [d3plus.org](https://d3plus.org):
 
 ```html
-<script src="https://d3plus.org/js/d3plus-shape.v0.12.full.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.v0.13.full.min.js"></script>
 ```
 
 [width]: 360
@@ -217,7 +217,7 @@ If *value* is specified, sets the height accessor to the specified function or n
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -253,7 +253,7 @@ If *value* is specified, sets the pointer-events accessor to the specified funct
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;auto&quot;</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> | <code>&quot;auto&quot;</code> | 
 
 <a name="Image.select"></a>
 
@@ -265,7 +265,7 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*selector*] | <code>String</code> &#124; <code>HTMLElement</code> | <code>d3.select(&quot;body&quot;).append(&quot;svg&quot;)</code> | 
+| [*selector*] | <code>String</code> \| <code>HTMLElement</code> | <code>d3.select(&quot;body&quot;).append(&quot;svg&quot;)</code> | 
 
 <a name="Image.url"></a>
 
@@ -295,7 +295,7 @@ If *value* is specified, sets the width accessor to the specified function or nu
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -313,7 +313,7 @@ If *value* is specified, sets the x accessor to the specified function or number
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -331,7 +331,7 @@ If *value* is specified, sets the y accessor to the specified function or number
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -343,7 +343,7 @@ function(d) {
 
 ### Area ⇐ <code>[Shape](#Shape)</code>
 **Kind**: global class  
-**Extends:** <code>[Shape](#Shape)</code>  
+**Extends**: <code>[Shape](#Shape)</code>  
 
 * [Area](#Area) ⇐ <code>[Shape](#Shape)</code>
     * [new Area()](#new_Area_new)
@@ -408,7 +408,7 @@ If *value* is specified, sets the x accessor to the specified function or number
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 <a name="Area.x0"></a>
 
@@ -420,7 +420,7 @@ If *value* is specified, sets the x0 accessor to the specified function or numbe
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 <a name="Area.x1"></a>
 
@@ -432,7 +432,7 @@ If *value* is specified, sets the x1 accessor to the specified function or numbe
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> \| <code>null</code> | 
 
 <a name="Area.y"></a>
 
@@ -444,7 +444,7 @@ If *value* is specified, sets the y accessor to the specified function or number
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 <a name="Area.y0"></a>
 
@@ -456,7 +456,7 @@ If *value* is specified, sets the y0 accessor to the specified function or numbe
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 <a name="Area.y1"></a>
 
@@ -468,13 +468,13 @@ If *value* is specified, sets the y1 accessor to the specified function or numbe
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> \| <code>null</code> | 
 
 <a name="Bar"></a>
 
 ### Bar ⇐ <code>[Shape](#Shape)</code>
 **Kind**: global class  
-**Extends:** <code>[Shape](#Shape)</code>  
+**Extends**: <code>[Shape](#Shape)</code>  
 
 * [Bar](#Bar) ⇐ <code>[Shape](#Shape)</code>
     * [new Bar()](#new_Bar_new)
@@ -513,7 +513,7 @@ If *value* is specified, sets the height accessor to the specified function or n
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -531,7 +531,7 @@ If *value* is specified, sets the width accessor to the specified function or nu
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -549,7 +549,7 @@ If *value* is specified, sets the x0 accessor to the specified function or numbe
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 <a name="Bar.x1"></a>
 
@@ -561,7 +561,7 @@ If *value* is specified, sets the x1 accessor to the specified function or numbe
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> \| <code>null</code> | 
 
 <a name="Bar.y0"></a>
 
@@ -573,7 +573,7 @@ If *value* is specified, sets the y0 accessor to the specified function or numbe
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 <a name="Bar.y1"></a>
 
@@ -585,13 +585,13 @@ If *value* is specified, sets the y1 accessor to the specified function or numbe
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>null</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> \| <code>null</code> | 
 
 <a name="Circle"></a>
 
 ### Circle ⇐ <code>[Shape](#Shape)</code>
 **Kind**: global class  
-**Extends:** <code>[Shape](#Shape)</code>  
+**Extends**: <code>[Shape](#Shape)</code>  
 
 * [Circle](#Circle) ⇐ <code>[Shape](#Shape)</code>
     * [new Circle()](#new_Circle_new)
@@ -625,7 +625,7 @@ If *value* is specified, sets the radius accessor to the specified function or n
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -637,7 +637,7 @@ function(d) {
 
 ### Line ⇐ <code>[Shape](#Shape)</code>
 **Kind**: global class  
-**Extends:** <code>[Shape](#Shape)</code>  
+**Extends**: <code>[Shape](#Shape)</code>  
 
 * [Line](#Line) ⇐ <code>[Shape](#Shape)</code>
     * [new Line()](#new_Line_new)
@@ -690,7 +690,7 @@ If *value* is specified, sets the defined accessor to the specified function and
 
 ### Path ⇐ <code>[Shape](#Shape)</code>
 **Kind**: global class  
-**Extends:** <code>[Shape](#Shape)</code>  
+**Extends**: <code>[Shape](#Shape)</code>  
 
 * [Path](#Path) ⇐ <code>[Shape](#Shape)</code>
     * [new Path()](#new_Path_new)
@@ -724,7 +724,7 @@ If *value* is specified, sets the "d" attribute accessor to the specified functi
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> | 
 
 **Example**  
 ```js
@@ -736,7 +736,7 @@ function(d) {
 
 ### Rect ⇐ <code>[Shape](#Shape)</code>
 **Kind**: global class  
-**Extends:** <code>[Shape](#Shape)</code>  
+**Extends**: <code>[Shape](#Shape)</code>  
 
 * [Rect](#Rect) ⇐ <code>[Shape](#Shape)</code>
     * [new Rect()](#new_Rect_new)
@@ -771,7 +771,7 @@ If *value* is specified, sets the height accessor to the specified function or n
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -789,7 +789,7 @@ If *value* is specified, sets the width accessor to the specified function or nu
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -801,7 +801,7 @@ function(d) {
 
 ### Shape ⇐ <code>[BaseClass](https://github.com/d3plus/d3plus-common#BaseClass)</code>
 **Kind**: global class  
-**Extends:** <code>[BaseClass](https://github.com/d3plus/d3plus-common#BaseClass)</code>  
+**Extends**: <code>[BaseClass](https://github.com/d3plus/d3plus-common#BaseClass)</code>  
 
 * [Shape](#Shape) ⇐ <code>[BaseClass](https://github.com/d3plus/d3plus-common#BaseClass)</code>
     * [new Shape()](#new_Shape_new)
@@ -812,26 +812,27 @@ function(d) {
     * [.data([*data*])](#Shape.data) ↩︎
     * [.duration([*ms*])](#Shape.duration) ↩︎
     * [.fill([*value*])](#Shape.fill) ↩︎
-    * [.fontColor([*value*])](#Shape.fontColor) ↩︎
-    * [.fontFamily([*value*])](#Shape.fontFamily) ↩︎
-    * [.fontResize([*value*])](#Shape.fontResize) ↩︎
-    * [.fontSize([*value*])](#Shape.fontSize) ↩︎
-    * [.fontWeight([*value*])](#Shape.fontWeight) ↩︎
+    * [.fillOpacity([*value*])](#Shape.fillOpacity) ↩︎
     * [.hover([*value*])](#Shape.hover) ↩︎
     * [.hoverOpacity([*value*])](#Shape.hoverOpacity) ↩︎
     * [.hitArea([*bounds*])](#Shape.hitArea) ↩︎
     * [.id([*value*])](#Shape.id) ↩︎
     * [.label([*value*])](#Shape.label) ↩︎
     * [.labelBounds([*bounds*])](#Shape.labelBounds) ↩︎
-    * [.labelRotate([angle])](#Shape.labelRotate) ↩︎
+    * [.labelConfig([*value*])](#Shape.labelConfig) ↩︎
     * [.labelPadding([*value*])](#Shape.labelPadding) ↩︎
     * [.lineHeight([*value*])](#Shape.lineHeight) ↩︎
     * [.opacity([*value*])](#Shape.opacity) ↩︎
+    * [.rx([*value*])](#Shape.rx) ↩︎
+    * [.ry([*value*])](#Shape.ry) ↩︎
     * [.scale([*value*])](#Shape.scale) ↩︎
     * [.select([*selector*])](#Shape.select) ↩︎
     * [.shapeRendering([*value*])](#Shape.shapeRendering) ↩︎
     * [.sort([*value*])](#Shape.sort) ↩︎
     * [.stroke([*value*])](#Shape.stroke) ↩︎
+    * [.strokeDasharray([*value*])](#Shape.strokeDasharray) ↩︎
+    * [.strokeLinecap([*value*])](#Shape.strokeLinecap) ↩︎
+    * [.strokeOpacity([*value*])](#Shape.strokeOpacity) ↩︎
     * [.strokeWidth([*value*])](#Shape.strokeWidth) ↩︎
     * [.textAnchor([*value*])](#Shape.textAnchor) ↩︎
     * [.vectorEffect([*value*])](#Shape.vectorEffect) ↩︎
@@ -890,7 +891,7 @@ If *value* is specified, sets the background-image accessor to the specified fun
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | <code>false</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> | <code>false</code> | 
 
 <a name="Shape.data"></a>
 
@@ -926,67 +927,19 @@ If *value* is specified, sets the fill accessor to the specified function or str
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;black&quot;</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> | <code>&quot;black&quot;</code> | 
 
-<a name="Shape.fontColor"></a>
+<a name="Shape.fillOpacity"></a>
 
-#### Shape.fontColor([*value*]) ↩︎
-If *value* is specified, sets the font-color accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-color accessor, which by default returns a color that contrasts the fill color. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-
-**Kind**: static method of <code>[Shape](#Shape)</code>  
-**Chainable**  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
-
-<a name="Shape.fontFamily"></a>
-
-#### Shape.fontFamily([*value*]) ↩︎
-If *value* is specified, sets the font-family accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-family accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+#### Shape.fillOpacity([*value*]) ↩︎
+Defines the "fill-opacity" attribute for the shapes.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 **Chainable**  
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>&quot;Verdana&quot;</code> | 
-
-<a name="Shape.fontResize"></a>
-
-#### Shape.fontResize([*value*]) ↩︎
-If *value* is specified, sets the font resizing accessor to the specified function or boolean and returns the current class instance. If *value* is not specified, returns the current font resizing accessor. When font resizing is enabled, the font-size of the value returned by [label](#label) will be resized the best fit the shape. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-
-**Kind**: static method of <code>[Shape](#Shape)</code>  
-**Chainable**  
-
-| Param | Type |
-| --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Boolean</code> &#124; <code>Array</code> | 
-
-<a name="Shape.fontSize"></a>
-
-#### Shape.fontSize([*value*]) ↩︎
-If *value* is specified, sets the font-size accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-size accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-
-**Kind**: static method of <code>[Shape](#Shape)</code>  
-**Chainable**  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>12</code> | 
-
-<a name="Shape.fontWeight"></a>
-
-#### Shape.fontWeight([*value*]) ↩︎
-If *value* is specified, sets the font-weight accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current font-weight accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-
-**Kind**: static method of <code>[Shape](#Shape)</code>  
-**Chainable**  
-
-| Param | Type | Default |
-| --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>400</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | <code>1</code> | 
 
 <a name="Shape.hover"></a>
 
@@ -1057,7 +1010,7 @@ If *value* is specified, sets the label accessor to the specified function or st
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> \| <code>Array</code> | 
 
 <a name="Shape.labelBounds"></a>
 
@@ -1082,17 +1035,17 @@ function(d, i, shape) {
   };
 }
 ```
-<a name="Shape.labelRotate"></a>
+<a name="Shape.labelConfig"></a>
 
-#### Shape.labelRotate([angle]) ↩︎
-Specifies the rotation angle, in degrees, of a shape's label. If *value* is not specified, returns the current label rotation. If an array is passed or returned from the function, each value will be used consecutively with each label.
+#### Shape.labelConfig([*value*]) ↩︎
+A pass-through to the config method of the TextBox class used to create a shape's labels.
 
 **Kind**: static method of <code>[Shape](#Shape)</code>  
 **Chainable**  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| [angle] | <code>function</code> &#124; <code>Number</code> &#124; <code>Array</code> | <code>0</code> | 
+| Param | Type |
+| --- | --- |
+| [*value*] | <code>Object</code> | 
 
 <a name="Shape.labelPadding"></a>
 
@@ -1104,7 +1057,7 @@ If *value* is specified, sets the label padding to the specified number and retu
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> &#124; <code>Array</code> | <code>10</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> \| <code>Array</code> | <code>10</code> | 
 
 <a name="Shape.lineHeight"></a>
 
@@ -1116,7 +1069,7 @@ If *value* is specified, sets the line-height accessor to the specified function
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> \| <code>Array</code> | 
 
 <a name="Shape.opacity"></a>
 
@@ -1130,6 +1083,30 @@ If *value* is specified, sets the opacity accessor to the specified function or 
 | --- | --- | --- |
 | [*value*] | <code>Number</code> | <code>1</code> | 
 
+<a name="Shape.rx"></a>
+
+#### Shape.rx([*value*]) ↩︎
+Defines the "rx" attribute for the shapes.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> \| <code>Number</code> | <code>0</code> | 
+
+<a name="Shape.ry"></a>
+
+#### Shape.ry([*value*]) ↩︎
+Defines the "rx" attribute for the shapes.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> \| <code>Number</code> | <code>0</code> | 
+
 <a name="Shape.scale"></a>
 
 #### Shape.scale([*value*]) ↩︎
@@ -1140,7 +1117,7 @@ If *value* is specified, sets the scale accessor to the specified function or st
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | <code>1</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | <code>1</code> | 
 
 <a name="Shape.select"></a>
 
@@ -1152,7 +1129,7 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*selector*] | <code>String</code> &#124; <code>HTMLElement</code> | <code>d3.select(&quot;body&quot;).append(&quot;svg&quot;)</code> | 
+| [*selector*] | <code>String</code> \| <code>HTMLElement</code> | <code>d3.select(&quot;body&quot;).append(&quot;svg&quot;)</code> | 
 
 <a name="Shape.shapeRendering"></a>
 
@@ -1164,7 +1141,7 @@ If *value* is specified, sets the shape-rendering accessor to the specified func
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;geometricPrecision&quot;</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> | <code>&quot;geometricPrecision&quot;</code> | 
 
 **Example**  
 ```js
@@ -1182,7 +1159,7 @@ If *value* is specified, sets the sort comparator to the specified function and 
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>false</code> &#124; <code>function</code> | <code>[]</code> | 
+| [*value*] | <code>false</code> \| <code>function</code> | <code>[]</code> | 
 
 <a name="Shape.stroke"></a>
 
@@ -1194,7 +1171,43 @@ If *value* is specified, sets the stroke accessor to the specified function or s
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;black&quot;</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> | <code>&quot;black&quot;</code> | 
+
+<a name="Shape.strokeDasharray"></a>
+
+#### Shape.strokeDasharray([*value*]) ↩︎
+Defines the "stroke-dasharray" attribute for the shapes.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> \| <code>String</code> | <code>&quot;1&quot;</code> | 
+
+<a name="Shape.strokeLinecap"></a>
+
+#### Shape.strokeLinecap([*value*]) ↩︎
+Defines the "stroke-linecap" attribute for the shapes. Accepted values are `"butt"`, `"round"`, and `"square"`.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> \| <code>String</code> | <code>&quot;butt&quot;</code> | 
+
+<a name="Shape.strokeOpacity"></a>
+
+#### Shape.strokeOpacity([*value*]) ↩︎
+Defines the "stroke-opacity" attribute for the shapes.
+
+**Kind**: static method of <code>[Shape](#Shape)</code>  
+**Chainable**  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [*value*] | <code>function</code> \| <code>Number</code> | <code>1</code> | 
 
 <a name="Shape.strokeWidth"></a>
 
@@ -1206,7 +1219,7 @@ If *value* is specified, sets the stroke-width accessor to the specified functio
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | <code>0</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | <code>0</code> | 
 
 <a name="Shape.textAnchor"></a>
 
@@ -1218,7 +1231,7 @@ If *value* is specified, sets the text-anchor accessor to the specified function
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>&quot;start&quot;</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> \| <code>Array</code> | <code>&quot;start&quot;</code> | 
 
 <a name="Shape.vectorEffect"></a>
 
@@ -1230,7 +1243,7 @@ If *value* is specified, sets the vector-effect accessor to the specified functi
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> | <code>&quot;non-scaling-stroke&quot;</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> | <code>&quot;non-scaling-stroke&quot;</code> | 
 
 <a name="Shape.verticalAlign"></a>
 
@@ -1242,7 +1255,7 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 
 | Param | Type | Default |
 | --- | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>&quot;start&quot;</code> | 
+| [*value*] | <code>function</code> \| <code>String</code> \| <code>Array</code> | <code>&quot;start&quot;</code> | 
 
 <a name="Shape.x"></a>
 
@@ -1254,7 +1267,7 @@ If *value* is specified, sets the x accessor to the specified function or number
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -1272,7 +1285,7 @@ If *value* is specified, sets the y accessor to the specified function or number
 
 | Param | Type |
 | --- | --- |
-| [*value*] | <code>function</code> &#124; <code>Number</code> | 
+| [*value*] | <code>function</code> \| <code>Number</code> | 
 
 **Example**  
 ```js
@@ -1286,14 +1299,14 @@ function(d) {
 An angle of zero means that the longer side of the polygon (the width) will be aligned with the x axis. An angle of 90 and/or -90 means that the longer side of the polygon (the width) will be aligned with the y axis. The value can be a number between -90 and 90 specifying the angle of rotation of the polygon, a string which is parsed to a number, or an array of numbers specifying the possible rotations of the polygon.
 
 **Kind**: global function  
-**Author:** Daniel Smilkov [dsmilkov@gmail.com]  
+**Author**: Daniel Smilkov [dsmilkov@gmail.com]  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | poly | <code>Array</code> |  | An Array of points that represent a polygon. |
 | [options] | <code>Object</code> |  | An Object that allows for overriding various parameters of the algorithm. |
-| [options.angle] | <code>Number</code> &#124; <code>String</code> &#124; <code>Array</code> | <code>d3.range(-90, 95, 5)</code> | The allowed rotations of the final rectangle. |
-| [options.aspectRatio] | <code>Number</code> &#124; <code>String</code> &#124; <code>Array</code> |  | The ratio between the width and height of the rectangle. The value can be a number, a string which is parsed to a number, or an array of numbers specifying the possible aspect ratios of the final rectangle. |
+| [options.angle] | <code>Number</code> \| <code>String</code> \| <code>Array</code> | <code>d3.range(-90, 95, 5)</code> | The allowed rotations of the final rectangle. |
+| [options.aspectRatio] | <code>Number</code> \| <code>String</code> \| <code>Array</code> |  | The ratio between the width and height of the rectangle. The value can be a number, a string which is parsed to a number, or an array of numbers specifying the possible aspect ratios of the final rectangle. |
 | [options.maxAspectRatio] | <code>Number</code> | <code>15</code> | The maximum aspect ratio (width/height) allowed for the rectangle. This property should only be used if the aspectRatio is not provided. |
 | [options.minAspectRatio] | <code>Number</code> | <code>1</code> | The minimum aspect ratio (width/height) allowed for the rectangle. This property should only be used if the aspectRatio is not provided. |
 | [options.nTries] | <code>Number</code> | <code>20</code> | The number of randomly drawn points inside the polygon which the algorithm explores as possible center points of the maximal rectangle. |
@@ -1450,7 +1463,7 @@ Calculates the x/y position of a point at the edge of a shape, from the center o
 Simplifies the points of a polygon using both the Ramer-Douglas-Peucker algorithm and basic distance-based simplification. Adapted to an ES6 module from the excellent [Simplify.js](http://mourner.github.io/simplify-js/).
 
 **Kind**: global function  
-**Author:** Vladimir Agafonkin  
+**Author**: Vladimir Agafonkin  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -1478,4 +1491,4 @@ The returned Object of the largestRect function.
 
 
 
-###### <sub>Documentation generated on Sat, 18 Feb 2017 03:44:12 GMT</sub>
+###### <sub>Documentation generated on Tue, 28 Mar 2017 01:34:15 GMT</sub>
