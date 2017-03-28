@@ -32,9 +32,11 @@ export default class Area extends Shape {
       if (!r) return null;
       return {angle: r.angle, width: r.width, height: r.height, x: r.cx - r.width / 2 - this._x(d, i), y: r.cy - r.height / 2 - this._y(d, i)};
     };
+    this._labelConfig = Object.assign(this._labelConfig, {
+      textAnchor: "middle",
+      verticalAlign: "middle"
+    });
     this._name = "Area";
-    this.textAnchor("middle");
-    this.verticalAlign("middle");
     this._x = accessor("x");
     this._x0 = accessor("x");
     this._x1 = null;
