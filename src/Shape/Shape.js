@@ -58,6 +58,7 @@ export default class Shape extends BaseClass {
     this._scale = constant(1);
     this._shapeRendering = constant("geometricPrecision");
     this._stroke = (d, i) => color(this._fill(d, i)).darker(1);
+    this._strokeLinecap = constant("butt");
     this._strokeOpacity = constant(1);
     this._strokeWidth = constant(0);
     this._tagName = tagName;
@@ -170,6 +171,7 @@ export default class Shape extends BaseClass {
       .attr("fill", styleLogic.bind(this._fill))
       .attr("fill-opacity", styleLogic.bind(this._fillOpacity))
       .attr("stroke", styleLogic.bind(this._stroke))
+      .attr("stroke-linecap", styleLogic.bind(this._strokeLinecap))
       .attr("stroke-opacity", styleLogic.bind(this._strokeOpacity))
       .attr("stroke-width", styleLogic.bind(this._strokeWidth))
       .attr("vector-effect", styleLogic.bind(this._vectorEffect));
@@ -784,6 +786,18 @@ function(d) {
     return arguments.length
          ? (this._stroke = typeof _ === "function" ? _ : constant(_), this)
          : this._stroke;
+  }
+
+  /**
+      @memberof Shape
+      @desc Defines the "stroke-linecap" attribute for the shapes. Accepted values are `"butt"`, `"round"`, and `"square"`.
+      @param {Function|String} [*value* = "butt"]
+      @chainable
+  */
+  strokeLinecap(_) {
+    return arguments.length
+         ? (this._strokeLinecap = typeof _ === "function" ? _ : constant(_), this)
+         : this._strokeLinecap;
   }
 
   /**
