@@ -43,6 +43,7 @@ export default class Shape extends BaseClass {
     this._data = [];
     this._duration = 600;
     this._fill = constant("black");
+    this._fillOpacity = constant(1);
 
     this._hoverOpacity = 0.5;
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
@@ -167,6 +168,7 @@ export default class Shape extends BaseClass {
 
     elem
       .attr("fill", styleLogic.bind(this._fill))
+      .attr("fill-opacity", styleLogic.bind(this._fillOpacity))
       .attr("stroke", styleLogic.bind(this._stroke))
       .attr("stroke-opacity", styleLogic.bind(this._strokeOpacity))
       .attr("stroke-width", styleLogic.bind(this._strokeWidth))
@@ -546,6 +548,18 @@ export default class Shape extends BaseClass {
     return arguments.length
          ? (this._fill = typeof _ === "function" ? _ : constant(_), this)
          : this._fill;
+  }
+
+  /**
+      @memberof Shape
+      @desc Defines the "fill-opacity" attribute for the shapes.
+      @param {Function|Number} [*value* = 1]
+      @chainable
+  */
+  fillOpacity(_) {
+    return arguments.length
+         ? (this._fillOpacity = typeof _ === "function" ? _ : constant(_), this)
+         : this._fillOpacity;
   }
 
   /**
