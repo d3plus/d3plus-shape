@@ -57,6 +57,7 @@ export default class Shape extends BaseClass {
     this._scale = constant(1);
     this._shapeRendering = constant("geometricPrecision");
     this._stroke = (d, i) => color(this._fill(d, i)).darker(1);
+    this._strokeOpacity = constant(1);
     this._strokeWidth = constant(0);
     this._tagName = tagName;
     this._textAnchor = constant("start");
@@ -167,6 +168,7 @@ export default class Shape extends BaseClass {
     elem
       .attr("fill", styleLogic.bind(this._fill))
       .attr("stroke", styleLogic.bind(this._stroke))
+      .attr("stroke-opacity", styleLogic.bind(this._strokeOpacity))
       .attr("stroke-width", styleLogic.bind(this._strokeWidth))
       .attr("vector-effect", styleLogic.bind(this._vectorEffect));
   }
@@ -768,6 +770,18 @@ function(d) {
     return arguments.length
          ? (this._stroke = typeof _ === "function" ? _ : constant(_), this)
          : this._stroke;
+  }
+
+  /**
+      @memberof Shape
+      @desc Defines the "stroke-opacity" attribute for the shapes.
+      @param {Function|Number} [*value* = 1]
+      @chainable
+  */
+  strokeOpacity(_) {
+    return arguments.length
+         ? (this._strokeOpacity = typeof _ === "function" ? _ : constant(_), this)
+         : this._strokeOpacity;
   }
 
   /**
