@@ -35,7 +35,7 @@ export default (path, segmentLength = 20) => {
       const start = Math.atan2(-prev[1], -prev[0]) - pi;
       let i = step;
       while (i < angle) {
-        poly.push(shapeEdgePoint(start + i, radius));
+        poly.push(shapeEdgePoint(points[4] ? start + i : start - i, radius));
         i += step;
       }
       poly.push(last);
