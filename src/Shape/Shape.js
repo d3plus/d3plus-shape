@@ -129,9 +129,9 @@ export default class Shape extends BaseClass {
     */
     function styleLogic(d, i) {
       return typeof this !== "function" ? this
-           : d.nested && d.key && d.values
-           ? this(d.values[0], that._data.indexOf(d.values[0]))
-           : this(d, i);
+        : d.nested && d.key && d.values
+          ? this(d.values[0], that._data.indexOf(d.values[0]))
+          : this(d, i);
     }
 
     const activeStyle = {};
@@ -165,9 +165,9 @@ export default class Shape extends BaseClass {
     */
     function styleLogic(d, i) {
       return typeof this !== "function" ? this
-           : d.nested && d.key && d.values
-           ? this(d.values[0], that._data.indexOf(d.values[0]))
-           : this(d, i);
+        : d.nested && d.key && d.values
+          ? this(d.values[0], that._data.indexOf(d.values[0]))
+          : this(d, i);
     }
 
     elem
@@ -194,11 +194,11 @@ export default class Shape extends BaseClass {
     elem
       .attr("transform", (d, i) => `
         translate(${d.__d3plusShape__
-                  ? d.translate ? d.translate
-                  : `${this._x(d.data, d.i)},${this._y(d.data, d.i)}`
-                  : `${this._x(d, i)},${this._y(d, i)}`})
+    ? d.translate ? d.translate
+      : `${this._x(d.data, d.i)},${this._y(d.data, d.i)}`
+    : `${this._x(d, i)},${this._y(d, i)}`})
         scale(${d.__d3plusShape__ ? d.scale || this._scale(d.data, d.i)
-              : this._scale(d, i)})`);
+    : this._scale(d, i)})`);
   }
 
   /**
@@ -371,10 +371,6 @@ export default class Shape extends BaseClass {
         .style("display", "block").node());
     }
 
-    if (this._lineHeight === void 0) {
-      this.lineHeight((d, i) => this._fontSize(d, i) * 1.1);
-    }
-
     this._transition = transition().duration(this._duration);
 
     let data = this._data, key = this._id;
@@ -394,7 +390,7 @@ export default class Shape extends BaseClass {
     this._group = elem(`g.d3plus-${this._name}-group`, {parent: this._select});
     const update = this._update = elem(`g.d3plus-${this._name}-shape`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}})
       .selectAll(`.d3plus-${this._name}`)
-        .data(data, key);
+      .data(data, key);
 
     // Orders and transforms the updating Shapes.
     update.order().transition(this._transition)
@@ -402,19 +398,19 @@ export default class Shape extends BaseClass {
 
     // Makes the enter state of the group selection accessible.
     const enter = this._enter = update.enter().append(this._tagName)
-        .attr("class", (d, i) => `d3plus-Shape d3plus-${this._name} d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
+      .attr("class", (d, i) => `d3plus-Shape d3plus-${this._name} d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
       .call(this._applyTransform.bind(this))
-        .attr("opacity", this._nestWrapper(this._opacity));
+      .attr("opacity", this._nestWrapper(this._opacity));
 
     const enterUpdate = enter.merge(update);
 
     enterUpdate
-        .attr("shape-rendering", this._nestWrapper(this._shapeRendering))
-        .attr("pointer-events", "none")
+      .attr("shape-rendering", this._nestWrapper(this._shapeRendering))
+      .attr("pointer-events", "none")
       .transition(this._transition)
-        .attr("opacity", this._nestWrapper(this._opacity))
+      .attr("opacity", this._nestWrapper(this._opacity))
       .transition()
-        .attr("pointer-events", "all");
+      .attr("pointer-events", "all");
 
     // Makes the exit state of the group selection accessible.
     const exit = this._exit = update.exit();
@@ -435,8 +431,8 @@ export default class Shape extends BaseClass {
       .call(this._applyTransform.bind(this));
 
     const hitEnter = hitAreas.enter().append("rect")
-        .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
-        .attr("fill", "transparent")
+      .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
+      .attr("fill", "transparent")
       .call(this._applyTransform.bind(this));
 
     const hitUpdates = hitAreas.merge(hitEnter)
@@ -518,8 +514,8 @@ export default class Shape extends BaseClass {
   */
   backgroundImage(_) {
     return arguments.length
-         ? (this._backgroundImage = typeof _ === "function" ? _ : constant(_), this)
-         : this._backgroundImage;
+      ? (this._backgroundImage = typeof _ === "function" ? _ : constant(_), this)
+      : this._backgroundImage;
   }
 
   /**
@@ -530,8 +526,8 @@ export default class Shape extends BaseClass {
   */
   data(_) {
     return arguments.length
-         ? (this._data = _, this)
-         : this._data;
+      ? (this._data = _, this)
+      : this._data;
   }
 
   /**
@@ -542,8 +538,8 @@ export default class Shape extends BaseClass {
   */
   duration(_) {
     return arguments.length
-         ? (this._duration = _, this)
-         : this._duration;
+      ? (this._duration = _, this)
+      : this._duration;
   }
 
   /**
@@ -554,8 +550,8 @@ export default class Shape extends BaseClass {
   */
   fill(_) {
     return arguments.length
-         ? (this._fill = typeof _ === "function" ? _ : constant(_), this)
-         : this._fill;
+      ? (this._fill = typeof _ === "function" ? _ : constant(_), this)
+      : this._fill;
   }
 
   /**
@@ -566,8 +562,8 @@ export default class Shape extends BaseClass {
   */
   fillOpacity(_) {
     return arguments.length
-         ? (this._fillOpacity = typeof _ === "function" ? _ : constant(_), this)
-         : this._fillOpacity;
+      ? (this._fillOpacity = typeof _ === "function" ? _ : constant(_), this)
+      : this._fillOpacity;
   }
 
   /**
@@ -635,8 +631,8 @@ function(d, i, shape) {
   */
   hitArea(_) {
     return arguments.length
-         ? (this._hitArea = typeof _ === "function" ? _ : constant(_), this)
-         : this._hitArea;
+      ? (this._hitArea = typeof _ === "function" ? _ : constant(_), this)
+      : this._hitArea;
   }
 
   /**
@@ -647,8 +643,8 @@ function(d, i, shape) {
   */
   id(_) {
     return arguments.length
-         ? (this._id = _, this)
-         : this._id;
+      ? (this._id = _, this)
+      : this._id;
   }
 
   /**
@@ -659,8 +655,8 @@ function(d, i, shape) {
   */
   label(_) {
     return arguments.length
-         ? (this._label = typeof _ === "function" ? _ : constant(_), this)
-         : this._label;
+      ? (this._label = typeof _ === "function" ? _ : constant(_), this)
+      : this._label;
   }
 
   /**
@@ -680,8 +676,8 @@ function(d, i, shape) {
   */
   labelBounds(_) {
     return arguments.length
-         ? (this._labelBounds = typeof _ === "function" ? _ : constant(_), this)
-         : this._labelBounds;
+      ? (this._labelBounds = typeof _ === "function" ? _ : constant(_), this)
+      : this._labelBounds;
   }
 
   /**
@@ -702,20 +698,8 @@ function(d, i, shape) {
   */
   labelPadding(_) {
     return arguments.length
-         ? (this._labelPadding = typeof _ === "function" ? _ : constant(_), this)
-         : this._labelPadding;
-  }
-
-  /**
-      @memberof Shape
-      @desc If *value* is specified, sets the line-height accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current line-height accessor. If an array is passed or returned from the function, each value will be used in conjunction with each label.
-      @param {Function|String|Array} [*value*]
-      @chainable
-  */
-  lineHeight(_) {
-    return arguments.length
-         ? (this._lineHeight = typeof _ === "function" ? _ : constant(_), this)
-         : this._lineHeight;
+      ? (this._labelPadding = typeof _ === "function" ? _ : constant(_), this)
+      : this._labelPadding;
   }
 
   /**
@@ -726,8 +710,8 @@ function(d, i, shape) {
   */
   opacity(_) {
     return arguments.length
-         ? (this._opacity = typeof _ === "function" ? _ : constant(_), this)
-         : this._opacity;
+      ? (this._opacity = typeof _ === "function" ? _ : constant(_), this)
+      : this._opacity;
   }
 
   /**
@@ -758,8 +742,8 @@ function(d, i, shape) {
   */
   scale(_) {
     return arguments.length
-         ? (this._scale = typeof _ === "function" ? _ : constant(_), this)
-         : this._scale;
+      ? (this._scale = typeof _ === "function" ? _ : constant(_), this)
+      : this._scale;
   }
 
   /**
@@ -770,8 +754,8 @@ function(d, i, shape) {
   */
   select(_) {
     return arguments.length
-         ? (this._select = select(_), this)
-         : this._select;
+      ? (this._select = select(_), this)
+      : this._select;
   }
 
   /**
@@ -786,8 +770,8 @@ function(d) {
   */
   shapeRendering(_) {
     return arguments.length
-         ? (this._shapeRendering = typeof _ === "function" ? _ : constant(_), this)
-         : this._shapeRendering;
+      ? (this._shapeRendering = typeof _ === "function" ? _ : constant(_), this)
+      : this._shapeRendering;
   }
 
   /**
@@ -798,8 +782,8 @@ function(d) {
   */
   sort(_) {
     return arguments.length
-         ? (this._sort = _, this)
-         : this._sort;
+      ? (this._sort = _, this)
+      : this._sort;
   }
 
   /**
@@ -810,8 +794,8 @@ function(d) {
   */
   stroke(_) {
     return arguments.length
-         ? (this._stroke = typeof _ === "function" ? _ : constant(_), this)
-         : this._stroke;
+      ? (this._stroke = typeof _ === "function" ? _ : constant(_), this)
+      : this._stroke;
   }
 
   /**
@@ -822,8 +806,8 @@ function(d) {
   */
   strokeDasharray(_) {
     return arguments.length
-         ? (this._strokeDasharray = typeof _ === "function" ? _ : constant(_), this)
-         : this._strokeDasharray;
+      ? (this._strokeDasharray = typeof _ === "function" ? _ : constant(_), this)
+      : this._strokeDasharray;
   }
 
   /**
@@ -834,8 +818,8 @@ function(d) {
   */
   strokeLinecap(_) {
     return arguments.length
-         ? (this._strokeLinecap = typeof _ === "function" ? _ : constant(_), this)
-         : this._strokeLinecap;
+      ? (this._strokeLinecap = typeof _ === "function" ? _ : constant(_), this)
+      : this._strokeLinecap;
   }
 
   /**
@@ -846,8 +830,8 @@ function(d) {
   */
   strokeOpacity(_) {
     return arguments.length
-         ? (this._strokeOpacity = typeof _ === "function" ? _ : constant(_), this)
-         : this._strokeOpacity;
+      ? (this._strokeOpacity = typeof _ === "function" ? _ : constant(_), this)
+      : this._strokeOpacity;
   }
 
   /**
@@ -858,8 +842,8 @@ function(d) {
   */
   strokeWidth(_) {
     return arguments.length
-         ? (this._strokeWidth = typeof _ === "function" ? _ : constant(_), this)
-         : this._strokeWidth;
+      ? (this._strokeWidth = typeof _ === "function" ? _ : constant(_), this)
+      : this._strokeWidth;
   }
 
   /**
@@ -870,8 +854,8 @@ function(d) {
   */
   textAnchor(_) {
     return arguments.length
-         ? (this._textAnchor = typeof _ === "function" ? _ : constant(_), this)
-         : this._textAnchor;
+      ? (this._textAnchor = typeof _ === "function" ? _ : constant(_), this)
+      : this._textAnchor;
   }
 
   /**
@@ -882,8 +866,8 @@ function(d) {
   */
   vectorEffect(_) {
     return arguments.length
-         ? (this._vectorEffect = typeof _ === "function" ? _ : constant(_), this)
-         : this._vectorEffect;
+      ? (this._vectorEffect = typeof _ === "function" ? _ : constant(_), this)
+      : this._vectorEffect;
   }
 
   /**
@@ -894,8 +878,8 @@ function(d) {
   */
   verticalAlign(_) {
     return arguments.length
-         ? (this._verticalAlign = typeof _ === "function" ? _ : constant(_), this)
-         : this._verticalAlign;
+      ? (this._verticalAlign = typeof _ === "function" ? _ : constant(_), this)
+      : this._verticalAlign;
   }
 
   /**
@@ -910,8 +894,8 @@ function(d) {
   */
   x(_) {
     return arguments.length
-         ? (this._x = typeof _ === "function" ? _ : constant(_), this)
-         : this._x;
+      ? (this._x = typeof _ === "function" ? _ : constant(_), this)
+      : this._x;
   }
 
   /**
@@ -926,8 +910,8 @@ function(d) {
   */
   y(_) {
     return arguments.length
-         ? (this._y = typeof _ === "function" ? _ : constant(_), this)
-         : this._y;
+      ? (this._y = typeof _ === "function" ? _ : constant(_), this)
+      : this._y;
   }
 
 }
