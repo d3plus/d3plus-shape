@@ -1,4 +1,4 @@
-import {default as pointDistanceSquared} from "./pointDistanceSquared";
+import pointDistanceSquared from "./pointDistanceSquared";
 
 /**
     @function pointDistance

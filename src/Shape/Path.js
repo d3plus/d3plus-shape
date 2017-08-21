@@ -1,13 +1,13 @@
 import {accessor, constant} from "d3plus-common";
 
-import {default as Shape} from "./Shape";
-import {default as largestRect} from "../geom/largestRect";
-import {default as path2polygon} from "../geom/path2polygon";
+import Shape from "./Shape";
+import largestRect from "../geom/largestRect";
+import path2polygon from "../geom/path2polygon";
 
 /**
     @class Path
     @extends Shape
-    @desc Creates SVG rectangles based on an array of data. See [this example](https://d3plus.org/examples/d3plus-shape/getting-started/) for help getting started using the rectangle generator.
+    @desc Creates SVG Paths based on an array of data.
 */
 export default class Path extends Shape {
 
@@ -52,16 +52,16 @@ export default class Path extends Shape {
     super.render(callback);
 
     this._enter
-        .attr("opacity", 0)
-        .attr("d", this._d)
+      .attr("opacity", 0)
+      .attr("d", this._d)
       .call(this._applyStyle.bind(this))
       .transition(this._transition)
-        .attr("opacity", 1);
+      .attr("opacity", 1);
 
     this._update.transition(this._transition)
       .call(this._applyStyle.bind(this))
-        .attr("opacity", 1)
-        .attr("d", this._d);
+      .attr("opacity", 1)
+      .attr("d", this._d);
 
     this._exit.transition(this._transition)
       .attr("opacity", 0);
@@ -72,7 +72,7 @@ export default class Path extends Shape {
 
   /**
       @memberof Path
-      @desc If *value* is specified, sets the "d" attribute accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current "d" attribute accessor.
+      @desc If *value* is specified, sets the "d" attribute accessor to the specified function or number and returns the current class instance.
       @param {Function|String} [*value*]
       @chainable
       @example
@@ -81,9 +81,7 @@ function(d) {
 }
   */
   d(_) {
-    return arguments.length
-         ? (this._d = typeof _ === "function" ? _ : constant(_), this)
-         : this._d;
+    return arguments.length ? (this._d = typeof _ === "function" ? _ : constant(_), this) : this._d;
   }
 
 }

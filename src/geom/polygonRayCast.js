@@ -1,6 +1,6 @@
-import {default as lineIntersection} from "./lineIntersection";
-import {default as segmentBoxContains} from "./segmentBoxContains";
-import {default as pointDistanceSquared} from "./pointDistanceSquared";
+import lineIntersection from "./lineIntersection";
+import segmentBoxContains from "./segmentBoxContains";
+import pointDistanceSquared from "./pointDistanceSquared";
 
 /**
     @function polygonRayCast

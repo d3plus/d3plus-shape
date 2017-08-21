@@ -6,7 +6,7 @@ import * as paths from "d3-shape";
 
 import {constant, merge} from "d3plus-common";
 
-import {default as Shape} from "./Shape";
+import Shape from "./Shape";
 
 /**
     @class Line

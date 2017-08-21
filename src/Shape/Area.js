@@ -6,8 +6,8 @@ import * as paths from "d3-shape";
 
 import {accessor, constant, merge} from "d3plus-common";
 
-import {default as Shape} from "./Shape";
-import {default as largestRect} from "../geom/largestRect";
+import Shape from "./Shape";
+import largestRect from "../geom/largestRect";
 
 /**
     @class Area
@@ -154,9 +154,7 @@ export default class Area extends Shape {
       @chainable
   */
   curve(_) {
-    return arguments.length
-         ? (this._curve = _, this)
-         : this._curve;
+    return arguments.length ? (this._curve = _, this) : this._curve;
   }
 
   /**
@@ -166,9 +164,7 @@ export default class Area extends Shape {
       @chainable
   */
   defined(_) {
-    return arguments.length
-         ? (this._defined = _, this)
-         : this._defined;
+    return arguments.length ? (this._defined = _, this) : this._defined;
   }
 
   /**
@@ -204,9 +200,7 @@ export default class Area extends Shape {
       @chainable
   */
   x1(_) {
-    return arguments.length
-         ? (this._x1 = typeof _ === "function" || _ === null ? _ : constant(_), this)
-         : this._x1;
+    return arguments.length ? (this._x1 = typeof _ === "function" || _ === null ? _ : constant(_), this) : this._x1;
   }
 
   /**
@@ -242,9 +236,7 @@ export default class Area extends Shape {
       @chainable
   */
   y1(_) {
-    return arguments.length
-         ? (this._y1 = typeof _ === "function" || _ === null ? _ : constant(_), this)
-         : this._y1;
+    return arguments.length ? (this._y1 = typeof _ === "function" || _ === null ? _ : constant(_), this) : this._y1;
   }
 
 }

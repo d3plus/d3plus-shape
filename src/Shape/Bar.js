@@ -1,6 +1,6 @@
 import {accessor, constant} from "d3plus-common";
 
-import {default as Shape} from "./Shape";
+import Shape from "./Shape";
 
 /**
     @class Bar
@@ -47,13 +47,13 @@ export default class Bar extends Shape {
     super.render(callback);
 
     this._enter
-        .attr("width", (d, i) => this._x1 === null ? this._getWidth(d, i) : 0)
-        .attr("height", (d, i) => this._x1 !== null ? this._getHeight(d, i) : 0)
-        .attr("x", (d, i) => this._x1 === null ? -this._getWidth(d, i) / 2 : 0)
-        .attr("y", (d, i) => this._x1 !== null ? -this._getHeight(d, i) / 2 : 0)
-        .call(this._applyStyle.bind(this))
+      .attr("width", (d, i) => this._x1 === null ? this._getWidth(d, i) : 0)
+      .attr("height", (d, i) => this._x1 !== null ? this._getHeight(d, i) : 0)
+      .attr("x", (d, i) => this._x1 === null ? -this._getWidth(d, i) / 2 : 0)
+      .attr("y", (d, i) => this._x1 !== null ? -this._getHeight(d, i) / 2 : 0)
+      .call(this._applyStyle.bind(this))
       .transition(this._transition)
-        .call(this._applyPosition.bind(this));
+      .call(this._applyPosition.bind(this));
 
     this._update.transition(this._transition)
       .call(this._applyStyle.bind(this))
@@ -146,7 +146,7 @@ export default class Bar extends Shape {
 
   /**
       @memberof Bar
-      @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
+      @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example
@@ -155,14 +155,12 @@ function(d) {
 }
   */
   height(_) {
-    return arguments.length
-         ? (this._height = typeof _ === "function" ? _ : constant(_), this)
-         : this._height;
+    return arguments.length ? (this._height = typeof _ === "function" ? _ : constant(_), this) : this._height;
   }
 
   /**
       @memberof Bar
-      @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
+      @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example
@@ -171,14 +169,12 @@ function(d) {
 }
   */
   width(_) {
-    return arguments.length
-         ? (this._width = typeof _ === "function" ? _ : constant(_), this)
-         : this._width;
+    return arguments.length ? (this._width = typeof _ === "function" ? _ : constant(_), this) : this._width;
   }
 
   /**
       @memberof Bar
-      @desc If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x0 accessor.
+      @desc If *value* is specified, sets the x0 accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
   */
@@ -191,19 +187,17 @@ function(d) {
 
   /**
       @memberof Bar
-      @desc If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x1 accessor.
+      @desc If *value* is specified, sets the x1 accessor to the specified function or number and returns the current class instance.
       @param {Function|Number|null} [*value*]
       @chainable
   */
   x1(_) {
-    return arguments.length
-         ? (this._x1 = typeof _ === "function" || _ === null ? _ : constant(_), this)
-         : this._x1;
+    return arguments.length ? (this._x1 = typeof _ === "function" || _ === null ? _ : constant(_), this) : this._x1;
   }
 
   /**
       @memberof Bar
-      @desc If *value* is specified, sets the y0 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y0 accessor.
+      @desc If *value* is specified, sets the y0 accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
   */
@@ -216,14 +210,12 @@ function(d) {
 
   /**
       @memberof Bar
-      @desc If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y1 accessor.
+      @desc If *value* is specified, sets the y1 accessor to the specified function or number and returns the current class instance.
       @param {Function|Number|null} [*value*]
       @chainable
   */
   y1(_) {
-    return arguments.length
-         ? (this._y1 = typeof _ === "function" || _ === null ? _ : constant(_), this)
-         : this._y1;
+    return arguments.length ? (this._y1 = typeof _ === "function" || _ === null ? _ : constant(_), this) : this._y1;
   }
 
 }

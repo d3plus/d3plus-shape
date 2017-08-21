@@ -1,6 +1,6 @@
 import {polygonContains} from "d3-polygon";
 
-import {default as segmentsIntersect} from "./segmentsIntersect";
+import segmentsIntersect from "./segmentsIntersect";
 
 /**
     @function polygonInside

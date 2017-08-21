@@ -1,11 +1,11 @@
 import {extent, range} from "d3-array";
 import {polygonArea, polygonCentroid, polygonContains} from "d3-polygon";
 
-import {default as polygonInside} from "./polygonInside";
-import {default as polygonRayCast} from "./polygonRayCast";
-import {default as polygonRotate} from "./polygonRotate";
-import {default as simplify} from "./simplify";
-import {default as pointDistanceSquared} from "./pointDistanceSquared";
+import polygonInside from "./polygonInside";
+import polygonRayCast from "./polygonRayCast";
+import polygonRotate from "./polygonRotate";
+import simplify from "./simplify";
+import pointDistanceSquared from "./pointDistanceSquared";
 
 // Algorithm constants
 const aspectRatioStep = 0.5; // step size for the aspect ratio
@@ -63,18 +63,18 @@ export default function(poly, options = {}) {
   }, options);
 
   const angles = options.angle instanceof Array ? options.angle
-               : typeof options.angle === "number" ? [options.angle]
-               : typeof options.angle === "string" && !isNaN(options.angle) ? [Number(options.angle)]
-               : [];
+    : typeof options.angle === "number" ? [options.angle]
+      : typeof options.angle === "string" && !isNaN(options.angle) ? [Number(options.angle)]
+        : [];
 
   const aspectRatios = options.aspectRatio instanceof Array ? options.aspectRatio
-               : typeof options.aspectRatio === "number" ? [options.aspectRatio]
-               : typeof options.aspectRatio === "string" && !isNaN(options.aspectRatio) ? [Number(options.aspectRatio)]
-               : [];
+    : typeof options.aspectRatio === "number" ? [options.aspectRatio]
+      : typeof options.aspectRatio === "string" && !isNaN(options.aspectRatio) ? [Number(options.aspectRatio)]
+        : [];
 
   const origins = options.origin && options.origin instanceof Array
-                ? options.origin[0] instanceof Array ? options.origin
-                : [options.origin] : [];
+    ? options.origin[0] instanceof Array ? options.origin
+      : [options.origin] : [];
 
   const area = Math.abs(polygonArea(poly)); // take absolute value of the signed area
   if (area === 0) {

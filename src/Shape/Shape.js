@@ -12,8 +12,8 @@ import {accessor, assign, attrize, BaseClass, constant, elem} from "d3plus-commo
 import {colorContrast} from "d3plus-color";
 import {strip, TextBox} from "d3plus-text";
 
-import {default as Image} from "../Image";
-import {default as pointDistance} from "../geom/pointDistance";
+import Image from "../Image";
+import pointDistance from "../geom/pointDistance";
 
 /**
     @class Shape
@@ -454,7 +454,7 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight accessor.
+      @desc If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance.
       @param {Function} [*value*]
       @chainable
   */
@@ -498,7 +498,7 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the active opacity to the specified function and returns the current class instance. If *value* is not specified, returns the current active opacity.
+      @desc If *value* is specified, sets the active opacity to the specified function and returns the current class instance.
       @param {Number} [*value* = 0.75]
       @chainable
   */
@@ -508,7 +508,7 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the background-image accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current background-image accessor.
+      @desc If *value* is specified, sets the background-image accessor to the specified function or string and returns the current class instance.
       @param {Function|String} [*value* = false]
       @chainable
   */
@@ -544,7 +544,7 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the fill accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current fill accessor.
+      @desc If *value* is specified, sets the fill accessor to the specified function or string and returns the current class instance.
       @param {Function|String} [*value* = "black"]
       @chainable
   */
@@ -568,7 +568,7 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current highlight accessor.
+      @desc If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance.
       @param {Function} [*value*]
       @chainable
   */
@@ -606,7 +606,7 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the hover opacity to the specified function and returns the current class instance. If *value* is not specified, returns the current hover opacity.
+      @desc If *value* is specified, sets the hover opacity to the specified function and returns the current class instance.
       @param {Number} [*value* = 0.5]
       @chainable
   */
@@ -630,33 +630,27 @@ function(d, i, shape) {
 }
   */
   hitArea(_) {
-    return arguments.length
-      ? (this._hitArea = typeof _ === "function" ? _ : constant(_), this)
-      : this._hitArea;
+    return arguments.length ? (this._hitArea = typeof _ === "function" ? _ : constant(_), this) : this._hitArea;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the id accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current id accessor.
+      @desc If *value* is specified, sets the id accessor to the specified function and returns the current class instance.
       @param {Function} [*value*]
       @chainable
   */
   id(_) {
-    return arguments.length
-      ? (this._id = _, this)
-      : this._id;
+    return arguments.length ? (this._id = _, this) : this._id;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the label accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current text accessor, which is `undefined` by default. If an array is passed or returned from the function, each value will be rendered as an individual label.
+      @desc If *value* is specified, sets the label accessor to the specified function or string and returns the current class instance.
       @param {Function|String|Array} [*value*]
       @chainable
   */
   label(_) {
-    return arguments.length
-      ? (this._label = typeof _ === "function" ? _ : constant(_), this)
-      : this._label;
+    return arguments.length ? (this._label = typeof _ === "function" ? _ : constant(_), this) : this._label;
   }
 
   /**
@@ -675,9 +669,7 @@ function(d, i, shape) {
 }
   */
   labelBounds(_) {
-    return arguments.length
-      ? (this._labelBounds = typeof _ === "function" ? _ : constant(_), this)
-      : this._labelBounds;
+    return arguments.length ? (this._labelBounds = typeof _ === "function" ? _ : constant(_), this) : this._labelBounds;
   }
 
   /**
@@ -692,26 +684,22 @@ function(d, i, shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the label padding to the specified number and returns the current class instance. If *value* is not specified, returns the current label padding. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the label padding to the specified number and returns the current class instance.
       @param {Function|Number|Array} [*value* = 10]
       @chainable
   */
   labelPadding(_) {
-    return arguments.length
-      ? (this._labelPadding = typeof _ === "function" ? _ : constant(_), this)
-      : this._labelPadding;
+    return arguments.length ? (this._labelPadding = typeof _ === "function" ? _ : constant(_), this) : this._labelPadding;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the opacity accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current opacity accessor.
+      @desc If *value* is specified, sets the opacity accessor to the specified function or number and returns the current class instance.
       @param {Number} [*value* = 1]
       @chainable
   */
   opacity(_) {
-    return arguments.length
-      ? (this._opacity = typeof _ === "function" ? _ : constant(_), this)
-      : this._opacity;
+    return arguments.length ? (this._opacity = typeof _ === "function" ? _ : constant(_), this) : this._opacity;
   }
 
   /**
@@ -736,14 +724,12 @@ function(d, i, shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the scale accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current scale accessor.
+      @desc If *value* is specified, sets the scale accessor to the specified function or string and returns the current class instance.
       @param {Function|Number} [*value* = 1]
       @chainable
   */
   scale(_) {
-    return arguments.length
-      ? (this._scale = typeof _ === "function" ? _ : constant(_), this)
-      : this._scale;
+    return arguments.length ? (this._scale = typeof _ === "function" ? _ : constant(_), this) : this._scale;
   }
 
   /**
@@ -753,14 +739,12 @@ function(d, i, shape) {
       @chainable
   */
   select(_) {
-    return arguments.length
-      ? (this._select = select(_), this)
-      : this._select;
+    return arguments.length ? (this._select = select(_), this) : this._select;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the shape-rendering accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current shape-rendering accessor.
+      @desc If *value* is specified, sets the shape-rendering accessor to the specified function or string and returns the current class instance.
       @param {Function|String} [*value* = "geometricPrecision"]
       @chainable
       @example
@@ -769,33 +753,27 @@ function(d) {
 }
   */
   shapeRendering(_) {
-    return arguments.length
-      ? (this._shapeRendering = typeof _ === "function" ? _ : constant(_), this)
-      : this._shapeRendering;
+    return arguments.length ? (this._shapeRendering = typeof _ === "function" ? _ : constant(_), this) : this._shapeRendering;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the sort comparator to the specified function and returns the current class instance. If *value* is not specified, returns the current sort comparator.
+      @desc If *value* is specified, sets the sort comparator to the specified function and returns the current class instance.
       @param {false|Function} [*value* = []]
       @chainable
   */
   sort(_) {
-    return arguments.length
-      ? (this._sort = _, this)
-      : this._sort;
+    return arguments.length ? (this._sort = _, this) : this._sort;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the stroke accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current stroke accessor.
+      @desc If *value* is specified, sets the stroke accessor to the specified function or string and returns the current class instance.
       @param {Function|String} [*value* = "black"]
       @chainable
   */
   stroke(_) {
-    return arguments.length
-      ? (this._stroke = typeof _ === "function" ? _ : constant(_), this)
-      : this._stroke;
+    return arguments.length ? (this._stroke = typeof _ === "function" ? _ : constant(_), this) : this._stroke;
   }
 
   /**
@@ -805,9 +783,7 @@ function(d) {
       @chainable
   */
   strokeDasharray(_) {
-    return arguments.length
-      ? (this._strokeDasharray = typeof _ === "function" ? _ : constant(_), this)
-      : this._strokeDasharray;
+    return arguments.length ? (this._strokeDasharray = typeof _ === "function" ? _ : constant(_), this) : this._strokeDasharray;
   }
 
   /**
@@ -817,9 +793,7 @@ function(d) {
       @chainable
   */
   strokeLinecap(_) {
-    return arguments.length
-      ? (this._strokeLinecap = typeof _ === "function" ? _ : constant(_), this)
-      : this._strokeLinecap;
+    return arguments.length ? (this._strokeLinecap = typeof _ === "function" ? _ : constant(_), this) : this._strokeLinecap;
   }
 
   /**
@@ -829,62 +803,52 @@ function(d) {
       @chainable
   */
   strokeOpacity(_) {
-    return arguments.length
-      ? (this._strokeOpacity = typeof _ === "function" ? _ : constant(_), this)
-      : this._strokeOpacity;
+    return arguments.length ? (this._strokeOpacity = typeof _ === "function" ? _ : constant(_), this) : this._strokeOpacity;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the stroke-width accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current stroke-width accessor.
+      @desc If *value* is specified, sets the stroke-width accessor to the specified function or string and returns the current class instance.
       @param {Function|Number} [*value* = 0]
       @chainable
   */
   strokeWidth(_) {
-    return arguments.length
-      ? (this._strokeWidth = typeof _ === "function" ? _ : constant(_), this)
-      : this._strokeWidth;
+    return arguments.length ? (this._strokeWidth = typeof _ === "function" ? _ : constant(_), this) : this._strokeWidth;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the text-anchor accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current text-anchor accessor, which is `"start"` by default. Accepted values are `"start"`, `"middle"`, and `"end"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the text-anchor accessor to the specified function or string and returns the current class instance.
       @param {Function|String|Array} [*value* = "start"]
       @chainable
   */
   textAnchor(_) {
-    return arguments.length
-      ? (this._textAnchor = typeof _ === "function" ? _ : constant(_), this)
-      : this._textAnchor;
+    return arguments.length ? (this._textAnchor = typeof _ === "function" ? _ : constant(_), this) : this._textAnchor;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the vector-effect accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current vector-effect accessor.
+      @desc If *value* is specified, sets the vector-effect accessor to the specified function or string and returns the current class instance.
       @param {Function|String} [*value* = "non-scaling-stroke"]
       @chainable
   */
   vectorEffect(_) {
-    return arguments.length
-      ? (this._vectorEffect = typeof _ === "function" ? _ : constant(_), this)
-      : this._vectorEffect;
+    return arguments.length ? (this._vectorEffect = typeof _ === "function" ? _ : constant(_), this) : this._vectorEffect;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current vertical alignment accessor, which is `"top"` by default. Accepted values are `"top"`, `"middle"`, and `"bottom"`. If an array is passed or returned from the function, each value will be used in conjunction with each label.
+      @desc If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns the current class instance.
       @param {Function|String|Array} [*value* = "start"]
       @chainable
   */
   verticalAlign(_) {
-    return arguments.length
-      ? (this._verticalAlign = typeof _ === "function" ? _ : constant(_), this)
-      : this._verticalAlign;
+    return arguments.length ? (this._verticalAlign = typeof _ === "function" ? _ : constant(_), this) : this._verticalAlign;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
+      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example
@@ -893,14 +857,12 @@ function(d) {
 }
   */
   x(_) {
-    return arguments.length
-      ? (this._x = typeof _ === "function" ? _ : constant(_), this)
-      : this._x;
+    return arguments.length ? (this._x = typeof _ === "function" ? _ : constant(_), this) : this._x;
   }
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
+      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example
@@ -909,9 +871,7 @@ function(d) {
 }
   */
   y(_) {
-    return arguments.length
-      ? (this._y = typeof _ === "function" ? _ : constant(_), this)
-      : this._y;
+    return arguments.length ? (this._y = typeof _ === "function" ? _ : constant(_), this) : this._y;
   }
 
 }

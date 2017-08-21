@@ -1,4 +1,4 @@
-import {default as pointDistanceSquared} from "./pointDistanceSquared";
+import pointDistanceSquared from "./pointDistanceSquared";
 
 // square distance from a point to a segment
 function getSqSegDist(p, p1, p2) {

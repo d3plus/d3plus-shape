@@ -1,6 +1,6 @@
 import {accessor, constant} from "d3plus-common";
 
-import {default as Shape} from "./Shape";
+import Shape from "./Shape";
 
 /**
     @class Rect
@@ -34,11 +34,11 @@ export default class Rect extends Shape {
     super.render(callback);
 
     this._enter
-        .attr("width", 0).attr("height", 0)
-        .attr("x", 0).attr("y", 0)
-        .call(this._applyStyle.bind(this))
+      .attr("width", 0).attr("height", 0)
+      .attr("x", 0).attr("y", 0)
+      .call(this._applyStyle.bind(this))
       .transition(this._transition)
-        .call(this._applyPosition.bind(this));
+      .call(this._applyPosition.bind(this));
 
     this._update.transition(this._transition)
       .call(this._applyStyle.bind(this))
@@ -79,7 +79,7 @@ export default class Rect extends Shape {
 
   /**
       @memberof Rect
-      @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
+      @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example
@@ -88,14 +88,12 @@ function(d) {
 }
   */
   height(_) {
-    return arguments.length
-         ? (this._height = typeof _ === "function" ? _ : constant(_), this)
-         : this._height;
+    return arguments.length ? (this._height = typeof _ === "function" ? _ : constant(_), this) : this._height;
   }
 
   /**
       @memberof Rect
-      @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
+      @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example
@@ -104,9 +102,7 @@ function(d) {
 }
   */
   width(_) {
-    return arguments.length
-         ? (this._width = typeof _ === "function" ? _ : constant(_), this)
-         : this._width;
+    return arguments.length ? (this._width = typeof _ === "function" ? _ : constant(_), this) : this._width;
   }
 
 }

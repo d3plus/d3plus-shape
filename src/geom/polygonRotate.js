@@ -1,4 +1,4 @@
-import {default as pointRotate} from "./pointRotate";
+import pointRotate from "./pointRotate";
 
 /**
     @function polygonRotate

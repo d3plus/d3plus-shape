@@ -1,5 +1,5 @@
-import {default as pointDistance} from "./pointDistance";
-import {default as shapeEdgePoint} from "./shapeEdgePoint";
+import pointDistance from "./pointDistance";
+import shapeEdgePoint from "./shapeEdgePoint";
 
 const pi = Math.PI;
 

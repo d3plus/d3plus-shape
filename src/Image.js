@@ -61,31 +61,31 @@ export default class Image {
           update = enter.merge(images);
 
     update
-        .attr("xlink:href", this._url)
-        .style("pointer-events", this._pointerEvents)
+      .attr("xlink:href", this._url)
+      .style("pointer-events", this._pointerEvents)
       .transition(t)
-        .attr("opacity", 1)
-        .attr("width", (d, i) => this._width(d, i))
-        .attr("height", (d, i) => this._height(d, i))
-        .attr("x", (d, i) => this._x(d, i))
-        .attr("y", (d, i) => this._y(d, i))
-        .each(function(d, i) {
-          const image = select(this), link = that._url(d, i);
-          const fullAddress = link.indexOf("http://") === 0 || link.indexOf("https://") === 0;
-          if (!fullAddress || link.indexOf(window.location.hostname) === 0) {
-            const img = new Image();
-            img.src = link;
-            img.crossOrigin = "Anonymous";
-            img.onload = function() {
-              const canvas = document.createElement("canvas");
-              canvas.width = this.width;
-              canvas.height = this.height;
-              const context = canvas.getContext("2d");
-              context.drawImage(this, 0, 0);
-              image.attr("xlink:href", canvas.toDataURL("image/png"));
-            };
-          }
-        });
+      .attr("opacity", 1)
+      .attr("width", (d, i) => this._width(d, i))
+      .attr("height", (d, i) => this._height(d, i))
+      .attr("x", (d, i) => this._x(d, i))
+      .attr("y", (d, i) => this._y(d, i))
+      .each(function(d, i) {
+        const image = select(this), link = that._url(d, i);
+        const fullAddress = link.indexOf("http://") === 0 || link.indexOf("https://") === 0;
+        if (!fullAddress || link.indexOf(window.location.hostname) === 0) {
+          const img = new Image();
+          img.src = link;
+          img.crossOrigin = "Anonymous";
+          img.onload = function() {
+            const canvas = document.createElement("canvas");
+            canvas.width = this.width;
+            canvas.height = this.height;
+            const context = canvas.getContext("2d");
+            context.drawImage(this, 0, 0);
+            image.attr("xlink:href", canvas.toDataURL("image/png"));
+          };
+        }
+      });
 
     images.exit().transition(t)
       .attr("width", (d, i) => this._width(d, i))
@@ -122,7 +122,7 @@ export default class Image {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current height accessor.
+      @desc If *value* is specified, sets the height accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example
@@ -136,7 +136,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the id accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current id accessor. This is useful if you want to duplicate the same image.
+      @desc If *value* is specified, sets the id accessor to the specified function and returns the current class instance.
       @param {Function} [*value*]
       @chainable
       @example
@@ -150,7 +150,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the pointer-events accessor to the specified function or string and returns the current class instance. If *value* is not specified, returns the current pointer-events accessor.
+      @desc If *value* is specified, sets the pointer-events accessor to the specified function or string and returns the current class instance.
       @param {Function|String} [*value* = "auto"]
       @chainable
   */
@@ -170,7 +170,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the URL accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current URL accessor.
+      @desc If *value* is specified, sets the URL accessor to the specified function and returns the current class instance.
       @param {Function} [*value*]
       @chainable
       @example
@@ -184,7 +184,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current width accessor.
+      @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example
@@ -198,7 +198,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current x accessor.
+      @desc If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example
@@ -212,7 +212,7 @@ function(d) {
 
   /**
       @memberof Image
-      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance. If *value* is not specified, returns the current y accessor.
+      @desc If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example

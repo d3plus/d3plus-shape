@@ -1,5 +1,5 @@
-import {default as lineIntersection} from "./lineIntersection";
-import {default as segmentBoxContains} from "./segmentBoxContains";
+import lineIntersection from "./lineIntersection";
+import segmentBoxContains from "./segmentBoxContains";
 
 /**
     @function segmentsIntersect
