@@ -9,6 +9,7 @@ This [Area](http://d3plus.org/docs/#Area) class extends the lower level function
 
 In the simplest case, it only needs a few data points to draw a custom area:
 
+
 ```js
 var data = [
   {x: 0,   y0: 300, y1: 200},

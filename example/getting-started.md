@@ -22,6 +22,7 @@ new d3plus.Rect()
   .render();
 ```
 
+
 It even detects that the blue rectangle should have a dark label and the red rectangle's should be light!
 
 *Please note that the x and y positions are relative to the center of the rectangles.*
