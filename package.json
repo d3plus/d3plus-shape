@@ -33,7 +33,7 @@
     "d3-transition": "^1.1.0",
     "d3plus-color": "^0.6.1",
     "d3plus-common": "^0.6.18",
-    "d3plus-text": "^0.9.20"
+    "d3plus-text": "^0.9.21"
   },
   "scripts": {
     "build": "d3plus-build",
@@ -45,6 +45,6 @@
     "test": "d3plus-test"
   },
   "devDependencies": {
-    "d3plus-dev": "^0.4.16"
+    "d3plus-dev": "^0.4.19"
   }
 }
