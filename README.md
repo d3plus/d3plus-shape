@@ -36,6 +36,7 @@ new d3plus.Rect()
   .render();
 ```
 
+
 It even detects that the blue rectangle should have a dark label and the red rectangle's should be light!
 
 *Please note that the x and y positions are relative to the center of the rectangles.*
@@ -48,7 +49,7 @@ It even detects that the blue rectangle should have a dark label and the red rec
 
 ### More Examples
 
- * [Drawing Area Shapes](http://d3plus.org/examples/d3plus-shape/area/)<sup> ***New***</sup>
+ * [Drawing Area Shapes](http://d3plus.org/examples/d3plus-shape/area/)
 
 ## API Reference
 
@@ -1280,4 +1281,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Tue, 22 Aug 2017 02:10:25 GMT</sub>
+###### <sub>Documentation generated on Wed, 30 Aug 2017 21:05:24 GMT</sub>
