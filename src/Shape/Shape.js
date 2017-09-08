@@ -468,15 +468,17 @@ export default class Shape extends BaseClass {
     this._group.selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
       .each(function(d, i) {
 
-        if (!d.parentNode) d.parentNode = this.parentNode;
-        const parent = d.parentNode;
-
-        if (this.tagName === "text") d = d.data;
+        if (select(this).classed("d3plus-textBox")) d = d.data;
         if (d.__d3plusShape__ || d.__d3plus__) {
-          i = d.i;
-          d = d.data;
+          while (d.__d3plusShape__ || d.__d3plus__) {
+            i = d.i;
+            d = d.data;
+          }
         }
         else i = that._data.indexOf(d);
+
+        if (!d.parentNode) d.parentNode = this.parentNode;
+        const parent = d.parentNode;
 
         const group = !_ || typeof _ !== "function" || !_(d, i) ? parent : that._activeGroup.node();
         if (group !== this.parentNode) {
@@ -583,17 +585,20 @@ export default class Shape extends BaseClass {
       .selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
       .each(function(d, i) {
 
-        if (!d.parentNode) d.parentNode = this.parentNode;
-        const parent = d.parentNode;
-
-        if (this.tagName === "text") d = d.data;
+        if (select(this).classed("d3plus-textBox")) d = d.data;
         if (d.__d3plusShape__ || d.__d3plus__) {
-          i = d.i;
-          d = d.data;
+          while (d.__d3plusShape__ || d.__d3plus__) {
+            i = d.i;
+            d = d.data;
+          }
         }
         else i = that._data.indexOf(d);
 
+        if (!d.parentNode) d.parentNode = this.parentNode;
+        const parent = d.parentNode;
+
         const group = !_ || typeof _ !== "function" || !_(d, i) ? parent : that._hoverGroup.node();
+
         if (group !== this.parentNode) group.appendChild(this);
 
       });
