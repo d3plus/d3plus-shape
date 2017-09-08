@@ -477,8 +477,9 @@ export default class Shape extends BaseClass {
         }
         else i = that._data.indexOf(d);
 
-        let parent = this.parentNode;
-        if (d && d.parentNode) parent = d.parentNode;
+        if (!d) d = {};
+        if (!d.parentNode) d.parentNode = this.parentNode;
+        const parent = d.parentNode;
 
         const group = !_ || typeof _ !== "function" || !_(d, i) ? parent : that._activeGroup.node();
         if (group !== this.parentNode) {
@@ -594,11 +595,11 @@ export default class Shape extends BaseClass {
         }
         else i = that._data.indexOf(d);
 
-        let parent = this.parentNode;
-        if (d && d.parentNode) parent = d.parentNode;
+        if (!d) d = {};
+        if (!d.parentNode) d.parentNode = this.parentNode;
+        const parent = d.parentNode;
 
         const group = !_ || typeof _ !== "function" || !_(d, i) ? parent : that._hoverGroup.node();
-
         if (group !== this.parentNode) group.appendChild(this);
 
       });
