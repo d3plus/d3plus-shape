@@ -33,7 +33,7 @@
     "d3-transition": "^1.1.0",
     "d3plus-color": "^0.6.1",
     "d3plus-common": "^0.6.18",
-    "d3plus-text": "^0.9.21"
+    "d3plus-text": "^0.9.22"
   },
   "scripts": {
     "build": "d3plus-build",
