@@ -64,17 +64,17 @@ export default function(poly, options = {}) {
 
   const angles = options.angle instanceof Array ? options.angle
     : typeof options.angle === "number" ? [options.angle]
-      : typeof options.angle === "string" && !isNaN(options.angle) ? [Number(options.angle)]
-        : [];
+    : typeof options.angle === "string" && !isNaN(options.angle) ? [Number(options.angle)]
+    : [];
 
   const aspectRatios = options.aspectRatio instanceof Array ? options.aspectRatio
     : typeof options.aspectRatio === "number" ? [options.aspectRatio]
-      : typeof options.aspectRatio === "string" && !isNaN(options.aspectRatio) ? [Number(options.aspectRatio)]
-        : [];
+    : typeof options.aspectRatio === "string" && !isNaN(options.aspectRatio) ? [Number(options.aspectRatio)]
+    : [];
 
   const origins = options.origin && options.origin instanceof Array
     ? options.origin[0] instanceof Array ? options.origin
-      : [options.origin] : [];
+    : [options.origin] : [];
 
   const area = Math.abs(polygonArea(poly)); // take absolute value of the signed area
   if (area === 0) {

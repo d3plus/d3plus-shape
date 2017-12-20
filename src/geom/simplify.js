@@ -1,6 +1,12 @@
 import pointDistanceSquared from "./pointDistanceSquared";
 
-// square distance from a point to a segment
+/**
+    @desc square distance from a point to a segment
+    @param {Array} point
+    @param {Array} segmentAnchor1
+    @param {Array} segmentAnchor2
+    @private
+*/
 function getSqSegDist(p, p1, p2) {
 
   let x = p1[0],
@@ -31,9 +37,13 @@ function getSqSegDist(p, p1, p2) {
   return dx * dx + dy * dy;
 
 }
-// rest of the code doesn't care about point format
 
-// basic distance-based simplification
+/**
+    @desc basic distance-based simplification
+    @param {Array} polygon
+    @param {Number} sqTolerance
+    @private
+*/
 function simplifyRadialDist(poly, sqTolerance) {
 
   let point,
@@ -55,6 +65,14 @@ function simplifyRadialDist(poly, sqTolerance) {
   return newPoints;
 }
 
+/**
+    @param {Array} polygon
+    @param {Number} first
+    @param {Number} last
+    @param {Number} sqTolerance
+    @param {Array} simplified
+    @private
+*/
 function simplifyDPStep(poly, first, last, sqTolerance, simplified) {
 
   let index, maxSqDist = sqTolerance;
@@ -75,7 +93,12 @@ function simplifyDPStep(poly, first, last, sqTolerance, simplified) {
   }
 }
 
-// simplification using Ramer-Douglas-Peucker algorithm
+/**
+    @desc simplification using Ramer-Douglas-Peucker algorithm
+    @param {Array} polygon
+    @param {Number} sqTolerance
+    @private
+*/
 function simplifyDouglasPeucker(poly, sqTolerance) {
   const last = poly.length - 1;
 
