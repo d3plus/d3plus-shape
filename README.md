@@ -53,7 +53,7 @@ It even detects that the blue rectangle should have a dark label and the red rec
 
 ## API Reference
 
-##### Classes
+##### 
 * [Image](#Image)
 * [Area](#Area)
 * [Bar](#Bar)
@@ -63,7 +63,7 @@ It even detects that the blue rectangle should have a dark label and the red rec
 * [Rect](#Rect)
 * [Shape](#Shape)
 
-##### Functions
+##### 
 * [largestRect](#largestRect) - An angle of zero means that the longer side of the polygon (the width) will be aligned with the x axis. An angle of 90 and/or -90 means that the longer side of the polygon (the width) will be aligned with the y axis. The value can be a number between -90 and 90 specifying the angle of rotation of the polygon, a string which is parsed to a number, or an array of numbers specifying the possible rotations of the polygon.
 * [lineIntersection](#lineIntersection) - Finds the intersection point (if there is one) of the lines p1q1 and p2q2.
 * [path2polygon](#path2polygon) - Transforms a path string into an Array of points.
@@ -78,7 +78,7 @@ It even detects that the blue rectangle should have a dark label and the red rec
 * [shapeEdgePoint](#shapeEdgePoint) - Calculates the x/y position of a point at the edge of a shape, from the center of the shape, given a specified pixel distance and radian angle.
 * [largestRect](#largestRect) - Simplifies the points of a polygon using both the Ramer-Douglas-Peucker algorithm and basic distance-based simplification. Adapted to an ES6 module from the excellent [Simplify.js](http://mourner.github.io/simplify-js/).
 
-##### Typedefs
+##### 
 * [LargestRect](#LargestRect) - The returned Object of the largestRect function.
 
 ---
@@ -1240,7 +1240,7 @@ This is a global function.
 ---
 
 <a name="largestRect"></a>
-#### d3plus.**largestRect**(poly, [tolerance], [highestQuality]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/geom/simplify.js#L89)
+#### d3plus.**largestRect**(poly, [tolerance], [highestQuality]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/geom/simplify.js#L112)
 
 Simplifies the points of a polygon using both the Ramer-Douglas-Peucker algorithm and basic distance-based simplification. Adapted to an ES6 module from the excellent [Simplify.js](http://mourner.github.io/simplify-js/).
 
@@ -1281,4 +1281,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Tue, 12 Sep 2017 20:25:23 GMT</sub>
+###### <sub>Documentation generated on Wed, 20 Dec 2017 16:17:03 GMT</sub>
