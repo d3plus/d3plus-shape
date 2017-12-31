@@ -33,10 +33,10 @@ export default class Shape extends BaseClass {
 
     this._activeOpacity = 0.75;
     this._activeStyle = {
-      "stroke": (d, i) => color(this._stroke(d, i)).darker(2),
+      "stroke": "#d74b03",
       "stroke-width": (d, i) => {
-        const s = this._strokeWidth(d, i);
-        return s ? s * 2 : 1;
+        const s = this._strokeWidth(d, i) || 1;
+        return s * 3;
       }
     };
     this._backgroundImage = constant(false);
@@ -515,6 +515,16 @@ export default class Shape extends BaseClass {
   */
   activeOpacity(_) {
     return arguments.length ? (this._activeOpacity = _, this) : this._activeOpacity;
+  }
+
+  /**
+      @memberof Shape
+      @desc The style to apply to active shapes.
+      @param {Object} *value*
+      @chainable
+  */
+  activeStyle(_) {
+    return arguments.length ? (this._activeStyle = assign({}, this._activeStyle, _), this) : this._activeStyle;
   }
 
   /**
