@@ -1,6 +1,6 @@
 {
   "name": "d3plus-shape",
-  "version": "0.13.11",
+  "version": "0.13.12",
   "description": "Fancy SVG shapes for visualizations",
   "main": "build/d3plus-shape.js",
   "jsnext:main": "es/index",
