@@ -488,7 +488,7 @@ Creates SVG circles based on an array of data.
 
 
 
-<a name="Circle.render" href="#Circle.render">#</a> Circle.**render**([*callback*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Circle.js#L41)
+<a name="Circle.render" href="#Circle.render">#</a> Circle.**render**([*callback*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Circle.js#L47)
 
 Draws the circles.
 
@@ -496,7 +496,7 @@ Draws the circles.
 This is a static method of [<code>Circle</code>](#Circle), and is chainable with other methods of this Class.
 
 
-<a name="Circle.r" href="#Circle.r">#</a> Circle.**r**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Circle.js#L83)
+<a name="Circle.r" href="#Circle.r">#</a> Circle.**r**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Circle.js#L89)
 
 If *value* is specified, sets the radius accessor to the specified function or number and returns the current class instance.
 
@@ -1281,4 +1281,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Thu, 21 Dec 2017 20:55:37 GMT</sub>
+###### <sub>Documentation generated on Sun, 31 Dec 2017 16:22:30 GMT</sub>
