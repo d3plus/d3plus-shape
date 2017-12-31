@@ -1,4 +1,4 @@
-import {accessor, constant} from "d3plus-common";
+import {accessor, assign, constant} from "d3plus-common";
 
 import Shape from "./Shape";
 
@@ -16,6 +16,12 @@ export default class Circle extends Shape {
   */
   constructor() {
     super("circle");
+    this._labelBounds = (d, i, s) =>
+      ({width: s.r * 1.5, height: s.r * 1.5, x: -s.r * 0.75, y: -s.r * 0.75});
+    this._labelConfig = assign(this._labelConfig, {
+      textAnchor: "middle",
+      verticalAlign: "middle"
+    });
     this._name = "Circle";
     this._r = accessor("r");
   }
