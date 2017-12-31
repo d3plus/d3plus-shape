@@ -40,6 +40,7 @@ export default class Shape extends BaseClass {
       }
     };
     this._backgroundImage = constant(false);
+    this._backgroundImageClass = new Image();
     this._data = [];
     this._duration = 600;
     this._fill = constant("black");
@@ -48,6 +49,7 @@ export default class Shape extends BaseClass {
     this._hoverOpacity = 0.5;
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._label = constant(false);
+    this._labelClass = new TextBox();
     this._labelConfig = {
       fontColor: (d, i) => colorContrast(this._fill(d, i)),
       fontSize: 12
@@ -270,7 +272,7 @@ export default class Shape extends BaseClass {
 
       });
 
-    return new Image()
+    return this._backgroundImageClass
       .data(imageData)
       .duration(this._duration)
       .pointerEvents("none")
@@ -345,7 +347,7 @@ export default class Shape extends BaseClass {
 
       });
 
-    return new TextBox()
+    return this._labelClass
       .data(labelData)
       .duration(this._duration)
       .pointerEvents("none")
@@ -460,10 +462,13 @@ export default class Shape extends BaseClass {
   */
   active(_) {
 
-    if (!arguments.length || _ === void 0) return this._active;
+    if (!arguments.length || _ === undefined) return this._active;
     this._active = _;
 
     const that = this;
+
+    this._renderImage();
+    this._renderLabels();
 
     this._group.selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
       .each(function(d, i) {
@@ -491,6 +496,9 @@ export default class Shape extends BaseClass {
         }
 
       });
+
+    this._renderImage();
+    this._renderLabels();
 
     this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
       .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
@@ -582,6 +590,9 @@ export default class Shape extends BaseClass {
 
     const that = this;
 
+    this._renderImage();
+    this._renderLabels();
+
     this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text, g.d3plus-${this._name}-hover`)
       .selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
       .each(function(d, i) {
@@ -603,6 +614,9 @@ export default class Shape extends BaseClass {
         if (group !== this.parentNode) group.appendChild(this);
 
       });
+
+    this._renderImage();
+    this._renderLabels();
 
     this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
       .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
