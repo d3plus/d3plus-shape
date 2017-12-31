@@ -31,7 +31,7 @@ export default class Shape extends BaseClass {
 
     super();
 
-    this._activeOpacity = 0.75;
+    this._activeOpacity = 0.25;
     this._activeStyle = {
       "stroke": "#d74b03",
       "stroke-width": (d, i) => {
@@ -509,8 +509,8 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the active opacity to the specified function and returns the current class instance.
-      @param {Number} [*value* = 0.75]
+      @desc When shapes are active, this is the opacity of any shape that is not active.
+      @param {Number} *value* = 0.25
       @chainable
   */
   activeOpacity(_) {
