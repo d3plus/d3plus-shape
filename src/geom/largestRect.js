@@ -1,4 +1,4 @@
-import {extent, range} from "d3-array";
+import {extent, merge, range} from "d3-array";
 import {polygonArea, polygonCentroid, polygonContains} from "d3-polygon";
 
 import polygonInside from "./polygonInside";
@@ -10,6 +10,8 @@ import pointDistanceSquared from "./pointDistanceSquared";
 // Algorithm constants
 const aspectRatioStep = 0.5; // step size for the aspect ratio
 const angleStep = 5; // step size for angles (in degrees); has linear impact on running time
+
+const polyCache = {};
 
 /**
     @typedef {Object} LargestRect
@@ -38,6 +40,7 @@ const angleStep = 5; // step size for angles (in degrees); has linear impact on 
     @param {Number} [options.minWidth = 0] The minimum width of the rectangle.
     @param {Number} [options.tolerance = 0.02] The simplification tolerance factor, between 0 and 1. A larger tolerance corresponds to more extensive simplification.
     @param {Array} [options.origin] The center point of the rectangle. If specified, the rectangle will be fixed at that point, otherwise the algorithm optimizes across all possible points. The given value can be either a two dimensional array specifying the x and y coordinate of the origin or an array of two dimensional points specifying multiple possible center points of the rectangle.
+    @param {Boolean} [options.cache] Whether or not to cache the result, which would be used in subsequent calculations to preserve consistency and speed up calculation time.
     @return {LargestRect}
 */
 export default function(poly, options = {}) {
@@ -53,6 +56,7 @@ export default function(poly, options = {}) {
   // User's input normalization
   options = Object.assign({
     angle: range(-90, 90 + angleStep, angleStep),
+    cache: true,
     maxAspectRatio: 15,
     minAspectRatio: 1,
     minHeight: 0,
@@ -61,6 +65,12 @@ export default function(poly, options = {}) {
     tolerance: 0.02,
     verbose: false
   }, options);
+
+  let cacheString;
+  if (options.cache) {
+    cacheString = merge(poly).join(",");
+    if (polyCache[cacheString]) return polyCache[cacheString];
+  }
 
   const angles = options.angle instanceof Array ? options.angle
     : typeof options.angle === "number" ? [options.angle]
@@ -203,6 +213,10 @@ export default function(poly, options = {}) {
 
     }
 
+  }
+
+  if (options.cache) {
+    polyCache[cacheString] = maxRect;
   }
 
   return options.events ? Object.assign(maxRect || {}, {events}) : maxRect;
