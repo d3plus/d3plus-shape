@@ -215,6 +215,89 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
+      @desc Modifies existing shapes to show active status.
+      @private
+  */
+  _renderActive() {
+
+    const that = this;
+
+    this._group.selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
+      .each(function(d, i) {
+
+        if (!d) d = {};
+        if (!d.parentNode) d.parentNode = this.parentNode;
+        const parent = d.parentNode;
+
+        if (select(this).classed("d3plus-textBox")) d = d.data;
+        if (d.__d3plusShape__ || d.__d3plus__) {
+          while (d && (d.__d3plusShape__ || d.__d3plus__)) {
+            i = d.i;
+            d = d.data;
+          }
+        }
+        else i = that._data.indexOf(d);
+
+        const group = !that._active || typeof that._active !== "function" || !that._active(d, i) ? parent : that._activeGroup.node();
+        if (group !== this.parentNode) {
+          group.appendChild(this);
+          if (this.className.baseVal.includes("d3plus-Shape")) {
+            if (parent === group) select(this).call(that._applyStyle.bind(that));
+            else select(this).call(that._applyActive.bind(that));
+          }
+        }
+
+      });
+
+    this._renderImage();
+    this._renderLabels();
+
+    this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
+      .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
+
+  }
+
+  /**
+      @memberof Shape
+      @desc Modifies existing shapes to show hover status.
+      @private
+  */
+  _renderHover() {
+
+    const that = this;
+
+    this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text, g.d3plus-${this._name}-hover`)
+      .selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
+      .each(function(d, i) {
+
+        if (!d) d = {};
+        if (!d.parentNode) d.parentNode = this.parentNode;
+        const parent = d.parentNode;
+
+        if (select(this).classed("d3plus-textBox")) d = d.data;
+        if (d.__d3plusShape__ || d.__d3plus__) {
+          while (d && (d.__d3plusShape__ || d.__d3plus__)) {
+            i = d.i;
+            d = d.data;
+          }
+        }
+        else i = that._data.indexOf(d);
+
+        const group = !that._hover || typeof that._hover !== "function" || !that._hover(d, i) ? parent : that._hoverGroup.node();
+        if (group !== this.parentNode) group.appendChild(this);
+
+      });
+
+    this._renderImage();
+    this._renderLabels();
+
+    this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
+      .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
+
+  }
+
+  /**
+      @memberof Shape
       @desc Adds background image to each shape group.
       @private
   */
@@ -272,7 +355,7 @@ export default class Shape extends BaseClass {
 
       });
 
-    return this._backgroundImageClass
+    this._backgroundImageClass
       .data(imageData)
       .duration(this._duration)
       .pointerEvents("none")
@@ -347,7 +430,7 @@ export default class Shape extends BaseClass {
 
       });
 
-    return this._labelClass
+    this._labelClass
       .data(labelData)
       .duration(this._duration)
       .pointerEvents("none")
@@ -446,9 +529,12 @@ export default class Shape extends BaseClass {
     hitAreas.exit().remove();
 
     this._applyEvents(this._hitArea ? hitUpdates : enterUpdate);
-    this.active(this._active);
 
-    if (callback) setTimeout(callback, this._duration + 100);
+    setTimeout(() => {
+      if (this._active) this._renderActive();
+      else if (this._hover) this._renderHover();
+      if (callback) callback();
+    }, this._duration + 100);
 
     return this;
 
@@ -464,45 +550,11 @@ export default class Shape extends BaseClass {
 
     if (!arguments.length || _ === undefined) return this._active;
     this._active = _;
-
-    const that = this;
-
-    this._renderImage();
-    this._renderLabels();
-
-    this._group.selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
-      .each(function(d, i) {
-
-        if (!d) d = {};
-        if (!d.parentNode) d.parentNode = this.parentNode;
-        const parent = d.parentNode;
-
-        if (select(this).classed("d3plus-textBox")) d = d.data;
-        if (d.__d3plusShape__ || d.__d3plus__) {
-          while (d && (d.__d3plusShape__ || d.__d3plus__)) {
-            i = d.i;
-            d = d.data;
-          }
-        }
-        else i = that._data.indexOf(d);
-
-        const group = !_ || typeof _ !== "function" || !_(d, i) ? parent : that._activeGroup.node();
-        if (group !== this.parentNode) {
-          group.appendChild(this);
-          if (this.className.baseVal.includes("d3plus-Shape")) {
-            if (parent === group) select(this).call(that._applyStyle.bind(that));
-            else select(this).call(that._applyActive.bind(that));
-          }
-        }
-
-      });
-
-    this._renderImage();
-    this._renderLabels();
-
-    this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
-      .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
-
+    if (this._group) {
+      this._renderImage();
+      this._renderLabels();
+      this._renderActive();
+    }
     return this;
 
   }
@@ -597,41 +649,13 @@ export default class Shape extends BaseClass {
 
     if (!arguments.length || _ === void 0) return this._hover;
     this._hover = _;
-
-    const that = this;
-
-    this._renderImage();
-    this._renderLabels();
-
-    this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text, g.d3plus-${this._name}-hover`)
-      .selectAll(".d3plus-Shape, .d3plus-Image, .d3plus-textBox")
-      .each(function(d, i) {
-
-        if (!d) d = {};
-        if (!d.parentNode) d.parentNode = this.parentNode;
-        const parent = d.parentNode;
-
-        if (select(this).classed("d3plus-textBox")) d = d.data;
-        if (d.__d3plusShape__ || d.__d3plus__) {
-          while (d && (d.__d3plusShape__ || d.__d3plus__)) {
-            i = d.i;
-            d = d.data;
-          }
-        }
-        else i = that._data.indexOf(d);
-
-        const group = !_ || typeof _ !== "function" || !_(d, i) ? parent : that._hoverGroup.node();
-        if (group !== this.parentNode) group.appendChild(this);
-
-      });
-
-    this._renderImage();
-    this._renderLabels();
-
-    this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
-      .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
-
+    if (this._group) {
+      this._renderImage();
+      this._renderLabels();
+      this._renderHover();
+    }
     return this;
+
   }
 
   /**
