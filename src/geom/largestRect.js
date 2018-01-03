@@ -66,12 +66,6 @@ export default function(poly, options = {}) {
     verbose: false
   }, options);
 
-  let cacheString;
-  if (options.cache) {
-    cacheString = merge(poly).join(",");
-    if (polyCache[cacheString]) return polyCache[cacheString];
-  }
-
   const angles = options.angle instanceof Array ? options.angle
     : typeof options.angle === "number" ? [options.angle]
     : typeof options.angle === "string" && !isNaN(options.angle) ? [Number(options.angle)]
@@ -85,6 +79,18 @@ export default function(poly, options = {}) {
   const origins = options.origin && options.origin instanceof Array
     ? options.origin[0] instanceof Array ? options.origin
     : [options.origin] : [];
+
+  let cacheString;
+  if (options.cache) {
+    cacheString = merge(poly).join(",");
+    cacheString += `-${options.minAspectRatio}`;
+    cacheString += `-${options.maxAspectRatio}`;
+    cacheString += `-${options.minHeight}`;
+    cacheString += `-${options.minWidth}`;
+    cacheString += `-${angles.join(",")}`;
+    cacheString += `-${origins.join(",")}`;
+    if (polyCache[cacheString]) return polyCache[cacheString];
+  }
 
   const area = Math.abs(polygonArea(poly)); // take absolute value of the signed area
   if (area === 0) {
