@@ -33,7 +33,7 @@ export default class Shape extends BaseClass {
 
     this._activeOpacity = 0.25;
     this._activeStyle = {
-      "stroke": "#d74b03",
+      "stroke": "#444444",
       "stroke-width": (d, i) => {
         const s = this._strokeWidth(d, i) || 1;
         return s * 3;
