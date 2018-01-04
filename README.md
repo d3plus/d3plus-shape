@@ -1291,4 +1291,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Wed, 03 Jan 2018 17:34:19 GMT</sub>
+###### <sub>Documentation generated on Thu, 04 Jan 2018 20:06:46 GMT</sub>
