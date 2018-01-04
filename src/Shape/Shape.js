@@ -384,7 +384,7 @@ export default class Shape extends BaseClass {
 
         let labels = this._label(d, i);
 
-        if (this._labelBounds && labels !== false && labels !== undefined) {
+        if (this._labelBounds && labels !== false && labels !== undefined && labels !== null) {
 
           const bounds = this._labelBounds(d, i, this._aes(datum, i));
 
