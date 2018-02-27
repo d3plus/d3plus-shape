@@ -1,12 +1,13 @@
-import zora from "zora";
+import test from "zora";
 import {default as segmentsIntersect} from "../../src/geom/segmentsIntersect";
 
-export default zora()
-  .test("geom/segmentsIntersect", assert => {
+test("geom/segmentsIntersect", assert => {
 
-    assert.equal(true, segmentsIntersect([0, 0], [4, 4], [4, 0], [0, 4]), "cross");
-    assert.equal(true, segmentsIntersect([0, 0], [4, 4], [4, 0], [4, 4]), "vertex");
-    assert.equal(false, segmentsIntersect([0, 0], [4, 4], [4, 0], [4, 2]), "false");
-    assert.equal(false, segmentsIntersect([0, 0], [0, 4], [4, 0], [4, 4]), "parallel");
+  assert.equal(true, segmentsIntersect([0, 0], [4, 4], [4, 0], [0, 4]), "cross");
+  assert.equal(true, segmentsIntersect([0, 0], [4, 4], [4, 0], [4, 4]), "vertex");
+  assert.equal(false, segmentsIntersect([0, 0], [4, 4], [4, 0], [4, 2]), "false");
+  assert.equal(false, segmentsIntersect([0, 0], [0, 4], [4, 0], [4, 4]), "parallel");
 
-  });
+});
+
+export default test;
