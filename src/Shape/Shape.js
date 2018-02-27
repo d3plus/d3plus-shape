@@ -52,9 +52,9 @@ export default class Shape extends BaseClass {
     this._labelClass = new TextBox();
     this._labelConfig = {
       fontColor: (d, i) => colorContrast(this._fill(d, i)),
-      fontSize: 12
+      fontSize: 12,
+      padding: 5
     };
-    this._labelPadding = constant(5);
     this._name = "Shape";
     this._opacity = constant(1);
     this._rx = constant(0);
@@ -402,24 +402,21 @@ export default class Shape extends BaseClass {
               i = d.i;
             }
 
-            const padding = this._labelPadding(d, i);
-
             for (let l = 0; l < labels.length; l++) {
 
-              const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
-                    p = padding.constructor === Array ? padding[l] : padding;
+              const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds);
 
               labelData.push({
                 __d3plus__: true,
                 data: d,
-                height: b.height - p * 2,
+                height: b.height,
                 l,
                 id: `${this._id(d, i)}_${l}`,
                 r: bounds.angle !== undefined ? bounds.angle : 0,
                 text: labels[l],
-                width: b.width - p * 2,
-                x: x + b.x + p,
-                y: y + b.y + p
+                width: b.width,
+                x: x + b.x,
+                y: y + b.y
               });
 
             }
@@ -734,16 +731,6 @@ function(d, i, shape) {
   */
   labelConfig(_) {
     return arguments.length ? (this._labelConfig = assign(this._labelConfig, _), this) : this._labelConfig;
-  }
-
-  /**
-      @memberof Shape
-      @desc If *value* is specified, sets the label padding to the specified number and returns the current class instance.
-      @param {Function|Number|Array} [*value* = 10]
-      @chainable
-  */
-  labelPadding(_) {
-    return arguments.length ? (this._labelPadding = typeof _ === "function" ? _ : constant(_), this) : this._labelPadding;
   }
 
   /**
