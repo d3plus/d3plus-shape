@@ -57,6 +57,7 @@ export default class Shape extends BaseClass {
     };
     this._name = "Shape";
     this._opacity = constant(1);
+    this._pointerEvents = constant("visiblePainted");
     this._rx = constant(0);
     this._ry = constant(0);
     this._scale = constant(1);
@@ -492,7 +493,7 @@ export default class Shape extends BaseClass {
       .transition(this._transition)
       .attr("opacity", this._nestWrapper(this._opacity))
       .transition()
-      .attr("pointer-events", "all");
+      .attr("pointer-events", this._pointerEvents);
 
     // Makes the exit state of the group selection accessible.
     const exit = this._exit = update.exit();
@@ -741,6 +742,16 @@ function(d, i, shape) {
   */
   opacity(_) {
     return arguments.length ? (this._opacity = typeof _ === "function" ? _ : constant(_), this) : this._opacity;
+  }
+
+  /**
+       @memberof Shape
+       @desc If *value* is specified, sets the pointerEvents accessor to the specified function or string and returns the current class instance.
+       @param {String} [*value*]
+       @chainable
+   */
+  pointerEvents(_) {
+    return arguments.length ? (this._pointerEvents = typeof _ === "function" ? _ : constant(_), this) : this._pointerEvents;
   }
 
   /**
