@@ -81,23 +81,43 @@ export default class Line extends Shape {
 
     const that = this;
 
-    this._path
-      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
-      .defined(this._defined)
-      .x(this._x)
-      .y(this._y);
+    const drawLine = () => {
+      this._path
+        .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+        .defined(this._defined)
+        .x(this._x)
+        .y(this._y);
 
-    this._enter.append("path")
-      .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
-      .attr("d", d => this._path(d.values))
-      .call(this._applyStyle.bind(this));
+      this._enter.append("path")
+        .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
+        .attr("d", d => this._path(d.values))
+        .call(this._applyStyle.bind(this));
 
-    this._update.select("path").transition(this._transition)
-      .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
-      .attrTween("d", function(d) {
-        return interpolatePath(select(this).attr("d"), that._path(d.values));
-      })
-      .call(this._applyStyle.bind(this));
+      this._update.select("path").transition(this._transition)
+        .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
+        .attrTween("d", function(d) {
+          return interpolatePath(select(this).attr("d"), that._path(d.values));
+        })
+        .call(this._applyStyle.bind(this));
+    };
+
+    drawLine();
+
+    const hitAreaWidth = 10;
+    const currentStrokeWidth = this._strokeWidth();
+
+    if (currentStrokeWidth < hitAreaWidth) {
+      const currentStroke = this._stroke();
+      const hitAreaStroke = "transparent";
+
+      this._strokeWidth = constant(hitAreaWidth);
+      this._stroke = constant(hitAreaStroke);
+
+      drawLine();
+
+      this._strokeWidth = constant(currentStrokeWidth);
+      this._stroke = constant(currentStroke);
+    }
 
     return this;
 
