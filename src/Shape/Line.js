@@ -4,7 +4,7 @@ import {interpolatePath} from "d3-interpolate-path";
 import {select} from "d3-selection";
 import * as paths from "d3-shape";
 
-import {constant, merge} from "d3plus-common";
+import {attrize, constant, merge} from "d3plus-common";
 
 import Shape from "./Shape";
 
@@ -81,7 +81,7 @@ export default class Line extends Shape {
 
     const that = this;
 
-    const drawLine = () => {
+    const drawLine = (styles = {}) => {
       this._path
         .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
         .defined(this._defined)
@@ -91,32 +91,24 @@ export default class Line extends Shape {
       this._enter.append("path")
         .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
         .attr("d", d => this._path(d.values))
-        .call(this._applyStyle.bind(this));
+        .call(this._applyStyle.bind(this))
+        .call(attrize, styles);
 
       this._update.select("path").transition(this._transition)
         .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
         .attrTween("d", function(d) {
           return interpolatePath(select(this).attr("d"), that._path(d.values));
         })
-        .call(this._applyStyle.bind(this));
+        .call(this._applyStyle.bind(this))
+        .call(attrize, styles);
     };
 
     drawLine();
 
     const hitAreaWidth = 10;
-    const currentStrokeWidth = this._strokeWidth();
 
-    if (currentStrokeWidth < hitAreaWidth) {
-      const currentStroke = this._stroke();
-      const hitAreaStroke = "transparent";
-
-      this._strokeWidth = constant(hitAreaWidth);
-      this._stroke = constant(hitAreaStroke);
-
-      drawLine();
-
-      this._strokeWidth = constant(currentStrokeWidth);
-      this._stroke = constant(currentStroke);
+    if (this._strokeWidth() < hitAreaWidth) {
+      drawLine({"stroke-width": hitAreaWidth, "stroke": "transparent", "fill": "transparent"});
     }
 
     return this;
