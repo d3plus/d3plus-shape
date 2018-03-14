@@ -10,6 +10,8 @@ import {transition} from "d3-transition";
 
 import {accessor, assign, attrize, BaseClass, constant, elem} from "d3plus-common";
 import {colorContrast} from "d3plus-color";
+import {interpolatePath} from "d3-interpolate-path";
+import * as paths from "d3-shape";
 import {strip, TextBox} from "d3plus-text";
 
 import Image from "../Image";
@@ -509,13 +511,40 @@ export default class Shape extends BaseClass {
     const hitAreas = this._group.selectAll(".d3plus-HitArea")
       .data(this._hitArea ? data : [], key);
 
-    hitAreas.order().transition(this._transition)
-      .call(this._applyTransform.bind(this));
+    let hitEnter;
 
-    const hitEnter = hitAreas.enter().append("rect")
-      .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
-      .attr("fill", "transparent")
-      .call(this._applyTransform.bind(this));
+    if (this._name === "Line") {
+      if (parseFloat(this._strokeWidth()) > 10) this._hitArea = constant(Object.assign({}, this._hitArea(), {"stroke-width": this._strokeWidth()}));
+
+      hitAreas.order().transition(this._transition)
+        .attrTween("d", function(d) {
+          return interpolatePath(select(this).attr("d"), that._path(d.values));
+        })
+        .call(attrize, this._hitArea());
+
+      this._path
+        .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+        .defined(this._defined)
+        .x(this._x)
+        .y(this._y);
+
+      hitEnter = hitAreas.enter().append("path")
+        .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
+        .attr("d", d => this._path(d.values))
+        .attr("fill", "transparent")
+        .attr("stroke", "transparent")
+        .call(attrize, this._hitArea());
+
+    }
+    else {
+      hitAreas.order().transition(this._transition)
+        .call(this._applyTransform.bind(this));
+
+      hitEnter = hitAreas.enter().append("rect")
+        .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
+        .attr("fill", "transparent")
+        .call(this._applyTransform.bind(this));
+    }
 
     const hitUpdates = hitAreas.merge(hitEnter)
       .each(function(d) {
