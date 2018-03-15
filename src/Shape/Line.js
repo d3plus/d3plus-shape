@@ -27,7 +27,11 @@ export default class Line extends Shape {
     this._curve = "linear";
     this._defined = d => d;
     this._fill = constant("none");
-    this._hitArea = constant({"stroke-width": 10});
+    this._hitArea = constant({
+      "d": d => this._path(d.values),
+      "stroke-width": 10,
+      "transform": null
+    });
     this._name = "Line";
     this._path = paths.line();
     this._stroke = constant("black");

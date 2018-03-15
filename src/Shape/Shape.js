@@ -10,7 +10,6 @@ import {transition} from "d3-transition";
 
 import {accessor, assign, attrize, BaseClass, constant, elem} from "d3plus-common";
 import {colorContrast} from "d3plus-color";
-import {interpolatePath} from "d3-interpolate-path";
 import * as paths from "d3-shape";
 import {strip, TextBox} from "d3plus-text";
 
@@ -506,50 +505,32 @@ export default class Shape extends BaseClass {
     this._hoverGroup = elem(`g.d3plus-${this._name}-hover`, {parent: this._group});
     this._activeGroup = elem(`g.d3plus-${this._name}-active`, {parent: this._group});
 
-    const that = this;
-
     const hitAreas = this._group.selectAll(".d3plus-HitArea")
       .data(this._hitArea ? data : [], key);
 
-    let hitEnter;
+    hitAreas.order()
+      .call(this._applyTransform.bind(this));
 
-    if (this._name === "Line") {
-      if (parseFloat(this._strokeWidth()) > 10) this._hitArea = constant(Object.assign({}, this._hitArea(), {"stroke-width": this._strokeWidth()}));
+    const isLine = this._name === "Line";
 
-      hitAreas.order().transition(this._transition)
-        .attrTween("d", function(d) {
-          return interpolatePath(select(this).attr("d"), that._path(d.values));
-        })
-        .call(attrize, this._hitArea());
+    isLine && this._path
+      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+      .defined(this._defined)
+      .x(this._x)
+      .y(this._y);
 
-      this._path
-        .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
-        .defined(this._defined)
-        .x(this._x)
-        .y(this._y);
+    const hitEnter = hitAreas.enter().append(isLine ? "path" : "rect")
+      .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
+      .attr("fill", "transparent")
+      .attr("stroke", "transparent")
+      .call(this._applyTransform.bind(this));
 
-      hitEnter = hitAreas.enter().append("path")
-        .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
-        .attr("d", d => this._path(d.values))
-        .attr("fill", "transparent")
-        .attr("stroke", "transparent")
-        .call(attrize, this._hitArea());
-
-    }
-    else {
-      hitAreas.order().transition(this._transition)
-        .call(this._applyTransform.bind(this));
-
-      hitEnter = hitAreas.enter().append("rect")
-        .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
-        .attr("fill", "transparent")
-        .call(this._applyTransform.bind(this));
-    }
+    const that = this;
 
     const hitUpdates = hitAreas.merge(hitEnter)
       .each(function(d) {
         const h = that._hitArea(d, that._data.indexOf(d), that._aes(d, that._data.indexOf(d)));
-        return h ? select(this).call(attrize, h) : select(this).remove();
+        return h && !(that._name === "Line" && parseFloat(that._strokeWidth()) > 10) ? select(this).call(attrize, h) : select(this).remove();
       });
 
     hitAreas.exit().remove();
