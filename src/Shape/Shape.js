@@ -532,8 +532,9 @@ export default class Shape extends BaseClass {
 
     const hitUpdates = hitAreas.merge(hitEnter)
       .each(function(d) {
-        const h = that._hitArea(d, that._data.indexOf(d), that._aes(d, that._data.indexOf(d)));
-        return h && !(that._name === "Line" && parseFloat(that._strokeWidth()) > 10) ? select(this).call(attrize, h) : select(this).remove();
+        const i = that._data.indexOf(d);
+        const h = that._hitArea(d, i, that._aes(d, i));
+        return h && !(that._name === "Line" && parseFloat(that._strokeWidth(d, i)) > 10) ? select(this).call(attrize, h) : select(this).remove();
       });
 
     hitAreas.exit().remove();
