@@ -522,8 +522,10 @@ export default class Shape extends BaseClass {
 
     const hitEnter = hitAreas.enter().append(isLine ? "path" : "rect")
       .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
-      .attr("fill", "transparent")
-      .attr("stroke", "transparent")
+      .attr("fill", "black")
+      .attr("stroke", "black")
+      .attr("pointer-events", "painted")
+      .attr("opacity", 0)
       .call(this._applyTransform.bind(this));
 
     const that = this;
