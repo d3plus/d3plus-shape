@@ -59,6 +59,7 @@ export default class Shape extends BaseClass {
     this._name = "Shape";
     this._opacity = constant(1);
     this._pointerEvents = constant("visiblePainted");
+    this._rotate = constant(0);
     this._rx = constant(0);
     this._ry = constant(0);
     this._scale = constant(1);
@@ -202,7 +203,10 @@ export default class Shape extends BaseClass {
     : `${this._x(d.data, d.i)},${this._y(d.data, d.i)}`
     : `${this._x(d, i)},${this._y(d, i)}`})
         scale(${d.__d3plusShape__ ? d.scale || this._scale(d.data, d.i)
-  : this._scale(d, i)})`);
+  : this._scale(d, i)})
+        rotate(${d.__d3plusShape__ ? d.rotate ? d.rotate
+  : this._rotate(d.data || d, d.i)
+  : this._rotate(d.data || d, d.i)})`);
   }
 
   /**
@@ -407,6 +411,8 @@ export default class Shape extends BaseClass {
             for (let l = 0; l < labels.length; l++) {
 
               const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds);
+              const r = d.labelConfig && d.labelConfig.rotate ? d.labelConfig.rotate + this._rotate(d, i) : bounds.angle !== undefined ? bounds.angle + this._rotate(d, i) : this._rotate(d, i);
+              const rotationAnchor = this._rotate(d, i) !== 0 && bounds && [bounds.x * -1 || 0, bounds.y * -1 || 0];
 
               labelData.push({
                 __d3plus__: true,
@@ -414,7 +420,8 @@ export default class Shape extends BaseClass {
                 height: b.height,
                 l,
                 id: `${this._id(d, i)}_${l}`,
-                r: d.labelConfig && d.labelConfig.rotate ? d.labelConfig.rotate : bounds.angle !== undefined ? bounds.angle : 0,
+                r,
+                rotationAnchor,
                 text: labels[l],
                 width: b.width,
                 x: x + b.x,
@@ -434,6 +441,7 @@ export default class Shape extends BaseClass {
       .duration(this._duration)
       .pointerEvents("none")
       .rotate(d => d.data.r)
+      .rotationAnchor(d => d.data.rotationAnchor)
       .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
       .config(this._labelConfig)
       .render();
@@ -765,6 +773,16 @@ function(d, i, shape) {
    */
   pointerEvents(_) {
     return arguments.length ? (this._pointerEvents = typeof _ === "function" ? _ : constant(_), this) : this._pointerEvents;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the rotate accessor to the specified function or number and returns the current class instance.
+      @param {Function|Number} [*value* = 0]
+      @chainable
+   */
+  rotate(_) {
+    return arguments.length ? (this._rotate = typeof _ === "function" ? _ : constant(_), this) : this._rotate;
   }
 
   /**
