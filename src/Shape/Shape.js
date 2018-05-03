@@ -411,8 +411,10 @@ export default class Shape extends BaseClass {
             for (let l = 0; l < labels.length; l++) {
 
               const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds);
-              const r = d.labelConfig && d.labelConfig.rotate ? d.labelConfig.rotate + this._rotate(d, i) : bounds.angle !== undefined ? bounds.angle + this._rotate(d, i) : this._rotate(d, i);
-              const rotationAnchor = this._rotate(d, i) !== 0 && bounds && [bounds.x * -1 || 0, bounds.y * -1 || 0];
+              const rotate = this._rotate(d, i);
+              let r = d.labelConfig && d.labelConfig.rotate ? d.labelConfig.rotate : bounds.angle !== undefined ? bounds.angle : 0;
+              r += rotate;
+              const rotationAnchor = rotate !== 0 && bounds && [bounds.x * -1 || 0, bounds.y * -1 || 0];
 
               labelData.push({
                 __d3plus__: true,
