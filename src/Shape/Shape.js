@@ -48,6 +48,13 @@ export default class Shape extends BaseClass {
     this._fillOpacity = constant(1);
 
     this._hoverOpacity = 0.5;
+    this._hoverStyle = {
+      "stroke": "#444444",
+      "stroke-width": (d, i) => {
+        const s = this._strokeWidth(d, i) || 1;
+        return s * 3;
+      }
+    };
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._label = constant(false);
     this._labelClass = new TextBox();
@@ -146,6 +153,42 @@ export default class Shape extends BaseClass {
     }
 
     elem.transition().duration(0).call(attrize, activeStyle);
+
+  }
+
+  /**
+      @memberof Shape
+      @desc Provides the default styling to the hovered shape elements.
+      @param {HTMLElement} *elem*
+      @private
+   */
+  _applyHover(elem) {
+
+    const that = this;
+
+    if (elem.size() && elem.node().tagName === "g") elem = elem.selectAll("*");
+
+    /**
+     @desc Determines whether a shape is a nested collection of data points, and uses the appropriate data and index for the given function context.
+     @param {Object} *d* data point
+     @param {Number} *i* index
+     @private
+     */
+    function styleLogic(d, i) {
+      return typeof this !== "function" ? this
+        : d.nested && d.key && d.values
+          ? this(d.values[0], that._data.indexOf(d.values[0]))
+          : this(d, i);
+    }
+
+    const hoverStyle = {};
+    for (const key in this._hoverStyle) {
+      if ({}.hasOwnProperty.call(this._hoverStyle, key)) {
+        hoverStyle[key] = styleLogic.bind(this._hoverStyle[key]);
+      }
+    }
+
+    elem.transition().duration(0).call(attrize, hoverStyle);
 
   }
 
@@ -287,6 +330,10 @@ export default class Shape extends BaseClass {
 
         const group = !that._hover || typeof that._hover !== "function" || !that._hover(d, i) ? parent : that._hoverGroup.node();
         if (group !== this.parentNode) group.appendChild(this);
+        if (this.className.baseVal.includes("d3plus-Shape")) {
+          if (parent === group) select(this).call(that._applyStyle.bind(that));
+          else select(this).call(that._applyHover.bind(that));
+        }
 
       });
 
@@ -667,6 +714,16 @@ export default class Shape extends BaseClass {
     }
     return this;
 
+  }
+
+  /**
+      @memberof Shape
+      @desc The style to apply to hovered shapes.
+      @param {Object} *value*
+      @chainable
+   */
+  hoverStyle(_) {
+    return arguments.length ? (this._hoverStyle = assign({}, this._hoverStyle, _), this) : this._hoverStyle;
   }
 
   /**
