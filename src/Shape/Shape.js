@@ -414,7 +414,7 @@ export default class Shape extends BaseClass {
               const rotate = this._rotate(d, i);
               let r = d.labelConfig && d.labelConfig.rotate ? d.labelConfig.rotate : bounds.angle !== undefined ? bounds.angle : 0;
               r += rotate;
-              const rotationAnchor = rotate !== 0 && bounds && [bounds.x * -1 || 0, bounds.y * -1 || 0];
+              const rotateAnchor = rotate !== 0 && bounds && [bounds.x * -1 || 0, bounds.y * -1 || 0];
 
               labelData.push({
                 __d3plus__: true,
@@ -423,7 +423,7 @@ export default class Shape extends BaseClass {
                 l,
                 id: `${this._id(d, i)}_${l}`,
                 r,
-                rotationAnchor,
+                rotateAnchor,
                 text: labels[l],
                 width: b.width,
                 x: x + b.x,
@@ -443,7 +443,7 @@ export default class Shape extends BaseClass {
       .duration(this._duration)
       .pointerEvents("none")
       .rotate(d => d.data.r)
-      .rotationAnchor(d => d.data.rotationAnchor)
+      .rotateAnchor(d => d.data.rotateAnchor)
       .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
       .config(this._labelConfig)
       .render();
