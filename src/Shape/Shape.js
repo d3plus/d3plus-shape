@@ -49,10 +49,10 @@ export default class Shape extends BaseClass {
 
     this._hoverOpacity = 0.5;
     this._hoverStyle = {
-      "stroke": "#444444",
+      "stroke": "#888888",
       "stroke-width": (d, i) => {
         const s = this._strokeWidth(d, i) || 1;
-        return s * 3;
+        return s * 2;
       }
     };
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
