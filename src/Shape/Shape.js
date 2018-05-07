@@ -426,7 +426,7 @@ export default class Shape extends BaseClass {
               const rotate = this._rotate(d, i);
               let r = d.labelConfig && d.labelConfig.rotate ? d.labelConfig.rotate : bounds.angle !== undefined ? bounds.angle : 0;
               r += rotate;
-              const rotateAnchor = rotate !== 0 && bounds && [bounds.x * -1 || 0, bounds.y * -1 || 0];
+              const rotateAnchor = rotate !== 0 ? [b.x * -1 || 0, b.y * -1 || 0] : [b.width / 2, b.height / 2];
 
               labelData.push({
                 __d3plus__: true,
