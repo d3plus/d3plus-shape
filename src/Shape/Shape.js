@@ -123,11 +123,12 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
-      @desc Provides the default styling to the active shape elements.
+      @desc Provides the updated styling to the given shape elements.
       @param {HTMLElement} *elem*
+      @param {Object} *style*
       @private
   */
-  _applyActive(elem) {
+  _updateStyle(elem, style) {
 
     const that = this;
 
@@ -146,50 +147,14 @@ export default class Shape extends BaseClass {
           : this(d, i);
     }
 
-    const activeStyle = {};
-    for (const key in this._activeStyle) {
-      if ({}.hasOwnProperty.call(this._activeStyle, key)) {
-        activeStyle[key] = styleLogic.bind(this._activeStyle[key]);
+    const styleObject = {};
+    for (const key in style) {
+      if ({}.hasOwnProperty.call(style, key)) {
+        styleObject[key] = styleLogic.bind(style[key]);
       }
     }
 
-    elem.transition().duration(0).call(attrize, activeStyle);
-
-  }
-
-  /**
-      @memberof Shape
-      @desc Provides the default styling to the hovered shape elements.
-      @param {HTMLElement} *elem*
-      @private
-   */
-  _applyHover(elem) {
-
-    const that = this;
-
-    if (elem.size() && elem.node().tagName === "g") elem = elem.selectAll("*");
-
-    /**
-     @desc Determines whether a shape is a nested collection of data points, and uses the appropriate data and index for the given function context.
-     @param {Object} *d* data point
-     @param {Number} *i* index
-     @private
-     */
-    function styleLogic(d, i) {
-      return typeof this !== "function" ? this
-        : d.nested && d.key && d.values
-          ? this(d.values[0], that._data.indexOf(d.values[0]))
-          : this(d, i);
-    }
-
-    const hoverStyle = {};
-    for (const key in this._hoverStyle) {
-      if ({}.hasOwnProperty.call(this._hoverStyle, key)) {
-        hoverStyle[key] = styleLogic.bind(this._hoverStyle[key]);
-      }
-    }
-
-    elem.transition().duration(0).call(attrize, hoverStyle);
+    elem.transition().duration(0).call(attrize, styleObject);
 
   }
 
@@ -292,7 +257,7 @@ export default class Shape extends BaseClass {
           group.appendChild(this);
           if (this.className.baseVal.includes("d3plus-Shape")) {
             if (parent === group) select(this).call(that._applyStyle.bind(that));
-            else select(this).call(that._applyActive.bind(that));
+            else select(this).call(that._updateStyle.bind(that, select(this), that._activeStyle));
           }
         }
 
@@ -336,7 +301,7 @@ export default class Shape extends BaseClass {
         if (group !== this.parentNode) group.appendChild(this);
         if (this.className.baseVal.includes("d3plus-Shape")) {
           if (parent === group) select(this).call(that._applyStyle.bind(that));
-          else select(this).call(that._applyHover.bind(that));
+          else select(this).call(that._updateStyle.bind(that, select(this), that._hoverStyle));
         }
 
       });
