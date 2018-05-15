@@ -271,8 +271,8 @@ export default class Shape extends BaseClass {
 
       });
 
-    this._renderImage();
-    this._renderLabels();
+    // this._renderImage();
+    // this._renderLabels();
 
     this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
       .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
@@ -314,8 +314,8 @@ export default class Shape extends BaseClass {
 
       });
 
-    this._renderImage();
-    this._renderLabels();
+    // this._renderImage();
+    // this._renderLabels();
 
     this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
       .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
@@ -328,7 +328,7 @@ export default class Shape extends BaseClass {
       @private
   */
   _renderImage() {
-
+    console.log("IMAGE");
     const imageData = [];
 
     this._update.merge(this._enter).data()
@@ -592,8 +592,8 @@ export default class Shape extends BaseClass {
     if (!arguments.length || _ === undefined) return this._active;
     this._active = _;
     if (this._group) {
-      this._renderImage();
-      this._renderLabels();
+      // this._renderImage();
+      // this._renderLabels();
       this._renderActive();
     }
     return this;
@@ -691,8 +691,8 @@ export default class Shape extends BaseClass {
     if (!arguments.length || _ === void 0) return this._hover;
     this._hover = _;
     if (this._group) {
-      this._renderImage();
-      this._renderLabels();
+      // this._renderImage();
+      // this._renderLabels();
       this._renderHover();
     }
     return this;
