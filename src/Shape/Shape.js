@@ -328,7 +328,7 @@ export default class Shape extends BaseClass {
       @private
   */
   _renderImage() {
-    console.log("IMAGE");
+
     const imageData = [];
 
     this._update.merge(this._enter).data()
