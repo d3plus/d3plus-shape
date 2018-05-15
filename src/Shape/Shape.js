@@ -34,7 +34,11 @@ export default class Shape extends BaseClass {
 
     this._activeOpacity = 0.25;
     this._activeStyle = {
-      "stroke": "#444444",
+      "stroke": (d, i) => {
+        let c = this._fill(d, i);
+        if (["transparent", "none"].includes(c)) c = this._stroke(d, i);
+        return color(c).darker(1);
+      },
       "stroke-width": (d, i) => {
         const s = this._strokeWidth(d, i) || 1;
         return s * 3;
@@ -49,7 +53,11 @@ export default class Shape extends BaseClass {
 
     this._hoverOpacity = 0.5;
     this._hoverStyle = {
-      "stroke": "#888888",
+      "stroke": (d, i) => {
+        let c = this._fill(d, i);
+        if (["transparent", "none"].includes(c)) c = this._stroke(d, i);
+        return color(c).darker(0.5);
+      },
       "stroke-width": (d, i) => {
         const s = this._strokeWidth(d, i) || 1;
         return s * 2;
