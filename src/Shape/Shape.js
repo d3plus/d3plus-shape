@@ -44,7 +44,7 @@ export default class Shape extends BaseClass {
         return s * 3;
       }
     };
-    this._ariaLabel = "";
+    this._ariaLabel = constant("");
     this._backgroundImage = constant(false);
     this._backgroundImageClass = new Image();
     this._data = [];
@@ -75,7 +75,7 @@ export default class Shape extends BaseClass {
     this._name = "Shape";
     this._opacity = constant(1);
     this._pointerEvents = constant("visiblePainted");
-    this._role = "presentation";
+    this._role = constant("presentation");
     this._rotate = constant(0);
     this._rx = constant(0);
     this._ry = constant(0);
