@@ -464,7 +464,7 @@ export default class Shape extends BaseClass {
       .data(labelData)
       .duration(this._duration)
       .pointerEvents("none")
-      .rotate(d => d.data.r)
+      .rotate(d => d.r)
       .rotateAnchor(d => d.data.rotateAnchor)
       .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
       .config(this._labelConfig)
