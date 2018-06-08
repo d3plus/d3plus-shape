@@ -44,6 +44,7 @@ export default class Shape extends BaseClass {
         return s * 3;
       }
     };
+    this._ariaLabel = "";
     this._backgroundImage = constant(false);
     this._backgroundImageClass = new Image();
     this._data = [];
@@ -74,6 +75,7 @@ export default class Shape extends BaseClass {
     this._name = "Shape";
     this._opacity = constant(1);
     this._pointerEvents = constant("visiblePainted");
+    this._role = "presentation";
     this._rotate = constant(0);
     this._rx = constant(0);
     this._ry = constant(0);
@@ -514,6 +516,8 @@ export default class Shape extends BaseClass {
     const enter = this._enter = update.enter().append(this._tagName)
       .attr("class", (d, i) => `d3plus-Shape d3plus-${this._name} d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
       .call(this._applyTransform.bind(this))
+      .attr("aria-label", this._ariaLabel)
+      .attr("role", this._role)
       .attr("opacity", this._nestWrapper(this._opacity));
 
     const enterUpdate = enter.merge(update);
@@ -618,6 +622,18 @@ export default class Shape extends BaseClass {
   */
   activeStyle(_) {
     return arguments.length ? (this._activeStyle = assign({}, this._activeStyle, _), this) : this._activeStyle;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the aria-label attribute to the specified function or string and returns the current class instance.
+      @param {Function|String} *value*
+      @chainable
+  */
+  ariaLabel(_) {
+    return _ !== undefined 
+      ? (this._ariaLabel = typeof _ === "function" ? _ : constant(_), this) 
+      : this._ariaLabel;
   }
 
   /**
@@ -798,13 +814,25 @@ function(d, i, shape) {
   }
 
   /**
-       @memberof Shape
-       @desc If *value* is specified, sets the pointerEvents accessor to the specified function or string and returns the current class instance.
-       @param {String} [*value*]
-       @chainable
+      @memberof Shape
+      @desc If *value* is specified, sets the pointerEvents accessor to the specified function or string and returns the current class instance.
+      @param {String} [*value*]
+      @chainable
    */
   pointerEvents(_) {
     return arguments.length ? (this._pointerEvents = typeof _ === "function" ? _ : constant(_), this) : this._pointerEvents;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the role attribute to the specified function or string and returns the current class instance.
+      @param {Function|String} *value*
+      @chainable
+  */
+  role(_) {
+    return _ !== undefined 
+      ? (this._role = typeof _ === "function" ? _ : constant(_), this) 
+      : this._role;
   }
 
   /**
