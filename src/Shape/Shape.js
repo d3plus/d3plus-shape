@@ -464,8 +464,8 @@ export default class Shape extends BaseClass {
       .data(labelData)
       .duration(this._duration)
       .pointerEvents("none")
-      .rotate(d => d.data.r)
-      .rotateAnchor(d => d.data.rotateAnchor)
+      .rotate(d => d.__d3plus__ ? d.r : d.data.r)
+      .rotateAnchor(d => d.__d3plus__ ? d.rotateAnchor : d.data.rotateAnchor)
       .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
       .config(this._labelConfig)
       .render();
@@ -631,8 +631,8 @@ export default class Shape extends BaseClass {
       @chainable
   */
   ariaLabel(_) {
-    return _ !== undefined 
-      ? (this._ariaLabel = typeof _ === "function" ? _ : constant(_), this) 
+    return _ !== undefined
+      ? (this._ariaLabel = typeof _ === "function" ? _ : constant(_), this)
       : this._ariaLabel;
   }
 
@@ -830,8 +830,8 @@ function(d, i, shape) {
       @chainable
   */
   role(_) {
-    return _ !== undefined 
-      ? (this._role = typeof _ === "function" ? _ : constant(_), this) 
+    return _ !== undefined
+      ? (this._role = typeof _ === "function" ? _ : constant(_), this)
       : this._role;
   }
 
