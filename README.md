@@ -1327,4 +1327,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Thu, 14 Jun 2018 16:03:53 GMT</sub>
+###### <sub>Documentation generated on Fri, 15 Jun 2018 16:02:10 GMT</sub>
