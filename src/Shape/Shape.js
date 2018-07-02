@@ -327,7 +327,7 @@ export default class Shape extends BaseClass {
             let x = d.__d3plusShape__ ? d.translate ? d.translate[0]
                   : this._x(d.data, d.i) : this._x(d, i),
                 y = d.__d3plusShape__ ? d.translate ? d.translate[1]
-                  : this._y(d.data, d.i) : this._y(d, i);
+                : this._y(d.data, d.i) : this._y(d, i);
 
             if (aes.x) x += aes.x;
             if (aes.y) y += aes.y;
@@ -395,7 +395,7 @@ export default class Shape extends BaseClass {
             const x = d.__d3plusShape__ ? d.translate ? d.translate[0]
                     : this._x(d.data, d.i) : this._x(d, i),
                   y = d.__d3plusShape__ ? d.translate ? d.translate[1]
-                    : this._y(d.data, d.i) : this._y(d, i);
+                  : this._y(d.data, d.i) : this._y(d, i);
 
             if (d.__d3plusShape__) {
               d = d.data;
