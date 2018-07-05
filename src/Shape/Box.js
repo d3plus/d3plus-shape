@@ -1,42 +1,42 @@
 import {max, min, quantile} from "d3-array";
 import {nest} from "d3-collection";
-// import {interpolatePath} from "d3-interpolate-path";
-// import {select} from "d3-selection";
-// import {accessor, assign, configPrep, constant, elem, merge} from "d3plus-common";
+import {mouse, select, selectAll} from "d3-selection";
+// import {transition} from "d3-transition";
 
-import {accessor, configPrep, constant, merge, elem} from "d3plus-common";
+import {accessor, configPrep, BaseClass, constant, merge, elem} from "d3plus-common";
 
-import Shape from "./Shape";
-import Rect from "./Rect";
-// import Line from "./Line";
 import Path from "./Path";
+import Rect from "./Rect";
+import Whisker from "./Whisker";
 
 /**
     @class Box
     @extends Shape
     @desc Creates SVG lines based on an array of data.
 */
-export default class Box extends Shape {
+export default class Box extends BaseClass {
 
   /**
       @memberof Box
       @desc Invoked when creating a new class instance, and overrides any default parameters inherited from Shape.
       @private
   */
-  constructor() {
+  constructor(tagName = "g") {
 
     super();
 
-    this._defined = d => d;
-    this._fill = constant("white");
+    // this._defined = d => d;
+    // this._data = [];
+    this._fill = constant("black");
     this._name = "Box";
+    this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._stroke = constant("black");
-    this._strokeWidth = constant(1);
+    // this._strokeWidth = constant(1);
     this._value = accessor("value");
     this._whiskerMode = ["extent", "extent"];
-    this._width = constant(100);
-    this._x = constant(100);
-    this._y = constant(100);
+    this._width = constant(50);
+    this._x = constant(200);
+    this._y = constant(200);
 
   }
 
@@ -51,7 +51,7 @@ export default class Box extends Shape {
 
       d.data = merge(d.values);
       const values = d.values.map(this._value);
-      values.sort();
+      values.sort((a, b) => a - b);
       d.i = data.indexOf(d.values[0]);
 
       d.first = quantile(values, 0.25);
@@ -71,44 +71,78 @@ export default class Box extends Shape {
       d.nested = true;
       d.__d3plusShape__ = true;
 
+      console.log("d from box: ", d);
+
       return d;
     });
 
     boxes.key = d => d.key;
     return boxes;
-    
+
   }
 
   /**
       @memberof Box
-      @desc Draws the lines.
+      @desc Draws the Box.
       @param {Function} [*callback*]
       @chainable
   */
-  render(callback) {
+  render() {
 
-    super.render(callback);
+    if (this._select === void 0) {
+      this.select(select("body").append("svg")
+        .style("width", `${window.innerWidth}px`)
+        .style("height", `${window.innerHeight}px`)
+        .style("display", "block").node());
+    }
 
-    const rectData = {width: this._width(), height: this._box[0].third - this._box[0].first, x: this._x(), y: this._y()};
+    const filteredData = this._dataFilter(this._data);
+    console.log("filteredData: ", filteredData);
+
+    function computeHeight(d) {
+      return d.third - d.first;
+    }
+
     new Rect()
-      .data([rectData])
+      .data(filteredData)
+      .width(this._width)
+      .height(computeHeight)
+      .x(this._x)
+      .y(this._y)
       .fill("white")
       .strokeWidth(1)
-      .select(elem("g.d3plus-Box", {
+      .select(elem("g.d3plus-whisker-box", {
         parent: this._select
       }).node())
       .render();
 
-    // Draw 4 lines using Path class.
-    // Note that rectData.x and rectData.y are coordinates of center of the rectangle.
+    const boxTopY = this._y() - computeHeight(filteredData[0]) / 2;
+
+    const medianPoint1X = this._x() - this._width() / 2;
+    const medianPoint1Y = boxTopY + filteredData[0].third - filteredData[0].median;
+    const medianPoint2X = medianPoint1X + this._width();
+    const medianPoint2Y = medianPoint1Y;
+    let medianLineStr = `M${medianPoint1X},${medianPoint1Y} `;
+    medianLineStr += `L${medianPoint2X},${medianPoint2Y}`;
+    console.log("medianLineStr: ", medianLineStr);
+    new Path()
+      .data([{path: medianLineStr}])
+      .select(elem("g.d3plus-whisker-box", {
+        parent: this._select
+      }).node())
+      .strokeWidth(1)
+      .render();
+
+    // Draw 4 lines using Whisker class.
+    // Note that this._x() and this._y() are coordinates of center of the rectangle.
 
     // Construct path string for bottom line.
-    const point1X = rectData.x;
-    const point1Y = rectData.y + rectData.height / 2;
+    const point1X = this._x();
+    const point1Y = this._y() + computeHeight(filteredData[0]) / 2;
     const point2X = point1X;
     const point2Y = point1Y + (this._box[0].first - this._box[0].bottom);
-    let line1Str = `M${  point1X  },${  point1Y}`;
-    line1Str += `L${  point2X  },${  point2Y}`;
+    let line1Str = `M${point1X},${point1Y} `;
+    line1Str += `L${point2X},${point2Y}`;
     console.log("line1Str: ", line1Str);
 
     // Construct path string for end marker of bottom line.
@@ -116,17 +150,17 @@ export default class Box extends Shape {
     const point3Y = point2Y;
     const point4X = point2X + 50;
     const point4Y = point2Y;
-    let line2Str = `M${  point3X  },${  point3Y}`;
-    line2Str += `L${  point4X  },${  point4Y}`;
+    let line2Str = `M${point3X},${point3Y} `;
+    line2Str += `L${point4X},${point4Y}`;
     console.log("line2Str: ", line2Str);
 
     // Construct path string for top line.
-    const point5X = rectData.x;
-    const point5Y = rectData.y - rectData.height / 2;
+    const point5X = this._x();
+    const point5Y = this._y() - computeHeight(filteredData[0]) / 2;
     const point6X = point5X;
     const point6Y = point5Y - (this._box[0].top - this._box[0].third);
-    let line3Str = `M${  point5X  },${  point5Y}`;
-    line3Str += `L${  point6X  },${  point6Y}`;
+    let line3Str = `M${point5X},${point5Y} `;
+    line3Str += `L${point6X},${point6Y}`;
     console.log("line3Str: ", line3Str);
 
     // Construct path string for end marker of top line.
@@ -134,23 +168,46 @@ export default class Box extends Shape {
     const point7Y = point6Y;
     const point8X = point6X + 50;
     const point8Y = point6Y;
-    let line4Str = `M${  point7X  },${  point7Y}`;
-    line4Str += `L${  point8X  },${  point8Y}`;
+    let line4Str = `M${point7X},${point7Y} `;
+    line4Str += `L${point8X},${point8Y}`;
     console.log("line4Str: ", line4Str);
 
-    new Path()
-    .data([
+    const whiskerData = [
       {path: line1Str},
       {path: line2Str},
       {path: line3Str},
       {path: line4Str}
-    ])
-    .select(elem("g.d3plus-Box", {
-      parent: this._select
-    }).node())
-    .strokeWidth(1)
-    .render();
+    ];
+
+    new Whisker()
+      .data(whiskerData)
+      .select(elem("g.d3plus-whisker-box", {
+        parent: this._select
+      }).node())
+      .render();
     return this;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. A shape will be drawn for each object in the array.
+      @param {Array} [*data* = []]
+      @chainable
+  */
+  data(_) {
+    return arguments.length
+      ? (this._data = _, this)
+      : this._data;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
+      @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
+      @chainable
+  */
+  select(_) {
+    return arguments.length ? (this._select = select(_), this) : this._select;
   }
 
   /**

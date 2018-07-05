@@ -8,6 +8,7 @@ export {default as Circle} from "./src/Shape/Circle";
 export {default as Line} from "./src/Shape/Line";
 export {default as Path} from "./src/Shape/Path";
 export {default as Rect} from "./src/Shape/Rect";
+export {default as Whisker} from "./src/Shape/Whisker";
 
 export {default as largestRect} from "./src/geom/largestRect";
 export {default as lineIntersection} from "./src/geom/lineIntersection";
