@@ -1,20 +1,20 @@
 
 import {select} from "d3-selection";
 
-import {BaseClass, elem} from "d3plus-common";
+import {assign, BaseClass, constant, elem} from "d3plus-common";
 
 import Path from "./Path";
 
 /**
     @class Whisker
-    @extends Shape
+    @extends BaseClass
     @desc Creates SVG lines based on an array of data.
 */
 export default class Whisker extends BaseClass {
 
   /**
       @memberof Whisker
-      @desc Invoked when creating a new class instance, and overrides any default parameters inherited from Shape.
+      @desc Invoked when creating a new class instance, and overrides any default parameters inherited from BaseClass.
       @private
   */
   constructor() {
@@ -22,6 +22,10 @@ export default class Whisker extends BaseClass {
     super();
 
     this._name = "Whisker";
+    this._pathConfig = {
+      stroke: constant("black"),
+      strokeWidth: constant(1)
+    };
 
   }
 
@@ -47,12 +51,13 @@ export default class Whisker extends BaseClass {
       .strokeWidth(1)
       .render();
 
+    console.log("this._data: ", this._data);
     return this;
   }
 
   /**
       @memberof Whisker
-      @desc If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. A shape will be drawn for each object in the array.
+      @desc If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array.
       @param {Array} [*data* = []]
       @chainable
   */
@@ -60,6 +65,16 @@ export default class Whisker extends BaseClass {
     return arguments.length
       ? (this._data = _, this)
       : this._data;
+  }
+
+  /**
+      @memberof Whisker
+      @desc If *value* is specified, sets the config method for path shape and returns the current class instance.
+      @param {Object} [*value*]
+      @chainable
+  */
+  whiskerConfig(_) {
+    return arguments.length ? (this._pathConfig = assign(this._pathConfig, _), this) : this._pathConfig;
   }
 
   /**

@@ -1,9 +1,8 @@
 import {max, min, quantile} from "d3-array";
 import {nest} from "d3-collection";
-import {mouse, select, selectAll} from "d3-selection";
-// import {transition} from "d3-transition";
+import {select} from "d3-selection";
 
-import {accessor, configPrep, BaseClass, constant, merge, elem} from "d3plus-common";
+import {accessor, assign, BaseClass, constant, merge, elem} from "d3plus-common";
 
 import Path from "./Path";
 import Rect from "./Rect";
@@ -11,27 +10,31 @@ import Whisker from "./Whisker";
 
 /**
     @class Box
-    @extends Shape
+    @extends BaseClass
     @desc Creates SVG lines based on an array of data.
 */
 export default class Box extends BaseClass {
 
   /**
       @memberof Box
-      @desc Invoked when creating a new class instance, and overrides any default parameters inherited from Shape.
+      @desc Invoked when creating a new class instance, and overrides any default parameters inherited from BaseClass.
       @private
   */
-  constructor(tagName = "g") {
+  constructor() {
 
     super();
 
-    // this._defined = d => d;
-    // this._data = [];
-    this._fill = constant("black");
     this._name = "Box";
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
-    this._stroke = constant("black");
-    // this._strokeWidth = constant(1);
+    this._pathConfig = {
+      stroke: constant("black"),
+      strokeWidth: constant(1)
+    };
+    this._rectConfig = {
+      fill: constant("black"),
+      stroke: constant("black"),
+      strokeWidth: constant(1)
+    };
     this._value = accessor("value");
     this._whiskerMode = ["extent", "extent"];
     this._width = constant(50);
@@ -116,8 +119,9 @@ export default class Box extends BaseClass {
       }).node())
       .render();
 
+    // Compute median line coordinates to draw a median line inside the box.
     const boxTopY = this._y() - computeHeight(filteredData[0]) / 2;
-
+    console.log("boxTopY: ", boxTopY, "filteredData[0].third: ", filteredData[0].third);
     const medianPoint1X = this._x() - this._width() / 2;
     const medianPoint1Y = boxTopY + filteredData[0].third - filteredData[0].median;
     const medianPoint2X = medianPoint1X + this._width();
@@ -125,6 +129,8 @@ export default class Box extends BaseClass {
     let medianLineStr = `M${medianPoint1X},${medianPoint1Y} `;
     medianLineStr += `L${medianPoint2X},${medianPoint2Y}`;
     console.log("medianLineStr: ", medianLineStr);
+
+    // Draw median line using Path class.
     new Path()
       .data([{path: medianLineStr}])
       .select(elem("g.d3plus-whisker-box", {
@@ -189,8 +195,8 @@ export default class Box extends BaseClass {
   }
 
   /**
-      @memberof Shape
-      @desc If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. A shape will be drawn for each object in the array.
+      @memberof Box
+      @desc If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array.
       @param {Array} [*data* = []]
       @chainable
   */
@@ -201,7 +207,27 @@ export default class Box extends BaseClass {
   }
 
   /**
-      @memberof Shape
+      @memberof Box
+      @desc If *value* is specified, sets the config method for path shape and returns the current class instance.
+      @param {Object} [*value*]
+      @chainable
+  */
+  pathConfig(_) {
+    return arguments.length ? (this._pathConfig = assign(this._pathConfig, _), this) : this._pathConfig;
+  }
+
+  /**
+      @memberof Box
+      @desc If *value* is specified, sets the config method for rect shape and returns the current class instance.
+      @param {Object} [*value*]
+      @chainable
+  */
+  rectConfig(_) {
+    return arguments.length ? (this._rectConfig = assign(this._rectConfig, _), this) : this._rectConfig;
+  }
+
+  /**
+      @memberof Box
       @desc If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
       @param {String|HTMLElement} [*selector* = d3.select("body").append("svg")]
       @chainable
