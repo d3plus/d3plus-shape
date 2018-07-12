@@ -4,9 +4,9 @@ import {select} from "d3-selection";
 
 import {accessor, assign, BaseClass, constant, merge, elem} from "d3plus-common";
 
-import Path from "./Path";
 import Rect from "./Rect";
 import Whisker from "./Whisker";
+import Line from "./Line";
 
 /**
     @class Box
@@ -25,21 +25,23 @@ export default class Box extends BaseClass {
     super();
 
     this._name = "Box";
+    // this._groupBy = [accessor("id")];
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._pathConfig = {
       stroke: constant("black"),
       strokeWidth: constant(1)
     };
     this._rectConfig = {
-      fill: constant("black"),
+      fill: constant("white"),
       stroke: constant("black"),
       strokeWidth: constant(1)
     };
     this._value = accessor("value");
     this._whiskerMode = ["extent", "extent"];
-    this._width = constant(50);
-    this._x = constant(200);
-    this._y = constant(200);
+    this._rectHeight = d => d.third - d.first;
+    this._rectWidth = constant(50);
+    this._x = constant(250);
+    this._y = constant(250);
 
   }
 
@@ -56,11 +58,16 @@ export default class Box extends BaseClass {
       const values = d.values.map(this._value);
       values.sort((a, b) => a - b);
       d.i = data.indexOf(d.values[0]);
+      d.x = this._x(d.data, d.i);
+      d.y = this._y(d.data, d.i);
 
       d.first = quantile(values, 0.25);
       d.median = quantile(values, 0.50);
       d.third = quantile(values, 0.75);
 
+      d.width = this._rectWidth();
+      d.height = this._rectHeight(d);
+      
       const mode = this._whiskerMode;
 
       if (mode[0] === "tukey") d.top = d.first - (d.third - d.first) * 1.5;
@@ -70,6 +77,9 @@ export default class Box extends BaseClass {
       if (mode[1] === "tukey") d.bottom = d.third + (d.third - d.first) * 1.5;
       else if (mode[1] === "extent") d.bottom = min(values);
       else if (typeof mode[1] === "number") d.bottom = max([min(values), quantile(values, mode[1] / 100)]);
+
+      this._topWhiskerLength = d.top - d.third;
+      this._bottomWhiskerLength = d.first - d.bottom;
 
       d.nested = true;
       d.__d3plusShape__ = true;
@@ -102,95 +112,71 @@ export default class Box extends BaseClass {
     const filteredData = this._dataFilter(this._data);
     console.log("filteredData: ", filteredData);
 
-    function computeHeight(d) {
-      return d.third - d.first;
-    }
-
     new Rect()
       .data(filteredData)
-      .width(this._width)
-      .height(computeHeight)
-      .x(this._x)
-      .y(this._y)
-      .fill("white")
-      .strokeWidth(1)
-      .select(elem("g.d3plus-whisker-box", {
+      .x(filteredData[0].x)
+      .y(filteredData[0].y)
+      .config(this._rectConfig)
+      .select(elem("g.d3plus-box", {
         parent: this._select
       }).node())
       .render();
 
-    // Compute median line coordinates to draw a median line inside the box.
-    const boxTopY = this._y() - computeHeight(filteredData[0]) / 2;
-    console.log("boxTopY: ", boxTopY, "filteredData[0].third: ", filteredData[0].third);
-    const medianPoint1X = this._x() - this._width() / 2;
+    // Compute coordinates for median line.
+    const boxTopY = this._y() - this._rectHeight(filteredData[0]) / 2;
+    const medianPoint1X = this._x() - this._rectWidth() / 2;
     const medianPoint1Y = boxTopY + filteredData[0].third - filteredData[0].median;
-    const medianPoint2X = medianPoint1X + this._width();
+    const medianPoint2X = medianPoint1X + this._rectWidth();
     const medianPoint2Y = medianPoint1Y;
-    let medianLineStr = `M${medianPoint1X},${medianPoint1Y} `;
-    medianLineStr += `L${medianPoint2X},${medianPoint2Y}`;
-    console.log("medianLineStr: ", medianLineStr);
 
-    // Draw median line using Path class.
-    new Path()
-      .data([{path: medianLineStr}])
-      .select(elem("g.d3plus-whisker-box", {
+    // Draw median line inside the box.
+    new Line()
+      .data([{x: medianPoint1X, y: medianPoint1Y}, {x: medianPoint2X, y: medianPoint2Y}])
+      .select(elem("g.d3plus-box-median", {
         parent: this._select
       }).node())
-      .strokeWidth(1)
       .render();
 
-    // Draw 4 lines using Whisker class.
+    // Draw 2 lines using Whisker class.
     // Note that this._x() and this._y() are coordinates of center of the rectangle.
 
-    // Construct path string for bottom line.
+    // Construct line coordinates for bottom line.
     const point1X = this._x();
-    const point1Y = this._y() + computeHeight(filteredData[0]) / 2;
-    const point2X = point1X;
-    const point2Y = point1Y + (this._box[0].first - this._box[0].bottom);
-    let line1Str = `M${point1X},${point1Y} `;
-    line1Str += `L${point2X},${point2Y}`;
-    console.log("line1Str: ", line1Str);
+    const point1Y = this._y() + this._rectHeight(filteredData[0]) / 2;
 
-    // Construct path string for end marker of bottom line.
-    const point3X = point2X - 50;
-    const point3Y = point2Y;
-    const point4X = point2X + 50;
-    const point4Y = point2Y;
-    let line2Str = `M${point3X},${point3Y} `;
-    line2Str += `L${point4X},${point4Y}`;
-    console.log("line2Str: ", line2Str);
-
-    // Construct path string for top line.
+    // Construct line coordinates for top line.
     const point5X = this._x();
-    const point5Y = this._y() - computeHeight(filteredData[0]) / 2;
-    const point6X = point5X;
-    const point6Y = point5Y - (this._box[0].top - this._box[0].third);
-    let line3Str = `M${point5X},${point5Y} `;
-    line3Str += `L${point6X},${point6Y}`;
-    console.log("line3Str: ", line3Str);
+    const point5Y = this._y() - this._rectHeight(filteredData[0]) / 2;
 
-    // Construct path string for end marker of top line.
-    const point7X = point6X - 50;
-    const point7Y = point6Y;
-    const point8X = point6X + 50;
-    const point8Y = point6Y;
-    let line4Str = `M${point7X},${point7Y} `;
-    line4Str += `L${point8X},${point8Y}`;
-    console.log("line4Str: ", line4Str);
+    const whiskerData1 = [
+      {x: point1X, y: point1Y}
+    ];
 
-    const whiskerData = [
-      {path: line1Str},
-      {path: line2Str},
-      {path: line3Str},
-      {path: line4Str}
+    const whiskerData2 = [
+      {x: point5X, y: point5Y}
     ];
 
     new Whisker()
-      .data(whiskerData)
-      .select(elem("g.d3plus-whisker-box", {
+      .data(whiskerData1)
+      .select(elem("g.d3plus-box-whisker1", {
         parent: this._select
       }).node())
+      .length(this._bottomWhiskerLength)
+      .orient("bottom")
+      .endpoint("Rect")
+      .endpointConfig({
+        Circle: {
+          fill: "red",
+          r: 5
+        },
+        Rect: {
+          fill: "black",
+          height: 3,
+          width: 10
+        }
+      })
       .render();
+
     return this;
   }
 
@@ -267,8 +253,8 @@ function(d) {
   return d.width;
 }
   */
-  width(_) {
-    return arguments.length ? (this._width = typeof _ === "function" ? _ : constant(_), this) : this._width;
+  rectWidth(_) {
+    return arguments.length ? (this._rectWidth = typeof _ === "function" ? _ : constant(_), this) : this._rectWidth;
   }
 
 
