@@ -147,9 +147,12 @@ export default class Box extends BaseClass {
     // Construct line coordinates for top line.
     const point5X = this._x();
     const point5Y = this._y() - this._rectHeight(filteredData[0]) / 2;
+    const point6X = point5X;
+    const point6Y = point5Y - (this._box[0].top - this._box[0].third);
 
-    const whiskerData1 = [
-      {x: point1X, y: point1Y}
+    const whiskerData = [
+      // {x: point1X, y: point1Y, length: this._topWhiskerLength, orient: "bottom"},
+      // {x: point5X, y: point5Y, length: this._bottomWhiskerLength, orient: "bottom"}
     ];
 
     const whiskerData2 = [
@@ -157,24 +160,10 @@ export default class Box extends BaseClass {
     ];
 
     new Whisker()
-      .data(whiskerData1)
-      .select(elem("g.d3plus-box-whisker1", {
+      .data(whiskerData)
+      .select(elem("g.d3plus-box-whisker", {
         parent: this._select
       }).node())
-      .length(this._bottomWhiskerLength)
-      .orient("bottom")
-      .endpoint("Rect")
-      .endpointConfig({
-        Circle: {
-          fill: "red",
-          r: 5
-        },
-        Rect: {
-          fill: "black",
-          height: 3,
-          width: 10
-        }
-      })
       .render();
 
     return this;

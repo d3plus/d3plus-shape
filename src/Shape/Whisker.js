@@ -42,7 +42,7 @@ export default class Whisker extends BaseClass {
       strokeWidth: constant(1)
     };
     this._name = "Whisker";
-    this._orient = accessor("orient", "bottom");
+    this._orient = accessor("orient", "top");
     this._shapes = [];
     this._x = accessor("x", 0);
     this._y = accessor("y", 0);
@@ -88,7 +88,7 @@ export default class Whisker extends BaseClass {
       if (d.endpoint === "Circle") {
         console.log("d from circle data: ", d);
         const circleData = {
-          fill: d.fill !== undefined ? d.fill : "blue",
+          fill: d.fill !== undefined ? d.fill : "black",
           r: d.r !== undefined ? d.r : 7,
           x: d.x2,
           y: d.y2
