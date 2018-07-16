@@ -10,6 +10,7 @@ import {transition} from "d3-transition";
 
 import {accessor, assign, attrize, BaseClass, constant, elem} from "d3plus-common";
 import {colorContrast} from "d3plus-color";
+import * as paths from "d3-shape";
 import {strip, TextBox} from "d3plus-text";
 
 import Image from "../Image";
@@ -33,12 +34,17 @@ export default class Shape extends BaseClass {
 
     this._activeOpacity = 0.25;
     this._activeStyle = {
-      "stroke": "#444444",
+      "stroke": (d, i) => {
+        let c = this._fill(d, i);
+        if (["transparent", "none"].includes(c)) c = this._stroke(d, i);
+        return color(c).darker(1);
+      },
       "stroke-width": (d, i) => {
         const s = this._strokeWidth(d, i) || 1;
         return s * 3;
       }
     };
+    this._ariaLabel = constant("");
     this._backgroundImage = constant(false);
     this._backgroundImageClass = new Image();
     this._data = [];
@@ -47,16 +53,30 @@ export default class Shape extends BaseClass {
     this._fillOpacity = constant(1);
 
     this._hoverOpacity = 0.5;
+    this._hoverStyle = {
+      "stroke": (d, i) => {
+        let c = this._fill(d, i);
+        if (["transparent", "none"].includes(c)) c = this._stroke(d, i);
+        return color(c).darker(0.5);
+      },
+      "stroke-width": (d, i) => {
+        const s = this._strokeWidth(d, i) || 1;
+        return s * 2;
+      }
+    };
     this._id = (d, i) => d.id !== void 0 ? d.id : i;
     this._label = constant(false);
     this._labelClass = new TextBox();
     this._labelConfig = {
       fontColor: (d, i) => colorContrast(this._fill(d, i)),
-      fontSize: 12
+      fontSize: 12,
+      padding: 5
     };
-    this._labelPadding = constant(5);
     this._name = "Shape";
     this._opacity = constant(1);
+    this._pointerEvents = constant("visiblePainted");
+    this._role = constant("presentation");
+    this._rotate = constant(0);
     this._rx = constant(0);
     this._ry = constant(0);
     this._scale = constant(1);
@@ -113,11 +133,12 @@ export default class Shape extends BaseClass {
 
   /**
       @memberof Shape
-      @desc Provides the default styling to the active shape elements.
+      @desc Provides the updated styling to the given shape elements.
       @param {HTMLElement} *elem*
+      @param {Object} *style*
       @private
   */
-  _applyActive(elem) {
+  _updateStyle(elem, style) {
 
     const that = this;
 
@@ -136,14 +157,14 @@ export default class Shape extends BaseClass {
           : this(d, i);
     }
 
-    const activeStyle = {};
-    for (const key in this._activeStyle) {
-      if ({}.hasOwnProperty.call(this._activeStyle, key)) {
-        activeStyle[key] = styleLogic.bind(this._activeStyle[key]);
+    const styleObject = {};
+    for (const key in style) {
+      if ({}.hasOwnProperty.call(style, key)) {
+        styleObject[key] = styleLogic.bind(style[key]);
       }
     }
 
-    elem.transition().duration(0).call(attrize, activeStyle);
+    elem.transition().duration(0).call(attrize, styleObject);
 
   }
 
@@ -200,7 +221,10 @@ export default class Shape extends BaseClass {
     : `${this._x(d.data, d.i)},${this._y(d.data, d.i)}`
     : `${this._x(d, i)},${this._y(d, i)}`})
         scale(${d.__d3plusShape__ ? d.scale || this._scale(d.data, d.i)
-  : this._scale(d, i)})`);
+  : this._scale(d, i)})
+        rotate(${d.__d3plusShape__ ? d.rotate ? d.rotate
+  : this._rotate(d.data || d, d.i)
+  : this._rotate(d.data || d, d.i)})`);
   }
 
   /**
@@ -243,14 +267,14 @@ export default class Shape extends BaseClass {
           group.appendChild(this);
           if (this.className.baseVal.includes("d3plus-Shape")) {
             if (parent === group) select(this).call(that._applyStyle.bind(that));
-            else select(this).call(that._applyActive.bind(that));
+            else select(this).call(that._updateStyle.bind(that, select(this), that._activeStyle));
           }
         }
 
       });
 
-    this._renderImage();
-    this._renderLabels();
+    // this._renderImage();
+    // this._renderLabels();
 
     this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
       .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
@@ -285,11 +309,15 @@ export default class Shape extends BaseClass {
 
         const group = !that._hover || typeof that._hover !== "function" || !that._hover(d, i) ? parent : that._hoverGroup.node();
         if (group !== this.parentNode) group.appendChild(this);
+        if (this.className.baseVal.includes("d3plus-Shape")) {
+          if (parent === group) select(this).call(that._applyStyle.bind(that));
+          else select(this).call(that._updateStyle.bind(that, select(this), that._hoverStyle));
+        }
 
       });
 
-    this._renderImage();
-    this._renderLabels();
+    // this._renderImage();
+    // this._renderLabels();
 
     this._group.selectAll(`g.d3plus-${this._name}-shape, g.d3plus-${this._name}-image, g.d3plus-${this._name}-text`)
       .attr("opacity", this._hover ? this._hoverOpacity : this._active ? this._activeOpacity : 1);
@@ -402,24 +430,26 @@ export default class Shape extends BaseClass {
               i = d.i;
             }
 
-            const padding = this._labelPadding(d, i);
-
             for (let l = 0; l < labels.length; l++) {
 
-              const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds),
-                    p = padding.constructor === Array ? padding[l] : padding;
+              const b = bounds.constructor === Array ? bounds[l] : Object.assign({}, bounds);
+              const rotate = this._rotate(d, i);
+              let r = d.labelConfig && d.labelConfig.rotate ? d.labelConfig.rotate : bounds.angle !== undefined ? bounds.angle : 0;
+              r += rotate;
+              const rotateAnchor = rotate !== 0 ? [b.x * -1 || 0, b.y * -1 || 0] : [b.width / 2, b.height / 2];
 
               labelData.push({
                 __d3plus__: true,
                 data: d,
-                height: b.height - p * 2,
+                height: b.height,
                 l,
                 id: `${this._id(d, i)}_${l}`,
-                r: bounds.angle !== undefined ? bounds.angle : 0,
+                r,
+                rotateAnchor,
                 text: labels[l],
-                width: b.width - p * 2,
-                x: x + b.x + p,
-                y: y + b.y + p
+                width: b.width,
+                x: x + b.x,
+                y: y + b.y
               });
 
             }
@@ -434,7 +464,8 @@ export default class Shape extends BaseClass {
       .data(labelData)
       .duration(this._duration)
       .pointerEvents("none")
-      .rotate(d => d.data.r)
+      .rotate(d => d.__d3plus__ ? d.r : d.data.r)
+      .rotateAnchor(d => d.__d3plus__ ? d.rotateAnchor : d.data.rotateAnchor)
       .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
       .config(this._labelConfig)
       .render();
@@ -464,7 +495,13 @@ export default class Shape extends BaseClass {
       if (data.key) key = data.key;
     }
 
-    if (this._sort) data = data.sort((a, b) => this._sort(a.__d3plusShape__ ? a.data : a, b.__d3plusShape__ ? b.data : b));
+    if (this._sort) {
+      data = data.sort((a, b) => {
+        while (a.__d3plusShape__ || a.__d3plus__) a = a.data;
+        while (b.__d3plusShape__ || b.__d3plus__) b = b.data;
+        return this._sort(a, b);
+      });
+    }
 
     selectAll(`g.d3plus-${this._name}-hover > *, g.d3plus-${this._name}-active > *`).each(function(d) {
       if (d && d.parentNode) d.parentNode.appendChild(this);
@@ -485,6 +522,8 @@ export default class Shape extends BaseClass {
     const enter = this._enter = update.enter().append(this._tagName)
       .attr("class", (d, i) => `d3plus-Shape d3plus-${this._name} d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
       .call(this._applyTransform.bind(this))
+      .attr("aria-label", this._ariaLabel)
+      .attr("role", this._role)
       .attr("opacity", this._nestWrapper(this._opacity));
 
     const enterUpdate = enter.merge(update);
@@ -495,7 +534,7 @@ export default class Shape extends BaseClass {
       .transition(this._transition)
       .attr("opacity", this._nestWrapper(this._opacity))
       .transition()
-      .attr("pointer-events", "all");
+      .attr("pointer-events", this._pointerEvents);
 
     // Makes the exit state of the group selection accessible.
     const exit = this._exit = update.exit();
@@ -507,23 +546,35 @@ export default class Shape extends BaseClass {
     this._hoverGroup = elem(`g.d3plus-${this._name}-hover`, {parent: this._group});
     this._activeGroup = elem(`g.d3plus-${this._name}-active`, {parent: this._group});
 
-    const that = this;
-
     const hitAreas = this._group.selectAll(".d3plus-HitArea")
       .data(this._hitArea ? data : [], key);
 
-    hitAreas.order().transition(this._transition)
+    hitAreas.order()
       .call(this._applyTransform.bind(this));
 
-    const hitEnter = hitAreas.enter().append("rect")
+    const isLine = this._name === "Line";
+
+    isLine && this._path
+      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+      .defined(this._defined)
+      .x(this._x)
+      .y(this._y);
+
+    const hitEnter = hitAreas.enter().append(isLine ? "path" : "rect")
       .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)
-      .attr("fill", "transparent")
+      .attr("fill", "black")
+      .attr("stroke", "black")
+      .attr("pointer-events", "painted")
+      .attr("opacity", 0)
       .call(this._applyTransform.bind(this));
+
+    const that = this;
 
     const hitUpdates = hitAreas.merge(hitEnter)
       .each(function(d) {
-        const h = that._hitArea(d, that._data.indexOf(d), that._aes(d, that._data.indexOf(d)));
-        return h ? select(this).call(attrize, h) : select(this).remove();
+        const i = that._data.indexOf(d);
+        const h = that._hitArea(d, i, that._aes(d, i));
+        return h && !(that._name === "Line" && parseFloat(that._strokeWidth(d, i)) > 10) ? select(this).call(attrize, h) : select(this).remove();
       });
 
     hitAreas.exit().remove();
@@ -551,8 +602,8 @@ export default class Shape extends BaseClass {
     if (!arguments.length || _ === undefined) return this._active;
     this._active = _;
     if (this._group) {
-      this._renderImage();
-      this._renderLabels();
+      // this._renderImage();
+      // this._renderLabels();
       this._renderActive();
     }
     return this;
@@ -577,6 +628,18 @@ export default class Shape extends BaseClass {
   */
   activeStyle(_) {
     return arguments.length ? (this._activeStyle = assign({}, this._activeStyle, _), this) : this._activeStyle;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the aria-label attribute to the specified function or string and returns the current class instance.
+      @param {Function|String} *value*
+      @chainable
+  */
+  ariaLabel(_) {
+    return _ !== undefined
+      ? (this._ariaLabel = typeof _ === "function" ? _ : constant(_), this)
+      : this._ariaLabel;
   }
 
   /**
@@ -650,12 +713,22 @@ export default class Shape extends BaseClass {
     if (!arguments.length || _ === void 0) return this._hover;
     this._hover = _;
     if (this._group) {
-      this._renderImage();
-      this._renderLabels();
+      // this._renderImage();
+      // this._renderLabels();
       this._renderHover();
     }
     return this;
 
+  }
+
+  /**
+      @memberof Shape
+      @desc The style to apply to hovered shapes.
+      @param {Object} *value*
+      @chainable
+   */
+  hoverStyle(_) {
+    return arguments.length ? (this._hoverStyle = assign({}, this._hoverStyle, _), this) : this._hoverStyle;
   }
 
   /**
@@ -738,22 +811,44 @@ function(d, i, shape) {
 
   /**
       @memberof Shape
-      @desc If *value* is specified, sets the label padding to the specified number and returns the current class instance.
-      @param {Function|Number|Array} [*value* = 10]
-      @chainable
-  */
-  labelPadding(_) {
-    return arguments.length ? (this._labelPadding = typeof _ === "function" ? _ : constant(_), this) : this._labelPadding;
-  }
-
-  /**
-      @memberof Shape
       @desc If *value* is specified, sets the opacity accessor to the specified function or number and returns the current class instance.
       @param {Number} [*value* = 1]
       @chainable
   */
   opacity(_) {
     return arguments.length ? (this._opacity = typeof _ === "function" ? _ : constant(_), this) : this._opacity;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the pointerEvents accessor to the specified function or string and returns the current class instance.
+      @param {String} [*value*]
+      @chainable
+   */
+  pointerEvents(_) {
+    return arguments.length ? (this._pointerEvents = typeof _ === "function" ? _ : constant(_), this) : this._pointerEvents;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the role attribute to the specified function or string and returns the current class instance.
+      @param {Function|String} *value*
+      @chainable
+  */
+  role(_) {
+    return _ !== undefined
+      ? (this._role = typeof _ === "function" ? _ : constant(_), this)
+      : this._role;
+  }
+
+  /**
+      @memberof Shape
+      @desc If *value* is specified, sets the rotate accessor to the specified function or number and returns the current class instance.
+      @param {Function|Number} [*value* = 0]
+      @chainable
+   */
+  rotate(_) {
+    return arguments.length ? (this._rotate = typeof _ === "function" ? _ : constant(_), this) : this._rotate;
   }
 
   /**
