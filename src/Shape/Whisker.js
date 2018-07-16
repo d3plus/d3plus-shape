@@ -1,6 +1,7 @@
 import {select} from "d3-selection";
 
 import {accessor, assign, BaseClass, configPrep, constant, elem} from "d3plus-common";
+import {nest} from "d3-collection";
 
 import Circle from "./Circle";
 import Line from "./Line";
@@ -9,7 +10,7 @@ import Rect from "./Rect";
 /**
     @class Whisker
     @extends BaseClass
-    @desc Creates SVG lines based on an array of data.
+    @desc Creates SVG whisker based on an array of data.
 */
 export default class Whisker extends BaseClass {
 
@@ -22,19 +23,19 @@ export default class Whisker extends BaseClass {
 
     super();
 
-    this._endpoint = constant("Circle");
+    this._endpoint = accessor("endpoint", "Circle");
     this._endpointConfig = {
       Circle: {
-        fill: d => d.fill,
-        r: d => d.r
+        fill: accessor("fill", "black"),
+        r: accessor("r", 7)
       },
       Rect: {
-        fill: d => d.fill,
-        height: d => d.height,
-        stroke: constant("black"),
-        strokeWidth: constant(1),
-        width: d => d.width
-      }
+        fill: accessor("fill", "black"),
+        height: accessor("height", 10),
+        width: accessor("width", 20)
+      },
+      stroke: constant("black"),
+      strokeWidth: constant(1)
     };
     this._length = accessor("length", 25);
     this._lineConfig = {
@@ -43,72 +44,55 @@ export default class Whisker extends BaseClass {
     };
     this._name = "Whisker";
     this._orient = accessor("orient", "top");
+    this._shapeClasses = {Rect, Circle};
     this._shapes = [];
     this._x = accessor("x", 0);
     this._y = accessor("y", 0);
-
+    
   }
 
   /**
-      @memberof Box
+      @memberof Whisker
       @desc Filters/manipulates the data array before binding each point to an SVG group.
       @param {Array} [*data* = the data array to be filtered]
       @private
   */
   _whiskerData(data) {
+    
+    const getEndpointX = (d, i) => {
+      let x = this._x(d, i);
+      if (this._orient(d, i) === "left") {
+        x = this._x(d, i) - this._length(d, i);
+      }
+      else if (this._orient(d, i) === "right") {
+        x = this._x(d, i) + this._length(d, i);
+      }
+      return x;
+    };
+    const getEndpointY = (d, i) => {
+      let y = this._y(d, i);
+      if (this._orient(d, i) === "top") {
+        y = this._y(d, i) - this._length(d, i);
+      }
+      else if (this._orient(d, i) === "bottom") {
+        y = this._y(d, i) + this._length(d, i);
+      }
+      return y;
+    };
+
     this._lineData = [];
-    this._circleData = [];
-    this._rectData = [];
     data.forEach((d, i) => {
-      const lineCoordinates1 = {id: i, x: d.x, y: d.y};
-      this._lineData.push(lineCoordinates1);
-
-      if (d.orient === "top") {
-        d.x2 = d.x;
-        d.y2 = d.y - d.length;
-      }
-      else if (d.orient === "bottom") {
-        d.x2 = d.x;
-        d.y2 = d.y + d.length;
-      }
-      else if (d.orient === "left") {
-        d.x2 = d.x - d.length;
-        d.y2 = d.y;
-      }
-      else if (d.orient === "right") {
-        d.x2 = d.x + d.length;
-        d.y2 = d.y;
-      }
-      const lineCoordinates2 = {id: i, x: d.x2, y: d.y2};
-      this._lineData.push(lineCoordinates2);
-
-      if (d.endpoint === undefined) d.endpoint = this._endpoint();
-      if (d.orient === undefined) d.orient = this._orient(d);
-
-      if (d.endpoint === "Circle") {
-        console.log("d from circle data: ", d);
-        const circleData = {
-          fill: d.fill !== undefined ? d.fill : "black",
-          r: d.r !== undefined ? d.r : 7,
-          x: d.x2,
-          y: d.y2
-        };
-        this._circleData.push(circleData);
-      }
-      else {
-        console.log("d from rect data: ", d);
-        const rectData = {
-          fill: d.fill !== undefined ? d.fill : "black",
-          height: d.height !== undefined ? d.height : 10,
-          width: d.width !== undefined ? d.width : 20,
-          x: d.x2,
-          y: d.y2
-        };
-        this._rectData.push(rectData);
-      }
+      this._lineData.push({id: i, x: this._x(d, i), y: this._y(d, i)});
+      this._lineData.push({id: i, x: getEndpointX(d, i), y: getEndpointY(d, i)});
     });
 
-    return this;
+    // Copy original data to add/update x and y coordinates to endpoint coordinates.
+    const dataCopy = data.map(a => Object.assign({}, a));
+    dataCopy.forEach((d, i) => {
+      d.x = getEndpointX(d, i);
+      d.y = getEndpointY(d, i);
+    });
+    this._endpointShapeData = nest().key(this._endpoint).entries(dataCopy);
 
   }
 
@@ -126,34 +110,26 @@ export default class Whisker extends BaseClass {
         .style("height", `${window.innerHeight}px`)
         .style("display", "block").node());
     }
-
-    const filteredData = this._whiskerData(this._data);
-    console.log("filteredData: ", filteredData);
+    
+    this._whiskerData(this._data);
 
     this._shapes.push(new Line()
       .data(this._lineData)
       .select(elem("g.d3plus-Whisker", {parent: this._select}).node())
-      // .config({id: (d, i) => this._ids(d, i).join("-")})
       .config(configPrep.bind(this)(this._lineConfig, "shape"))
-      .render());
+      .render(callback));
 
-    console.log("this._data: ", this._data);
-    
-    this._shapes.push(new Circle()
-      .data(this._circleData)
-      .select(elem("g.d3plus-Whisker-Circle", {parent: this._select}).node())
-      // .config({id: (d, i) => this._ids(d, i).join("-")})
-      .config(configPrep.bind(this)(this._endpointConfig, "shape", "Circle"))
-      .render());
+    this._endpointShapeData.forEach(shapeData => {
+      const shapeName = shapeData.key;
+      this._shapes.push(new this._shapeClasses[shapeName]()
+        .data(shapeData.values)
+        .select(elem(`g.d3plus-Whisker-${shapeName}`, {parent: this._select}).node())
+        .config(configPrep.bind(this)(this._endpointConfig, "shape", shapeName))
+        .render());
+    });
 
-    this._shapes.push(new Rect()
-      .data(this._rectData)
-      .select(elem("g.d3plus-Whisker-Rect", {parent: this._select}).node())
-      .config(configPrep.bind(this)(this._endpointConfig, "shape", "Rect"))
-      .render());
-    
-    console.log("this._data from whisker render: ", this._data);
     return this;
+
   }
 
   /**
@@ -178,7 +154,7 @@ export default class Whisker extends BaseClass {
 
   /**
       @memberof Whisker
-      @desc TODO: refer shape's labelConfig(_) If *value* is specified, sets the endpoint accessor to the specified function or string and returns the current class instance.
+      @desc If *value* is specified, sets the config method for each endpoint and returns the current class instance.
       @param {Object} [*value*]
       @chainable
   */
@@ -227,7 +203,7 @@ export default class Whisker extends BaseClass {
   }
 
   /**
-    @memberof Box
+    @memberof Whisker
     @desc If *value* is specified, sets the x axis to the specified function or number and returns the current class instance.
     @param {Function|Number} [*value*]
     @chainable
@@ -241,13 +217,13 @@ function(d) {
   }
 
   /**
-      @memberof Box
+      @memberof Whisker
       @desc If *value* is specified, sets the y axis to the specified function or number and returns the current class instance.
       @param {Function|Number} [*value*]
       @chainable
       @example
 function(d) {
-return d.x;
+  return d.y;
 }
   */
   y(_) {
