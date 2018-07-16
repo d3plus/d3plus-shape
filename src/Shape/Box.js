@@ -4,14 +4,14 @@ import {select} from "d3-selection";
 
 import {accessor, assign, BaseClass, constant, merge, elem} from "d3plus-common";
 
+import Line from "./Line";
 import Rect from "./Rect";
 import Whisker from "./Whisker";
-import Line from "./Line";
 
 /**
     @class Box
     @extends BaseClass
-    @desc Creates SVG lines based on an array of data.
+    @desc Creates SVG box based on an array of data.
 */
 export default class Box extends BaseClass {
 
@@ -24,22 +24,17 @@ export default class Box extends BaseClass {
 
     super();
 
+    this._id = accessor("id", 1);
     this._name = "Box";
-    // this._groupBy = [accessor("id")];
-    this._id = (d, i) => d.id !== void 0 ? d.id : i;
-    this._pathConfig = {
-      stroke: constant("black"),
-      strokeWidth: constant(1)
-    };
     this._rectConfig = {
       fill: constant("white"),
       stroke: constant("black"),
       strokeWidth: constant(1)
     };
-    this._value = accessor("value");
-    this._whiskerMode = ["extent", "extent"];
     this._rectHeight = d => d.third - d.first;
     this._rectWidth = constant(50);
+    this._value = accessor("value");
+    this._whiskerMode = ["extent", "extent"];
     this._x = constant(250);
     this._y = constant(250);
 
@@ -84,8 +79,6 @@ export default class Box extends BaseClass {
       d.nested = true;
       d.__d3plusShape__ = true;
 
-      console.log("d from box: ", d);
-
       return d;
     });
 
@@ -110,8 +103,8 @@ export default class Box extends BaseClass {
     }
 
     const filteredData = this._dataFilter(this._data);
-    console.log("filteredData: ", filteredData);
 
+    // Draw box.
     new Rect()
       .data(filteredData)
       .x(filteredData[0].x)
@@ -129,9 +122,14 @@ export default class Box extends BaseClass {
     const medianPoint2X = medianPoint1X + this._rectWidth();
     const medianPoint2Y = medianPoint1Y;
 
+    const medianData = [
+      {x: medianPoint1X, y: medianPoint1Y},
+      {x: medianPoint2X, y: medianPoint2Y}
+    ];
+
     // Draw median line inside the box.
     new Line()
-      .data([{x: medianPoint1X, y: medianPoint1Y}, {x: medianPoint2X, y: medianPoint2Y}])
+      .data(medianData)
       .select(elem("g.d3plus-box-median", {
         parent: this._select
       }).node())
@@ -140,25 +138,20 @@ export default class Box extends BaseClass {
     // Draw 2 lines using Whisker class.
     // Note that this._x() and this._y() are coordinates of center of the rectangle.
 
-    // Construct line coordinates for bottom line.
+    // Construct coordinates for top whisker startpoint.
     const point1X = this._x();
-    const point1Y = this._y() + this._rectHeight(filteredData[0]) / 2;
+    const point1Y = this._y() - this._rectHeight(filteredData[0]) / 2;
 
-    // Construct line coordinates for top line.
-    const point5X = this._x();
-    const point5Y = this._y() - this._rectHeight(filteredData[0]) / 2;
-    const point6X = point5X;
-    const point6Y = point5Y - (this._box[0].top - this._box[0].third);
+    // Construct coordinates for bottom whisker startpoint.
+    const point2X = this._x();
+    const point2Y = this._y() + this._rectHeight(filteredData[0]) / 2;
 
     const whiskerData = [
-      // {x: point1X, y: point1Y, length: this._topWhiskerLength, orient: "bottom"},
-      // {x: point5X, y: point5Y, length: this._bottomWhiskerLength, orient: "bottom"}
+      {x: point1X, y: point1Y, length: this._topWhiskerLength, orient: "top"},
+      {x: point2X, y: point2Y, length: this._bottomWhiskerLength, orient: "bottom"}
     ];
 
-    const whiskerData2 = [
-      {x: point5X, y: point5Y}
-    ];
-
+    // Draw whiskers.
     new Whisker()
       .data(whiskerData)
       .select(elem("g.d3plus-box-whisker", {
@@ -176,19 +169,17 @@ export default class Box extends BaseClass {
       @chainable
   */
   data(_) {
-    return arguments.length
-      ? (this._data = _, this)
-      : this._data;
+    return arguments.length ? (this._data = _, this) : this._data;
   }
 
   /**
       @memberof Box
-      @desc If *value* is specified, sets the config method for path shape and returns the current class instance.
-      @param {Object} [*value*]
+      @desc If *value* is specified, sets the id accessor to the specified function and returns the current class instance.
+      @param {Function} [*value*]
       @chainable
   */
-  pathConfig(_) {
-    return arguments.length ? (this._pathConfig = assign(this._pathConfig, _), this) : this._pathConfig;
+  id(_) {
+    return arguments.length ? (this._id = _, this) : this._id;
   }
 
   /**
@@ -231,7 +222,6 @@ export default class Box extends BaseClass {
     return arguments.length ? (this._whiskerMode = _ instanceof Array ? _ : [_, _], this) : this._whiskerMode;
   }
 
-
   /**
       @memberof Box
       @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance.
@@ -245,7 +235,6 @@ function(d) {
   rectWidth(_) {
     return arguments.length ? (this._rectWidth = typeof _ === "function" ? _ : constant(_), this) : this._rectWidth;
   }
-
 
   /**
       @memberof Box
@@ -268,7 +257,7 @@ function(d) {
       @chainable
       @example
 function(d) {
-  return d.x;
+  return d.y;
 }
   */
   y(_) {
