@@ -7,6 +7,8 @@ import Circle from "./Circle";
 import Line from "./Line";
 import Rect from "./Rect";
 
+const shapes = {Circle, Rect};
+
 /**
     @class Whisker
     @extends BaseClass
@@ -23,76 +25,21 @@ export default class Whisker extends BaseClass {
 
     super();
 
-    this._endpoint = accessor("endpoint", "Circle");
+    this._endpoint = accessor("endpoint", "Rect");
     this._endpointConfig = {
       Circle: {
-        fill: accessor("fill", "black"),
-        r: accessor("r", 7)
+        r: accessor("r", 5)
       },
       Rect: {
-        fill: accessor("fill", "black"),
-        height: accessor("height", 10),
+        height: accessor("height", 5),
         width: accessor("width", 20)
-      },
-      stroke: constant("black"),
-      strokeWidth: constant(1)
+      }
     };
     this._length = accessor("length", 25);
-    this._lineConfig = {
-      stroke: constant("black"),
-      strokeWidth: constant(1)
-    };
-    this._name = "Whisker";
+    this._lineConfig = {};
     this._orient = accessor("orient", "top");
-    this._shapeClasses = {Rect, Circle};
-    this._shapes = [];
     this._x = accessor("x", 0);
     this._y = accessor("y", 0);
-    
-  }
-
-  /**
-      @memberof Whisker
-      @desc Filters/manipulates the data array before binding each point to an SVG group.
-      @param {Array} [*data* = the data array to be filtered]
-      @private
-  */
-  _whiskerData(data) {
-    
-    const getEndpointX = (d, i) => {
-      let x = this._x(d, i);
-      if (this._orient(d, i) === "left") {
-        x = this._x(d, i) - this._length(d, i);
-      }
-      else if (this._orient(d, i) === "right") {
-        x = this._x(d, i) + this._length(d, i);
-      }
-      return x;
-    };
-    const getEndpointY = (d, i) => {
-      let y = this._y(d, i);
-      if (this._orient(d, i) === "top") {
-        y = this._y(d, i) - this._length(d, i);
-      }
-      else if (this._orient(d, i) === "bottom") {
-        y = this._y(d, i) + this._length(d, i);
-      }
-      return y;
-    };
-
-    this._lineData = [];
-    data.forEach((d, i) => {
-      this._lineData.push({id: i, x: this._x(d, i), y: this._y(d, i)});
-      this._lineData.push({id: i, x: getEndpointX(d, i), y: getEndpointY(d, i)});
-    });
-
-    // Copy original data to add/update x and y coordinates to endpoint coordinates.
-    const dataCopy = data.map(a => Object.assign({}, a));
-    dataCopy.forEach((d, i) => {
-      d.x = getEndpointX(d, i);
-      d.y = getEndpointY(d, i);
-    });
-    this._endpointShapeData = nest().key(this._endpoint).entries(dataCopy);
 
   }
 
@@ -110,22 +57,68 @@ export default class Whisker extends BaseClass {
         .style("height", `${window.innerHeight}px`)
         .style("display", "block").node());
     }
-    
-    this._whiskerData(this._data);
 
-    this._shapes.push(new Line()
-      .data(this._lineData)
+    const lineData = [];
+    this._data.forEach((d, i) => {
+
+      const orient = this._orient(d, i);
+
+      let endpointX = this._x(d, i);
+      if (orient === "left") endpointX -= this._length(d, i);
+      else if (orient === "right") endpointX += this._length(d, i);
+
+      let endpointY = this._y(d, i);
+      if (orient === "top") endpointY -= this._length(d, i);
+      else if (orient === "bottom") endpointY += this._length(d, i);
+
+      lineData.push({__d3plus__: true, data: d, i, id: i, x: this._x(d, i), y: this._y(d, i)});
+      lineData.push({__d3plus__: true, data: d, i, id: i, x: endpointX, y: endpointY});
+    });
+
+    const whiskerData = [];
+    this._data.forEach((d, i) => {
+
+      const dataObj = {};
+      dataObj.__d3plus__ = true;
+      dataObj.data = d;
+      dataObj.i = i;
+      dataObj.endpoint = this._endpoint(d, i);
+      dataObj.length = this._length(d, i);
+      dataObj.r = this._endpointConfig.Circle.r;
+      dataObj.height = this._endpointConfig.Rect.height;
+      dataObj.width = this._endpointConfig.Rect.width;
+
+      const orient = this._orient(d, i);
+
+      let endpointX = this._x(d, i);
+      if (orient === "left") endpointX -= this._length(d, i);
+      else if (orient === "right") endpointX += this._length(d, i);
+
+      let endpointY = this._y(d, i);
+      if (orient === "top") endpointY -= this._length(d, i);
+      else if (orient === "bottom") endpointY += this._length(d, i);
+
+      dataObj.x = endpointX;
+      dataObj.y = endpointY;
+
+      whiskerData.push(dataObj);
+
+    });
+    this._endpointShapeData = nest().key(d => d.endpoint).entries(whiskerData);
+
+    new Line()
+      .data(lineData)
       .select(elem("g.d3plus-Whisker", {parent: this._select}).node())
       .config(configPrep.bind(this)(this._lineConfig, "shape"))
-      .render(callback));
+      .render(callback);
 
     this._endpointShapeData.forEach(shapeData => {
       const shapeName = shapeData.key;
-      this._shapes.push(new this._shapeClasses[shapeName]()
+      new shapes[shapeName]()
         .data(shapeData.values)
         .select(elem(`g.d3plus-Whisker-${shapeName}`, {parent: this._select}).node())
         .config(configPrep.bind(this)(this._endpointConfig, "shape", shapeName))
-        .render());
+        .render();
     });
 
     return this;

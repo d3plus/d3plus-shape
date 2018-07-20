@@ -2,9 +2,8 @@ import {max, min, quantile} from "d3-array";
 import {nest} from "d3-collection";
 import {select} from "d3-selection";
 
-import {accessor, assign, BaseClass, constant, merge, elem} from "d3plus-common";
+import {accessor, assign, BaseClass, configPrep, constant, merge, elem} from "d3plus-common";
 
-import Line from "./Line";
 import Rect from "./Rect";
 import Whisker from "./Whisker";
 
@@ -25,18 +24,21 @@ export default class Box extends BaseClass {
     super();
 
     this._id = accessor("id", 1);
-    this._name = "Box";
+    this._medianConfig = {
+      fill: constant("black"),
+      height: constant(1)
+    };
     this._rectConfig = {
       fill: constant("white"),
       stroke: constant("black"),
       strokeWidth: constant(1)
     };
-    this._rectHeight = d => d.third - d.first;
     this._rectWidth = constant(50);
     this._value = accessor("value");
-    this._whiskerMode = ["extent", "extent"];
-    this._x = constant(250);
-    this._y = constant(250);
+    this._whiskerConfig = {};
+    this._whiskerMode = ["tukey", "tukey"];
+    this._x = accessor("x", 250);
+    this._y = accessor("y", 250);
 
   }
 
@@ -47,12 +49,13 @@ export default class Box extends BaseClass {
       @private
   */
   _dataFilter(data) {
-    const boxes = this._box = nest().key(this._id).entries(data).map(d => {
+    const boxes = nest().key(this._id).entries(data).map(d => {
 
       d.data = merge(d.values);
       const values = d.values.map(this._value);
       values.sort((a, b) => a - b);
       d.i = data.indexOf(d.values[0]);
+      d.id = this._id(d.data, d.i);
       d.x = this._x(d.data, d.i);
       d.y = this._y(d.data, d.i);
 
@@ -60,21 +63,24 @@ export default class Box extends BaseClass {
       d.median = quantile(values, 0.50);
       d.third = quantile(values, 0.75);
 
-      d.width = this._rectWidth();
-      d.height = this._rectHeight(d);
+      d.width = this._rectWidth(d.data, d.i);
+      d.height = d.third - d.first;
       
       const mode = this._whiskerMode;
 
-      if (mode[0] === "tukey") d.top = d.first - (d.third - d.first) * 1.5;
+      if (mode[0] === "tukey") {
+        d.top = d.third + (d.third - d.first) * 1.5;
+        if (d.top > max(values)) d.top = max(values);
+      }
       else if (mode[0] === "extent") d.top = max(values);
       else if (typeof mode[0] === "number") d.top = min([max(values), quantile(values, mode[0] / 100)]);
 
-      if (mode[1] === "tukey") d.bottom = d.third + (d.third - d.first) * 1.5;
+      if (mode[1] === "tukey") {
+        d.bottom = d.first - (d.third - d.first) * 1.5;
+        if (d.bottom < min(values)) d.bottom = min(values);
+      }
       else if (mode[1] === "extent") d.bottom = min(values);
       else if (typeof mode[1] === "number") d.bottom = max([min(values), quantile(values, mode[1] / 100)]);
-
-      this._topWhiskerLength = d.top - d.third;
-      this._bottomWhiskerLength = d.first - d.bottom;
 
       d.nested = true;
       d.__d3plusShape__ = true;
@@ -82,7 +88,6 @@ export default class Box extends BaseClass {
       return d;
     });
 
-    boxes.key = d => d.key;
     return boxes;
 
   }
@@ -107,56 +112,51 @@ export default class Box extends BaseClass {
     // Draw box.
     new Rect()
       .data(filteredData)
-      .x(filteredData[0].x)
-      .y(filteredData[0].y)
-      .config(this._rectConfig)
-      .select(elem("g.d3plus-box", {
-        parent: this._select
-      }).node())
+      .x(this._x)
+      .y(this._y)
+      .select(elem("g.d3plus-Box", {parent: this._select}).node())
+      .config(configPrep.bind(this)(this._rectConfig, "shape"))
       .render();
 
-    // Compute coordinates for median line.
-    const boxTopY = this._y() - this._rectHeight(filteredData[0]) / 2;
-    const medianPoint1X = this._x() - this._rectWidth() / 2;
-    const medianPoint1Y = boxTopY + filteredData[0].third - filteredData[0].median;
-    const medianPoint2X = medianPoint1X + this._rectWidth();
-    const medianPoint2Y = medianPoint1Y;
+    // Construct median data.
+    const medianData = [];
+    filteredData.forEach((d, i) => {
+      const x = this._x(d, i);
+      const y = this._y(d, i) - d.height / 2 + d.third - d.median;
+      medianData.push({x, y, width: this._rectWidth(d, i)});
+    });
 
-    const medianData = [
-      {x: medianPoint1X, y: medianPoint1Y},
-      {x: medianPoint2X, y: medianPoint2Y}
-    ];
-
-    // Draw median line inside the box.
-    new Line()
+    // Draw median.
+    new Rect()
       .data(medianData)
-      .select(elem("g.d3plus-box-median", {
-        parent: this._select
-      }).node())
+      .select(elem("g.d3plus-Box-Median", {parent: this._select}).node())
+      .config(configPrep.bind(this)(this._medianConfig, "shape"))
       .render();
 
     // Draw 2 lines using Whisker class.
-    // Note that this._x() and this._y() are coordinates of center of the rectangle.
+    // Construct coordinates for whisker startpoints and push it to the whiskerData.
+    const whiskerData = [];
+    filteredData.forEach((d, i) => { 
 
-    // Construct coordinates for top whisker startpoint.
-    const point1X = this._x();
-    const point1Y = this._y() - this._rectHeight(filteredData[0]) / 2;
+      const x = this._x(d, d);
+      const topY = this._y(d, i) - d.height / 2;
+      const bottomY = this._y(d, i) + d.height / 2;
+      const topLength = d.top - d.third;
+      const bottomLength = d.first - d.bottom;
 
-    // Construct coordinates for bottom whisker startpoint.
-    const point2X = this._x();
-    const point2Y = this._y() + this._rectHeight(filteredData[0]) / 2;
-
-    const whiskerData = [
-      {x: point1X, y: point1Y, length: this._topWhiskerLength, orient: "top"},
-      {x: point2X, y: point2Y, length: this._bottomWhiskerLength, orient: "bottom"}
-    ];
+      whiskerData.push(
+        {x, y: topY, length: topLength, orient: "top"},
+        {x, y: bottomY, length: bottomLength, orient: "bottom"}
+      );
+    });
 
     // Draw whiskers.
     new Whisker()
       .data(whiskerData)
-      .select(elem("g.d3plus-box-whisker", {
+      .select(elem("g.d3plus-Box-Whisker", {
         parent: this._select
       }).node())
+      .config(configPrep.bind(this)(this._whiskerConfig, "shape"))
       .render();
 
     return this;
@@ -184,12 +184,36 @@ export default class Box extends BaseClass {
 
   /**
       @memberof Box
+      @desc If *value* is specified, sets the config method for median and returns the current class instance.
+      @param {Object} [*value*]
+      @chainable
+  */
+  medianConfig(_) {
+    return arguments.length ? (this._medianConfig = assign(this._medianConfig, _), this) : this._medianConfig;
+  }
+
+  /**
+      @memberof Box
       @desc If *value* is specified, sets the config method for rect shape and returns the current class instance.
       @param {Object} [*value*]
       @chainable
   */
   rectConfig(_) {
     return arguments.length ? (this._rectConfig = assign(this._rectConfig, _), this) : this._rectConfig;
+  }
+
+  /**
+      @memberof Box
+      @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance.
+      @param {Function|Number} [*value*]
+      @chainable
+      @example
+function(d) {
+  return d.width;
+}
+  */
+  rectWidth(_) {
+    return arguments.length ? (this._rectWidth = typeof _ === "function" ? _ : constant(_), this) : this._rectWidth;
   }
 
   /**
@@ -214,26 +238,22 @@ export default class Box extends BaseClass {
 
   /**
       @memberof Box
+      @desc If *value* is specified, sets the config method for whisker and returns the current class instance.
+      @param {Object} [*value*]
+      @chainable
+  */
+  whiskerConfig(_) {
+    return arguments.length ? (this._whiskerConfig = assign(this._whiskerConfig, _), this) : this._whiskerConfig;
+  }
+
+  /**
+      @memberof Box
       @desc Determines the value used for each whisker. Can be passed a single value to apply for both whiskers, or an Array of 2 values for the lower and upper whiskers (in that order). Accepted values are `"tukey"`, `"extent"`, or a Number representing a quantile.
       @param {String|Number|Array[2]} *value* = "tukey"
       @chainable
   */
   whiskerMode(_) {
     return arguments.length ? (this._whiskerMode = _ instanceof Array ? _ : [_, _], this) : this._whiskerMode;
-  }
-
-  /**
-      @memberof Box
-      @desc If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance.
-      @param {Function|Number} [*value*]
-      @chainable
-      @example
-function(d) {
-  return d.width;
-}
-  */
-  rectWidth(_) {
-    return arguments.length ? (this._rectWidth = typeof _ === "function" ? _ : constant(_), this) : this._rectWidth;
   }
 
   /**
