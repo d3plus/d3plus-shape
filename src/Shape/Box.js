@@ -4,6 +4,7 @@ import {select} from "d3-selection";
 
 import {accessor, assign, BaseClass, configPrep, constant, merge, elem} from "d3plus-common";
 
+import Circle from "./Circle";
 import Rect from "./Rect";
 import Whisker from "./Whisker";
 
@@ -133,8 +134,9 @@ export default class Box extends BaseClass {
     filteredData.forEach((d, i) => {
 
       const x = this._x(d, i);
-      const topY = this._y(d, i) - d.height / 2;
-      const bottomY = this._y(d, i) + d.height / 2;
+      const y = this._y(d, i);
+      const topY = y - d.height / 2;
+      const bottomY = y + d.height / 2;
       const topLength = d.top - d.third;
       const bottomLength = d.first - d.bottom;
 
