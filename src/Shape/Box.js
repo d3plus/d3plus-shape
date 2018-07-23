@@ -63,9 +63,10 @@ export default class Box extends BaseClass {
       d.median = quantile(values, 0.50);
       d.third = quantile(values, 0.75);
 
-      d.width = this._rectWidth(d.data, d.i);
       d.height = d.third - d.first;
-      
+      d.width = this._rectWidth(d.data, d.i);
+      d.medianY = d.y - d.height / 2 + d.third -  d.median;
+
       const mode = this._whiskerMode;
 
       if (mode[0] === "tukey") {
@@ -83,7 +84,7 @@ export default class Box extends BaseClass {
       else if (typeof mode[1] === "number") d.bottom = max([min(values), quantile(values, mode[1] / 100)]);
 
       d.nested = true;
-      d.__d3plusShape__ = true;
+      d.__d3plus__ = true;
 
       return d;
     });
@@ -112,23 +113,16 @@ export default class Box extends BaseClass {
     // Draw box.
     new Rect()
       .data(filteredData)
-      .x(this._x)
-      .y(this._y)
+      .x(d => d.x)
+      .y(d => d.y)
       .select(elem("g.d3plus-Box", {parent: this._select}).node())
       .config(configPrep.bind(this)(this._rectConfig, "shape"))
       .render();
 
-    // Construct median data.
-    const medianData = [];
-    filteredData.forEach((d, i) => {
-      const x = this._x(d, i);
-      const y = this._y(d, i) - d.height / 2 + d.third - d.median;
-      medianData.push({x, y, width: this._rectWidth(d, i)});
-    });
-
     // Draw median.
     new Rect()
-      .data(medianData)
+      .data(filteredData)
+      .y(d => d.medianY)
       .select(elem("g.d3plus-Box-Median", {parent: this._select}).node())
       .config(configPrep.bind(this)(this._medianConfig, "shape"))
       .render();
@@ -136,7 +130,7 @@ export default class Box extends BaseClass {
     // Draw 2 lines using Whisker class.
     // Construct coordinates for whisker startpoints and push it to the whiskerData.
     const whiskerData = [];
-    filteredData.forEach((d, i) => { 
+    filteredData.forEach((d, i) => {
 
       const x = this._x(d, i);
       const topY = this._y(d, i) - d.height / 2;
@@ -145,8 +139,8 @@ export default class Box extends BaseClass {
       const bottomLength = d.first - d.bottom;
 
       whiskerData.push(
-        {x, y: topY, length: topLength, orient: "top"},
-        {x, y: bottomY, length: bottomLength, orient: "bottom"}
+        {__d3plus__: true, data: d, i, x, y: topY, length: topLength, orient: "top"},
+        {__d3plus__: true, data: d, i, x, y: bottomY, length: bottomLength, orient: "bottom"}
       );
     });
 

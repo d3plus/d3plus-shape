@@ -62,21 +62,28 @@ export default class Whisker extends BaseClass {
     this._data.forEach((d, i) => {
 
       const orient = this._orient(d, i);
+      const x = this._x(d, i);
+      const y = this._y(d, i);
 
-      let endpointX = this._x(d, i);
+      let endpointX = x;
       if (orient === "left") endpointX -= this._length(d, i);
       else if (orient === "right") endpointX += this._length(d, i);
 
-      let endpointY = this._y(d, i);
+      let endpointY = y;
       if (orient === "top") endpointY -= this._length(d, i);
       else if (orient === "bottom") endpointY += this._length(d, i);
 
-      lineData.push({__d3plus__: true, data: d, i, id: i, x: this._x(d, i), y: this._y(d, i)});
+      lineData.push({__d3plus__: true, data: d, i, id: i, x, y});
       lineData.push({__d3plus__: true, data: d, i, id: i, x: endpointX, y: endpointY});
     });
 
-    const whiskerData = [];
-    this._data.forEach((d, i) => {
+    new Line()
+      .data(lineData)
+      .select(elem("g.d3plus-Whisker", {parent: this._select}).node())
+      .config(configPrep.bind(this)(this._lineConfig, "shape"))
+      .render(callback);
+
+    const whiskerData = this._data.map((d, i) => {
 
       const dataObj = {};
       dataObj.__d3plus__ = true;
@@ -85,13 +92,6 @@ export default class Whisker extends BaseClass {
       dataObj.endpoint = this._endpoint(d, i);
       dataObj.length = this._length(d, i);
 
-      if (dataObj.endpoint === "Circle") {
-        dataObj.r = this._endpointConfig.Circle.r(d, i);
-      }
-      else if (dataObj.endpoint === "Rect") {
-        dataObj.height = this._endpointConfig.Rect.height(d, i);
-        dataObj.width = this._endpointConfig.Rect.width(d, i);
-      }
       const orient = this._orient(d, i);
 
       let endpointX = this._x(d, i);
@@ -105,18 +105,13 @@ export default class Whisker extends BaseClass {
       dataObj.x = endpointX;
       dataObj.y = endpointY;
 
-      whiskerData.push(dataObj);
+      return dataObj;
 
     });
-    this._endpointShapeData = nest().key(d => d.endpoint).entries(whiskerData);
 
-    new Line()
-      .data(lineData)
-      .select(elem("g.d3plus-Whisker", {parent: this._select}).node())
-      .config(configPrep.bind(this)(this._lineConfig, "shape"))
-      .render(callback);
-
-    this._endpointShapeData.forEach(shapeData => {
+    const endpointShapeData = nest().key(d => d.endpoint).entries(whiskerData);
+    
+    endpointShapeData.forEach(shapeData => {
       const shapeName = shapeData.key;
       new shapes[shapeName]()
         .data(shapeData.values)
