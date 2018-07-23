@@ -138,7 +138,7 @@ export default class Box extends BaseClass {
     const whiskerData = [];
     filteredData.forEach((d, i) => { 
 
-      const x = this._x(d, d);
+      const x = this._x(d, i);
       const topY = this._y(d, i) - d.height / 2;
       const bottomY = this._y(d, i) + d.height / 2;
       const topLength = d.top - d.third;

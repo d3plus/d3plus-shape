@@ -84,10 +84,14 @@ export default class Whisker extends BaseClass {
       dataObj.i = i;
       dataObj.endpoint = this._endpoint(d, i);
       dataObj.length = this._length(d, i);
-      dataObj.r = this._endpointConfig.Circle.r;
-      dataObj.height = this._endpointConfig.Rect.height;
-      dataObj.width = this._endpointConfig.Rect.width;
 
+      if (dataObj.endpoint === "Circle") {
+        dataObj.r = this._endpointConfig.Circle.r(d, i);
+      }
+      else if (dataObj.endpoint === "Rect") {
+        dataObj.height = this._endpointConfig.Rect.height(d, i);
+        dataObj.width = this._endpointConfig.Rect.width(d, i);
+      }
       const orient = this._orient(d, i);
 
       let endpointX = this._x(d, i);
