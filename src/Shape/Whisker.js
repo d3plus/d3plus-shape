@@ -115,7 +115,7 @@ export default class Whisker extends BaseClass {
       const shapeName = shapeData.key;
       new shapes[shapeName]()
         .data(shapeData.values)
-        .select(elem(`g.d3plus-Whisker-${shapeName}`, {parent: this._select}).node())
+        .select(elem(`g.d3plus-Whisker-Endpoint-${shapeName}`, {parent: this._select}).node())
         .config(configPrep.bind(this)(this._endpointConfig, "shape", shapeName))
         .render();
     });

@@ -8,6 +8,8 @@ import Circle from "./Circle";
 import Rect from "./Rect";
 import Whisker from "./Whisker";
 
+const shapes = {Circle, Rect};
+
 /**
     @class Box
     @extends BaseClass
@@ -29,6 +31,16 @@ export default class Box extends BaseClass {
       fill: constant("black"),
       height: constant(1)
     };
+    this._outlier = accessor("outlier", "Circle");
+    this._outlierConfig = {
+      Circle: {
+        r: accessor("r", 5)
+      },
+      Rect: {
+        height: accessor("height", 5),
+        width: accessor("width", 20)
+      }
+    };
     this._rectConfig = {
       fill: constant("white"),
       stroke: constant("black"),
@@ -45,17 +57,27 @@ export default class Box extends BaseClass {
 
   /**
       @memberof Box
-      @desc Filters/manipulates the data array before binding each point to an SVG group.
-      @param {Array} [*data* = the data array to be filtered]
-      @private
+      @desc Draws the Box.
+      @param {Function} [*callback*]
+      @chainable
   */
-  _dataFilter(data) {
-    const boxes = nest().key(this._id).entries(data).map(d => {
+  render() {
+
+    if (this._select === void 0) {
+      this.select(select("body").append("svg")
+        .style("width", `${window.innerWidth}px`)
+        .style("height", `${window.innerHeight}px`)
+        .style("display", "block").node());
+    }
+
+    const outlierData = [];
+
+    const filteredData = nest().key(this._id).entries(this._data).map((d, i) => {
 
       d.data = merge(d.values);
       const values = d.values.map(this._value);
       values.sort((a, b) => a - b);
-      d.i = data.indexOf(d.values[0]);
+      d.i = this._data.indexOf(d.values[0]);
       d.id = this._id(d.data, d.i);
       d.x = this._x(d.data, d.i);
       d.y = this._y(d.data, d.i);
@@ -84,32 +106,30 @@ export default class Box extends BaseClass {
       else if (mode[1] === "extent") d.bottom = min(values);
       else if (typeof mode[1] === "number") d.bottom = max([min(values), quantile(values, mode[1] / 100)]);
 
+      // Compute data for outliers.
+      values.forEach(value => {
+        const dataObj = {};
+        dataObj.__d3plus__ = true;
+        dataObj.data = d;
+        dataObj.i = i;
+        dataObj.outlier = this._outlier(d, i);
+        dataObj.x = d.x;
+
+        if (value < d.bottom) {
+          dataObj.y = d.y + d.height / 2 + d.first - d.bottom + value;
+          outlierData.push(dataObj);
+        }
+        else if (value > d.top) {
+          dataObj.y = d.y - d.height / 2 - d.top - d.third - value;
+          outlierData.push(dataObj);
+        }
+      });
+
       d.nested = true;
       d.__d3plus__ = true;
 
       return d;
     });
-
-    return boxes;
-
-  }
-
-  /**
-      @memberof Box
-      @desc Draws the Box.
-      @param {Function} [*callback*]
-      @chainable
-  */
-  render() {
-
-    if (this._select === void 0) {
-      this.select(select("body").append("svg")
-        .style("width", `${window.innerWidth}px`)
-        .style("height", `${window.innerHeight}px`)
-        .style("display", "block").node());
-    }
-
-    const filteredData = this._dataFilter(this._data);
 
     // Draw box.
     new Rect()
@@ -132,7 +152,6 @@ export default class Box extends BaseClass {
     // Construct coordinates for whisker startpoints and push it to the whiskerData.
     const whiskerData = [];
     filteredData.forEach((d, i) => {
-
       const x = this._x(d, i);
       const y = this._y(d, i);
       const topY = y - d.height / 2;
@@ -154,6 +173,17 @@ export default class Box extends BaseClass {
       }).node())
       .config(configPrep.bind(this)(this._whiskerConfig, "shape"))
       .render();
+
+    // Draw outliers.
+    const outlierShapeData = nest().key(d => d.outlier).entries(outlierData);
+    outlierShapeData.forEach(shapeData => {
+      const shapeName = shapeData.key;
+      new shapes[shapeName]()
+        .data(shapeData.values)
+        .select(elem(`g.d3plus-Box-Outlier-${shapeName}`, {parent: this._select}).node())
+        .config(configPrep.bind(this)(this._outlierConfig, "shape", shapeName))
+        .render();
+    });
 
     return this;
   }
@@ -186,6 +216,26 @@ export default class Box extends BaseClass {
   */
   medianConfig(_) {
     return arguments.length ? (this._medianConfig = assign(this._medianConfig, _), this) : this._medianConfig;
+  }
+
+  /**
+      @memberof Box
+      @desc If *value* is specified, sets the outlier accessor to the specified function or string and returns the current class instance.
+      @param {Function|String}
+      @chainable
+  */
+  outlier(_) {
+    return arguments.length ? (this._outlier = typeof _ === "function" ? _ : constant(_), this) : this._outlier;
+  }
+
+  /**
+      @memberof Box
+      @desc If *value* is specified, sets the config method for each outlier point and returns the current class instance.
+      @param {Object} [*value*]
+      @chainable
+  */
+  outlierConfig(_) {
+    return arguments.length ? (this._outlierConfig = assign(this._outlierConfig, _), this) : this._outlierConfig;
   }
 
   /**
