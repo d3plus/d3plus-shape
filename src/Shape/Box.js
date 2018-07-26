@@ -28,17 +28,17 @@ export default class Box extends BaseClass {
 
     this._id = accessor("id", 1);
     this._medianConfig = {
-      fill: constant("black"),
-      height: constant(1)
+      fill: constant("black")
     };
+    this._orient = accessor("orient", "vertical");
     this._outlier = accessor("outlier", "Circle");
     this._outlierConfig = {
       Circle: {
         r: accessor("r", 5)
       },
       Rect: {
-        height: accessor("height", 5),
-        width: accessor("width", 20)
+        height: (d, i) => this._orient(d, i) === "vertical" ? 5 : 20,
+        width: (d, i) => this._orient(d, i) === "vertical" ? 20 : 5
       }
     };
     this._rectConfig = {
@@ -47,7 +47,6 @@ export default class Box extends BaseClass {
       strokeWidth: constant(1)
     };
     this._rectWidth = constant(50);
-    this._value = accessor("value");
     this._whiskerConfig = {};
     this._whiskerMode = ["tukey", "tukey"];
     this._x = accessor("x", 250);
@@ -71,65 +70,98 @@ export default class Box extends BaseClass {
     }
 
     const outlierData = [];
+    let orient = "vertical";
 
-    const filteredData = nest().key(this._id).entries(this._data).map((d, i) => {
+    const filteredData = nest()
+      .key((d, i) => this._orient(d, i) === "vertical" ? this._x(d, i) : this._y(d, i))
+      .entries(this._data)
+      .map((d, i) => {
+        d.data = merge(d.values);
+        orient = this._orient(d.data, d.i);
+        const values = orient === "vertical" ? d.values.map(this._y) : d.values.map(this._x);
 
-      d.data = merge(d.values);
-      const values = d.values.map(this._value);
-      values.sort((a, b) => a - b);
-      d.i = this._data.indexOf(d.values[0]);
-      d.id = this._id(d.data, d.i);
-      d.x = this._x(d.data, d.i);
-      d.y = this._y(d.data, d.i);
+        values.sort((a, b) => a - b);
+        d.i = this._data.indexOf(d.values[0]);
 
-      d.first = quantile(values, 0.25);
-      d.median = quantile(values, 0.50);
-      d.third = quantile(values, 0.75);
+        d.first = quantile(values, 0.25);
+        d.median = quantile(values, 0.50);
+        d.third = quantile(values, 0.75);
 
-      d.height = d.third - d.first;
-      d.width = this._rectWidth(d.data, d.i);
-      d.medianY = d.y - d.height / 2 + d.third -  d.median;
-
-      const mode = this._whiskerMode;
-
-      if (mode[0] === "tukey") {
-        d.top = d.third + (d.third - d.first) * 1.5;
-        if (d.top > max(values)) d.top = max(values);
-      }
-      else if (mode[0] === "extent") d.top = max(values);
-      else if (typeof mode[0] === "number") d.top = min([max(values), quantile(values, mode[0] / 100)]);
-
-      if (mode[1] === "tukey") {
-        d.bottom = d.first - (d.third - d.first) * 1.5;
-        if (d.bottom < min(values)) d.bottom = min(values);
-      }
-      else if (mode[1] === "extent") d.bottom = min(values);
-      else if (typeof mode[1] === "number") d.bottom = max([min(values), quantile(values, mode[1] / 100)]);
-
-      // Compute data for outliers.
-      values.forEach(value => {
-        const dataObj = {};
-        dataObj.__d3plus__ = true;
-        dataObj.data = d;
-        dataObj.i = i;
-        dataObj.outlier = this._outlier(d, i);
-        dataObj.x = d.x;
-
-        if (value < d.bottom) {
-          dataObj.y = d.y + d.height / 2 + d.first - d.bottom + value;
-          outlierData.push(dataObj);
+        // Compute values for vertical orientation.
+        if (orient === "vertical") {
+          d.height = d.third - d.first;
+          d.width = this._rectWidth(d.data, d.i);
+          d.x = this._x(d.data, d.i);
+          d.y = (d.third + d.first) / 2;
+          d.medianY = d.y - d.height / 2 + d.third - d.median;
         }
-        else if (value > d.top) {
-          dataObj.y = d.y - d.height / 2 - d.top - d.third - value;
-          outlierData.push(dataObj);
+        else if (orient === "horizontal") {
+        // Compute values for horizontal orientation.
+          d.height = this._rectWidth(d.data, d.i);
+          d.width = d.third - d.first;
+          d.x = (d.third + d.first) / 2;
+          d.y = this._y(d.data, d.i);
+          d.medianX = d.x + d.width / 2 - d.third + d.median;
         }
+
+        const mode = this._whiskerMode;
+
+        if (mode[0] === "tukey") {
+          d.top = d.third + (d.third - d.first) * 1.5;
+          if (d.top > max(values)) d.top = max(values);
+        }
+        else if (mode[0] === "extent") d.top = max(values);
+        else if (typeof mode[0] === "number") d.top = min([max(values), quantile(values, mode[0] / 100)]);
+
+        if (mode[1] === "tukey") {
+          d.bottom = d.first - (d.third - d.first) * 1.5;
+          if (d.bottom < min(values)) d.bottom = min(values);
+        }
+        else if (mode[1] === "extent") d.bottom = min(values);
+        else if (typeof mode[1] === "number") d.bottom = max([min(values), quantile(values, mode[1] / 100)]);
+
+        // Compute data for outliers.
+        d.values.forEach((eachValue, index) => {
+          const value = orient === "vertical" ? this._y(eachValue, index) : this._x(eachValue, index);
+         
+          if (value < d.bottom || value > d.top) {
+            const dataObj = {};
+            dataObj.__d3plus__ = true;
+            dataObj.data = eachValue;
+            dataObj.i = index;
+            dataObj.outlier = this._outlier(d, i);
+
+            if (orient === "vertical") {
+              dataObj.x = d.x;
+              if (value < d.bottom) {
+                dataObj.y = d.y + d.height / 2 + d.first - d.bottom + value;
+                outlierData.push(dataObj);
+              }
+              else if (value > d.top) {
+                dataObj.y = d.y - d.height / 2 - d.top - d.third - value;
+                outlierData.push(dataObj);
+              }
+            }
+            else if (orient === "horizontal") {
+              dataObj.y = d.y;
+              if (value < d.bottom) {
+                dataObj.x = d.x - d.width / 2 - d.first - d.bottom - value;
+                outlierData.push(dataObj);
+              }
+              else if (value > d.top) {
+                dataObj.x = d.x + d.width / 2 + d.top - d.third + value;
+                outlierData.push(dataObj);
+              }
+            }
+          }
+
+        });
+
+        d.nested = true;
+        d.__d3plus__ = true;
+
+        return d;
       });
-
-      d.nested = true;
-      d.__d3plus__ = true;
-
-      return d;
-    });
 
     // Draw box.
     new Rect()
@@ -143,7 +175,10 @@ export default class Box extends BaseClass {
     // Draw median.
     new Rect()
       .data(filteredData)
-      .y(d => d.medianY)
+      .x(d => orient === "vertical" ? d.x : d.medianX)
+      .y(d => orient === "vertical" ? d.medianY : d.y)
+      .height(d => orient === "vertical" ? 1 : d.height)
+      .width(d => orient === "vertical" ? d.width : 1)
       .select(elem("g.d3plus-Box-Median", {parent: this._select}).node())
       .config(configPrep.bind(this)(this._medianConfig, "shape"))
       .render();
@@ -152,17 +187,28 @@ export default class Box extends BaseClass {
     // Construct coordinates for whisker startpoints and push it to the whiskerData.
     const whiskerData = [];
     filteredData.forEach((d, i) => {
-      const x = this._x(d, i);
-      const y = this._y(d, i);
-      const topY = y - d.height / 2;
-      const bottomY = y + d.height / 2;
+      const x = d.x;
+      const y = d.y;
       const topLength = d.top - d.third;
       const bottomLength = d.first - d.bottom;
 
-      whiskerData.push(
-        {__d3plus__: true, data: d, i, x, y: topY, length: topLength, orient: "top"},
-        {__d3plus__: true, data: d, i, x, y: bottomY, length: bottomLength, orient: "bottom"}
-      );
+      if (orient === "vertical") {
+        const topY = y - d.height / 2;
+        const bottomY = y + d.height / 2;
+        whiskerData.push(
+          {__d3plus__: true, data: d, i, x, y: topY, length: topLength, orient: "top"},
+          {__d3plus__: true, data: d, i, x, y: bottomY, length: bottomLength, orient: "bottom"}
+        );
+      }
+      else if (orient === "horizontal") {
+        const topX = x + d.width / 2;
+        const bottomX = x - d.width / 2;
+        whiskerData.push(
+          {__d3plus__: true, data: d, i, x: topX, y, length: topLength, orient: "right"},
+          {__d3plus__: true, data: d, i, x: bottomX, y, length: bottomLength, orient: "left"}
+        );
+      }
+
     });
 
     // Draw whiskers.
@@ -171,19 +217,25 @@ export default class Box extends BaseClass {
       .select(elem("g.d3plus-Box-Whisker", {
         parent: this._select
       }).node())
+      .endpointConfig({Rect: {
+        height: () => orient === "vertical" ? 5 : 20,
+        width: () => orient === "vertical" ? 20 : 5
+      }})
       .config(configPrep.bind(this)(this._whiskerConfig, "shape"))
       .render();
 
     // Draw outliers.
-    const outlierShapeData = nest().key(d => d.outlier).entries(outlierData);
-    outlierShapeData.forEach(shapeData => {
-      const shapeName = shapeData.key;
-      new shapes[shapeName]()
-        .data(shapeData.values)
-        .select(elem(`g.d3plus-Box-Outlier-${shapeName}`, {parent: this._select}).node())
-        .config(configPrep.bind(this)(this._outlierConfig, "shape", shapeName))
-        .render();
-    });
+    nest()
+      .key(d => d.outlier)
+      .entries(outlierData)
+      .forEach(shapeData => {
+        const shapeName = shapeData.key;
+        new shapes[shapeName]()
+          .data(shapeData.values)
+          .select(elem(`g.d3plus-Box-Outlier-${shapeName}`, {parent: this._select}).node())
+          .config(configPrep.bind(this)(this._outlierConfig, "shape", shapeName))
+          .render();
+      });
 
     return this;
   }
@@ -216,6 +268,16 @@ export default class Box extends BaseClass {
   */
   medianConfig(_) {
     return arguments.length ? (this._medianConfig = assign(this._medianConfig, _), this) : this._medianConfig;
+  }
+
+  /**
+      @memberof Box
+      @desc If *value* is specified, sets the orientation to the specified value. If *value* is not specified, returns the current orientation.
+      @param {Function|String} [*value* = "vertical"] Accepts "vertical" or "horizontal"
+      @chainable
+  */
+  orient(_) {
+    return arguments.length ? (this._orient = typeof _ === "function" ? _ : constant(_), this) : this._orient;
   }
 
   /**
@@ -270,16 +332,6 @@ function(d) {
   */
   select(_) {
     return arguments.length ? (this._select = select(_), this) : this._select;
-  }
-
-  /**
-      @memberof Box
-      @desc An accessor function that provides the number needed to calculate the various ranges used when making the box. If all of the data points use the same key to return the value, then this method can be passed String of that key (instead of a full accessor function).
-      @param {String|Function} *value* = "value"
-      @chainable
-  */
-  value(_) {
-    return arguments.length ? (this._value = typeof _ === "function" ? _ : accessor(_), this) : this._value;
   }
 
   /**

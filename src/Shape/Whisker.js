@@ -109,16 +109,17 @@ export default class Whisker extends BaseClass {
 
     });
 
-    const endpointShapeData = nest().key(d => d.endpoint).entries(whiskerData);
-    
-    endpointShapeData.forEach(shapeData => {
-      const shapeName = shapeData.key;
-      new shapes[shapeName]()
-        .data(shapeData.values)
-        .select(elem(`g.d3plus-Whisker-Endpoint-${shapeName}`, {parent: this._select}).node())
-        .config(configPrep.bind(this)(this._endpointConfig, "shape", shapeName))
-        .render();
-    });
+    nest()
+      .key(d => d.endpoint)
+      .entries(whiskerData)
+      .forEach(shapeData => {
+        const shapeName = shapeData.key;
+        new shapes[shapeName]()
+          .data(shapeData.values)
+          .select(elem(`g.d3plus-Whisker-Endpoint-${shapeName}`, {parent: this._select}).node())
+          .config(configPrep.bind(this)(this._endpointConfig, "shape", shapeName))
+          .render();
+      });
 
     return this;
 
