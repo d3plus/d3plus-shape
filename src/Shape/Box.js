@@ -365,7 +365,7 @@ function(d) {
 }
   */
   x(_) {
-    return arguments.length ? (this._x = typeof _ === "function" ? _ : constant(_), this) : this._x;
+    return arguments.length ? (this._x = typeof _ === "function" ? _ : accessor(_), this) : this._x;
   }
 
   /**
@@ -379,7 +379,7 @@ function(d) {
 }
   */
   y(_) {
-    return arguments.length ? (this._y = typeof _ === "function" ? _ : constant(_), this) : this._y;
+    return arguments.length ? (this._y = typeof _ === "function" ? _ : accessor(_), this) : this._y;
   }
 
 }
