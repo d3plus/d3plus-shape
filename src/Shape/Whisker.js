@@ -29,10 +29,6 @@ export default class Whisker extends BaseClass {
     this._endpointConfig = {
       Circle: {
         r: accessor("r", 5)
-      },
-      Rect: {
-        height: accessor("height", 5),
-        width: accessor("width", 20)
       }
     };
     this._length = accessor("length", 25);
@@ -92,15 +88,15 @@ export default class Whisker extends BaseClass {
       dataObj.endpoint = this._endpoint(d, i);
       dataObj.length = this._length(d, i);
 
-      const orient = this._orient(d, i);
+      dataObj.orient = this._orient(d, i);
 
       let endpointX = this._x(d, i);
-      if (orient === "left") endpointX -= this._length(d, i);
-      else if (orient === "right") endpointX += this._length(d, i);
+      if (d.orient === "left") endpointX -= this._length(d, i);
+      else if (d.orient === "right") endpointX += this._length(d, i);
 
       let endpointY = this._y(d, i);
-      if (orient === "top") endpointY -= this._length(d, i);
-      else if (orient === "bottom") endpointY += this._length(d, i);
+      if (d.orient === "top") endpointY -= this._length(d, i);
+      else if (d.orient === "bottom") endpointY += this._length(d, i);
 
       dataObj.x = endpointX;
       dataObj.y = endpointY;
@@ -117,6 +113,10 @@ export default class Whisker extends BaseClass {
         new shapes[shapeName]()
           .data(shapeData.values)
           .select(elem(`g.d3plus-Whisker-Endpoint-${shapeName}`, {parent: this._select}).node())
+          .config({
+            height: d => d.orient === "top" || d.orient === "bottom" ? 5 : 20,
+            width: d => d.orient === "top" || d.orient === "bottom" ? 20 : 5
+          })
           .config(configPrep.bind(this)(this._endpointConfig, "shape", shapeName))
           .render();
       });

@@ -26,7 +26,6 @@ export default class Box extends BaseClass {
 
     super();
 
-    this._id = accessor("id", 1);
     this._medianConfig = {
       fill: constant("black")
     };
@@ -70,88 +69,75 @@ export default class Box extends BaseClass {
     }
 
     const outlierData = [];
-    let orient = "vertical";
 
     const filteredData = nest()
       .key((d, i) => this._orient(d, i) === "vertical" ? this._x(d, i) : this._y(d, i))
       .entries(this._data)
       .map((d, i) => {
         d.data = merge(d.values);
-        orient = this._orient(d.data, d.i);
-        const values = orient === "vertical" ? d.values.map(this._y) : d.values.map(this._x);
+        d.orient = this._orient(d.data, d.i);
+        const values = d.values.map(d.orient === "vertical" ? this._y : this._x);
 
         values.sort((a, b) => a - b);
-        d.i = this._data.indexOf(d.values[0]);
+        d.i = this._data.indexOf(d.values[0]);  
 
         d.first = quantile(values, 0.25);
         d.median = quantile(values, 0.50);
         d.third = quantile(values, 0.75);
 
-        // Compute values for vertical orientation.
-        if (orient === "vertical") {
-          d.height = d.third - d.first;
-          d.width = this._rectWidth(d.data, d.i);
-          d.x = this._x(d.data, d.i);
-          d.y = (d.third + d.first) / 2;
-          d.medianY = d.y - d.height / 2 + d.third - d.median;
-        }
-        else if (orient === "horizontal") {
-        // Compute values for horizontal orientation.
-          d.height = this._rectWidth(d.data, d.i);
-          d.width = d.third - d.first;
-          d.x = (d.third + d.first) / 2;
-          d.y = this._y(d.data, d.i);
-          d.medianX = d.x + d.width / 2 - d.third + d.median;
-        }
-
         const mode = this._whiskerMode;
 
         if (mode[0] === "tukey") {
-          d.top = d.third + (d.third - d.first) * 1.5;
-          if (d.top > max(values)) d.top = max(values);
+          d.upperLimit = d.third + (d.third - d.first) * 1.5;
+          if (d.upperLimit > max(values)) d.upperLimit = max(values);
         }
-        else if (mode[0] === "extent") d.top = max(values);
-        else if (typeof mode[0] === "number") d.top = min([max(values), quantile(values, mode[0] / 100)]);
+        else if (mode[0] === "extent") d.upperLimit = max(values);
+        else if (typeof mode[0] === "number") d.upperLimit = min([max(values), quantile(values, mode[0] / 100)]);
 
         if (mode[1] === "tukey") {
-          d.bottom = d.first - (d.third - d.first) * 1.5;
-          if (d.bottom < min(values)) d.bottom = min(values);
+          d.lowerLimit = d.first - (d.third - d.first) * 1.5;
+          if (d.lowerLimit < min(values)) d.lowerLimit = min(values);
         }
-        else if (mode[1] === "extent") d.bottom = min(values);
-        else if (typeof mode[1] === "number") d.bottom = max([min(values), quantile(values, mode[1] / 100)]);
+        else if (mode[1] === "extent") d.lowerLimit = min(values);
+        else if (typeof mode[1] === "number") d.lowerLimit = max([min(values), quantile(values, mode[1] / 100)]);
+
+        const rectLength = d.third - d.first;
+
+        // Compute values for vertical orientation.
+        if (d.orient === "vertical") {
+          d.height = rectLength;
+          d.width = this._rectWidth(d.data, d.i);
+          d.x = this._x(d.data, d.i);
+          d.y = d.first + rectLength / 2;
+        }
+        else if (d.orient === "horizontal") {
+        // Compute values for horizontal orientation.
+          d.height = this._rectWidth(d.data, d.i);
+          d.width = rectLength;
+          d.x = d.first + rectLength / 2;
+          d.y = this._y(d.data, d.i);
+        }
 
         // Compute data for outliers.
         d.values.forEach((eachValue, index) => {
-          const value = orient === "vertical" ? this._y(eachValue, index) : this._x(eachValue, index);
-         
-          if (value < d.bottom || value > d.top) {
+          const value = d.orient === "vertical" ? this._y(eachValue, index) : this._x(eachValue, index);
+
+          if (value < d.lowerLimit || value > d.upperLimit) {
             const dataObj = {};
             dataObj.__d3plus__ = true;
             dataObj.data = eachValue;
             dataObj.i = index;
-            dataObj.outlier = this._outlier(d, i);
+            dataObj.outlier = this._outlier(eachValue, index);
 
-            if (orient === "vertical") {
+            if (d.orient === "vertical") {
               dataObj.x = d.x;
-              if (value < d.bottom) {
-                dataObj.y = d.y + d.height / 2 + d.first - d.bottom + value;
-                outlierData.push(dataObj);
-              }
-              else if (value > d.top) {
-                dataObj.y = d.y - d.height / 2 - d.top - d.third - value;
-                outlierData.push(dataObj);
-              }
+              dataObj.y = value;
+              outlierData.push(dataObj);
             }
-            else if (orient === "horizontal") {
+            else if (d.orient === "horizontal") {
               dataObj.y = d.y;
-              if (value < d.bottom) {
-                dataObj.x = d.x - d.width / 2 - d.first - d.bottom - value;
-                outlierData.push(dataObj);
-              }
-              else if (value > d.top) {
-                dataObj.x = d.x + d.width / 2 + d.top - d.third + value;
-                outlierData.push(dataObj);
-              }
+              dataObj.x = value;
+              outlierData.push(dataObj);
             }
           }
 
@@ -175,10 +161,10 @@ export default class Box extends BaseClass {
     // Draw median.
     new Rect()
       .data(filteredData)
-      .x(d => orient === "vertical" ? d.x : d.medianX)
-      .y(d => orient === "vertical" ? d.medianY : d.y)
-      .height(d => orient === "vertical" ? 1 : d.height)
-      .width(d => orient === "vertical" ? d.width : 1)
+      .x(d => d.orient === "vertical" ? d.x : d.median)
+      .y(d => d.orient === "vertical" ? d.median : d.y)
+      .height(d => d.orient === "vertical" ? 1 : d.height)
+      .width(d => d.orient === "vertical" ? d.width : 1)
       .select(elem("g.d3plus-Box-Median", {parent: this._select}).node())
       .config(configPrep.bind(this)(this._medianConfig, "shape"))
       .render();
@@ -189,10 +175,10 @@ export default class Box extends BaseClass {
     filteredData.forEach((d, i) => {
       const x = d.x;
       const y = d.y;
-      const topLength = d.top - d.third;
-      const bottomLength = d.first - d.bottom;
+      const topLength = d.first - d.lowerLimit;
+      const bottomLength = d.upperLimit - d.third;
 
-      if (orient === "vertical") {
+      if (d.orient === "vertical") {
         const topY = y - d.height / 2;
         const bottomY = y + d.height / 2;
         whiskerData.push(
@@ -200,12 +186,12 @@ export default class Box extends BaseClass {
           {__d3plus__: true, data: d, i, x, y: bottomY, length: bottomLength, orient: "bottom"}
         );
       }
-      else if (orient === "horizontal") {
+      else if (d.orient === "horizontal") {
         const topX = x + d.width / 2;
         const bottomX = x - d.width / 2;
         whiskerData.push(
-          {__d3plus__: true, data: d, i, x: topX, y, length: topLength, orient: "right"},
-          {__d3plus__: true, data: d, i, x: bottomX, y, length: bottomLength, orient: "left"}
+          {__d3plus__: true, data: d, i, x: topX, y, length: bottomLength, orient: "right"},
+          {__d3plus__: true, data: d, i, x: bottomX, y, length: topLength, orient: "left"}
         );
       }
 
@@ -217,10 +203,6 @@ export default class Box extends BaseClass {
       .select(elem("g.d3plus-Box-Whisker", {
         parent: this._select
       }).node())
-      .endpointConfig({Rect: {
-        height: () => orient === "vertical" ? 5 : 20,
-        width: () => orient === "vertical" ? 20 : 5
-      }})
       .config(configPrep.bind(this)(this._whiskerConfig, "shape"))
       .render();
 
@@ -248,16 +230,6 @@ export default class Box extends BaseClass {
   */
   data(_) {
     return arguments.length ? (this._data = _, this) : this._data;
-  }
-
-  /**
-      @memberof Box
-      @desc If *value* is specified, sets the id accessor to the specified function and returns the current class instance.
-      @param {Function} [*value*]
-      @chainable
-  */
-  id(_) {
-    return arguments.length ? (this._id = _, this) : this._id;
   }
 
   /**
