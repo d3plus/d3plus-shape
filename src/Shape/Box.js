@@ -88,18 +88,18 @@ export default class Box extends BaseClass {
         const mode = this._whiskerMode;
 
         if (mode[0] === "tukey") {
-          d.upperLimit = d.third + (d.third - d.first) * 1.5;
-          if (d.upperLimit > max(values)) d.upperLimit = max(values);
-        }
-        else if (mode[0] === "extent") d.upperLimit = max(values);
-        else if (typeof mode[0] === "number") d.upperLimit = min([max(values), quantile(values, mode[0] / 100)]);
-
-        if (mode[1] === "tukey") {
           d.lowerLimit = d.first - (d.third - d.first) * 1.5;
           if (d.lowerLimit < min(values)) d.lowerLimit = min(values);
         }
-        else if (mode[1] === "extent") d.lowerLimit = min(values);
-        else if (typeof mode[1] === "number") d.lowerLimit = max([min(values), quantile(values, mode[1] / 100)]);
+        else if (mode[0] === "extent") d.lowerLimit = min(values);
+        else if (typeof mode[0] === "number") d.lowerLimit = quantile(values, mode[0]);
+
+        if (mode[1] === "tukey") {
+          d.upperLimit = d.third + (d.third - d.first) * 1.5;
+          if (d.upperLimit > max(values)) d.upperLimit = max(values);
+        }
+        else if (mode[1] === "extent") d.upperLimit = max(values);
+        else if (typeof mode[1] === "number") d.upperLimit = quantile(values, mode[1]);
 
         const rectLength = d.third - d.first;
 
@@ -200,9 +200,7 @@ export default class Box extends BaseClass {
     // Draw whiskers.
     new Whisker()
       .data(whiskerData)
-      .select(elem("g.d3plus-Box-Whisker", {
-        parent: this._select
-      }).node())
+      .select(elem("g.d3plus-Box-Whisker", {parent: this._select}).node())
       .config(configPrep.bind(this)(this._whiskerConfig, "shape"))
       .render();
 

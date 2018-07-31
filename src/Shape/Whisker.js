@@ -87,16 +87,15 @@ export default class Whisker extends BaseClass {
       dataObj.i = i;
       dataObj.endpoint = this._endpoint(d, i);
       dataObj.length = this._length(d, i);
-
       dataObj.orient = this._orient(d, i);
 
       let endpointX = this._x(d, i);
-      if (d.orient === "left") endpointX -= this._length(d, i);
-      else if (d.orient === "right") endpointX += this._length(d, i);
+      if (dataObj.orient === "left") endpointX -= dataObj.length;
+      else if (dataObj.orient === "right") endpointX += dataObj.length;
 
       let endpointY = this._y(d, i);
-      if (d.orient === "top") endpointY -= this._length(d, i);
-      else if (d.orient === "bottom") endpointY += this._length(d, i);
+      if (dataObj.orient === "top") endpointY -= dataObj.length;
+      else if (dataObj.orient === "bottom") endpointY += dataObj.length;
 
       dataObj.x = endpointX;
       dataObj.y = endpointY;
