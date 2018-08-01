@@ -73,13 +73,12 @@ export default class Box extends BaseClass {
     const filteredData = nest()
       .key((d, i) => this._orient(d, i) === "vertical" ? this._x(d, i) : this._y(d, i))
       .entries(this._data)
-      .map((d, i) => {
+      .map(d => {
         d.data = merge(d.values);
+        d.i = this._data.indexOf(d.values[0]); 
         d.orient = this._orient(d.data, d.i);
         const values = d.values.map(d.orient === "vertical" ? this._y : this._x);
-
-        values.sort((a, b) => a - b);
-        d.i = this._data.indexOf(d.values[0]);  
+        values.sort((a, b) => a - b); 
 
         d.first = quantile(values, 0.25);
         d.median = quantile(values, 0.50);
