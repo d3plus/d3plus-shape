@@ -1,6 +1,6 @@
 # d3plus-shape
 
-[![NPM Release](http://img.shields.io/npm/v/d3plus-shape.svg?style=flat)](https://www.npmjs.org/package/d3plus-shape) [![Build Status](https://travis-ci.org/d3plus/d3plus-shape.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-shape) [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-shape.svg?style=flat)](https://david-dm.org/d3plus/d3plus-shape) [![Gitter](https://img.shields.io/badge/-chat_on_gitter-brightgreen.svg?style=flat&logo=gitter-white)](https://gitter.im/d3plus/) [![1.0 progress](https://img.shields.io/badge/1.0_progress-75%25-yellow.svg?style=flat)](https://github.com/d3plus/d3plus-shape/projects/1)
+[![NPM Release](http://img.shields.io/npm/v/d3plus-shape.svg?style=flat)](https://www.npmjs.org/package/d3plus-shape) [![Build Status](https://travis-ci.org/d3plus/d3plus-shape.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-shape) [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-shape.svg?style=flat)](https://david-dm.org/d3plus/d3plus-shape) [![Gitter](https://img.shields.io/badge/-chat_on_gitter-brightgreen.svg?style=flat&logo=gitter-white)](https://gitter.im/d3plus/) [![1.0 progress](https://img.shields.io/badge/1.0_progress-100%25-brightgreen.svg?style=flat)](https://github.com/d3plus/d3plus-shape/projects/1)
 
 Fancy SVG shapes for visualizations
 
@@ -9,7 +9,7 @@ Fancy SVG shapes for visualizations
 If you use NPM, run `npm install d3plus-shape --save`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-shape/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. You can also load directly from [d3plus.org](https://d3plus.org):
 
 ```html
-<script src="https://d3plus.org/js/d3plus-shape.v0.14.full.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.v0.15.full.min.js"></script>
 ```
 
 [width]: 360
@@ -57,11 +57,13 @@ It even detects that the blue rectangle should have a dark label and the red rec
 * [Image](#Image)
 * [Area](#Area)
 * [Bar](#Bar)
+* [Box](#Box)
 * [Circle](#Circle)
 * [Line](#Line)
 * [Path](#Path)
 * [Rect](#Rect)
 * [Shape](#Shape)
+* [Whisker](#Whisker)
 
 ##### 
 * [largestRect](#largestRect) - An angle of zero means that the longer side of the polygon (the width) will be aligned with the x axis. An angle of 90 and/or -90 means that the longer side of the polygon (the width) will be aligned with the y axis. The value can be a number between -90 and 90 specifying the angle of rotation of the polygon, a string which is parsed to a number, or an array of numbers specifying the possible rotations of the polygon.
@@ -464,6 +466,164 @@ If *value* is specified, sets the y1 accessor to the specified function or numbe
 
 
 This is a static method of [<code>Bar</code>](#Bar), and is chainable with other methods of this Class.
+
+---
+
+<a name="Box"></a>
+#### **Box** [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L13)
+
+
+This is a global class, and extends all of the methods and functionality of <code>BaseClass</code>.
+
+
+* [Box](#Box) ⇐ <code>BaseClass</code>
+    * [new Box()](#new_Box_new)
+    * [.render([*callback*])](#Box.render) ↩︎
+    * [.data([*data*])](#Box.data) ↩︎
+    * [.medianConfig([*value*])](#Box.medianConfig) ↩︎
+    * [.orient([*value*])](#Box.orient) ↩︎
+    * [.outlier(_)](#Box.outlier) ↩︎
+    * [.outlierConfig([*value*])](#Box.outlierConfig) ↩︎
+    * [.rectConfig([*value*])](#Box.rectConfig) ↩︎
+    * [.rectWidth([*value*])](#Box.rectWidth) ↩︎
+    * [.select([*selector*])](#Box.select) ↩︎
+    * [.whiskerConfig([*value*])](#Box.whiskerConfig) ↩︎
+    * [.whiskerMode([*value*])](#Box.whiskerMode) ↩︎
+    * [.x([*value*])](#Box.x) ↩︎
+    * [.y([*value*])](#Box.y) ↩︎
+
+
+<a name="new_Box_new" href="#new_Box_new">#</a> new **Box**()
+
+Creates SVG box based on an array of data.
+
+
+
+
+
+<a name="Box.render" href="#Box.render">#</a> Box.**render**([*callback*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L62)
+
+Draws the Box.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.data" href="#Box.data">#</a> Box.**data**([*data*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L228)
+
+If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.medianConfig" href="#Box.medianConfig">#</a> Box.**medianConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L238)
+
+If *value* is specified, sets the config method for median and returns the current class instance.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.orient" href="#Box.orient">#</a> Box.**orient**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L248)
+
+If *value* is specified, sets the orientation to the specified value. If *value* is not specified, returns the current orientation.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.outlier" href="#Box.outlier">#</a> Box.**outlier**(_) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L258)
+
+If *value* is specified, sets the outlier accessor to the specified function or string and returns the current class instance.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.outlierConfig" href="#Box.outlierConfig">#</a> Box.**outlierConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L268)
+
+If *value* is specified, sets the config method for each outlier point and returns the current class instance.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.rectConfig" href="#Box.rectConfig">#</a> Box.**rectConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L278)
+
+If *value* is specified, sets the config method for rect shape and returns the current class instance.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.rectWidth" href="#Box.rectWidth">#</a> Box.**rectWidth**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L292)
+
+If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+```js
+function(d) {
+  return d.width;
+}
+```
+
+
+<a name="Box.select" href="#Box.select">#</a> Box.**select**([*selector*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L302)
+
+If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.whiskerConfig" href="#Box.whiskerConfig">#</a> Box.**whiskerConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L312)
+
+If *value* is specified, sets the config method for whisker and returns the current class instance.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.whiskerMode" href="#Box.whiskerMode">#</a> Box.**whiskerMode**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L322)
+
+Determines the value used for each whisker. Can be passed a single value to apply for both whiskers, or an Array of 2 values for the lower and upper whiskers (in that order). Accepted values are `"tukey"`, `"extent"`, or a Number representing a quantile.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.x" href="#Box.x">#</a> Box.**x**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L336)
+
+If *value* is specified, sets the x axis to the specified function or number and returns the current class instance.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+```js
+function(d) {
+  return d.x;
+}
+```
+
+
+<a name="Box.y" href="#Box.y">#</a> Box.**y**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L350)
+
+If *value* is specified, sets the y axis to the specified function or number and returns the current class instance.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+```js
+function(d) {
+  return d.y;
+}
+```
 
 ---
 
@@ -1072,6 +1232,130 @@ function(d) {
 
 ---
 
+<a name="Whisker"></a>
+#### **Whisker** [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L12)
+
+
+This is a global class, and extends all of the methods and functionality of <code>BaseClass</code>.
+
+
+* [Whisker](#Whisker) ⇐ <code>BaseClass</code>
+    * [new Whisker()](#new_Whisker_new)
+    * [.render([*callback*])](#Whisker.render) ↩︎
+    * [.data([*data*])](#Whisker.data) ↩︎
+    * [.endpoint(_)](#Whisker.endpoint) ↩︎
+    * [.endpointConfig([*value*])](#Whisker.endpointConfig) ↩︎
+    * [.length([*value*])](#Whisker.length) ↩︎
+    * [.lineConfig([*value*])](#Whisker.lineConfig) ↩︎
+    * [.orient([*value*])](#Whisker.orient) ↩︎
+    * [.select([*selector*])](#Whisker.select) ↩︎
+    * [.x([*value*])](#Whisker.x) ↩︎
+    * [.y([*value*])](#Whisker.y) ↩︎
+
+
+<a name="new_Whisker_new" href="#new_Whisker_new">#</a> new **Whisker**()
+
+Creates SVG whisker based on an array of data.
+
+
+
+
+
+<a name="Whisker.render" href="#Whisker.render">#</a> Whisker.**render**([*callback*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L48)
+
+Draws the whisker.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+<a name="Whisker.data" href="#Whisker.data">#</a> Whisker.**data**([*data*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L133)
+
+If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+<a name="Whisker.endpoint" href="#Whisker.endpoint">#</a> Whisker.**endpoint**(_) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L143)
+
+If *value* is specified, sets the endpoint accessor to the specified function or string and returns the current class instance.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+<a name="Whisker.endpointConfig" href="#Whisker.endpointConfig">#</a> Whisker.**endpointConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L153)
+
+If *value* is specified, sets the config method for each endpoint and returns the current class instance.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+<a name="Whisker.length" href="#Whisker.length">#</a> Whisker.**length**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L163)
+
+If *value* is specified, sets the length accessor for whisker and returns the current class instance.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+<a name="Whisker.lineConfig" href="#Whisker.lineConfig">#</a> Whisker.**lineConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L173)
+
+If *value* is specified, sets the config method for line shape and returns the current class instance.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+<a name="Whisker.orient" href="#Whisker.orient">#</a> Whisker.**orient**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L183)
+
+If *value* is specified, sets the orientation to the specified value. If *value* is not specified, returns the current orientation.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+<a name="Whisker.select" href="#Whisker.select">#</a> Whisker.**select**([*selector*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L193)
+
+If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+<a name="Whisker.x" href="#Whisker.x">#</a> Whisker.**x**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L207)
+
+If *value* is specified, sets the x axis to the specified function or number and returns the current class instance.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+```js
+function(d) {
+  return d.x;
+}
+```
+
+
+<a name="Whisker.y" href="#Whisker.y">#</a> Whisker.**y**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L221)
+
+If *value* is specified, sets the y axis to the specified function or number and returns the current class instance.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+```js
+function(d) {
+  return d.y;
+}
+```
+
+---
+
 <a name="largestRect"></a>
 #### d3plus.**largestRect**(poly, [options]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/geom/largestRect.js#L28)
 
@@ -1327,4 +1611,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Fri, 15 Jun 2018 16:07:40 GMT</sub>
+###### <sub>Documentation generated on Thu, 02 Aug 2018 15:20:46 GMT</sub>
