@@ -75,10 +75,10 @@ export default class Box extends BaseClass {
       .entries(this._data)
       .map(d => {
         d.data = merge(d.values);
-        d.i = this._data.indexOf(d.values[0]); 
+        d.i = this._data.indexOf(d.values[0]);
         d.orient = this._orient(d.data, d.i);
         const values = d.values.map(d.orient === "vertical" ? this._y : this._x);
-        values.sort((a, b) => a - b); 
+        values.sort((a, b) => a - b);
 
         d.first = quantile(values, 0.25);
         d.median = quantile(values, 0.50);
@@ -316,7 +316,7 @@ function(d) {
   /**
       @memberof Box
       @desc Determines the value used for each whisker. Can be passed a single value to apply for both whiskers, or an Array of 2 values for the lower and upper whiskers (in that order). Accepted values are `"tukey"`, `"extent"`, or a Number representing a quantile.
-      @param {String|Number|Array[2]} *value* = "tukey"
+      @param {String|Number|String[]|Number[]} [*value* = "tukey"]
       @chainable
   */
   whiskerMode(_) {
