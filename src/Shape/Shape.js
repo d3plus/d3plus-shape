@@ -8,7 +8,7 @@ import {color} from "d3-color";
 import {mouse, select, selectAll} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {accessor, assign, attrize, BaseClass, constant, elem} from "d3plus-common";
+import {accessor, assign, attrize, BaseClass, configPrep, constant, elem} from "d3plus-common";
 import {colorContrast} from "d3plus-color";
 import * as paths from "d3-shape";
 import {strip, TextBox} from "d3plus-text";
@@ -467,7 +467,7 @@ export default class Shape extends BaseClass {
       .rotate(d => d.__d3plus__ ? d.r : d.data.r)
       .rotateAnchor(d => d.__d3plus__ ? d.rotateAnchor : d.data.rotateAnchor)
       .select(elem(`g.d3plus-${this._name}-text`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
-      .config(this._labelConfig)
+      .config(configPrep.bind(this)(this._labelConfig))
       .render();
 
   }
