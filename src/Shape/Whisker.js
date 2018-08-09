@@ -73,7 +73,8 @@ export default class Whisker extends BaseClass {
       lineData.push({__d3plus__: true, data: d, i, id: i, x: endpointX, y: endpointY});
     });
 
-    new Line()
+    // Draw whisker line.
+    this._line = new Line()
       .data(lineData)
       .select(elem("g.d3plus-Whisker", {parent: this._select}).node())
       .config(configPrep.bind(this)(this._lineConfig, "shape"))
@@ -104,12 +105,13 @@ export default class Whisker extends BaseClass {
 
     });
 
+    // Draw whisker endpoint.
     nest()
       .key(d => d.endpoint)
       .entries(whiskerData)
       .forEach(shapeData => {
         const shapeName = shapeData.key;
-        new shapes[shapeName]()
+        this._whiskerEndpoint = new shapes[shapeName]()
           .data(shapeData.values)
           .select(elem(`g.d3plus-Whisker-Endpoint-${shapeName}`, {parent: this._select}).node())
           .config({
@@ -122,6 +124,17 @@ export default class Whisker extends BaseClass {
 
     return this;
 
+  }
+
+  /**
+      @memberof Whisker
+      @desc Sets the highlight accessor to the Shape class's active function.
+      @param {Function} [*value*]
+      @chainable
+  */
+  active(_) {
+    if (this._line) this._line.active(_);
+    if (this._whiskerEndpoint) this._whiskerEndpoint.active(_);
   }
 
   /**
@@ -152,6 +165,17 @@ export default class Whisker extends BaseClass {
   */
   endpointConfig(_) {
     return arguments.length ? (this._endpointConfig = assign(this._endpointConfig, _), this) : this._endpointConfig;
+  }
+
+  /**
+      @memberof Whisker
+      @desc Sets the highlight accessor to the Shape class's hover function.
+      @param {Function} [*value*]
+      @chainable
+  */
+  hover(_) {
+    if (this._line) this._line.hover(_);
+    if (this._whiskerEndpoint) this._whiskerEndpoint.hover(_);
   }
 
   /**
