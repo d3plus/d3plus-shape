@@ -78,7 +78,7 @@ export default class Box extends BaseClass {
         d.i = this._data.indexOf(d.values[0]); 
         d.orient = this._orient(d.data, d.i);
         const values = d.values.map(d.orient === "vertical" ? this._y : this._x);
-        values.sort((a, b) => a - b); 
+        values.sort((a, b) => a - b);
 
         d.first = quantile(values, 0.25);
         d.median = quantile(values, 0.50);
@@ -142,14 +142,13 @@ export default class Box extends BaseClass {
 
         });
 
-        d.nested = true;
         d.__d3plus__ = true;
 
         return d;
       });
 
     // Draw box.
-    new Rect()
+    this._box = new Rect()
       .data(filteredData)
       .x(d => d.x)
       .y(d => d.y)
@@ -158,7 +157,7 @@ export default class Box extends BaseClass {
       .render();
 
     // Draw median.
-    new Rect()
+    this._median = new Rect()
       .data(filteredData)
       .x(d => d.orient === "vertical" ? d.x : d.median)
       .y(d => d.orient === "vertical" ? d.median : d.y)
@@ -197,7 +196,7 @@ export default class Box extends BaseClass {
     });
 
     // Draw whiskers.
-    new Whisker()
+    this._whisker = new Whisker()
       .data(whiskerData)
       .select(elem("g.d3plus-Box-Whisker", {parent: this._select}).node())
       .config(configPrep.bind(this)(this._whiskerConfig, "shape"))
@@ -209,7 +208,7 @@ export default class Box extends BaseClass {
       .entries(outlierData)
       .forEach(shapeData => {
         const shapeName = shapeData.key;
-        new shapes[shapeName]()
+        this._whiskerEndpoint = new shapes[shapeName]()
           .data(shapeData.values)
           .select(elem(`g.d3plus-Box-Outlier-${shapeName}`, {parent: this._select}).node())
           .config(configPrep.bind(this)(this._outlierConfig, "shape", shapeName))
@@ -221,12 +220,38 @@ export default class Box extends BaseClass {
 
   /**
       @memberof Box
+      @desc Sets the highlight accessor to the Shape class's active function.
+      @param {Function} [*value*]
+      @chainable
+  */
+  active(_) {
+    if (this._box) this._box.active(_);
+    if (this._median) this._median.active(_);
+    if (this._whisker) this._whisker.active(_);
+    if (this._whiskerEndpoint) this._whiskerEndpoint.active(_);
+  }
+
+  /**
+      @memberof Box
       @desc If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array.
       @param {Array} [*data* = []]
       @chainable
   */
   data(_) {
     return arguments.length ? (this._data = _, this) : this._data;
+  }
+
+  /**
+      @memberof Box
+      @desc Sets the highlight accessor to the Shape class's hover function.
+      @param {Function} [*value*]
+      @chainable
+  */
+  hover(_) {
+    if (this._box) this._box.hover(_);
+    if (this._median) this._median.hover(_);
+    if (this._whisker) this._whisker.hover(_);
+    if (this._whiskerEndpoint) this._whiskerEndpoint.hover(_);
   }
 
   /**

@@ -533,7 +533,6 @@ export default class Shape extends BaseClass {
       .attr("pointer-events", "none")
       .transition(this._transition)
       .attr("opacity", this._nestWrapper(this._opacity))
-      .transition()
       .attr("pointer-events", this._pointerEvents);
 
     // Makes the exit state of the group selection accessible.
