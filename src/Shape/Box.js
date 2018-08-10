@@ -47,6 +47,7 @@ export default class Box extends BaseClass {
     };
     this._rectWidth = constant(50);
     this._whiskerConfig = {};
+    this._whiskerEndpoint = [];
     this._whiskerMode = ["tukey", "tukey"];
     this._x = accessor("x", 250);
     this._y = accessor("y", 250);
@@ -208,11 +209,11 @@ export default class Box extends BaseClass {
       .entries(outlierData)
       .forEach(shapeData => {
         const shapeName = shapeData.key;
-        this._whiskerEndpoint = new shapes[shapeName]()
+        this._whiskerEndpoint.push(new shapes[shapeName]()
           .data(shapeData.values)
           .select(elem(`g.d3plus-Box-Outlier-${shapeName}`, {parent: this._select}).node())
           .config(configPrep.bind(this)(this._outlierConfig, "shape", shapeName))
-          .render();
+          .render());
       });
 
     return this;
@@ -228,7 +229,7 @@ export default class Box extends BaseClass {
     if (this._box) this._box.active(_);
     if (this._median) this._median.active(_);
     if (this._whisker) this._whisker.active(_);
-    if (this._whiskerEndpoint) this._whiskerEndpoint.active(_);
+    if (this._whiskerEndpoint.length) this._whiskerEndpoint.forEach(endPoint => endPoint.active(_));
   }
 
   /**
@@ -251,7 +252,7 @@ export default class Box extends BaseClass {
     if (this._box) this._box.hover(_);
     if (this._median) this._median.hover(_);
     if (this._whisker) this._whisker.hover(_);
-    if (this._whiskerEndpoint) this._whiskerEndpoint.hover(_);
+    if (this._whiskerEndpoint.length) this._whiskerEndpoint.forEach(endPoint => endPoint.hover(_));
   }
 
   /**

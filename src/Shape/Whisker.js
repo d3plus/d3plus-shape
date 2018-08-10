@@ -34,6 +34,7 @@ export default class Whisker extends BaseClass {
     this._length = accessor("length", 25);
     this._lineConfig = {};
     this._orient = accessor("orient", "top");
+    this._whiskerEndpoint = [];
     this._x = accessor("x", 0);
     this._y = accessor("y", 0);
 
@@ -111,7 +112,7 @@ export default class Whisker extends BaseClass {
       .entries(whiskerData)
       .forEach(shapeData => {
         const shapeName = shapeData.key;
-        this._whiskerEndpoint = new shapes[shapeName]()
+        this._whiskerEndpoint.push(new shapes[shapeName]()
           .data(shapeData.values)
           .select(elem(`g.d3plus-Whisker-Endpoint-${shapeName}`, {parent: this._select}).node())
           .config({
@@ -119,7 +120,7 @@ export default class Whisker extends BaseClass {
             width: d => d.orient === "top" || d.orient === "bottom" ? 20 : 5
           })
           .config(configPrep.bind(this)(this._endpointConfig, "shape", shapeName))
-          .render();
+          .render());
       });
 
     return this;
@@ -134,7 +135,7 @@ export default class Whisker extends BaseClass {
   */
   active(_) {
     if (this._line) this._line.active(_);
-    if (this._whiskerEndpoint) this._whiskerEndpoint.active(_);
+    if (this._whiskerEndpoint.length) this._whiskerEndpoint.forEach(endPoint => endPoint.active(_));
   }
 
   /**
@@ -175,7 +176,7 @@ export default class Whisker extends BaseClass {
   */
   hover(_) {
     if (this._line) this._line.hover(_);
-    if (this._whiskerEndpoint) this._whiskerEndpoint.hover(_);
+    if (this._whiskerEndpoint.length) this._whiskerEndpoint.forEach(endPoint => endPoint.hover(_));
   }
 
   /**
