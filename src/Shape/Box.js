@@ -47,7 +47,6 @@ export default class Box extends BaseClass {
     };
     this._rectWidth = constant(50);
     this._whiskerConfig = {};
-    this._whiskerEndpoint = [];
     this._whiskerMode = ["tukey", "tukey"];
     this._x = accessor("x", 250);
     this._y = accessor("y", 250);
@@ -204,6 +203,7 @@ export default class Box extends BaseClass {
       .render();
 
     // Draw outliers.
+    this._whiskerEndpoint = [];
     nest()
       .key(d => d.outlier)
       .entries(outlierData)
@@ -229,7 +229,7 @@ export default class Box extends BaseClass {
     if (this._box) this._box.active(_);
     if (this._median) this._median.active(_);
     if (this._whisker) this._whisker.active(_);
-    if (this._whiskerEndpoint.length) this._whiskerEndpoint.forEach(endPoint => endPoint.active(_));
+    if (this._whiskerEndpoint) this._whiskerEndpoint.forEach(endPoint => endPoint.active(_));
   }
 
   /**
@@ -252,7 +252,7 @@ export default class Box extends BaseClass {
     if (this._box) this._box.hover(_);
     if (this._median) this._median.hover(_);
     if (this._whisker) this._whisker.hover(_);
-    if (this._whiskerEndpoint.length) this._whiskerEndpoint.forEach(endPoint => endPoint.hover(_));
+    if (this._whiskerEndpoint) this._whiskerEndpoint.forEach(endPoint => endPoint.hover(_));
   }
 
   /**

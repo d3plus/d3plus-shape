@@ -34,7 +34,6 @@ export default class Whisker extends BaseClass {
     this._length = accessor("length", 25);
     this._lineConfig = {};
     this._orient = accessor("orient", "top");
-    this._whiskerEndpoint = [];
     this._x = accessor("x", 0);
     this._y = accessor("y", 0);
 
@@ -107,6 +106,7 @@ export default class Whisker extends BaseClass {
     });
 
     // Draw whisker endpoint.
+    this._whiskerEndpoint = [];
     nest()
       .key(d => d.endpoint)
       .entries(whiskerData)
@@ -135,7 +135,7 @@ export default class Whisker extends BaseClass {
   */
   active(_) {
     if (this._line) this._line.active(_);
-    if (this._whiskerEndpoint.length) this._whiskerEndpoint.forEach(endPoint => endPoint.active(_));
+    if (this._whiskerEndpoint) this._whiskerEndpoint.forEach(endPoint => endPoint.active(_));
   }
 
   /**
@@ -176,7 +176,7 @@ export default class Whisker extends BaseClass {
   */
   hover(_) {
     if (this._line) this._line.hover(_);
-    if (this._whiskerEndpoint.length) this._whiskerEndpoint.forEach(endPoint => endPoint.hover(_));
+    if (this._whiskerEndpoint) this._whiskerEndpoint.forEach(endPoint => endPoint.hover(_));
   }
 
   /**
