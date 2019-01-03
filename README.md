@@ -9,7 +9,7 @@ Fancy SVG shapes for visualizations
 If you use NPM, run `npm install d3plus-shape --save`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-shape/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. You can also load directly from [d3plus.org](https://d3plus.org):
 
 ```html
-<script src="https://d3plus.org/js/d3plus-shape.v0.15.full.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.v0.16.full.min.js"></script>
 ```
 
 [width]: 360
@@ -479,7 +479,9 @@ This is a global class, and extends all of the methods and functionality of <cod
 * [Box](#Box) ⇐ <code>BaseClass</code>
     * [new Box()](#new_Box_new)
     * [.render([*callback*])](#Box.render) ↩︎
+    * [.active([*value*])](#Box.active) ↩︎
     * [.data([*data*])](#Box.data) ↩︎
+    * [.hover([*value*])](#Box.hover) ↩︎
     * [.medianConfig([*value*])](#Box.medianConfig) ↩︎
     * [.orient([*value*])](#Box.orient) ↩︎
     * [.outlier(_)](#Box.outlier) ↩︎
@@ -509,7 +511,15 @@ Draws the Box.
 This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
 
 
-<a name="Box.data" href="#Box.data">#</a> Box.**data**([*data*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L228)
+<a name="Box.active" href="#Box.active">#</a> Box.**active**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L228)
+
+Sets the highlight accessor to the Shape class's active function.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.data" href="#Box.data">#</a> Box.**data**([*data*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L241)
 
 If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array.
 
@@ -517,7 +527,15 @@ If *data* is specified, sets the data array to the specified array and returns t
 This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
 
 
-<a name="Box.medianConfig" href="#Box.medianConfig">#</a> Box.**medianConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L238)
+<a name="Box.hover" href="#Box.hover">#</a> Box.**hover**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L251)
+
+Sets the highlight accessor to the Shape class's hover function.
+
+
+This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
+
+
+<a name="Box.medianConfig" href="#Box.medianConfig">#</a> Box.**medianConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L264)
 
 If *value* is specified, sets the config method for median and returns the current class instance.
 
@@ -525,7 +543,7 @@ If *value* is specified, sets the config method for median and returns the curre
 This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
 
 
-<a name="Box.orient" href="#Box.orient">#</a> Box.**orient**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L248)
+<a name="Box.orient" href="#Box.orient">#</a> Box.**orient**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L274)
 
 If *value* is specified, sets the orientation to the specified value. If *value* is not specified, returns the current orientation.
 
@@ -533,7 +551,7 @@ If *value* is specified, sets the orientation to the specified value. If *value*
 This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
 
 
-<a name="Box.outlier" href="#Box.outlier">#</a> Box.**outlier**(_) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L258)
+<a name="Box.outlier" href="#Box.outlier">#</a> Box.**outlier**(_) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L284)
 
 If *value* is specified, sets the outlier accessor to the specified function or string and returns the current class instance.
 
@@ -541,7 +559,7 @@ If *value* is specified, sets the outlier accessor to the specified function or 
 This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
 
 
-<a name="Box.outlierConfig" href="#Box.outlierConfig">#</a> Box.**outlierConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L268)
+<a name="Box.outlierConfig" href="#Box.outlierConfig">#</a> Box.**outlierConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L294)
 
 If *value* is specified, sets the config method for each outlier point and returns the current class instance.
 
@@ -549,7 +567,7 @@ If *value* is specified, sets the config method for each outlier point and retur
 This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
 
 
-<a name="Box.rectConfig" href="#Box.rectConfig">#</a> Box.**rectConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L278)
+<a name="Box.rectConfig" href="#Box.rectConfig">#</a> Box.**rectConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L304)
 
 If *value* is specified, sets the config method for rect shape and returns the current class instance.
 
@@ -557,7 +575,7 @@ If *value* is specified, sets the config method for rect shape and returns the c
 This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
 
 
-<a name="Box.rectWidth" href="#Box.rectWidth">#</a> Box.**rectWidth**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L292)
+<a name="Box.rectWidth" href="#Box.rectWidth">#</a> Box.**rectWidth**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L318)
 
 If *value* is specified, sets the width accessor to the specified function or number and returns the current class instance.
 
@@ -572,7 +590,7 @@ function(d) {
 ```
 
 
-<a name="Box.select" href="#Box.select">#</a> Box.**select**([*selector*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L302)
+<a name="Box.select" href="#Box.select">#</a> Box.**select**([*selector*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L328)
 
 If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
 
@@ -580,7 +598,7 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
 
 
-<a name="Box.whiskerConfig" href="#Box.whiskerConfig">#</a> Box.**whiskerConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L312)
+<a name="Box.whiskerConfig" href="#Box.whiskerConfig">#</a> Box.**whiskerConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L338)
 
 If *value* is specified, sets the config method for whisker and returns the current class instance.
 
@@ -588,7 +606,7 @@ If *value* is specified, sets the config method for whisker and returns the curr
 This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
 
 
-<a name="Box.whiskerMode" href="#Box.whiskerMode">#</a> Box.**whiskerMode**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L322)
+<a name="Box.whiskerMode" href="#Box.whiskerMode">#</a> Box.**whiskerMode**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L348)
 
 Determines the value used for each whisker. Can be passed a single value to apply for both whiskers, or an Array of 2 values for the lower and upper whiskers (in that order). Accepted values are `"tukey"`, `"extent"`, or a Number representing a quantile.
 
@@ -596,7 +614,7 @@ Determines the value used for each whisker. Can be passed a single value to appl
 This is a static method of [<code>Box</code>](#Box), and is chainable with other methods of this Class.
 
 
-<a name="Box.x" href="#Box.x">#</a> Box.**x**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L336)
+<a name="Box.x" href="#Box.x">#</a> Box.**x**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L362)
 
 If *value* is specified, sets the x axis to the specified function or number and returns the current class instance.
 
@@ -611,7 +629,7 @@ function(d) {
 ```
 
 
-<a name="Box.y" href="#Box.y">#</a> Box.**y**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L350)
+<a name="Box.y" href="#Box.y">#</a> Box.**y**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Box.js#L376)
 
 If *value* is specified, sets the y axis to the specified function or number and returns the current class instance.
 
@@ -890,7 +908,7 @@ Renders the current Shape to the page. If a *callback* is specified, it will be 
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.active" href="#Shape.active">#</a> Shape.**active**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L600)
+<a name="Shape.active" href="#Shape.active">#</a> Shape.**active**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L599)
 
 If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance.
 
@@ -898,7 +916,7 @@ If *value* is specified, sets the highlight accessor to the specified function a
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.activeOpacity" href="#Shape.activeOpacity">#</a> Shape.**activeOpacity**(*value*) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L619)
+<a name="Shape.activeOpacity" href="#Shape.activeOpacity">#</a> Shape.**activeOpacity**(*value*) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L618)
 
 When shapes are active, this is the opacity of any shape that is not active.
 
@@ -906,7 +924,7 @@ When shapes are active, this is the opacity of any shape that is not active.
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.activeStyle" href="#Shape.activeStyle">#</a> Shape.**activeStyle**(*value*) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L629)
+<a name="Shape.activeStyle" href="#Shape.activeStyle">#</a> Shape.**activeStyle**(*value*) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L628)
 
 The style to apply to active shapes.
 
@@ -914,7 +932,7 @@ The style to apply to active shapes.
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.ariaLabel" href="#Shape.ariaLabel">#</a> Shape.**ariaLabel**(*value*) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L639)
+<a name="Shape.ariaLabel" href="#Shape.ariaLabel">#</a> Shape.**ariaLabel**(*value*) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L638)
 
 If *value* is specified, sets the aria-label attribute to the specified function or string and returns the current class instance.
 
@@ -922,7 +940,7 @@ If *value* is specified, sets the aria-label attribute to the specified function
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.backgroundImage" href="#Shape.backgroundImage">#</a> Shape.**backgroundImage**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L651)
+<a name="Shape.backgroundImage" href="#Shape.backgroundImage">#</a> Shape.**backgroundImage**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L650)
 
 If *value* is specified, sets the background-image accessor to the specified function or string and returns the current class instance.
 
@@ -930,7 +948,7 @@ If *value* is specified, sets the background-image accessor to the specified fun
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.data" href="#Shape.data">#</a> Shape.**data**([*data*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L663)
+<a name="Shape.data" href="#Shape.data">#</a> Shape.**data**([*data*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L662)
 
 If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array. A shape will be drawn for each object in the array.
 
@@ -938,7 +956,7 @@ If *data* is specified, sets the data array to the specified array and returns t
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.duration" href="#Shape.duration">#</a> Shape.**duration**([*ms*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L675)
+<a name="Shape.duration" href="#Shape.duration">#</a> Shape.**duration**([*ms*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L674)
 
 If *ms* is specified, sets the animation duration to the specified number and returns the current class instance. If *ms* is not specified, returns the current animation duration.
 
@@ -946,7 +964,7 @@ If *ms* is specified, sets the animation duration to the specified number and re
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.fill" href="#Shape.fill">#</a> Shape.**fill**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L687)
+<a name="Shape.fill" href="#Shape.fill">#</a> Shape.**fill**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L686)
 
 If *value* is specified, sets the fill accessor to the specified function or string and returns the current class instance.
 
@@ -954,7 +972,7 @@ If *value* is specified, sets the fill accessor to the specified function or str
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.fillOpacity" href="#Shape.fillOpacity">#</a> Shape.**fillOpacity**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L699)
+<a name="Shape.fillOpacity" href="#Shape.fillOpacity">#</a> Shape.**fillOpacity**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L698)
 
 Defines the "fill-opacity" attribute for the shapes.
 
@@ -962,7 +980,7 @@ Defines the "fill-opacity" attribute for the shapes.
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.hover" href="#Shape.hover">#</a> Shape.**hover**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L711)
+<a name="Shape.hover" href="#Shape.hover">#</a> Shape.**hover**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L710)
 
 If *value* is specified, sets the highlight accessor to the specified function and returns the current class instance.
 
@@ -970,7 +988,7 @@ If *value* is specified, sets the highlight accessor to the specified function a
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.hoverStyle" href="#Shape.hoverStyle">#</a> Shape.**hoverStyle**(*value*) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L730)
+<a name="Shape.hoverStyle" href="#Shape.hoverStyle">#</a> Shape.**hoverStyle**(*value*) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L729)
 
 The style to apply to hovered shapes.
 
@@ -978,7 +996,7 @@ The style to apply to hovered shapes.
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.hoverOpacity" href="#Shape.hoverOpacity">#</a> Shape.**hoverOpacity**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L740)
+<a name="Shape.hoverOpacity" href="#Shape.hoverOpacity">#</a> Shape.**hoverOpacity**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L739)
 
 If *value* is specified, sets the hover opacity to the specified function and returns the current class instance.
 
@@ -986,7 +1004,7 @@ If *value* is specified, sets the hover opacity to the specified function and re
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.hitArea" href="#Shape.hitArea">#</a> Shape.**hitArea**([*bounds*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L759)
+<a name="Shape.hitArea" href="#Shape.hitArea">#</a> Shape.**hitArea**([*bounds*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L758)
 
 If *bounds* is specified, sets the mouse hit area to the specified function and returns the current class instance. If *bounds* is not specified, returns the current mouse hit area accessor.
 
@@ -1006,7 +1024,7 @@ function(d, i, shape) {
 ```
 
 
-<a name="Shape.id" href="#Shape.id">#</a> Shape.**id**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L769)
+<a name="Shape.id" href="#Shape.id">#</a> Shape.**id**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L768)
 
 If *value* is specified, sets the id accessor to the specified function and returns the current class instance.
 
@@ -1014,7 +1032,7 @@ If *value* is specified, sets the id accessor to the specified function and retu
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.label" href="#Shape.label">#</a> Shape.**label**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L779)
+<a name="Shape.label" href="#Shape.label">#</a> Shape.**label**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L778)
 
 If *value* is specified, sets the label accessor to the specified function or string and returns the current class instance.
 
@@ -1022,7 +1040,7 @@ If *value* is specified, sets the label accessor to the specified function or st
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.labelBounds" href="#Shape.labelBounds">#</a> Shape.**labelBounds**([*bounds*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L798)
+<a name="Shape.labelBounds" href="#Shape.labelBounds">#</a> Shape.**labelBounds**([*bounds*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L797)
 
 If *bounds* is specified, sets the label bounds to the specified function and returns the current class instance. If *bounds* is not specified, returns the current inner bounds accessor.
 
@@ -1042,7 +1060,7 @@ function(d, i, shape) {
 ```
 
 
-<a name="Shape.labelConfig" href="#Shape.labelConfig">#</a> Shape.**labelConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L808)
+<a name="Shape.labelConfig" href="#Shape.labelConfig">#</a> Shape.**labelConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L807)
 
 A pass-through to the config method of the TextBox class used to create a shape's labels.
 
@@ -1050,7 +1068,7 @@ A pass-through to the config method of the TextBox class used to create a shape'
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.opacity" href="#Shape.opacity">#</a> Shape.**opacity**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L818)
+<a name="Shape.opacity" href="#Shape.opacity">#</a> Shape.**opacity**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L817)
 
 If *value* is specified, sets the opacity accessor to the specified function or number and returns the current class instance.
 
@@ -1058,7 +1076,7 @@ If *value* is specified, sets the opacity accessor to the specified function or 
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.pointerEvents" href="#Shape.pointerEvents">#</a> Shape.**pointerEvents**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L828)
+<a name="Shape.pointerEvents" href="#Shape.pointerEvents">#</a> Shape.**pointerEvents**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L827)
 
 If *value* is specified, sets the pointerEvents accessor to the specified function or string and returns the current class instance.
 
@@ -1066,7 +1084,7 @@ If *value* is specified, sets the pointerEvents accessor to the specified functi
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.role" href="#Shape.role">#</a> Shape.**role**(*value*) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L838)
+<a name="Shape.role" href="#Shape.role">#</a> Shape.**role**(*value*) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L837)
 
 If *value* is specified, sets the role attribute to the specified function or string and returns the current class instance.
 
@@ -1074,7 +1092,7 @@ If *value* is specified, sets the role attribute to the specified function or st
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.rotate" href="#Shape.rotate">#</a> Shape.**rotate**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L850)
+<a name="Shape.rotate" href="#Shape.rotate">#</a> Shape.**rotate**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L849)
 
 If *value* is specified, sets the rotate accessor to the specified function or number and returns the current class instance.
 
@@ -1082,7 +1100,7 @@ If *value* is specified, sets the rotate accessor to the specified function or n
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.rx" href="#Shape.rx">#</a> Shape.**rx**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L860)
+<a name="Shape.rx" href="#Shape.rx">#</a> Shape.**rx**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L859)
 
 Defines the "rx" attribute for the shapes.
 
@@ -1090,7 +1108,7 @@ Defines the "rx" attribute for the shapes.
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.ry" href="#Shape.ry">#</a> Shape.**ry**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L870)
+<a name="Shape.ry" href="#Shape.ry">#</a> Shape.**ry**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L869)
 
 Defines the "rx" attribute for the shapes.
 
@@ -1098,7 +1116,7 @@ Defines the "rx" attribute for the shapes.
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.scale" href="#Shape.scale">#</a> Shape.**scale**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L880)
+<a name="Shape.scale" href="#Shape.scale">#</a> Shape.**scale**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L879)
 
 If *value* is specified, sets the scale accessor to the specified function or string and returns the current class instance.
 
@@ -1106,7 +1124,7 @@ If *value* is specified, sets the scale accessor to the specified function or st
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.select" href="#Shape.select">#</a> Shape.**select**([*selector*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L890)
+<a name="Shape.select" href="#Shape.select">#</a> Shape.**select**([*selector*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L889)
 
 If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
 
@@ -1114,7 +1132,7 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.shapeRendering" href="#Shape.shapeRendering">#</a> Shape.**shapeRendering**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L904)
+<a name="Shape.shapeRendering" href="#Shape.shapeRendering">#</a> Shape.**shapeRendering**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L903)
 
 If *value* is specified, sets the shape-rendering accessor to the specified function or string and returns the current class instance.
 
@@ -1129,7 +1147,7 @@ function(d) {
 ```
 
 
-<a name="Shape.sort" href="#Shape.sort">#</a> Shape.**sort**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L914)
+<a name="Shape.sort" href="#Shape.sort">#</a> Shape.**sort**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L913)
 
 If *value* is specified, sets the sort comparator to the specified function and returns the current class instance.
 
@@ -1137,7 +1155,7 @@ If *value* is specified, sets the sort comparator to the specified function and 
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.stroke" href="#Shape.stroke">#</a> Shape.**stroke**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L924)
+<a name="Shape.stroke" href="#Shape.stroke">#</a> Shape.**stroke**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L923)
 
 If *value* is specified, sets the stroke accessor to the specified function or string and returns the current class instance.
 
@@ -1145,7 +1163,7 @@ If *value* is specified, sets the stroke accessor to the specified function or s
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.strokeDasharray" href="#Shape.strokeDasharray">#</a> Shape.**strokeDasharray**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L934)
+<a name="Shape.strokeDasharray" href="#Shape.strokeDasharray">#</a> Shape.**strokeDasharray**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L933)
 
 Defines the "stroke-dasharray" attribute for the shapes.
 
@@ -1153,7 +1171,7 @@ Defines the "stroke-dasharray" attribute for the shapes.
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.strokeLinecap" href="#Shape.strokeLinecap">#</a> Shape.**strokeLinecap**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L944)
+<a name="Shape.strokeLinecap" href="#Shape.strokeLinecap">#</a> Shape.**strokeLinecap**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L943)
 
 Defines the "stroke-linecap" attribute for the shapes. Accepted values are `"butt"`, `"round"`, and `"square"`.
 
@@ -1161,7 +1179,7 @@ Defines the "stroke-linecap" attribute for the shapes. Accepted values are `"but
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.strokeOpacity" href="#Shape.strokeOpacity">#</a> Shape.**strokeOpacity**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L954)
+<a name="Shape.strokeOpacity" href="#Shape.strokeOpacity">#</a> Shape.**strokeOpacity**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L953)
 
 Defines the "stroke-opacity" attribute for the shapes.
 
@@ -1169,7 +1187,7 @@ Defines the "stroke-opacity" attribute for the shapes.
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.strokeWidth" href="#Shape.strokeWidth">#</a> Shape.**strokeWidth**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L964)
+<a name="Shape.strokeWidth" href="#Shape.strokeWidth">#</a> Shape.**strokeWidth**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L963)
 
 If *value* is specified, sets the stroke-width accessor to the specified function or string and returns the current class instance.
 
@@ -1177,7 +1195,7 @@ If *value* is specified, sets the stroke-width accessor to the specified functio
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.textAnchor" href="#Shape.textAnchor">#</a> Shape.**textAnchor**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L974)
+<a name="Shape.textAnchor" href="#Shape.textAnchor">#</a> Shape.**textAnchor**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L973)
 
 If *value* is specified, sets the text-anchor accessor to the specified function or string and returns the current class instance.
 
@@ -1185,7 +1203,7 @@ If *value* is specified, sets the text-anchor accessor to the specified function
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.vectorEffect" href="#Shape.vectorEffect">#</a> Shape.**vectorEffect**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L984)
+<a name="Shape.vectorEffect" href="#Shape.vectorEffect">#</a> Shape.**vectorEffect**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L983)
 
 If *value* is specified, sets the vector-effect accessor to the specified function or string and returns the current class instance.
 
@@ -1193,7 +1211,7 @@ If *value* is specified, sets the vector-effect accessor to the specified functi
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.verticalAlign" href="#Shape.verticalAlign">#</a> Shape.**verticalAlign**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L994)
+<a name="Shape.verticalAlign" href="#Shape.verticalAlign">#</a> Shape.**verticalAlign**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L993)
 
 If *value* is specified, sets the vertical alignment accessor to the specified function or string and returns the current class instance.
 
@@ -1201,7 +1219,7 @@ If *value* is specified, sets the vertical alignment accessor to the specified f
 This is a static method of [<code>Shape</code>](#Shape), and is chainable with other methods of this Class.
 
 
-<a name="Shape.x" href="#Shape.x">#</a> Shape.**x**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L1008)
+<a name="Shape.x" href="#Shape.x">#</a> Shape.**x**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L1007)
 
 If *value* is specified, sets the x accessor to the specified function or number and returns the current class instance.
 
@@ -1216,7 +1234,7 @@ function(d) {
 ```
 
 
-<a name="Shape.y" href="#Shape.y">#</a> Shape.**y**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L1022)
+<a name="Shape.y" href="#Shape.y">#</a> Shape.**y**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Shape.js#L1021)
 
 If *value* is specified, sets the y accessor to the specified function or number and returns the current class instance.
 
@@ -1242,9 +1260,11 @@ This is a global class, and extends all of the methods and functionality of <cod
 * [Whisker](#Whisker) ⇐ <code>BaseClass</code>
     * [new Whisker()](#new_Whisker_new)
     * [.render([*callback*])](#Whisker.render) ↩︎
+    * [.active([*value*])](#Whisker.active) ↩︎
     * [.data([*data*])](#Whisker.data) ↩︎
     * [.endpoint(_)](#Whisker.endpoint) ↩︎
     * [.endpointConfig([*value*])](#Whisker.endpointConfig) ↩︎
+    * [.hover([*value*])](#Whisker.hover) ↩︎
     * [.length([*value*])](#Whisker.length) ↩︎
     * [.lineConfig([*value*])](#Whisker.lineConfig) ↩︎
     * [.orient([*value*])](#Whisker.orient) ↩︎
@@ -1269,7 +1289,15 @@ Draws the whisker.
 This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
 
 
-<a name="Whisker.data" href="#Whisker.data">#</a> Whisker.**data**([*data*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L133)
+<a name="Whisker.active" href="#Whisker.active">#</a> Whisker.**active**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L136)
+
+Sets the highlight accessor to the Shape class's active function.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+<a name="Whisker.data" href="#Whisker.data">#</a> Whisker.**data**([*data*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L147)
 
 If *data* is specified, sets the data array to the specified array and returns the current class instance. If *data* is not specified, returns the current data array.
 
@@ -1277,7 +1305,7 @@ If *data* is specified, sets the data array to the specified array and returns t
 This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
 
 
-<a name="Whisker.endpoint" href="#Whisker.endpoint">#</a> Whisker.**endpoint**(_) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L143)
+<a name="Whisker.endpoint" href="#Whisker.endpoint">#</a> Whisker.**endpoint**(_) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L157)
 
 If *value* is specified, sets the endpoint accessor to the specified function or string and returns the current class instance.
 
@@ -1285,7 +1313,7 @@ If *value* is specified, sets the endpoint accessor to the specified function or
 This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
 
 
-<a name="Whisker.endpointConfig" href="#Whisker.endpointConfig">#</a> Whisker.**endpointConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L153)
+<a name="Whisker.endpointConfig" href="#Whisker.endpointConfig">#</a> Whisker.**endpointConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L167)
 
 If *value* is specified, sets the config method for each endpoint and returns the current class instance.
 
@@ -1293,7 +1321,15 @@ If *value* is specified, sets the config method for each endpoint and returns th
 This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
 
 
-<a name="Whisker.length" href="#Whisker.length">#</a> Whisker.**length**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L163)
+<a name="Whisker.hover" href="#Whisker.hover">#</a> Whisker.**hover**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L177)
+
+Sets the highlight accessor to the Shape class's hover function.
+
+
+This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
+
+
+<a name="Whisker.length" href="#Whisker.length">#</a> Whisker.**length**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L188)
 
 If *value* is specified, sets the length accessor for whisker and returns the current class instance.
 
@@ -1301,7 +1337,7 @@ If *value* is specified, sets the length accessor for whisker and returns the cu
 This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
 
 
-<a name="Whisker.lineConfig" href="#Whisker.lineConfig">#</a> Whisker.**lineConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L173)
+<a name="Whisker.lineConfig" href="#Whisker.lineConfig">#</a> Whisker.**lineConfig**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L198)
 
 If *value* is specified, sets the config method for line shape and returns the current class instance.
 
@@ -1309,7 +1345,7 @@ If *value* is specified, sets the config method for line shape and returns the c
 This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
 
 
-<a name="Whisker.orient" href="#Whisker.orient">#</a> Whisker.**orient**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L183)
+<a name="Whisker.orient" href="#Whisker.orient">#</a> Whisker.**orient**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L208)
 
 If *value* is specified, sets the orientation to the specified value. If *value* is not specified, returns the current orientation.
 
@@ -1317,7 +1353,7 @@ If *value* is specified, sets the orientation to the specified value. If *value*
 This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
 
 
-<a name="Whisker.select" href="#Whisker.select">#</a> Whisker.**select**([*selector*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L193)
+<a name="Whisker.select" href="#Whisker.select">#</a> Whisker.**select**([*selector*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L218)
 
 If *selector* is specified, sets the SVG container element to the specified d3 selector or DOM element and returns the current class instance. If *selector* is not specified, returns the current SVG container element.
 
@@ -1325,7 +1361,7 @@ If *selector* is specified, sets the SVG container element to the specified d3 s
 This is a static method of [<code>Whisker</code>](#Whisker), and is chainable with other methods of this Class.
 
 
-<a name="Whisker.x" href="#Whisker.x">#</a> Whisker.**x**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L207)
+<a name="Whisker.x" href="#Whisker.x">#</a> Whisker.**x**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L232)
 
 If *value* is specified, sets the x axis to the specified function or number and returns the current class instance.
 
@@ -1340,7 +1376,7 @@ function(d) {
 ```
 
 
-<a name="Whisker.y" href="#Whisker.y">#</a> Whisker.**y**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L221)
+<a name="Whisker.y" href="#Whisker.y">#</a> Whisker.**y**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Whisker.js#L246)
 
 If *value* is specified, sets the y axis to the specified function or number and returns the current class instance.
 
@@ -1611,4 +1647,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Thu, 02 Aug 2018 15:20:46 GMT</sub>
+###### <sub>Documentation generated on Thu, 03 Jan 2019 22:52:45 GMT</sub>
