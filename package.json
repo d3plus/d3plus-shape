@@ -31,9 +31,9 @@
     "d3-selection": "^1.3.0",
     "d3-shape": "^1.2.0",
     "d3-transition": "^1.1.1",
-    "d3plus-color": "^0.6.2",
-    "d3plus-common": "^0.6.39",
-    "d3plus-text": "^0.9.32"
+    "d3plus-color": "^0.6.4",
+    "d3plus-common": "^0.6.45",
+    "d3plus-text": "^0.9.43"
   },
   "scripts": {
     "build": "d3plus-build",
@@ -45,7 +45,7 @@
     "test": "d3plus-test"
   },
   "devDependencies": {
-    "d3plus-dev": "^0.6.7"
+    "d3plus-dev": "^0.6.18"
   },
   "module": "es/index",
   "sideEffects": false,
