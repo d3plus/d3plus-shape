@@ -119,7 +119,7 @@ export default function(poly, options = {}) {
   if (!origins.length) {
     // get the centroid of the polygon
     const centroid = polygonCentroid(poly);
-    if (isNaN(centroid[0])) {
+    if (isNaN(centroid[0]) || Math.abs(centroid[0]) === Infinity) {
       if (options.verbose) console.error("cannot find centroid", poly);
       return null;
     }
