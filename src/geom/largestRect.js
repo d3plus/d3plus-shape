@@ -124,16 +124,17 @@ export default function(poly, options = {}) {
       return null;
     }
     if (polygonContains(poly, centroid)) origins.push(centroid);
-    if (!origins.length) {
-      if (options.verbose) console.error("centroid not in polygon", poly);
-      return null;
-    }
+
+    let nTries = options.nTries;
     // get few more points inside the polygon
-    while (origins.length < options.nTries) {
+    while (nTries) {
       const rndX = Math.random() * boxWidth + minx;
       const rndY = Math.random() * boxHeight + miny;
       const rndPoint = [rndX, rndY];
-      if (polygonContains(poly, rndPoint)) origins.push(rndPoint);
+      if (polygonContains(poly, rndPoint)) {
+        origins.push(rndPoint);
+      }
+      nTries--;
     }
   }
   if (options.events) events.push({type: "origins", points: origins});
