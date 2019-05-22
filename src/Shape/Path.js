@@ -21,7 +21,7 @@ export default class Path extends Shape {
     this._d = accessor("path");
     this._labelBounds = (d, i, aes) => {
       const r = largestRect(aes.points, {angle: this._labelConfig.rotate ? this._labelConfig.rotate(d, i) : 0});
-      return {angle: r.angle, width: r.width, height: r.height, x: r.cx - r.width / 2, y: r.cy - r.height / 2};
+      return r ? {angle: r.angle, width: r.width, height: r.height, x: r.cx - r.width / 2, y: r.cy - r.height / 2} : false;
     };
     this._name = "Path";
     this._labelConfig = Object.assign(this._labelConfig, {
