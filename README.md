@@ -1,6 +1,6 @@
 # d3plus-shape
 
-[![NPM Release](http://img.shields.io/npm/v/d3plus-shape.svg?style=flat)](https://www.npmjs.org/package/d3plus-shape) [![Build Status](https://travis-ci.org/d3plus/d3plus-shape.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-shape) [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-shape.svg?style=flat)](https://david-dm.org/d3plus/d3plus-shape) [![Gitter](https://img.shields.io/badge/-chat_on_gitter-brightgreen.svg?style=flat&logo=gitter-white)](https://gitter.im/d3plus/) [![1.0 progress](https://img.shields.io/badge/1.0_progress-86%25-yellowgreen.svg?style=flat)](https://github.com/d3plus/d3plus-shape/projects/1)
+[![NPM Release](http://img.shields.io/npm/v/d3plus-shape.svg?style=flat)](https://www.npmjs.org/package/d3plus-shape) [![Build Status](https://travis-ci.org/d3plus/d3plus-shape.svg?branch=master)](https://travis-ci.org/d3plus/d3plus-shape) [![Dependency Status](http://img.shields.io/david/d3plus/d3plus-shape.svg?style=flat)](https://david-dm.org/d3plus/d3plus-shape) [![Gitter](https://img.shields.io/badge/-chat_on_gitter-brightgreen.svg?style=flat&logo=gitter-white)](https://gitter.im/d3plus/) [![1.0 progress](https://img.shields.io/badge/1.0_progress-75%25-yellow.svg?style=flat)](https://github.com/d3plus/d3plus-shape/projects/1)
 
 Fancy SVG shapes for visualizations
 
@@ -1647,4 +1647,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Wed, 22 May 2019 15:44:05 GMT</sub>
+###### <sub>Documentation generated on Mon, 08 Jul 2019 21:24:38 GMT</sub>
