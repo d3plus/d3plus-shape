@@ -1,4 +1,4 @@
-import test from "zora";
+import {test} from "zora";
 import {default as pointRotate} from "../../src/geom/pointRotate";
 
 test("geom/pointRotate", assert => {

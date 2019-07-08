@@ -1,4 +1,4 @@
-import test from "zora";
+import {test} from "zora";
 import {default as lineIntersection} from "../../src/geom/lineIntersection";
 
 test("geom/lineIntersection", assert => {

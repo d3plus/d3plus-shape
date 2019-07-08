@@ -1,4 +1,4 @@
-import test from "zora";
+import {test} from "zora";
 import {default as polygonInside} from "../../src/geom/polygonInside";
 
 test("geom/polygonInside", assert => {

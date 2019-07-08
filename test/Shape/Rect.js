@@ -1,4 +1,4 @@
-import test from "zora";
+import {test} from "zora";
 import {default as Rect} from "../../src/Shape/Rect";
 
 test("Shape/Rect", function *(assert) {

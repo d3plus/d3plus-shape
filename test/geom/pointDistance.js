@@ -1,4 +1,4 @@
-import test from "zora";
+import {test} from "zora";
 import {default as pointDistance} from "../../src/geom/pointDistance";
 
 test("geom/pointDistance", assert => {

@@ -1,4 +1,4 @@
-import test from "zora";
+import {test} from "zora";
 import {default as largestRect} from "../../src/geom/largestRect";
 
 test("geom/largestRect", assert => {

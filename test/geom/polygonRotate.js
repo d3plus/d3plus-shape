@@ -1,4 +1,4 @@
-import test from "zora";
+import {test} from "zora";
 import {default as polygonRotate} from "../../src/geom/polygonRotate";
 
 test("geom/polygonRotate", assert => {

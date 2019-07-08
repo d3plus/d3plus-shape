@@ -1,4 +1,4 @@
-import test from "zora";
+import {test} from "zora";
 import {default as path2polygon} from "../../src/geom/path2polygon";
 
 test("geom/path2polygon", assert => {

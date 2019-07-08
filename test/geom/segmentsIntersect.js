@@ -1,4 +1,4 @@
-import test from "zora";
+import {test} from "zora";
 import {default as segmentsIntersect} from "../../src/geom/segmentsIntersect";
 
 test("geom/segmentsIntersect", assert => {

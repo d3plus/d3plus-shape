@@ -1,4 +1,4 @@
-import test from "zora";
+import {test} from "zora";
 import {default as polygonRayCast} from "../../src/geom/polygonRayCast";
 
 test("geom/polygonRayCast", assert => {
