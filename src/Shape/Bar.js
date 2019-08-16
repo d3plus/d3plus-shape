@@ -51,7 +51,7 @@ export default class Bar extends Shape {
       .attr("height", (d, i) => this._x1 !== null ? this._getHeight(d, i) : 0)
       .attr("x", (d, i) => this._x1 === null ? -this._getWidth(d, i) / 2 : 0)
       .attr("y", (d, i) => this._x1 !== null ? -this._getHeight(d, i) / 2 : 0)
-      .call(this._applyStyle.bind(this))
+      .call(this._applyStyle.bind(this));
 
     let update = this._update;
 
