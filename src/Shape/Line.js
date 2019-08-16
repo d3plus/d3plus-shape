@@ -93,16 +93,40 @@ export default class Line extends Shape {
       .x(this._x)
       .y(this._y);
 
-    this._enter.append("path")
+    const enter = this._enter.append("path")
       .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
       .attr("d", d => this._path(d.values))
       .call(this._applyStyle.bind(this));
 
-    this._update.select("path").transition(this._transition)
+    let update = this._update.select("path")
+      .attr("stroke-dasharray", "0");
+
+    if (this._duration) {
+      enter
+        .each(function(d) {
+          d.initialLength = this.getTotalLength();
+        })
+        .attr("stroke-dasharray", d => `${d.initialLength} ${d.initialLength}`)
+        .attr("stroke-dashoffset", d => d.initialLength)
+        .transition(this._transition)
+          .attr("stroke-dashoffset", 0);
+      update = update.transition(this._transition)
+        .attrTween("d", function(d) {
+          return interpolatePath(select(this).attr("d"), that._path(d.values));
+        });
+      this._exit.selectAll("path")
+        .attr("stroke-dasharray", d => `${d.initialLength} ${d.initialLength}`)
+        .transition(this._transition)
+          .attr("stroke-dashoffset", d => d.initialLength);
+
+    }
+    else {
+      update = update
+        .attr("d", d => that._path(d.values));
+    }
+
+    update
       .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
-      .attrTween("d", function(d) {
-        return interpolatePath(select(this).attr("d"), that._path(d.values));
-      })
       .call(this._applyStyle.bind(this));
 
     return this;
