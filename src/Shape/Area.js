@@ -123,13 +123,20 @@ export default class Area extends Shape {
     const exitPath = paths.area()
       .defined(d => d)
       .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
-      .x(this._x).x0(this._x0).x1(this._x1)
-      .y(this._y).y0(this._y0).y1(this._y1);
+      .x(this._x).y(this._y)
+      .x0((d, i) => this._x1 ? this._x0(d, i) + (this._x1(d, i) - this._x0(d, i)) / 2 : this._x0(d, i))
+      .x1((d, i) => this._x1 ? this._x0(d, i) + (this._x1(d, i) - this._x0(d, i)) / 2 : this._x0(d, i))
+      .y0((d, i) => this._y1 ? this._y0(d, i) + (this._y1(d, i) - this._y0(d, i)) / 2 : this._y0(d, i))
+      .y1((d, i) => this._y1 ? this._y0(d, i) + (this._y1(d, i) - this._y0(d, i)) / 2 : this._y0(d, i));
 
     this._enter.append("path")
       .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
-      .attr("d", d => path(d.values))
-      .call(this._applyStyle.bind(this));
+      .attr("d", d => exitPath(d.values))
+      .call(this._applyStyle.bind(this))
+      .transition(this._transition)
+        .attrTween("d", function(d) {
+          return interpolatePath(select(this).attr("d"), path(d.values));
+        });
 
     this._update.select("path").transition(this._transition)
       .attr("transform", d => `translate(${-d.xR[0] - d.width / 2}, ${-d.yR[0] - d.height / 2})`)
