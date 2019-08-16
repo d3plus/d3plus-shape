@@ -539,7 +539,7 @@ export default class Shape extends BaseClass {
     if (this._duration) {
       enterUpdateRender = enterUpdateRender
         .attr("pointer-events", "none")
-        .transition(this._transition)
+        .transition(this._transition).transition().delay(100)
         .attr("pointer-events", this._pointerEvents);
     }
 
