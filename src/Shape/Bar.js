@@ -46,24 +46,31 @@ export default class Bar extends Shape {
 
     super.render(callback);
 
-    this._enter
+    let enter = this._enter
       .attr("width", (d, i) => this._x1 === null ? this._getWidth(d, i) : 0)
       .attr("height", (d, i) => this._x1 !== null ? this._getHeight(d, i) : 0)
       .attr("x", (d, i) => this._x1 === null ? -this._getWidth(d, i) / 2 : 0)
       .attr("y", (d, i) => this._x1 !== null ? -this._getHeight(d, i) / 2 : 0)
       .call(this._applyStyle.bind(this))
-      .transition(this._transition)
+
+    let update = this._update;
+
+    if (this._duration) {
+      enter = enter.transition(this._transition);
+      update = update.transition(this._transition);
+      this._exit.transition(this._transition)
+        .attr("width", (d, i) => this._x1 === null ? this._getWidth(d, i) : 0)
+        .attr("height", (d, i) => this._x1 !== null ? this._getHeight(d, i) : 0)
+        .attr("x", (d, i) => this._x1 === null ? -this._getWidth(d, i) / 2 : 0)
+        .attr("y", (d, i) => this._x1 !== null ? -this._getHeight(d, i) / 2 : 0);
+    }
+
+    enter
       .call(this._applyPosition.bind(this));
 
-    this._update.transition(this._transition)
+    update
       .call(this._applyStyle.bind(this))
       .call(this._applyPosition.bind(this));
-
-    this._exit.transition(this._transition)
-      .attr("width", (d, i) => this._x1 === null ? this._getWidth(d, i) : 0)
-      .attr("height", (d, i) => this._x1 !== null ? this._getHeight(d, i) : 0)
-      .attr("x", (d, i) => this._x1 === null ? -this._getWidth(d, i) / 2 : 0)
-      .attr("y", (d, i) => this._x1 !== null ? -this._getHeight(d, i) / 2 : 0);
 
     return this;
 

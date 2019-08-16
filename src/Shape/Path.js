@@ -51,20 +51,25 @@ export default class Path extends Shape {
 
     super.render(callback);
 
-    this._enter
-      .attr("opacity", 0)
+    const enter = this._enter
       .attr("d", this._d)
-      .call(this._applyStyle.bind(this))
-      .transition(this._transition)
-      .attr("opacity", 1);
+      .call(this._applyStyle.bind(this));
 
-    this._update.transition(this._transition)
+    let update = this._update;
+
+    if (this._duration) {
+      enter
+        .attr("opacity", 0)
+        .transition(this._transition)
+          .attr("opacity", 1);
+      update = update.transition(this._transition);
+      this._exit.transition(this._transition)
+        .attr("opacity", 0);
+    }
+
+    update
       .call(this._applyStyle.bind(this))
-      .attr("opacity", 1)
       .attr("d", this._d);
-
-    this._exit.transition(this._transition)
-      .attr("opacity", 0);
 
     return this;
 

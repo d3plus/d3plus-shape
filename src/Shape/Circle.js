@@ -48,18 +48,27 @@ export default class Circle extends Shape {
 
     super.render(callback);
 
-    this._enter
-      .attr("r", 0).attr("x", 0).attr("y", 0)
-      .call(this._applyStyle.bind(this))
-      .transition(this._transition)
-      .call(this._applyPosition.bind(this));
+    const enter = this._enter
+      .call(this._applyStyle.bind(this));
 
-    this._update.transition(this._transition)
+    let update = this._update;
+
+    if (this._duration) {
+      enter
+        .attr("r", 0).attr("x", 0).attr("y", 0)
+        .transition(this._transition)
+          .call(this._applyPosition.bind(this));
+      update = update.transition(this._transition);
+      this._exit.transition(this._transition)
+        .attr("r", 0).attr("x", 0).attr("y", 0);
+    }
+    else {
+      enter.call(this._applyPosition.bind(this));
+    }
+
+    update
       .call(this._applyStyle.bind(this))
       .call(this._applyPosition.bind(this));
-
-    this._exit.transition(this._transition)
-      .attr("r", 0).attr("x", 0).attr("y", 0);
 
     return this;
 

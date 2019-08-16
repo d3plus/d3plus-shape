@@ -515,8 +515,14 @@ export default class Shape extends BaseClass {
       .data(data, key);
 
     // Orders and transforms the updating Shapes.
-    update.order().transition(this._transition)
-      .call(this._applyTransform.bind(this));
+    update.order();
+    if (this._duration) {
+      update.transition(this._transition)
+        .call(this._applyTransform.bind(this));
+    }
+    else {
+      update.call(this._applyTransform.bind(this));
+    }
 
     // Makes the enter state of the group selection accessible.
     const enter = this._enter = update.enter().append(this._tagName)
@@ -528,16 +534,22 @@ export default class Shape extends BaseClass {
 
     const enterUpdate = enter.merge(update);
 
-    enterUpdate
-      .attr("shape-rendering", this._nestWrapper(this._shapeRendering))
-      .attr("pointer-events", "none")
-      .transition(this._transition)
-      .attr("opacity", this._nestWrapper(this._opacity))
-      .attr("pointer-events", this._pointerEvents);
+    let enterUpdateRender = enterUpdate.attr("shape-rendering", this._nestWrapper(this._shapeRendering));
+
+    if (this._duration) {
+      enterUpdateRender = enterUpdateRender
+        .attr("pointer-events", "none")
+        .transition(this._transition)
+        .attr("pointer-events", this._pointerEvents);
+    }
+
+    enterUpdateRender
+      .attr("opacity", this._nestWrapper(this._opacity));
 
     // Makes the exit state of the group selection accessible.
     const exit = this._exit = update.exit();
-    exit.transition().delay(this._duration).remove();
+    if (this._duration) exit.transition().delay(this._duration).remove();
+    else exit.remove();
 
     this._renderImage();
     this._renderLabels();
