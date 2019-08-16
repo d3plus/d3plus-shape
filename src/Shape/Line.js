@@ -117,7 +117,7 @@ export default class Line extends Shape {
       this._exit.selectAll("path")
         .attr("stroke-dasharray", d => `${d.initialLength} ${d.initialLength}`)
         .transition(this._transition)
-          .attr("stroke-dashoffset", d => d.initialLength);
+          .attr("stroke-dashoffset", d => -d.initialLength);
 
     }
     else {
