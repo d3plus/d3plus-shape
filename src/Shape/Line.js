@@ -1,4 +1,4 @@
-import {extent} from "d3-array";
+import {extent, sum} from "d3-array";
 import {nest} from "d3-collection";
 import {interpolatePath} from "d3-interpolate-path";
 import {select} from "d3-selection";
@@ -87,6 +87,40 @@ export default class Line extends Shape {
 
     const that = this;
 
+    /**
+        @desc Calculates the stroke-dasharray used for animations
+        @param {Object} *d* data point
+        @private
+    */
+    function calculateStrokeDashArray(d) {
+
+      d.initialLength = this.getTotalLength();
+
+      let strokeArray = that._strokeDasharray(d.values[0], that._data.indexOf(d.values[0]))
+        .split(" ").map(Number);
+
+      if (strokeArray.length === 1 && strokeArray[0] === 0) strokeArray = [d.initialLength];
+      else if (strokeArray.length === 1) strokeArray.push(strokeArray[0]);
+      else if (strokeArray.length % 2) strokeArray = strokeArray.concat(strokeArray);
+
+      const newStrokeArray = [];
+      let strokeLength = 0;
+      while (strokeLength < d.initialLength) {
+        for (let i = 0; i < strokeArray.length; i++) {
+          const num = strokeArray[i];
+          strokeLength += num;
+          newStrokeArray.push(num);
+          if (strokeLength >= d.initialLength) break;
+        }
+      }
+
+      if (newStrokeArray.length > 1 && newStrokeArray.length % 2) newStrokeArray.pop();
+      newStrokeArray[newStrokeArray.length - 1] += d.initialLength - sum(newStrokeArray);
+      if (newStrokeArray.length % 2 === 0) newStrokeArray.push(0);
+      d.initialStrokeArray = newStrokeArray.join(" ");
+
+    }
+
     this._path
       .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
       .defined(this._defined)
@@ -99,14 +133,12 @@ export default class Line extends Shape {
       .call(this._applyStyle.bind(this));
 
     let update = this._update.select("path")
-      .attr("stroke-dasharray", "0");
+      .attr("stroke-dasharray", d => that._strokeDasharray(d.values[0], that._data.indexOf(d.values[0])));
 
     if (this._duration) {
       enter
-        .each(function(d) {
-          d.initialLength = this.getTotalLength();
-        })
-        .attr("stroke-dasharray", d => `${d.initialLength} ${d.initialLength}`)
+        .each(calculateStrokeDashArray)
+        .attr("stroke-dasharray", d => `${d.initialStrokeArray} ${d.initialLength}`)
         .attr("stroke-dashoffset", d => d.initialLength)
         .transition(this._transition)
           .attr("stroke-dashoffset", 0);
@@ -115,7 +147,8 @@ export default class Line extends Shape {
           return interpolatePath(select(this).attr("d"), that._path(d.values));
         });
       this._exit.selectAll("path")
-        .attr("stroke-dasharray", d => `${d.initialLength} ${d.initialLength}`)
+        .each(calculateStrokeDashArray)
+        .attr("stroke-dasharray", d => `${d.initialStrokeArray} ${d.initialLength}`)
         .transition(this._transition)
           .attr("stroke-dashoffset", d => -d.initialLength);
 
