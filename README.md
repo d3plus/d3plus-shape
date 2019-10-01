@@ -720,7 +720,7 @@ Draws the lines.
 This is a static method of [<code>Line</code>](#Line), and is chainable with other methods of this Class.
 
 
-<a name="Line.curve" href="#Line.curve">#</a> Line.**curve**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Line.js#L153)
+<a name="Line.curve" href="#Line.curve">#</a> Line.**curve**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Line.js#L186)
 
 If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve.
 
@@ -728,7 +728,7 @@ If *value* is specified, sets the line curve to the specified string and returns
 This is a static method of [<code>Line</code>](#Line), and is chainable with other methods of this Class.
 
 
-<a name="Line.defined" href="#Line.defined">#</a> Line.**defined**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Line.js#L163)
+<a name="Line.defined" href="#Line.defined">#</a> Line.**defined**([*value*]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/Shape/Line.js#L196)
 
 If *value* is specified, sets the defined accessor to the specified function and returns the current class instance. If *value* is not specified, returns the current defined accessor.
 
@@ -1647,4 +1647,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Fri, 16 Aug 2019 19:43:22 GMT</sub>
+###### <sub>Documentation generated on Tue, 01 Oct 2019 17:38:16 GMT</sub>
