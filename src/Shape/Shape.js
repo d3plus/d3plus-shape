@@ -386,6 +386,7 @@ export default class Shape extends BaseClass {
     this._backgroundImageClass
       .data(imageData)
       .duration(this._duration)
+      .opacity(this._nestWrapper(this._opacity))
       .pointerEvents("none")
       .select(elem(`g.d3plus-${this._name}-image`, {parent: this._group, update: {opacity: this._active ? this._activeOpacity : 1}}).node())
       .render();
@@ -463,6 +464,7 @@ export default class Shape extends BaseClass {
     this._labelClass
       .data(labelData)
       .duration(this._duration)
+      .fontOpacity(this._nestWrapper(this._opacity))
       .pointerEvents("none")
       .rotate(d => d.__d3plus__ ? d.r : d.data.r)
       .rotateAnchor(d => d.__d3plus__ ? d.rotateAnchor : d.data.rotateAnchor)
