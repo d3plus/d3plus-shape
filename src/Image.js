@@ -28,6 +28,7 @@ export default class Image {
     this._duration = 600;
     this._height = accessor("height");
     this._id = accessor("id");
+    this._opacity = constant(1);
     this._pointerEvents = constant("auto");
     this._select;
     this._url = accessor("url");
@@ -64,7 +65,7 @@ export default class Image {
       .attr("xlink:href", this._url)
       .style("pointer-events", this._pointerEvents)
       .transition(t)
-      .attr("opacity", 1)
+      .attr("opacity", this._opacity)
       .attr("width", (d, i) => this._width(d, i))
       .attr("height", (d, i) => this._height(d, i))
       .attr("x", (d, i) => this._x(d, i))
@@ -146,6 +147,16 @@ function(d) {
   */
   id(_) {
     return arguments.length ? (this._id = _, this) : this._id;
+  }
+
+  /**
+      @memberof Image
+      @desc Sets the opacity of the image.
+      @param {Number} [*value* = 1]
+      @chainable
+  */
+  opacity(_) {
+    return arguments.length ? (this._opacity = typeof _ === "function" ? _ : constant(_), this) : this._opacity;
   }
 
   /**
