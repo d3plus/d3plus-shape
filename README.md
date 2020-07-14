@@ -9,7 +9,7 @@ Fancy SVG shapes for visualizations
 If you use NPM, run `npm install d3plus-shape --save`. Otherwise, download the [latest release](https://github.com/d3plus/d3plus-shape/releases/latest). The released bundle supports AMD, CommonJS, and vanilla environments. You can also load directly from [d3plus.org](https://d3plus.org):
 
 ```html
-<script src="https://d3plus.org/js/d3plus-shape.v0.16.full.min.js"></script>
+<script src="https://d3plus.org/js/d3plus-shape.v0.17.full.min.js"></script>
 ```
 
 [width]: 360
@@ -1665,4 +1665,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Tue, 14 Jul 2020 18:57:00 GMT</sub>
+###### <sub>Documentation generated on Tue, 14 Jul 2020 20:46:56 GMT</sub>
