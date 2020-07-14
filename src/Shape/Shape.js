@@ -121,9 +121,15 @@ export default class Shape extends BaseClass {
         if (!this._on[events[e]]) return;
         if (d.i !== void 0) i = d.i;
         if (d.nested && d.values) {
+          const calcPoint = (d, i) => {
+            if (this._discrete === "x") return [this._x(d, i), cursor[1]];
+            else if (this._discrete === "y") return [cursor[0], this._y(d, i)];
+            else return [this._x(d, i), this._y(d, i)];
+          };
           const cursor = mouse(this._select.node()),
-                values = d.values.map(d => pointDistance(cursor, [this._x(d, i), this._y(d, i)]));
-          d = d.values[values.indexOf(min(values))];
+                values = d.values.map(d => pointDistance(cursor, calcPoint(d, i)));
+          i = values.indexOf(min(values));
+          d = d.values[i];
         }
         this._on[events[e]].bind(this)(d, i);
       });
@@ -677,6 +683,16 @@ export default class Shape extends BaseClass {
     return arguments.length
       ? (this._data = _, this)
       : this._data;
+  }
+
+  /**
+      @memberof Shape
+      @desc Determines if either the X or Y position is discrete along a Line, which helps in determining the nearest data point on a line for a hit area event.
+      @param {String} *value*
+      @chainable
+  */
+  discrete(_) {
+    return arguments.length ? (this._discrete = _, this) : this._discrete;
   }
 
   /**
