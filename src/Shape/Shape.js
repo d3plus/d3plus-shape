@@ -5,7 +5,7 @@
 
 import {min} from "d3-array";
 import {color} from "d3-color";
-import {mouse, select, selectAll} from "d3-selection";
+import {pointer, select, selectAll} from "d3-selection";
 import {transition} from "d3-transition";
 
 import {accessor, assign, attrize, BaseClass, configPrep, constant, elem} from "d3plus-common";
@@ -117,7 +117,7 @@ export default class Shape extends BaseClass {
 
     const events = Object.keys(this._on);
     for (let e = 0; e < events.length; e++) {
-      handler.on(events[e], (d, i) => {
+      handler.on(events[e], (event, d, i) => {
         if (!this._on[events[e]]) return;
         if (d.i !== void 0) i = d.i;
         if (d.nested && d.values) {
@@ -126,7 +126,7 @@ export default class Shape extends BaseClass {
             else if (this._discrete === "y") return [cursor[0], this._y(d, i)];
             else return [this._x(d, i), this._y(d, i)];
           };
-          const cursor = mouse(this._select.node()),
+          const cursor = pointer(event, this._select.node()),
                 values = d.values.map(d => pointDistance(cursor, calcPoint(d, i)));
           i = values.indexOf(min(values));
           d = d.values[i];
