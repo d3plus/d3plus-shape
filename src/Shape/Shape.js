@@ -131,7 +131,7 @@ export default class Shape extends BaseClass {
           i = values.indexOf(min(values));
           d = d.values[i];
         }
-        this._on[events[e]].bind(this)(d, i);
+        this._on[events[e]].bind(this)(d, i, undefined, event);
       });
     }
 
