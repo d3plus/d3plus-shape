@@ -24,7 +24,7 @@ export default class Line extends Shape {
 
     super();
 
-    this._curve = "linear";
+    this._curve = constant("linear");
     this._defined = d => d;
     this._fill = constant("none");
     this._hitArea = constant({
@@ -121,8 +121,11 @@ export default class Line extends Shape {
 
     }
 
+    const userCurve = this._curve.bind(this)(this.config());
+    const curve = paths[`curve${userCurve.charAt(0).toUpperCase()}${userCurve.slice(1)}`];
+
     this._path
-      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+      .curve(curve)
       .defined(this._defined)
       .x(this._x)
       .y(this._y);
@@ -179,12 +182,12 @@ export default class Line extends Shape {
 
   /**
       @memberof Line
-      @desc If *value* is specified, sets the line curve to the specified string and returns the current class instance. If *value* is not specified, returns the current line curve.
-      @param {String} [*value* = "linear"]
+      @desc If *value* is specified, sets the area curve to the specified string and returns the current class instance. If *value* is not specified, returns the current area curve.
+      @param {Function|String} [*value* = "linear"]
       @chainable
   */
   curve(_) {
-    return arguments.length ? (this._curve = _, this) : this._curve;
+    return arguments.length ? (this._curve = typeof _ === "function" ? _ : constant(_), this) : this._curve;
   }
 
   /**

@@ -573,11 +573,14 @@ export default class Shape extends BaseClass {
 
     const isLine = this._name === "Line";
 
-    isLine && this._path
-      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
-      .defined(this._defined)
-      .x(this._x)
-      .y(this._y);
+    if (isLine) {
+      const curve = this._curve.bind(this)(this.config());
+      isLine && this._path
+        .curve(paths[`curve${curve.charAt(0).toUpperCase()}${curve.slice(1)}`])
+        .defined(this._defined)
+        .x(this._x)
+        .y(this._y);
+    }
 
     const hitEnter = hitAreas.enter().append(isLine ? "path" : "rect")
       .attr("class", (d, i) => `d3plus-HitArea d3plus-id-${strip(this._nestWrapper(this._id)(d, i))}`)

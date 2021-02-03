@@ -25,7 +25,7 @@ export default class Area extends Shape {
 
     super();
 
-    this._curve = "linear";
+    this._curve = constant("linear");
     this._defined = () => true;
     this._labelBounds = (d, i, aes) => {
       const r = largestRect(aes.points);
@@ -114,15 +114,18 @@ export default class Area extends Shape {
 
     super.render(callback);
 
+    const userCurve = this._curve.bind(this)(this.config());
+    const curve = paths[`curve${userCurve.charAt(0).toUpperCase()}${userCurve.slice(1)}`];
+
     const path = this._path = paths.area()
       .defined(this._defined)
-      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+      .curve(curve)
       .x(this._x).x0(this._x0).x1(this._x1)
       .y(this._y).y0(this._y0).y1(this._y1);
 
     const exitPath = paths.area()
       .defined(d => d)
-      .curve(paths[`curve${this._curve.charAt(0).toUpperCase()}${this._curve.slice(1)}`])
+      .curve(curve)
       .x(this._x).y(this._y)
       .x0((d, i) => this._x1 ? this._x0(d, i) + (this._x1(d, i) - this._x0(d, i)) / 2 : this._x0(d, i))
       .x1((d, i) => this._x1 ? this._x0(d, i) + (this._x1(d, i) - this._x0(d, i)) / 2 : this._x0(d, i))
@@ -157,11 +160,11 @@ export default class Area extends Shape {
   /**
       @memberof Area
       @desc If *value* is specified, sets the area curve to the specified string and returns the current class instance. If *value* is not specified, returns the current area curve.
-      @param {String} [*value* = "linear"]
+      @param {Function|String} [*value* = "linear"]
       @chainable
   */
   curve(_) {
-    return arguments.length ? (this._curve = _, this) : this._curve;
+    return arguments.length ? (this._curve = typeof _ === "function" ? _ : constant(_), this) : this._curve;
   }
 
   /**
