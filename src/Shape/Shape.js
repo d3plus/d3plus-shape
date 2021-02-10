@@ -421,7 +421,7 @@ export default class Shape extends BaseClass {
 
         if (this._labelBounds && labels !== false && labels !== undefined && labels !== null) {
 
-          const bounds = this._labelBounds(d, i, this._aes(datum, i));
+          const bounds = this._labelBounds.bind(this)(d, i, this._aes(datum, i));
 
           if (bounds) {
 
