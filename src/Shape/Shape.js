@@ -495,7 +495,8 @@ export default class Shape extends BaseClass {
         .style("display", "block").node());
     }
 
-    this._transition = transition().duration(this._duration);
+    this._transition = transition(this._uuid)
+      .duration(this._duration);
 
     let data = this._data, key = this._id;
     if (this._dataFilter) {
