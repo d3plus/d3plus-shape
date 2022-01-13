@@ -314,7 +314,7 @@ export default class Shape extends BaseClass {
         else i = that._data.indexOf(d);
 
         const group = !that._hover || typeof that._hover !== "function" || !that._hover(d, i) ? parent : that._hoverGroup.node();
-        if (group !== this.parentNode) group.appendChild(this);
+        if (group !== parent) group.appendChild(this);
         if (this.className.baseVal.includes("d3plus-Shape")) {
           if (parent === group) select(this).call(that._applyStyle.bind(that));
           else select(this).call(that._updateStyle.bind(that, select(this), that._hoverStyle));
