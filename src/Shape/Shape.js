@@ -269,7 +269,7 @@ export default class Shape extends BaseClass {
         else i = that._data.indexOf(d);
 
         const group = !that._active || typeof that._active !== "function" || !that._active(d, i) ? parent : that._activeGroup.node();
-        if (group !== this.parentNode) {
+        if (group !== parent) {
           group.appendChild(this);
           if (this.className.baseVal.includes("d3plus-Shape")) {
             if (parent === group) select(this).call(that._applyStyle.bind(that));
