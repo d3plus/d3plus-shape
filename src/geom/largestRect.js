@@ -1,11 +1,11 @@
 import {extent, merge, range} from "d3-array";
 import {polygonArea, polygonCentroid, polygonContains} from "d3-polygon";
 
-import polygonInside from "./polygonInside";
-import polygonRayCast from "./polygonRayCast";
-import polygonRotate from "./polygonRotate";
-import simplify from "./simplify";
-import pointDistanceSquared from "./pointDistanceSquared";
+import polygonInside from "./polygonInside.js";
+import polygonRayCast from "./polygonRayCast.js";
+import polygonRotate from "./polygonRotate.js";
+import simplify from "./simplify.js";
+import pointDistanceSquared from "./pointDistanceSquared.js";
 
 // Algorithm constants
 const aspectRatioStep = 0.5; // step size for the aspect ratio

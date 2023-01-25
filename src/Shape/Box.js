@@ -4,9 +4,9 @@ import {select} from "d3-selection";
 
 import {accessor, assign, BaseClass, configPrep, constant, merge, elem} from "d3plus-common";
 
-import Circle from "./Circle";
-import Rect from "./Rect";
-import Whisker from "./Whisker";
+import Circle from "./Circle.js";
+import Rect from "./Rect.js";
+import Whisker from "./Whisker.js";
 
 const shapes = {Circle, Rect};
 

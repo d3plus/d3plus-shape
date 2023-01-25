@@ -1,6 +1,6 @@
-import lineIntersection from "./lineIntersection";
-import segmentBoxContains from "./segmentBoxContains";
-import pointDistanceSquared from "./pointDistanceSquared";
+import lineIntersection from "./lineIntersection.js";
+import segmentBoxContains from "./segmentBoxContains.js";
+import pointDistanceSquared from "./pointDistanceSquared.js";
 
 /**
     @function polygonRayCast

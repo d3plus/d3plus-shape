@@ -3,9 +3,9 @@ import {select} from "d3-selection";
 import {accessor, assign, BaseClass, configPrep, constant, elem} from "d3plus-common";
 import {nest} from "d3-collection";
 
-import Circle from "./Circle";
-import Line from "./Line";
-import Rect from "./Rect";
+import Circle from "./Circle.js";
+import Line from "./Line.js";
+import Rect from "./Rect.js";
 
 const shapes = {Circle, Rect};
 

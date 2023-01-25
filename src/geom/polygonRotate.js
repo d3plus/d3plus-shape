@@ -1,4 +1,4 @@
-import pointRotate from "./pointRotate";
+import pointRotate from "./pointRotate.js";
 
 /**
     @function polygonRotate

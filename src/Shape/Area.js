@@ -6,8 +6,8 @@ import * as paths from "d3-shape";
 
 import {accessor, constant, merge} from "d3plus-common";
 
-import Shape from "./Shape";
-import largestRect from "../geom/largestRect";
+import Shape from "./Shape.js";
+import largestRect from "../geom/largestRect.js";
 
 /**
     @class Area

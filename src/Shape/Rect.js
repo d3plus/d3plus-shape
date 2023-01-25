@@ -1,6 +1,6 @@
 import {accessor, constant} from "d3plus-common";
 
-import Shape from "./Shape";
+import Shape from "./Shape.js";
 
 /**
     @class Rect

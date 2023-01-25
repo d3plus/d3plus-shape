@@ -1,4 +1,4 @@
-import pointDistanceSquared from "./pointDistanceSquared";
+import pointDistanceSquared from "./pointDistanceSquared.js";
 
 /**
     @desc square distance from a point to a segment

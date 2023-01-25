@@ -2,7 +2,7 @@
   "name": "d3plus-shape",
   "version": "1.0.7",
   "description": "Fancy SVG shapes for visualizations",
-  "main": "build/d3plus-shape.full.js",
+  "main": "es/index.js",
   "jsnext:main": "es/index",
   "license": "MIT",
   "homepage": "https://d3plus.org",
@@ -23,17 +23,17 @@
     "url": "http://www.dave-landry.com"
   },
   "dependencies": {
-    "d3-array": "^2.11.0",
+    "d3-array": "^3.2.2",
     "d3-collection": "^1.0.7",
-    "d3-color": "^2.0.0",
-    "d3-interpolate-path": "^2.2.1",
-    "d3-polygon": "^2.0.0",
-    "d3-selection": "^2.0.0",
-    "d3-shape": "^2.0.0",
-    "d3-transition": "^2.0.0",
-    "d3plus-color": "^1.0.0",
-    "d3plus-common": "^1.1.0",
-    "d3plus-text": "^1.0.2"
+    "d3-color": "^3.1.0",
+    "d3-interpolate-path": "^2.3.0",
+    "d3-polygon": "^3.0.1",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.2.0",
+    "d3-transition": "^3.0.1",
+    "d3plus-color": "^1.1.2",
+    "d3plus-common": "^1.2.4",
+    "d3plus-text": "^1.2.1"
   },
   "scripts": {
     "build": "d3plus-build",
@@ -41,12 +41,12 @@
     "docs": "d3plus-docs",
     "env": "d3plus-env",
     "release": "d3plus-release",
-    "test": "d3plus-test"
+    "test": "eslint src test && mocha 'test/**/*-test.js'"
   },
   "devDependencies": {
-    "d3plus-dev": "^1.1.0"
+    "d3plus-dev": "^1.2.8"
   },
-  "module": "es/index",
+  "module": "es/index.js",
   "sideEffects": false,
   "files": [
     "bin",
@@ -54,5 +54,8 @@
     "build/d3plus-shape.js.map",
     "build/d3plus-shape.min.js",
     "es"
-  ]
+  ],
+  "jsdelivr": "build/d3plus-shape.full.min.js",
+  "unpkg": "build/d3plus-shape.full.min.js",
+  "type": "module"
 }

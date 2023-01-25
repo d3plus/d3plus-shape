@@ -1,8 +1,8 @@
 import {accessor, constant} from "d3plus-common";
 
-import Shape from "./Shape";
-import largestRect from "../geom/largestRect";
-import path2polygon from "../geom/path2polygon";
+import Shape from "./Shape.js";
+import largestRect from "../geom/largestRect.js";
+import path2polygon from "../geom/path2polygon.js";
 
 /**
     @class Path

@@ -1,4 +1,4 @@
-import pointDistanceSquared from "./pointDistanceSquared";
+import pointDistanceSquared from "./pointDistanceSquared.js";
 
 /**
     @function pointDistance

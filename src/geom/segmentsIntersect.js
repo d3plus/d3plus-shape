@@ -1,5 +1,5 @@
-import lineIntersection from "./lineIntersection";
-import segmentBoxContains from "./segmentBoxContains";
+import lineIntersection from "./lineIntersection.js";
+import segmentBoxContains from "./segmentBoxContains.js";
 
 /**
     @function segmentsIntersect

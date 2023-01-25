@@ -13,8 +13,8 @@ import {colorContrast} from "d3plus-color";
 import * as paths from "d3-shape";
 import {strip, TextBox} from "d3plus-text";
 
-import Image from "../Image";
-import pointDistance from "../geom/pointDistance";
+import Image from "../Image.js";
+import pointDistance from "../geom/pointDistance.js";
 
 /**
     @class Shape
