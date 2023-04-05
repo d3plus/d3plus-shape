@@ -1,50 +1,26 @@
-import pointDistance from "./pointDistance.js";
-import shapeEdgePoint from "./shapeEdgePoint.js";
-
-const pi = Math.PI;
-
 /**
     @function path2polygon
     @desc Transforms a path string into an Array of points.
     @param {String} path An SVG string path, commonly the "d" property of a <path> element.
-    @param {Number} [segmentLength = 20] The lenght of line segments when converting curves line segments. Higher values lower computation time, but will result in curves that are more rigid.
+    @param {Number} [segmentLength = 50] The length of line segments when converting curves line segments. Higher values lower computation time, but will result in curves that are more rigid.
     @returns {Array}
 */
-export default (path, segmentLength = 20) => {
+export default (path, segmentLength = 50) => {
 
-  const poly = [],
-        regex = /([MLA])([^MLAZ]+)/ig;
+  if (typeof document === "undefined") return [];
 
-  let match = regex.exec(path);
-  while (match !== null) {
+  const svgPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  svgPath.setAttribute("d", path);
 
-    if (["M", "L"].includes(match[1])) poly.push(match[2].split(",").map(Number));
-    else if (match[1] === "A") {
+  const len = svgPath.getTotalLength();
+  const NUM_POINTS = len / segmentLength < 10 ? len / 10 : len / segmentLength;
 
-      const points = match[2].split(",").map(Number);
-
-      const last = points.slice(points.length - 2, points.length),
-            prev = poly[poly.length - 1],
-            radius = points[0],
-            width = pointDistance(prev, last);
-
-      let angle = Math.acos((radius * radius + radius * radius - width * width) / (2 * radius * radius));
-      if (points[2]) angle = pi * 2 - angle;
-
-      const step = angle / (angle / (pi * 2) * (radius * pi * 2) / segmentLength);
-      const start = Math.atan2(-prev[1], -prev[0]) - pi;
-      let i = step;
-      while (i < angle) {
-        poly.push(shapeEdgePoint(points[4] ? start + i : start - i, radius));
-        i += step;
-      }
-      poly.push(last);
-
-    }
-    match = regex.exec(path);
-
+  const points = [];
+  for (let i = 0; i < NUM_POINTS; i++) {
+    const pt = svgPath.getPointAtLength(i * len / (NUM_POINTS-1));
+    points.push([pt.x, pt.y]);
   }
-
-  return poly;
+  
+  return points;
 
 };
