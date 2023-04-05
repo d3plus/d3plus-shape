@@ -1428,7 +1428,7 @@ This is a global function.
 ---
 
 <a name="path2polygon"></a>
-#### d3plus.**path2polygon**(path, [segmentLength]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/geom/path2polygon.js#L6)
+#### d3plus.**path2polygon**(path, [segmentLength]) [<>](https://github.com/d3plus/d3plus-shape/blob/master/src/geom/path2polygon.js#L1)
 
 Transforms a path string into an Array of points.
 
@@ -1438,7 +1438,7 @@ This is a global function.
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | path | <code>String</code> |  | An SVG string path, commonly the "d" property of a <path> element. |
-| [segmentLength] | <code>Number</code> | <code>20</code> | The lenght of line segments when converting curves line segments. Higher values lower computation time, but will result in curves that are more rigid. |
+| [segmentLength] | <code>Number</code> | <code>50</code> | The length of line segments when converting curves line segments. Higher values lower computation time, but will result in curves that are more rigid. |
 
 
 ---
@@ -1637,4 +1637,4 @@ This is a global typedef.
 
 
 
-###### <sub>Documentation generated on Wed, 25 Jan 2023 00:31:51 GMT</sub>
+###### <sub>Documentation generated on Wed, 05 Apr 2023 16:58:23 GMT</sub>
