@@ -8,10 +8,12 @@ import {color} from "d3-color";
 import {pointer, select, selectAll} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {accessor, assign, attrize, BaseClass, configPrep, constant, elem} from "d3plus-common";
+import {accessor, assign, attrize, BaseClass, configPrep, constant, elem, unique} from "d3plus-common";
 import {colorContrast} from "d3plus-color";
 import * as paths from "d3-shape";
 import {strip, TextBox} from "d3plus-text";
+
+import textures from "textures";
 
 import Image from "../Image";
 import pointDistance from "../geom/pointDistance";
@@ -81,13 +83,16 @@ export default class Shape extends BaseClass {
     this._ry = constant(0);
     this._scale = constant(1);
     this._shapeRendering = constant("geometricPrecision");
-    this._stroke = (d, i) => color(this._fill(d, i)).darker(1);
+    this._stroke = (d, i) => color(this._fill(d, i)).darker(1).formatHex();
     this._strokeDasharray = constant("0");
     this._strokeLinecap = constant("butt");
     this._strokeOpacity = constant(1);
     this._strokeWidth = constant(0);
     this._tagName = tagName;
     this._textAnchor = constant("start");
+    this._texture = constant(false);
+    this._textureDefault = {};
+    this._textureDefs = {};
     this._vectorEffect = constant("non-scaling-stroke");
     this._verticalAlign = constant("top");
 
@@ -200,7 +205,10 @@ export default class Shape extends BaseClass {
     }
 
     elem
-      .attr("fill", styleLogic.bind(this._fill))
+      .attr("fill", (d, i) => {
+        const texture = this._getTextureKey.bind(this)(d, i);
+        return texture ? this._textureDefs[texture].url() : styleLogic.bind(this._fill)(d, i);
+      })
       .attr("fill-opacity", styleLogic.bind(this._fillOpacity))
       .attr("rx", styleLogic.bind(this._rx))
       .attr("ry", styleLogic.bind(this._ry))
@@ -231,6 +239,42 @@ export default class Shape extends BaseClass {
         rotate(${d.__d3plusShape__ ? d.rotate ? d.rotate
   : this._rotate(d.data || d, d.i)
   : this._rotate(d.data || d, d.i)})`);
+  }
+
+  /**
+      @memberof Shape
+      @desc Returns a full JSON string of the texture config for a given data point.
+      @param {Object} *d*
+      @param {Number} *i*
+      @private
+  */
+  _getTextureKey(d, i) {
+    let texture = this._texture(d, i);
+    if (!texture) return false;
+    
+    /**
+            @desc Determines whether a shape is a nested collection of data points, and uses the appropriate data and index for the given function context.
+            @private
+        */
+    const styleLogic = _ => typeof _ !== "function" ? _
+      : d.nested && d.key && d.values
+        ? _(d.values[0], this._data.indexOf(d.values[0]))
+        : _(d, i);
+    
+    if (typeof texture === "string") texture = {texture};
+    if (!texture.background) texture.background = styleLogic(this._fill);
+    if (!texture.stroke) texture.stroke = styleLogic(this._stroke);
+    const paths = ["squares", "nylon", "waves", "woven", "crosses", "caps", "hexagons"];
+    if (paths.includes(texture.texture)) {
+      texture.d = texture.texture;
+      texture.texture = "paths";
+    }
+    else if (texture.texture === "grid") {
+      texture.orientation = ["vertical", "horizontal"];
+      texture.texture = "lines";
+    }
+    if (!texture.fill && texture.texture !== "paths") texture.fill = texture.stroke;
+    return JSON.stringify(assign({}, this._textureDefault, texture));
   }
 
   /**
@@ -511,6 +555,35 @@ export default class Shape extends BaseClass {
         return this._sort(a, b);
       });
     }
+
+    const textureSet = unique(data
+      .map(this._getTextureKey.bind(this)))
+      .filter(Boolean);
+
+    const existingTextureDefs = Object.keys(this._textureDefs);
+
+    existingTextureDefs.forEach(key => {
+      if (!textureSet.includes(key)) {
+        select(this._select.select(`pattern#${this._textureDefs[key].id()}`).node().parentNode).remove();
+        delete this._textureDefs[key];
+      }
+    });
+
+    textureSet.forEach(key => {
+      if (!existingTextureDefs.includes(key)) {
+        const config = JSON.parse(key);
+        const textureClass = config.texture;
+        delete config.texture;
+        const t = textures[textureClass]();
+        for (const k in config) {
+          if ({}.hasOwnProperty.call(t, k) && k in t) {
+            config[k] instanceof Array ? t[k].apply(null, config[k]) : t[k](config[k]);
+          }
+        }
+        this._select.call(t);
+        this._textureDefs[key] = t;
+      }
+    });
 
     selectAll(`g.d3plus-${this._name}-hover > *, g.d3plus-${this._name}-active > *`).each(function(d) {
       if (d && d.parentNode) d.parentNode.appendChild(this);
@@ -1007,6 +1080,26 @@ function(d) {
   textAnchor(_) {
     return arguments.length ? (this._textAnchor = typeof _ === "function" ? _ : constant(_), this) : this._textAnchor;
   }
+
+  /**
+      @memberof Shape
+      @desc Defines the texture used inside of each shape. This uses the [textures.js](https://riccardoscalco.it/textures/) package, and expects either a simple string (`"lines"` or `"circles"`) or a more complex Object containing the various properties of the texture (ie. `{texture: "lines", orientation: "3/8", stroke: "darkorange"}`). If multiple textures are necessary, provide an accsesor Function that returns the correct String/Object for each given data point and index.
+      @param {String|Object|Function} [*value*]
+      @chainable
+  */
+  texture(_) {
+    return arguments.length ? (this._texture = typeof _ === "function" ? _ : constant(_), this) : this._texture;
+  }
+    
+  /**
+          @memberof Shape
+          @desc A series of global texture methods to be used for all textures (ie. `{stroke: "darkorange", strokeWidth: 2}`).
+          @param {Object} [*value*]
+          @chainable
+      */
+  textureDefault(_) {
+    return arguments.length ? (this._textureDefault = assign(this._textureDefault, _), this) : this._textureDefault;
+  }    
 
   /**
       @memberof Shape
