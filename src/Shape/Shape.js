@@ -260,21 +260,23 @@ export default class Shape extends BaseClass {
       : d.nested && d.key && d.values
         ? _(d.values[0], this._data.indexOf(d.values[0]))
         : _(d, i);
-    
+
+    const fallback = this._textureDefault;
+
     if (typeof texture === "string") texture = {texture};
     if (!texture.background) texture.background = styleLogic(this._fill);
-    if (!texture.stroke) texture.stroke = styleLogic(this._stroke);
+    if (!texture.stroke && !fallback.stroke) texture.stroke = styleLogic(this._stroke);
     const paths = ["squares", "nylon", "waves", "woven", "crosses", "caps", "hexagons"];
     if (paths.includes(texture.texture)) {
       texture.d = texture.texture;
       texture.texture = "paths";
     }
     else if (texture.texture === "grid") {
-      texture.orientation = ["vertical", "horizontal"];
+      if (!texture.orientation && !fallback.orientation) texture.orientation = ["vertical", "horizontal"];
       texture.texture = "lines";
     }
     if (!texture.fill && texture.texture !== "paths") texture.fill = texture.stroke;
-    return JSON.stringify(assign({}, this._textureDefault, texture));
+    return JSON.stringify(assign({}, fallback, texture));
   }
 
   /**
