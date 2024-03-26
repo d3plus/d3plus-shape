@@ -31,9 +31,9 @@
     "d3-selection": "^2.0.0",
     "d3-shape": "^2.0.0",
     "d3-transition": "^2.0.0",
-    "d3plus-color": "^1.0.0",
-    "d3plus-common": "^1.1.0",
-    "d3plus-text": "^1.0.2",
+    "d3plus-color": "~1.0.0",
+    "d3plus-common": "~1.1.2",
+    "d3plus-text": "~1.0.6",
     "textures": "^1.2.3"
   },
   "scripts": {
