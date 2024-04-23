@@ -8,7 +8,7 @@ import {color} from "d3-color";
 import {pointer, select, selectAll} from "d3-selection";
 import {transition} from "d3-transition";
 
-import {accessor, assign, attrize, BaseClass, configPrep, constant, elem, unique} from "d3plus-common";
+import {accessor, assign, attrize, BaseClass, configPrep, constant, elem, isObject, unique} from "d3plus-common";
 import {colorContrast} from "d3plus-color";
 import * as paths from "d3-shape";
 import {strip, TextBox} from "d3plus-text";
@@ -265,11 +265,11 @@ export default class Shape extends BaseClass {
 
     const fallback = this._textureDefault;
 
-    if (typeof texture === "string") texture = {texture};
+    if (!isObject(texture)) texture = {texture};
     if (!texture.background) texture.background = styleLogic(this._fill);
     if (!texture.stroke && !fallback.stroke) texture.stroke = styleLogic(this._stroke);
     const paths = ["squares", "nylon", "waves", "woven", "crosses", "caps" , "hexagons"];
-    if (paths.includes(texture.texture)) {
+    if (paths.includes(texture.texture) || typeof texture.texture === "function") {
       texture.d = texture.texture;
       texture.texture = "paths";
     }
@@ -278,7 +278,11 @@ export default class Shape extends BaseClass {
       texture.texture = "lines";
     }
     if (!texture.fill && texture.texture !== "paths") texture.fill = texture.stroke;
-    return JSON.stringify(assign({}, fallback, texture));
+    const retObj = assign({}, fallback, texture);
+    if (typeof retObj.d === "function") {
+      retObj.d = retObj.d(retObj.size || 20);
+    }
+    return JSON.stringify(retObj);
   }
 
   /**
@@ -581,7 +585,8 @@ export default class Shape extends BaseClass {
         const t = textures[textureClass]();
         for (const k in config) {
           if ({}.hasOwnProperty.call(t, k) && k in t) {
-            config[k] instanceof Array ? t[k].apply(null, config[k]) : t[k](config[k]);
+            if (k === "d") t[k](() => config[k]);
+            else config[k] instanceof Array ? t[k].apply(null, config[k]) : t[k](config[k]);
           }
         }
         this._select.call(t);
